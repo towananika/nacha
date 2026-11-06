@@ -20,147 +20,19 @@
     { id: "fdo",     name: "Fdo King",      line: "Burns worries away with sacred fire." }
   ];
 
-  var C = { skin: "#f8d3b0", skinD: "#eab994", hair: "#2b1b18", hairHi: "#4b3029", gold: "#e6b43a", ink: "#1b1416" };
-
-  function bow(x, y, col, sway, flip) {
-    // red bow at the bun base + ribbon tails
-    var s = flip ? -1 : 1;
-    return '<g transform="translate(' + x + ' ' + y + ')">' +
-      '<path d="M0 0 C' + (-14 * s) + ' ' + (4 + sway) + ' ' + (-24 * s) + ' ' + (16 + sway) + ' ' + (-34 * s) + ' ' + (22 + sway * 1.4) +
-      ' L' + (-28 * s) + ' ' + (26 + sway * 1.4) + ' C' + (-20 * s) + ' ' + (14 + sway) + ' ' + (-10 * s) + ' ' + (10) + ' 0 6 Z" fill="' + col + '"/>' +
-      '<path d="M0 0 L' + (-8 * s) + ' -7 L' + (-8 * s) + ' 7 Z M0 0 L' + (8 * s) + ' -7 L' + (8 * s) + ' 7 Z" fill="' + col + '"/>' +
-      '<circle r="3.4" fill="#a82a21"/></g>';
+  // WIREFRAME placeholders. Official/GPT art replaces these (see NA.ART below); Claude draws no characters.
+  // To use real images later: set NA.ART = { nacha: "assets/nacha.png", fdo: "...", kunsim: "...", sousang: "..." } before drawing.
+  NA.ART = {};
+  function ph(vb, label, sub, fill, id) {
+    var p = vb.split(" "), x = +p[0], y = +p[1], w = +p[2], h = +p[3];
+    var img = NA.ART[id] ? '<image href="' + NA.ART[id] + '" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" preserveAspectRatio="xMidYMid meet"/>' : "";
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="' + vb + '"><rect x="' + (x + 3) + '" y="' + (y + 3) + '" width="' + (w - 6) + '" height="' + (h - 6) + '" rx="10" fill="' + (fill || "#3a2f47") + '" stroke="#9d90ad" stroke-width="2" stroke-dasharray="6 5"/>' + img +
+      (img ? "" : '<text x="' + (x + w / 2) + '" y="' + (y + h / 2) + '" text-anchor="middle" font-family="Lilita One,sans-serif" font-size="' + Math.round(w / 7) + '" fill="#d9cfe6">' + label + '</text><text x="' + (x + w / 2) + '" y="' + (y + h / 2 + Math.round(w / 6)) + '" text-anchor="middle" font-family="sans-serif" font-size="' + Math.round(w / 11) + '" fill="#9d90ad">' + (sub || "(GPT image)") + '</text>') + "</svg>";
   }
-
-  function sleeve(x, y, ang, o, hand) {
-    return '<g transform="translate(' + x + ' ' + y + ') rotate(' + ang + ')">' +
-      '<path d="M-9 -2 Q-12 18 -11 32 L11 32 Q12 18 9 -2 Z" fill="' + o.jacket + '"/>' +
-      '<path d="M-11 31 L11 31 L11 36 L-11 36 Z" fill="' + o.ink2 + '"/><path d="M-11 31 H11" stroke="' + o.trim + '" stroke-width="2"/>' +
-      '<path d="M-3 6 q7 4 1 9 q-6 5 2 11" stroke="' + o.trim + '" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-      (hand === false ? "" : '<circle cx="0" cy="40" r="6.5" fill="' + C.skin + '"/>') + '</g>';
-  }
-
-  function leg(x, lift, o) {
-    var top = 118, bot = 156 - lift;
-    return '<path d="M' + (x - 14) + ' ' + top + ' L' + (x + 14) + ' ' + top + ' L' + (x + 17) + ' ' + bot + ' L' + (x - 17) + ' ' + bot + ' Z" fill="' + o.pants + '"/>' +
-      '<path d="M' + x + ' ' + (top + 8) + ' L' + x + ' ' + (bot - 4) + '" stroke="#ffffff14" stroke-width="2"/>' +
-      '<ellipse cx="' + x + '" cy="' + (bot + 4) + '" rx="17" ry="9" fill="#17110f"/>' +
-      '<ellipse cx="' + x + '" cy="' + (bot + 10) + '" rx="17" ry="3.6" fill="#f3ece2"/>';
-  }
-
-  // o: jacket, trim, ribbon, pants, tassel, mood (smirk|smile|pout|sleepy|stern), pose (down|wave|cross|phone|cheer), leg (stand|a|b|jump), tail (0..1), cap
-  NA.nacha = function (o) {
-    o = Object.assign({ jacket: "#c8372d", trim: "#e6b43a", ribbon: "#df3b2f", pants: "#1a1a1d", tassel: "#fbf6ee", ink2: "#1a1a1d",
-      mood: "smirk", pose: "down", leg: "stand", tail: 0, charm: true }, o || {});
-    var sw = Math.sin(o.tail * 6.283) * 5;
-    var lL = 0, lR = 0;
-    if (o.leg === "a") lR = 14; else if (o.leg === "b") lL = 14; else if (o.leg === "jump") { lL = 10; lR = 16; }
-    var s = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="-14 -8 148 188">';
-    // ribbon tails (behind)
-    s += bow(36, 20, o.ribbon, sw, false) + bow(88, 20, o.ribbon, sw * 0.8, false);
-    // legs
-    s += leg(46, lL, o) + leg(74, lR, o);
-    // jacket skirts
-    s += '<path d="M34 100 L86 100 L96 132 Q60 142 24 132 Z" fill="' + o.jacket + '"/>' +
-      '<path d="M24 132 Q60 142 96 132" stroke="' + o.trim + '" stroke-width="3" fill="none"/>' +
-      '<path d="M60 108 L60 138" stroke="' + o.trim + '" stroke-width="2"/>';
-    // arms (behind torso when down)
-    if (o.pose === "down" || o.pose === "wave" || o.pose === "phone" || o.pose === "cheer") {
-      s += sleeve(34, 72, 12, o);
-    }
-    // torso
-    s += '<path d="M34 66 Q60 58 86 66 L92 108 Q60 116 28 108 Z" fill="' + o.jacket + '"/>' +
-      '<path d="M50 62 L70 62 L66 72 L54 72 Z" fill="' + o.jacket + '" stroke="' + o.trim + '" stroke-width="2"/>' +
-      '<path d="M54 74 q6 4 12 0 M57 84 q3 3 6 0 M57 93 q3 3 6 0" stroke="' + o.trim + '" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
-      '<path d="M34 66 L28 108 M86 66 L92 108" stroke="' + o.trim + '" stroke-width="2.4"/>';
-    // sash + knot + tassel
-    s += '<rect x="29" y="98" width="62" height="11" rx="2" fill="' + o.ink2 + '"/><path d="M29 100 H91 M29 107 H91" stroke="' + o.trim + '" stroke-width="1.4"/>' +
-      '<circle cx="60" cy="104" r="6" fill="' + o.trim + '"/><circle cx="60" cy="104" r="2.6" fill="#b8431f"/>' +
-      '<path d="M60 108 L55 134 L65 134 Z" fill="' + o.tassel + '" stroke="#e5dccd" stroke-width="1"/><circle cx="60" cy="109" r="2.2" fill="' + o.trim + '"/>';
-    if (o.charm) s += '<g transform="translate(86 112) rotate(10)"><rect x="-6" y="0" width="12" height="16" rx="2" fill="#c8372d" stroke="' + o.trim + '" stroke-width="1.2"/><circle cx="0" cy="8" r="3" fill="none" stroke="' + o.trim + '" stroke-width="1.2"/></g>';
-    // front arm
-    if (o.pose === "down") s += sleeve(86, 72, -12, o);
-    else if (o.pose === "wave") s += sleeve(86, 72, -150, o);
-    else if (o.pose === "cheer") s += sleeve(86, 72, -165, o) + sleeve(34, 72, 165, o);
-    else if (o.pose === "phone") {
-      s += sleeve(86, 72, -125, o);
-      s += '<g transform="translate(100 60) rotate(12)"><rect x="-8" y="-15" width="16" height="28" rx="3" fill="#25272b"/><rect x="-6" y="-12" width="12" height="22" rx="1.5" fill="#f2e8da"/><path d="M0 -8 q-3 -4 -1 -6 q2 0 1 3 q1 -3 3 -3 q2 2 -1 6 Z" fill="' + o.jacket + '" transform="translate(0 7) scale(.8)"/></g>';
-    } else if (o.pose === "cross") {
-      s += '<g transform="translate(60 84) rotate(-8)"><rect x="-30" y="-8" width="60" height="16" rx="8" fill="' + o.jacket + '"/><path d="M-30 0 h6 M24 0 h6" stroke="' + o.trim + '" stroke-width="2"/>' +
-        '<rect x="-30" y="-8" width="9" height="16" rx="4" fill="' + o.ink2 + '"/><rect x="21" y="-8" width="9" height="16" rx="4" fill="' + o.ink2 + '"/></g>' +
-        '<circle cx="34" cy="90" r="6" fill="' + C.skin + '"/><circle cx="86" cy="80" r="6" fill="' + C.skin + '"/>';
-    }
-    // head: buns
-    s += '<circle cx="27" cy="12" r="16" fill="' + C.hair + '"/><circle cx="93" cy="12" r="16" fill="' + C.hair + '"/>' +
-      '<path d="M18 6 q8 -8 18 -2" stroke="' + C.hairHi + '" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M84 4 q8 -6 18 2" stroke="' + C.hairHi + '" stroke-width="3" fill="none" stroke-linecap="round"/>';
-    // face
-    s += '<circle cx="23" cy="44" r="6" fill="' + C.skin + '"/><circle cx="97" cy="44" r="6" fill="' + C.skin + '"/>' +
-      '<path d="M22 40 C22 14 98 14 98 40 C98 62 80 70 60 70 C40 70 22 62 22 40 Z" fill="' + C.skin + '"/>';
-    // hair cap + bangs
-    s += '<path d="M20 42 C16 10 104 10 100 42 L96 32 L88 46 L80 28 L70 44 L60 26 L50 44 L40 28 L32 46 L24 32 Z" fill="' + C.hair + '"/>' +
-      '<path d="M44 20 q10 -6 24 -2" stroke="' + C.hairHi + '" stroke-width="3" fill="none" stroke-linecap="round"/>';
-    // bun ribbons on top of buns
-    s += '<path d="M12 22 Q27 30 42 20 L42 27 Q27 36 12 28 Z" fill="' + o.ribbon + '"/><path d="M78 20 Q93 30 108 22 L108 28 Q93 36 78 27 Z" fill="' + o.ribbon + '"/>';
-    // eyes + brows + mouth
-    var m = o.mood, eyeY = 48, browL, browR, mouth, eyes;
-    var eye = function (cx, closed) {
-      if (closed) return '<path d="M' + (cx - 8) + ' ' + eyeY + ' q8 7 16 0" stroke="' + C.ink + '" stroke-width="3" fill="none" stroke-linecap="round"/>';
-      return '<ellipse cx="' + cx + '" cy="' + eyeY + '" rx="8.6" ry="10" fill="#fff"/><ellipse cx="' + cx + '" cy="' + (eyeY + 1) + '" rx="7" ry="8.8" fill="#e8851f"/>' +
-        '<ellipse cx="' + cx + '" cy="' + (eyeY + 2) + '" rx="4" ry="5.6" fill="#5a2a10"/><circle cx="' + (cx - 2.6) + '" cy="' + (eyeY - 3) + '" r="2.6" fill="#fff"/><circle cx="' + (cx + 2.5) + '" cy="' + (eyeY + 4) + '" r="1.3" fill="#fff"/>';
-    };
-    var closed = (m === "sleepy");
-    eyes = eye(44, closed) + eye(76, closed);
-    if (m === "pout") { browL = "M34 36 L52 41"; browR = "M86 36 L68 41"; mouth = '<path d="M54 61 q6 -5 12 0" stroke="#8a4a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>'; }
-    else if (m === "smile") { browL = "M34 37 L52 38"; browR = "M86 37 L68 38"; mouth = '<path d="M50 57 q10 10 20 0 q-10 4 -20 0 Z" fill="#a64a3a" stroke="#8a3a2a" stroke-width="1.6" stroke-linejoin="round"/>'; }
-    else if (m === "stern") { browL = "M33 34 L52 42"; browR = "M87 34 L68 42"; mouth = '<path d="M53 61 h14" stroke="#8a4a3a" stroke-width="2.6" stroke-linecap="round"/>'; }
-    else if (m === "sleepy") { browL = "M35 38 L52 38"; browR = "M85 38 L68 38"; mouth = '<path d="M55 60 q5 3 10 0" stroke="#8a4a3a" stroke-width="2.6" fill="none" stroke-linecap="round"/>'; }
-    else { browL = "M34 36 L52 40"; browR = "M86 36 L68 40"; mouth = '<path d="M52 58 q10 8 17 -2" stroke="#8a4a3a" stroke-width="2.8" fill="none" stroke-linecap="round"/>'; }
-    s += '<path d="' + browL + '" stroke="' + C.hair + '" stroke-width="4.4" stroke-linecap="round"/><path d="' + browR + '" stroke="' + C.hair + '" stroke-width="4.4" stroke-linecap="round"/>' +
-      eyes + '<ellipse cx="36" cy="58" rx="5" ry="3" fill="#f2998a" opacity=".55"/><ellipse cx="84" cy="58" rx="5" ry="3" fill="#f2998a" opacity=".55"/>' + mouth;
-    if (m === "sleepy") s += '<text x="98" y="22" font-family="Lilita One,sans-serif" font-size="16" fill="#e9c9a4">z</text><text x="106" y="12" font-family="Lilita One,sans-serif" font-size="11" fill="#e9c9a4">z</text>';
-    return s + "</svg>";
-  };
-
-  // busts of the other three gods (viewBox 100x100)
-  NA.god = function (id) {
-    var h = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">';
-    if (id === "nacha") {
-      return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -8 120 104" preserveAspectRatio="xMidYMid slice"><rect x="0" y="0" width="120" height="120" fill="#f3c98a"/>' +
-        NA.nacha({ mood: "smile" }).replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "") + "</svg>";
-    }
-    if (id === "kunsim") {
-      h += '<rect width="100" height="100" fill="#f3d6e6"/>' +
-        '<path d="M14 100 Q16 70 50 66 Q84 70 86 100 Z" fill="#fff7fb" stroke="#f0bcd3" stroke-width="2"/><path d="M36 100 Q50 80 64 100" fill="#f7c6dc"/>' +
-        '<path d="M18 50 Q14 14 50 12 Q86 14 82 50 L84 76 Q70 84 66 72 L34 72 Q30 84 16 76 Z" fill="#1d2549"/>' +
-        '<path d="M26 44 Q50 70 74 44 Q76 30 50 28 Q24 30 26 44 Z" fill="#f9dcc4"/>' +
-        '<path d="M20 44 Q18 20 50 18 Q82 20 80 44 Q70 26 50 28 Q30 26 20 44 Z" fill="#1d2549"/>' +
-        '<ellipse cx="40" cy="46" rx="5" ry="6" fill="#fff"/><ellipse cx="60" cy="46" rx="5" ry="6" fill="#fff"/><circle cx="40" cy="47" r="3.6" fill="#3a8ee0"/><circle cx="60" cy="47" r="3.6" fill="#3a8ee0"/><circle cx="39" cy="45" r="1.2" fill="#fff"/><circle cx="59" cy="45" r="1.2" fill="#fff"/>' +
-        '<path d="M45 58 q5 4 10 0" stroke="#c0736a" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-        '<path d="M28 22 Q50 2 72 22" stroke="#e6b43a" stroke-width="5" fill="none"/><circle cx="50" cy="10" r="5" fill="#e6b43a"/><circle cx="50" cy="10" r="2" fill="#5ab4e8"/>' +
-        '<g transform="translate(80 94) scale(.75)"><path d="M0 0 q-14 -4 -16 -16 q12 2 16 16 q4 -14 16 -16 q-2 12 -16 16 Z" fill="#f7a8c8" stroke="#e57aa5" stroke-width="1.4"/></g>';
-    } else if (id === "sousang") {
-      h += '<rect width="100" height="100" fill="#cfe3d4"/>' +
-        '<path d="M10 100 Q14 70 50 66 Q86 70 90 100 Z" fill="#3c5a49"/><path d="M40 70 L50 100 L60 70" fill="#2c4538"/>' +
-        '<path d="M32 40 Q50 80 68 40 L72 58 Q70 92 50 96 Q30 92 28 58 Z" fill="#f4f0ea"/>' +
-        '<path d="M28 44 Q26 16 50 14 Q74 16 72 44 Q66 28 50 28 Q34 28 28 44 Z" fill="#f4f0ea"/>' +
-        '<ellipse cx="50" cy="42" rx="19" ry="17" fill="#f6d9bd"/>' +
-        '<path d="M36 40 q5 -4 10 0 M54 40 q5 -4 10 0" stroke="#4a3a30" stroke-width="2.4" fill="none" stroke-linecap="round"/>' +
-        '<path d="M44 50 q6 5 12 0" stroke="#b5685a" stroke-width="2" fill="none" stroke-linecap="round"/>' +
-        '<path d="M30 40 q-4 -8 6 -12 M70 40 q4 -8 -6 -12" stroke="#f4f0ea" stroke-width="5" fill="none" stroke-linecap="round"/>' +
-        '<g fill="#c8372d"><circle cx="38" cy="74" r="3.2"/><circle cx="46" cy="79" r="3.2"/><circle cx="55" cy="80" r="3.2"/><circle cx="63" cy="75" r="3.2"/></g>' +
-        '<path d="M86 30 Q92 60 84 98" stroke="#8a5a2c" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="86" cy="28" r="6" fill="#8a5a2c"/><circle cx="86" cy="40" r="3" fill="#e6b43a"/>';
-    } else {
-      h += '<rect width="100" height="100" fill="#3a1a2a"/>' +
-        '<path d="M8 100 Q10 40 24 20 Q20 44 34 50 Q28 20 44 6 Q42 30 54 40 Q56 16 72 4 Q70 30 82 36 Q94 56 92 100 Z" fill="#ff7a1a" opacity=".9"/>' +
-        '<path d="M22 100 Q22 78 50 74 Q78 78 78 100 Z" fill="#3b2a4d"/><path d="M26 92 Q50 84 74 92" stroke="#e6b43a" stroke-width="3" fill="none"/><path d="M34 100 L38 82 M66 100 L62 82" stroke="#e6b43a" stroke-width="2.4"/>' +
-        '<ellipse cx="50" cy="46" rx="21" ry="22" fill="#8a5232"/>' +
-        '<g fill="#2a1710"><circle cx="30" cy="30" r="9"/><circle cx="42" cy="22" r="9"/><circle cx="56" cy="21" r="9"/><circle cx="69" cy="29" r="9"/><circle cx="73" cy="42" r="6"/><circle cx="27" cy="42" r="6"/></g>' +
-        '<path d="M36 40 L46 44 M64 40 L54 44" stroke="#2a1710" stroke-width="3.6" stroke-linecap="round"/>' +
-        '<ellipse cx="41" cy="48" rx="5" ry="5.4" fill="#ffd85a"/><ellipse cx="59" cy="48" rx="5" ry="5.4" fill="#ffd85a"/><circle cx="41" cy="48.6" r="2.4" fill="#4a1d0a"/><circle cx="59" cy="48.6" r="2.4" fill="#4a1d0a"/>' +
-        '<path d="M44 60 h12" stroke="#4a1d0a" stroke-width="2.6" stroke-linecap="round"/><path d="M50 30 l-3 -8 l6 0 Z" fill="#c8372d"/>';
-    }
-    return h + "</svg>";
-  };
+  // o: jacket (tints the box so the dress-up chips still show an effect), mood, pose
+  NA.nacha = function (o) { o = o || {}; return ph("-14 -8 148 188", "NACHA", (o.mood || "") + (o.pose ? " · " + o.pose : "") || "(GPT image)", o.jacket ? o.jacket + "55" : "#3a2f47", "nacha"); };
+  var GN = { kunsim: "WHITE KUN SIM", fdo: "FDO KING", sousang: "PREAH SOUSANG", nacha: "NACHA" };
+  NA.god = function (id) { return id === "nacha" ? NA.nacha({}) : ph("0 0 100 100", (GN[id] || id).split(" ")[0], (GN[id] || "").split(" ").slice(1).join(" ") || "(GPT image)", "#3a2f47", id); };
 
   NA.dataURL = function (svg) { return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg); };
   NA.loadSVG = function (svg) {
