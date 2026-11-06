@@ -43,10 +43,10 @@
 <script>
 (function () {
   var GAMES = [
-    { href: "spear/", t: "Fire Spear", d: "Burn the haze. One tap.", emo: "🔥" },
+    { href: "spear/", t: "Fire Spear", d: "Burn the haze. One tap.", diff: 3, emo: "🔥" },
   ];
   document.getElementById("cards").innerHTML = GAMES.map(function (g) {
-    return '<a class="card' + (g.soon ? " soon" : "") + '"' + (g.href ? ' href="' + g.href + '"' : "") + '><div class="ic" style="font-size:44px;display:grid;place-items:center">' + g.emo + '</div><div><b>' + g.t + "</b><span>" + g.d + "</span></div></a>";
+    return '<a class="card' + (g.soon ? " soon" : "") + '"' + (g.href ? ' href="' + g.href + '"' : "") + '><div class="ic" style="font-size:44px;display:grid;place-items:center">' + g.emo + '</div><div><b>' + g.t + "</b><span>" + g.d + (g.diff ? " \u00b7 " + NA.starsText(g.diff) : "") + "</span></div></a>";
   }).join("");
   document.getElementById("follow").innerHTML = NA.followRow();
   var bg = document.getElementById("bg"), bx = bg.getContext("2d"), t0 = performance.now(), last = t0, leaves;

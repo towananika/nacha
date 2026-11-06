@@ -54,8 +54,9 @@ function throwSpear(){if(state!=="aim"||!$("sp").classList.contains("on"))return
 function judge(){var d=Math.abs(tx-W/2),p=0;if(d<tr*.3){p=2;msg="Bullseye! +2"}else if(d<tr){p=1;msg="Burned! +1"}else{msg="Missed. Try again!"}
   score+=p;$("sc").textContent=score+" pts";$("say").textContent=msg;if(p){state="burst";burst={t:0,x:tx,y:H*.28}}else{state="miss";wob=1}
   setTimeout(function(){round++;if(round>=5)finish();else newTarget()},p?900:700)}
-function finish(){var st=score>=8?3:score>=5?2:1,tr_=NA.train(10);$("rt").textContent=score>=9?"Perfect!":"Haze cleared!";$("st").textContent="★".repeat(st)+"☆".repeat(3-st);
-  $("el").textContent=score+" / 10 pts. "+tr_.line;$("wd").textContent="NACHA's Word: "+WORDS[Math.floor(Date.now()/864e5)%WORDS.length];$("ef").innerHTML=NA.followRow();show("se")}
+function difficulty(){var sp=0,sz=0;for(var i=0;i<5;i++){sp+=.32+i*.16;sz+=Math.max(.1,.16-i*.01)}sp/=5;sz/=5;return 1+4*(0.6*Math.min(1,Math.max(0,(sp-.2)/.9))+0.4*Math.min(1,Math.max(0,(.2-sz)/.12)))}
+function finish(){var st=score>=8?3:score>=5?2:1,tr_=NA.award("spear",difficulty(),score/10);$("rt").textContent=score>=9?"Perfect!":"Haze cleared!";$("st").textContent="★".repeat(st)+"☆".repeat(3-st);
+  $("el").textContent=score+" / 10 pts. "+tr_.detail+" \u2192 "+tr_.line;$("wd").textContent="NACHA's Word: "+WORDS[Math.floor(Date.now()/864e5)%WORDS.length];$("ef").innerHTML=NA.followRow();show("se")}
 var last=0;
 function frame(now){requestAnimationFrame(frame);if(!$("sp").classList.contains("on"))return;if(!W)size();if(!W)return;var dt=Math.min(.05,(now-(last||now))/1000);last=now;
   cx.clearRect(0,0,W,H);

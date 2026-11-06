@@ -124,7 +124,16 @@
   NA.train = function (pts) {
     var before = NA.trainTotal(), total = before + pts; NA.store.set("na-train", total);
     var r = NA.rankOf(total), up = r > NA.rankOf(before), nx = NA.RANKS[r + 1];
-    return { total: total, rank: NA.RANKS[r][0], up: up, line: "Training +" + pts + " · " + NA.RANKS[r][0] + (up ? " ⬆ NEW RANK!" : nx ? " (next at " + nx[1] + ")" : " (top rank)") };
+    return { total: total, rank: NA.RANKS[r][0], up: up, line: "NACHA Points +" + pts + " · " + NA.RANKS[r][0] + (up ? " ⬆ NEW RANK!" : nx ? " (next at " + nx[1] + ")" : " (top rank)") };
+  };
+  // Per-game difficulty (1-5, computed from each game's own parameters) x performance (0-1) -> NACHA Points.
+  NA.starsText = function (d) { var n = Math.round(Math.max(1, Math.min(5, d))); return "\u2605".repeat(n) + "\u2606".repeat(5 - n); };
+  NA.award = function (gameId, difficulty, perf) {
+    var d = Math.max(1, Math.min(5, difficulty)), p = Math.max(0, Math.min(1, perf));
+    var pts = Math.max(1, Math.round(10 * d * (0.4 + 0.6 * p)));
+    var t = NA.train(pts); t.pts = pts; t.difficulty = d;
+    t.detail = "Difficulty " + NA.starsText(d) + " \u00d7 " + Math.round(p * 100) + "% clear";
+    return t;
   };
   NA.toast = function (msg) {
     var t = document.getElementById("toast");
