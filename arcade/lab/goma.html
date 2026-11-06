@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Goma Beat · NACHA</title>
+<meta name="description" content="Tap when the ring meets the flame. Keep the combo burning."><meta name="theme-color" content="#1d1020">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common.css">
+<style>#stage{width:min(100vw,480px);height:100%;max-height:100dvh;overflow:hidden}#c{width:100%;height:100%}.hint{font-size:15px;color:#f6dfbf;max-width:300px}.em{font-size:64px}</style>
+</head><body><div id="app"><div id="stage">
+<canvas id="c"></canvas>
+<div class="hud"><span class="big" id="sc"></span><span class="sm r" id="sub"></span></div>
+<div class="ov on" id="o0"><div class="brand">NACHA</div><div class="title">Goma Beat</div><div class="em">🔥</div><div class="hint">Tap when the ring meets the flame. Keep the combo burning.</div><button class="btn main" id="go">Play</button><a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a></div>
+<div class="ov" id="o1"><div class="brand">NACHA</div><div class="label">SCORE</div><div class="score" id="rs">0</div><div class="best" id="rb"></div><div class="title" id="rt" style="font-size:26px"></div><div id="rF"></div>
+<div class="row"><button class="btn main" id="sh">Share</button><button class="btn" id="again">Again</button></div><a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a></div>
+</div></div>
+<script src="../common.js"></script>
+<script>
+(function(){"use strict";
+var $=function(i){return document.getElementById(i)},cv=$("c"),x=cv.getContext("2d"),W,H,t0=performance.now(),last=0,leaves,run=false,KEY="na-lab-goma";
+function fit(){W=$("stage").clientWidth;H=$("stage").clientHeight;var d=Math.min(2,devicePixelRatio||1);cv.width=W*d;cv.height=H*d;x.setTransform(d,0,0,d,0,0);leaves=NA.leaves(8,W,H)}
+addEventListener("resize",fit);
+function emo(c,px,py,s){x.font=s+"px serif";x.textAlign="center";x.textBaseline="middle";x.fillText(c,px,py)}
+function best(){try{return+localStorage.getItem(KEY)||0}catch(e){return 0}}
+var G;
+
+G={n:[],t:0,sp:0,cb:0,sc:0,left:0,msg:"",mt:0,
+init:function(){this.n=[];this.t=0;this.sp=.2;this.cb=0;this.sc=0;this.left=24;this.msg="";this.mt=0;$("sub").textContent="";},
+down:function(){var g=this,b=null;g.n.forEach(function(o){if(!o.done&&(!b||o.age>b.age))b=o});if(!b)return;var d=Math.abs(b.age-1);
+ if(d<.12){b.done=1;g.cb++;g.sc+=100*(1+Math.floor(g.cb/5));g.msg="Perfect!";}else if(d<.28){b.done=1;g.cb++;g.sc+=50*(1+Math.floor(g.cb/5));g.msg="Good";}else{g.cb=0;g.msg="Miss";}g.mt=.5},
+step:function(dt){var g=this;g.t+=dt;g.sp-=dt;if(g.sp<=0&&g.left>0){g.left--;g.sp=.55+Math.random()*.45;g.n.push({age:0,done:0})}
+ g.n.forEach(function(o){o.age+=dt/1.2});
+ for(var i=g.n.length-1;i>=0;i--){var o=g.n[i];if(o.done&&o.age>1.4||(!o.done&&o.age>1.3)){if(!o.done){g.cb=0;g.msg="Miss";g.mt=.5}g.n.splice(i,1)}}
+ g.mt-=dt;$("sc").textContent=g.sc;$("sub").textContent=g.cb>1?"combo "+g.cb:"";
+ if(g.left<=0&&!g.n.length)finish(g.sc,g.sc>=3000?"The fire roars! 🔥":"Warm embers")},
+draw:function(){var cx=W/2,cy=H*.52;emo("🔥",cx,cy,92);x.strokeStyle="#f4c43088";x.lineWidth=4;x.beginPath();x.arc(cx,cy,64,0,6.283);x.stroke();
+ this.n.forEach(function(o){if(o.done)return;var r=64+(1-Math.min(o.age,1.3))*170;x.strokeStyle="#ffb02e";x.lineWidth=6;x.beginPath();x.arc(cx,cy,Math.max(10,r),0,6.283);x.stroke()});
+ if(this.mt>0){x.fillStyle="#fff";x.font="34px 'Lilita One'";x.textAlign="center";x.fillText(this.msg,cx,cy-130)}}};
+
+function start(){$("o0").classList.remove("on");$("o1").classList.remove("on");G.init();run=true}
+function finish(score,msg){run=false;var b=best(),nb=score>b;if(nb)try{localStorage.setItem(KEY,score)}catch(e){}
+ $("rs").textContent=score;$("rb").textContent=nb?"New best!":"Best "+b;$("rt").textContent=msg;$("rF").innerHTML=NA.followRow();$("o1").classList.add("on");G.last=score}
+function frame(now){var dt=Math.min(.05,(now-last)/1000);last=now;
+ NA.drawBG(x,W,H,(now-t0)*.012,(now-t0)/1000,"night");NA.drawLeaves(x,leaves,W,H,dt);
+ if(run)G.step(dt);G.draw();requestAnimationFrame(frame)}
+$("go").onclick=start;$("again").onclick=start;
+$("sh").onclick=function(){var t="My goma fire scored "+G.last+"! "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
+function pt(e){var r=cv.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+cv.addEventListener("pointerdown",function(e){e.preventDefault();if(run&&G.down)G.down(pt(e))});
+cv.addEventListener("pointerup",function(e){if(run&&G.up)G.up(pt(e))});
+cv.addEventListener("pointercancel",function(){if(run&&G.up)G.up({x:0,y:0})});
+G.init&&0;NA.fontReady().then(function(){fit();G.init();requestAnimationFrame(frame)});
+})();
+</script></body></html>
