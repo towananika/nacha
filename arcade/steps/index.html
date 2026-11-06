@@ -117,7 +117,7 @@ var step,stam,vistas,badges,resting,lastSight,nextFork,rt;
 function show(id){["s0","sp","sf","sc","sd","se","sl"].forEach(function(s){$(s).classList.toggle("on",s===id)})}
 function tier(){for(var i=0;i<TIERS.length;i++)if(step<=TIERS[i].to)return TIERS[i];return TIERS[3]}
 function paint(){var t=tier();$("st").textContent=step+" / 108";$("wo").textContent=(108-step)+" worries left";$("sb").style.width=(step/108*100)+"%";
-  $("pano").style.backgroundImage=t.bg;$("pano").style.backgroundSize="100% 260%";$("pano").style.backgroundPosition="50% "+(100-step/108*100)+"%";var im=$("pimg"),n=TIERS.indexOf(t)+1;if(im.dataset.n!=n){im.dataset.n=n;im.style.display="";im.src="assets/view"+n+".png"}$("pano").style.transform="scale("+t.sc+")";$("plab").textContent=t.n+" view (GPT)";
+  $("pano").style.backgroundImage=t.bg;$("pano").style.backgroundSize="100% 260%";$("pano").style.backgroundPosition="50% "+(100-step/108*100)+"%";var im=$("pimg"),n=TIERS.indexOf(t)+1;if(im.dataset.n!=n){im.dataset.n=n;im.style.display="";im.src="assets/view"+n+".png"}$("pano").style.transform="none";$("plab").textContent="";var ti=TIERS.indexOf(t),p0=Math.min(1,Math.max(0,(step-ti*27)/27));im.style.height="128%";im.style.transition="transform .5s";im.style.transform="translateY("+(-21.9*(1-p0)).toFixed(1)+"%)";
   var all=["Stream","Shrine","Valley","Challenge"];$("vs").innerHTML=all.map(function(v){var on=vistas.indexOf(v)>=0||(v==="Challenge"&&badges>0);return'<span class="vc'+(on?" on":"")+'">'+v+"</span>"}).join("")}
 function say(t){$("say").textContent=t}
 function newSight(){[].slice.call($("vw").querySelectorAll(".sight")).forEach(function(e){e.remove()});
@@ -133,6 +133,7 @@ function detour(f){show("sd");$("dt").textContent=f.d[0];$("dd").textContent=f.d
 var cm,cp,cd,hits,tries,ci;
 function steep(){rock()}
 
+var gimg=new Image(),gok=false,glow=0;gimg.onload=function(){gok=true};gimg.src="assets/step-glow.png";
 var dirs=[],cvx=$("cv").getContext("2d"),CW=0,CH=0,cam={x:0,y:0},hop=0,flipT=null,flipA=0,shake=0,xs=[],nimg=new Image(),nok=false;
 nimg.onload=function(){nok=true};nimg.src="assets/nacha-climb.png";
 var PAL=["#5a8a64","#7a9aa8","#c08a6a","#d8b45a"];
@@ -142,7 +143,7 @@ function size(){var v=$("vw"),r=window.devicePixelRatio||1;CW=v.clientWidth;CH=v
 function px(i){return CW/2+(xs[i]-cam.x)*CW*0.34}
 function py(i){return CH*0.74-(i-cam.y)*CH*0.105}
 function draw(){requestAnimationFrame(draw);if(!$("sp").classList.contains("on"))return;if(!CW||$("cv").width!==Math.round(CW*(window.devicePixelRatio||1)))size();if(!CW)return;
-  cam.x+=(xs[step]-cam.x)*.18;cam.y+=(step-cam.y)*.18;hop*=.78;flipA*=.9;shake*=.8;
+  glow*=.9;cam.x+=(xs[step]-cam.x)*.18;cam.y+=(step-cam.y)*.18;hop*=.78;flipA*=.9;shake*=.8;
   cvx.clearRect(0,0,CW,CH);var t=TIERS.indexOf(tier()),col=PAL[t];
   // parallax hills (move down as we climb)
   [0.12,0.22].forEach(function(f,k){cvx.fillStyle=k?"#00000026":"#00000018";var base=CH*(0.62+k*0.12)+cam.y*CH*f*0.5;cvx.beginPath();cvx.moveTo(0,CH);
@@ -152,17 +153,19 @@ function draw(){requestAnimationFrame(draw);if(!$("sp").classList.contains("on")
   // stairs
   var sw=CW*0.26,sh=Math.max(10,CH*0.03);
   for(var i=Math.min(139,step+9);i>=Math.max(0,step-3);i--){var X=px(i),Y=py(i);
-    cvx.fillStyle="#00000040";cvx.fillRect(X-sw/2,Y+sh,sw,sh*.7);
-    cvx.fillStyle=i<=step?col:"#6c5a7a";cvx.fillRect(X-sw/2,Y,sw,sh);cvx.fillStyle="#ffffff40";cvx.fillRect(X-sw/2,Y,sw,3);
-    if(i===step+1){cvx.fillStyle="#f4c430";cvx.font="16px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText(dirs[i]?"▶":"◀",X,Y-6)}}
+    var past=i<=step;cvx.globalAlpha=past?.55:.95;cvx.fillStyle="#7a4a2a";cvx.fillRect(X-sw/2,Y+sh*.6,sw,sh*.9);
+    cvx.fillStyle=past?"#d9b98a":"#f0d49a";cvx.fillRect(X-sw/2,Y,sw,sh*.7);cvx.fillStyle="#fff3c8";cvx.fillRect(X-sw/2,Y,sw,3);
+    cvx.strokeStyle="#D4AC0D";cvx.lineWidth=1.5;cvx.strokeRect(X-sw/2,Y,sw,sh*.7+sh*.9*.6);cvx.globalAlpha=1;
+    if(i===step+1){cvx.fillStyle="#f4c430";cvx.shadowColor="#000a";cvx.shadowBlur=6;cvx.font="22px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText(dirs[i]?"▶":"◀",X,Y-8);cvx.shadowBlur=0}}
   // NACHA
-  var X=px(step),Y=py(step),h=CH*0.2,w=h*.8,jump=hop*CH*.05;
+  var X=px(step),Y=py(step),h=CH*0.26,w=nok?h*nimg.naturalWidth/nimg.naturalHeight:h*.8,jump=hop*CH*.05;
   cvx.save();cvx.translate(X+(shake?Math.sin(performance.now()/20)*shake*6:0),Y-jump);cvx.rotate(flipA*6.28);
   if(nok)cvx.drawImage(nimg,-w/2,-h,w,h);else{cvx.fillStyle="#3a2f47cc";cvx.strokeStyle="#9d90ad";cvx.setLineDash([5,4]);cvx.lineWidth=2;cvx.fillRect(-w/2,-h,w,h);cvx.strokeRect(-w/2,-h,w,h);cvx.setLineDash([]);cvx.fillStyle="#d9cfe6";cvx.font="11px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText("NACHA",0,-h/2);cvx.fillText("(GPT)",0,-h/2+13)}
-  cvx.restore()}
+  cvx.restore();
+  if(gok&&glow>.05){cvx.globalAlpha=Math.min(.8,glow);var gw=CW*.4,gh=gw*gimg.naturalHeight/gimg.naturalWidth;cvx.drawImage(gimg,X-gw/2,Y-gh*.8-jump,gw,gh);cvx.globalAlpha=1}}
 function go(side){if(!$("sp").classList.contains("on"))return;
   if(flipT){clearTimeout(flipT);flipT=null;flipA=1;hop=1;say("Mid-air flip! You caught the stair.");return}
-  if(side===dirs[step+1]){step++;hop=1;
+  if(side===dirs[step+1]){step++;hop=1;glow=1;
     if(step-lastSight>=12){lastSight=step;newSight()}
     if(step%10===0)say("One more worry gone. ("+(108-step)+" left)");
     paint();
