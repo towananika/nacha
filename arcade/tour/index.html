@@ -6,22 +6,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../common.css">
 <style>
-/* WIREFRAME. Image slots (GPT): assets/stage1.png..stage5.png (backgrounds), fog.png, nacha-walk.png, stamp-1..3.png, items/<name>.png */
+/* Temple illustrations are game artwork; no real temple is depicted. */
 body{overflow:hidden;background:#1d1020}
 #stage{width:min(100vw,480px);height:100%;max-height:100dvh;position:relative;overflow:hidden;margin:0 auto}
 .scr{position:absolute;inset:0;display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 14px);gap:10px}
 .scr.on{display:flex}
 .ctr{align-items:center;justify-content:center;text-align:center;gap:12px}
-.bg{position:absolute;inset:0;z-index:-1;background:linear-gradient(#3a2250,#1d1020)}
-.view{position:relative;flex:1;border:2px dashed #5a4d68;border-radius:14px;overflow:hidden;display:grid;place-items:center;color:#9d90ad;font:13px "Lilita One",sans-serif;letter-spacing:.08em;text-align:center}
+.bg{position:absolute;inset:0;z-index:-1;background:linear-gradient(#1d1020b0,#1d1020e8),url(assets/stage1.webp) center/cover}
+.view{position:relative;flex:1;border:2px solid #e6c17a66;border-radius:14px;overflow:hidden;display:grid;place-items:center;color:#9d90ad;font:13px "Lilita One",sans-serif;letter-spacing:.08em;text-align:center}
 .view img.bgimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.fog{position:absolute;inset:0;background:#12081c;pointer-events:none;transition:opacity .4s;display:grid;place-items:center;color:#6d5f7e;font:12px "Lilita One"}
+.fog{position:absolute;inset:0;background:radial-gradient(ellipse at 28% 35%,#d6cbcbad,transparent 52%),radial-gradient(ellipse at 72% 70%,#c6b6cbca,transparent 60%);pointer-events:none;transition:opacity .4s}
 .pips{display:flex;gap:8px;justify-content:center}
 .pip{width:14px;height:14px;border-radius:50%;background:#ffffff26}.pip.on{background:var(--gold)}.pip.cur{outline:2px solid #fff}
 .bubble{background:#fff;color:#241518;border-radius:18px;padding:10px 14px;font-size:17px;line-height:1.3;text-align:center;box-shadow:0 4px 0 #0004;min-height:46px}
-.road{position:absolute;left:0;right:0;bottom:0;height:34%;background:repeating-linear-gradient(90deg,#4a3a5a 0 40px,#3a2c48 40px 80px);animation:road 1.2s linear infinite}
+.road{position:absolute;left:0;right:0;bottom:0;height:30%;background:linear-gradient(transparent,#2b142255)}
 @keyframes road{to{background-position:-80px 0}}
-.nach{position:absolute;left:50%;bottom:22%;transform:translateX(-50%);width:80px;height:100px;border:2px dashed #9d90ad;border-radius:10px;background:#3a2f47;display:grid;place-items:center;font:12px "Lilita One";color:#d9cfe6;animation:bob .6s ease-in-out infinite alternate}
+.nach{position:absolute;left:50%;bottom:7%;transform:translateX(-50%);width:clamp(130px,40%,200px);height:58%;object-fit:contain;object-position:bottom;filter:drop-shadow(0 7px 9px #28150a88);animation:bob .6s ease-in-out infinite alternate}
 @keyframes bob{to{transform:translateX(-50%) translateY(-6px)}}
 .sight{position:absolute;font-size:34px;cursor:pointer;animation:float 2s ease-in-out infinite alternate}
 @keyframes float{to{transform:translateY(-8px)}}
@@ -46,26 +46,27 @@ body{overflow:hidden;background:#1d1020}
   <div class="brand">NACHA</div>
   <div class="h1">Temple Tour</div>
   <div class="lore">Haze seeps into the old temples. Travel with NACHA and tidy them up.</div>
+  <p class="lore" style="font-size:12px;opacity:.8">The scenery is an imagined illustration.</p>
   <button class="btn main" id="go">Start the tour</button>
   <a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a>
 </section>
 
 <section class="scr" id="sj">
   <div class="pips" id="pj"></div>
-  <div class="view" id="vj"><img class="bgimg" id="bj" alt="" onerror="this.style.display='none'"><span id="lj"></span><div class="road"></div><div class="nach">NACHA<br>walks<br>(GPT)</div></div>
+  <div class="view" id="vj"><img class="bgimg" id="bj" alt="" onerror="this.style.display='none'"><span id="lj"></span><div class="road"></div><img class="nach" src="assets/nacha.webp" alt="NACHA"></div>
   <div class="bubble" id="sayj">Let's go!</div>
   <button class="btn main" id="arrive" style="visibility:hidden">Arrive</button>
 </section>
 
 <section class="scr" id="st">
   <div class="top"><span id="tn"></span><span id="tt"></span></div>
-  <div class="view" id="vt"><img class="bgimg" id="bt" alt="" onerror="this.style.display='none'"><span id="lt" style="position:absolute;top:8px"></span><div class="fog" id="fog"><span>HAZE (GPT)</span></div><div class="slots" id="slots"></div></div>
+  <div class="view" id="vt"><img class="bgimg" id="bt" alt="" onerror="this.style.display='none'"><span id="lt" style="position:absolute;top:8px;z-index:1;background:#221426bd;color:#fff;padding:5px 10px;border-radius:8px"></span><div class="fog" id="fog" aria-hidden="true"></div><div class="slots" id="slots"></div></div>
   <div class="tray" id="tray"></div>
 </section>
 
 <section class="scr ctr" id="sr">
   <div class="brand">NACHA</div>
-  <div class="stamp" id="stamp">STAMP</div>
+  <div class="stamp" id="stamp">✦</div>
   <div class="stars" id="stars"></div>
   <div class="h1" id="rt" style="font-size:26px"></div>
   <div class="lore" id="rl"></div>
@@ -98,9 +99,9 @@ var cur=0,stars=[],sel=null,left=0,wrong=0,t0=0,tick=0,jt=0;
 function show(id){["s0","sj","st","sr","se"].forEach(function(s){$(s).classList.toggle("on",s===id)})}
 function pips(){$("pj").innerHTML=ST.map(function(_,i){return'<span class="pip'+(i<stars.length?" on":"")+(i===cur?" cur":"")+'"></span>'}).join("")}
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
-function img(el,i){el.style.display="";el.src="assets/stage"+(i+1)+".png"}
+function img(el,i){el.style.display="";el.src="assets/stage"+(i+1)+".webp"}
 function journey(){var s=ST[cur];show("sj");pips();
-  $("lj").textContent="BACKGROUND · "+s.n+" (GPT)";img($("bj"),cur);$("vj").style.background="linear-gradient(#"+0+"0,#0000)";$("vj").style.background="linear-gradient("+s.c+"55,#1d1020)";
+  $("lj").textContent="";img($("bj"),cur);$("vj").style.background="linear-gradient(#"+0+"0,#0000)";$("vj").style.background="linear-gradient("+s.c+"55,#1d1020)";
   $("sayj").textContent=s.god?s.god[0]+": "+s.god[1]:(cur===0?"Let's go!":"Next stop!");
   $("arrive").style.visibility="hidden";
   [].slice.call($("vj").querySelectorAll(".sight")).forEach(function(e){e.remove()});
@@ -109,7 +110,7 @@ function journey(){var s=ST[cur];show("sj");pips();
 function tidy(){var s=ST[cur];show("st");sel=null;wrong=0;left=s.items.length;t0=performance.now();
   $("tn").textContent="Stop "+(cur+1)+" / 5";img($("bt"),cur);$("lt").textContent=s.n+" · "+s.pre;$("vt").style.background="linear-gradient("+s.c+"44,#1d1020)";
   $("fog").style.opacity=.7;
-  $("slots").innerHTML=s.items.map(function(e,i){return'<div class="slot" data-i="'+i+'" data-e="'+e+'"><span>'+e+'</span></div>'}).join("");
+  $("slots").innerHTML=s.items.map(function(e,i){return'<button type="button" class="slot" data-i="'+i+'" data-e="'+e+'" aria-label="Place ' + e + '"><span>'+e+'</span></button>'}).join("");
   var order=s.items.map(function(e,i){return{e:e,k:Math.random()}}).sort(function(a,b){return a.k-b.k});
   $("tray").innerHTML=order.map(function(o,i){return'<button class="it" data-e="'+o.e+'">'+o.e+"</button>"}).join("");
   clearInterval(tick);tick=setInterval(function(){$("tt").textContent=Math.round((performance.now()-t0)/1000)+"s"},500)}
@@ -119,7 +120,7 @@ $("slots").addEventListener("click",function(e){var s=e.target.closest(".slot");
   else{wrong++;s.classList.add("shake");setTimeout(function(){s.classList.remove("shake")},260)}});
 function done(){clearInterval(tick);var sec=(performance.now()-t0)/1000,n=ST[cur].items.length,
   st=(wrong<=1&&sec<n*5)?3:(wrong<=3||sec<n*8)?2:1;stars.push(st);var tr=NA.train(10);
-  setTimeout(function(){show("sr");$("stamp").textContent="STAMP "+(cur+1);$("stamp").style.borderColor=["#b87333","#c0c0c0","#f4c430"][st-1];
+  setTimeout(function(){show("sr");$("stamp").textContent=["☀","🪷","🏮","🌿","✦"][cur];$("stamp").style.borderColor=["#b87333","#c0c0c0","#f4c430"][st-1];
    $("stars").textContent="★".repeat(st)+"☆".repeat(3-st);$("rt").textContent=ST[cur].n+" is clear!";$("rl").textContent=tr.line;$("next").textContent=cur<4?"Next stop":"Finish"},500)}
 $("next").onclick=function(){if(cur<4){cur++;journey()}else end()};
 $("arrive").onclick=tidy;
