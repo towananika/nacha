@@ -47,16 +47,9 @@ main{max-width:480px;margin:0 auto;padding:12px 16px 40px;min-height:100dvh;disp
 </div>
 <button class="quiet" id="hush">just be quiet</button>
 
-<div class="sec" id="gt" style="display:none">HIS FRIENDS</div>
-<div class="gods" id="gods">
-  <div><div class="slot"><img data-slot="kunsim" src="assets/kunsim.png" alt="" onerror="this.remove()"><span>WHITE<br>KUN SIM<br>(GPT)</span></div><b>White Kun Sim</b></div>
-  <div><div class="slot"><img data-slot="fdo" src="assets/fdo.png" alt="" onerror="this.remove()"><span>FDO<br>KING<br>(GPT)</span></div><b>Fdo King</b></div>
-  <div><div class="slot"><img data-slot="sousang" src="assets/sousang.png" alt="" onerror="this.remove()"><span>PREAH<br>SOUSANG<br>(GPT)</span></div><b>Preah Sousang</b></div>
-</div>
 <div id="follow"></div>
 
-<div class="sec">TRAINING HALL</div>
-<div class="bubble" id="rank" style="font-size:16px"></div>
+<div class="sec">GAMES</div>
 <div class="doors">
   <a class="btn" href="../burn/">🔥 Fire watch</a>
   <a class="btn" href="../wisdom/">💭 Little wisdom</a>
@@ -82,14 +75,11 @@ $("say").textContent=WORDS[wi];
 var n=$("nacha");
 function say(t){$("say").textContent=t}
 function pick(a){return a[Math.floor(Math.random()*a.length)]}
-function friends(){ if(heard>=3){ $("gods").classList.add("on"); $("gt").style.display="block" } }
+
 $("hi").onclick=function(){n.classList.remove("sit");say(pick(HI))};
 $("sit").onclick=function(){n.classList.add("sit");say(pick(SIT))};
-$("word").onclick=function(){wi=(wi+1)%WORDS.length;say(WORDS[wi]);heard++;set("na-court-heard",heard);friends()};
+$("word").onclick=function(){wi=(wi+1)%WORDS.length;say(WORDS[wi]);};
 $("hush").onclick=function(){say("…")};
 $("follow").innerHTML=NA.followRow();
-friends();
-var t=NA.trainTotal(),r=NA.rankOf(t),nx=NA.RANKS[r+1];
-$("rank").textContent="Rank: "+NA.RANKS[r][0]+" · "+t+" training"+(nx?" · next rank at "+nx[1]:" · top rank")+". Every training session counts.";
 })();
 </script></body></html>

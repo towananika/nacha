@@ -68,8 +68,8 @@
     <div class="match" style="margin-top:-6px;letter-spacing:.2em">HAZE BURNED</div>
     <div class="gname" id="rt"></div>
     <div class="lore" id="rl"></div>
-    <div id="rGods"></div>
-    <div class="row"><button class="btn main" id="share">Share</button><button class="btn" id="chal">Pass the flame</button></div><div class="row"><button class="btn" id="again">Again</button></div>
+    
+    <div class="row"><button class="btn main" id="share">Share</button><button class="btn" id="again">Again</button></div>
     <div id="rFollow"></div>
     <a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a>
   </section>
@@ -141,24 +141,19 @@
   function end() {
     run = false; blobs = []; show("sr");
     var pure = purity > 0, big = score >= 28;
-    $("resMe").innerHTML = NA.god("fdo").replace("<svg ", '<svg style="height:100%;width:auto" ');
+    $("resMe").innerHTML = '<div style="height:100%;aspect-ratio:3/4;border:2px dashed #5a4d68;border-radius:12px;background:#2b2433;display:grid;place-items:center;color:#9d90ad;font:12px Lilita One,sans-serif;position:relative;overflow:hidden"><img src="assets/fdo.png" alt="" onerror="this.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain"><span>FDO KING (GPT)</span></div>';
     $("rs").textContent = score;
     $("rt").textContent = !pure ? "The haze got in…" : big ? "The temple is pure! 🔥" : "Some haze remains";
     
     NA.unlock("fdo"); var tr = NA.train(10); var b0 = best(), nb = score > b0; if (nb) setBest(score);
-    $("rl").textContent = (nb ? "New best! " : "Best " + b0 + " · ") + "Max combo " + bestC + " · " + tr.line + (team ? " · Team " + Math.min(GOAL, team + score) + " / " + GOAL + (team + score >= GOAL ? " 🔥 Purified together!" : "") : ""); $("rGods").innerHTML = NA.godsStrip(""); $("rFollow").innerHTML = NA.followRow();
+    $("rl").textContent = (nb ? "New best! " : "Best " + b0 + " · ") + "Max combo " + bestC + " · " + tr.line + (team ? " · Team " + Math.min(GOAL, team + score) + " / " + GOAL + (team + score >= GOAL ? " 🔥 Purified together!" : "") : ""); $("rFollow").innerHTML = NA.followRow();
   }
-  $("chal").addEventListener("click", function () {
-    var u = location.origin + location.pathname + "?s=" + seed + "&t=" + (team + score);
-    var t = "Pass the flame! Our team has burned " + (team + score) + " / " + GOAL + ". Add yours: " + u + " " + NA.HANDLE + " #NACHA";
-    if (navigator.share) navigator.share({ text: t }).catch(function () {}); else if (navigator.clipboard) navigator.clipboard.writeText(t).then(function () { NA.toast("Link copied"); });
-  });
-  $("go").addEventListener("click", function () { if (!team) seed = 0; start(); }); $("again").addEventListener("click", function () { if (!team) seed = 0; start(); });
+    $("go").addEventListener("click", function () { if (!team) seed = 0; start(); }); $("again").addEventListener("click", function () { if (!team) seed = 0; start(); });
   $("share").addEventListener("click", function () {
     NA.fontReady().then(function () { return NA.card({ svg: NA.god("fdo"), big: String(score), label: "I BURNED THE HAZE", line: "Fdo King's fire never rests. Can you beat me?", theme: "night" }); })
       .then(function (c) { return NA.share(c, "I burned " + score + " haze with Fdo King! " + NA.HANDLE + " #NACHA", "nacha-burn.png"); });
   });
-  $("introMe").innerHTML = NA.god("fdo").replace("<svg ", '<svg style="height:100%;width:auto" ');
+  $("introMe").innerHTML = '<div style="height:100%;aspect-ratio:3/4;border:2px dashed #5a4d68;border-radius:12px;background:#2b2433;display:grid;place-items:center;color:#9d90ad;font:12px Lilita One,sans-serif;position:relative;overflow:hidden"><img src="assets/fdo.png" alt="" onerror="this.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain"><span>FDO KING (GPT)</span></div>';
   if (team) $("rv").textContent = "Team fire: " + team + " / " + GOAL + ". Add yours!";
   NA.fontReady().then(function () { fit(); requestAnimationFrame(frame); });
 })();
