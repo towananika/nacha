@@ -112,6 +112,10 @@ var FORKS={20:{t:"The path splits",l:"Which way?",o:[
  80:{t:"Near the top",l:"Last choice.",o:[
    ["easy","Mist path","Calm and cool."],["detour","Lookout detour","The whole valley below."],["steep","Jump pad ⤴","Spring up the last stairs! Steep, but fast."]],d:["The Lookout","The valley stretches out in gold.","vista: Valley"]}};
 var SIGHTS=[["🐒","A monkey waves hello."],["🦋","A butterfly lands near you."],["🐦","A bird sings above."],["🪨","A mossy stone Buddha. You bow."],["⛲","Cool water. Refreshing!"],["🛖","A tiny rest hut."],["🌫️","Mist drifts past."],["🔔","A distant bell rings."]];
+var TS=[[["🐒","A monkey waves hello."],["🦋","A butterfly lands near you."],["🍄","A little mushroom ring."]],
+ [["🦌","A deer watches, then leaves."],["🌧️","A quick shower. It passes."],["🪷","A pond of lotus below."]],
+ [["🦅","An eagle circles high."],["🌬️","A cool wind lifts your sleeves."],["🏮","A lantern left on a rock."]],
+ [["⭐","A star in the daytime?"],["☁️","Clouds at your feet."],["🕊️","A white bird glides by."]]];
 var step,stam,vistas,badges,resting,lastSight,nextFork,rt;
 function show(id){["s0","sp","sf","sc","sd","se","sl"].forEach(function(s){$(s).classList.toggle("on",s===id)})}
 function tier(){for(var i=0;i<TIERS.length;i++)if(step<=TIERS[i].to)return TIERS[i];return TIERS[3]}
@@ -120,7 +124,7 @@ function paint(){var t=tier();$("st").textContent=step+" / 108";$("wo").textCont
   var all=["Stream","Shrine","Valley","Challenge"];$("vs").innerHTML=all.map(function(v){var on=vistas.indexOf(v)>=0||(v==="Challenge"&&badges>0);return'<span class="vc'+(on?" on":"")+'">'+v+"</span>"}).join("")}
 function say(t){$("say").textContent=t}
 function newSight(){[].slice.call($("vw").querySelectorAll(".sight")).forEach(function(e){e.remove()});
-  var s=SIGHTS[Math.floor(Math.random()*SIGHTS.length)],e=document.createElement("div");e.className="sight";e.textContent=s[0];e.style.left=(10+Math.random()*70)+"%";e.style.top=(10+Math.random()*40)+"%";
+  var pool=SIGHTS.concat(TS[TIERS.indexOf(tier())]),s=pool[Math.floor(Math.random()*pool.length)],e=document.createElement("div");e.className="sight";e.textContent=s[0];e.style.left=(10+Math.random()*70)+"%";e.style.top=(10+Math.random()*40)+"%";
   e.onclick=function(){say(s[1]);stam=Math.min(100,stam+6);e.remove();paint()};$("vw").appendChild(e)}
 function climb(){if(resting)return;
   if(stam<=0){resting=true;say("Out of breath. Resting…");$("climb").disabled=true;var iv=setInterval(function(){stam+=8;paint();if(stam>=40){clearInterval(iv);resting=false;$("climb").disabled=false;say("Ready. Keep going!")}},350);return}
@@ -157,7 +161,11 @@ function rock(){show("sc");hits=0;tries=0;cp=0;cd=1;var z=20+Math.random()*50;$(
 $("ctap").onclick=function(){var z=parseFloat($("zn").style.left),hit=cp>=z-2&&cp<=z+24;tries++;if(hit)hits++;
   $("cs").textContent=Array(tries+1).join("●").split("").map(function(_,i){return i<tries?"•":""}).length?"✔".repeat(hits)+"✖".repeat(tries-hits):"";
   var nz=15+Math.random()*55;$("zn").style.left=nz+"%";
-  if(tries>=5){clearInterval(ci);setTimeout(function(){show("sp");if(hits>=3){step+=6;badges++;stam=Math.max(10,stam-5);say("You made it across! +6 steps.")}else{stam=Math.max(0,stam-20);say("You slipped, but you're okay.")}paint();if(step>=108)summit()},500)}};
+  if(tries>=5){clearInterval(ci);if(hits<3){tflip();return}setTimeout(function(){show("sp");if(hits>=3){step+=6;badges++;stam=Math.max(10,stam-5);say("You made it across! +6 steps.")}else{stam=Math.max(0,stam-20);say("You slipped, but you're okay.")}paint();if(step>=108)summit()},500)}};
+function tflip(){$("cs").textContent="Slipping! Tap Flip!";var b=$("ctap");b.textContent="Flip! ⟳";var done=false;
+  function fin(ok){if(done)return;done=true;b.textContent="GRAB";b.onclick=old;
+    show("sp");if(ok){step+=6;badges++;stam=Math.max(10,stam-5);say("Mid-air flip! You caught the ledge. +6 steps.")}else{stam=Math.max(0,stam-20);say("You slipped, but you're okay.")}paint();if(step>=108)summit()}
+  var old=b.onclick;b.onclick=function(){clearTimeout(tt);fin(true)};var tt=setTimeout(function(){fin(false)},1100)}
 function summit(){show("se");var tr=NA.train(10);$("el").textContent="108 worries gone. "+tr.line;
   $("ev").innerHTML=["Stream","Shrine","Valley","Challenge"].map(function(v){var on=vistas.indexOf(v)>=0||(v==="Challenge"&&badges>0);return'<span class="vc'+(on?" on":"")+'">'+v+"</span>"}).join("");$("ef").innerHTML=NA.followRow()}
 var pw=0,chg=null,flew=false,LV=[[30,"Treetops","linear-gradient(#6aa0b8,#3a5a40)"],[60,"Clouds","linear-gradient(#bcd8f0,#6aa0b8)"],[90,"The Moon","linear-gradient(#1b1f4a,#6a5a9a)"],[101,"The Stars — Heaven!","linear-gradient(#05051a,#2b1a5a)"]],lres="";
