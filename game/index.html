@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NACHA Moktak</title>
+<meta name="description" content="Tap away your worries with NACHA.">
+<meta property="og:title" content="NACHA Moktak">
+<meta property="og:description" content="Tap away your worries. 🏮">
+<meta name="theme-color" content="#1b1513">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg1:#2a1915;--bg2:#120d0c;--ink:#f6ece0;--sub:#b9a898;
+    --acc:#C0392B;--accDeep:#922B21;--glow:#F4C430;--gold:#D4AC0D;--flame:#D35400;--wood:#a8683a;--woodDark:#6e3f20;--woodLight:#d39a62;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{margin:0;background:var(--bg2);color:var(--ink);overflow:hidden;
+    font:16px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+    user-select:none;-webkit-user-select:none;touch-action:manipulation}
+  #app{position:relative;height:100%;max-width:480px;margin:0 auto;
+    background:radial-gradient(120% 70% at 50% 0%,var(--bg1) 0%,var(--bg2) 70%);overflow:hidden}
+  .lanterns{position:absolute;inset:0 0 auto 0;height:140px;pointer-events:none}
+  .lantern{position:absolute;top:-6px;width:34px;height:52px;border-radius:45%;background:linear-gradient(#e0533f,var(--accDeep));
+    box-shadow:0 0 28px 6px #D3540066;animation:sway 4s ease-in-out infinite;transform-origin:50% -40px}
+  .lantern::before{content:"";position:absolute;left:50%;top:-40px;width:1px;height:40px;background:#6b544a}
+  .lantern::after{content:"";position:absolute;left:8px;right:8px;top:-4px;height:6px;border-radius:2px;background:#3a2620;box-shadow:0 56px 0 #3a2620}
+  .lantern.l1{left:12%;top:28px}.lantern.l2{right:12%;top:40px;animation-delay:-1.6s}.lantern.l3{left:46%;top:6px;transform:scale(.8);animation-delay:-.8s;opacity:.85}
+  @keyframes sway{0%,100%{rotate:-3deg}50%{rotate:3deg}}
+
+  .screen{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;
+    padding:calc(env(safe-area-inset-top) + 24px) 16px calc(env(safe-area-inset-bottom) + 24px);text-align:center}
+  .screen.on{display:flex}
+  .brand{font:22px "Lilita One",sans-serif;letter-spacing:.06em;color:var(--glow);text-shadow:0 3px 0 var(--flame)}
+  h1{margin:10px 0 28px;font:34px/1.1 "Lilita One",sans-serif;letter-spacing:.01em}
+  .chips{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:320px}
+  .chip{appearance:none;border:1px solid #ffffff1f;background:#ffffff0d;color:var(--ink);border-radius:18px;
+    padding:18px 8px 14px;font:inherit;font-weight:600;cursor:pointer;transition:transform .1s,background .15s}
+  .chip:active{transform:scale(.96)}
+  .chip:hover{background:#ffffff17}
+  .chip:focus-visible,.btn:focus-visible{outline:2px solid var(--glow);outline-offset:2px}
+  .chip .e{display:block;font-size:34px;margin-bottom:6px}
+  .best{margin-top:22px;color:var(--sub);font-size:13px;min-height:18px}
+
+  /* play */
+  #play{justify-content:space-between}
+  .hud{width:100%;display:flex;justify-content:space-between;align-items:center;font-variant-numeric:tabular-nums}
+  .time{font-size:15px;color:var(--sub);font-weight:600;min-width:48px;text-align:left}
+  .count{font-size:15px;color:var(--sub);font-weight:600;min-width:48px;text-align:right}
+  .bar{flex:1;height:6px;margin:0 12px;border-radius:3px;background:#ffffff14;overflow:hidden}
+  .bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,var(--glow),var(--acc));transform-origin:left;transition:transform .1s linear}
+  .stage{position:relative;flex:1;width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+  .worry{position:relative;width:170px;height:120px;display:grid;place-items:center;transition:transform .12s ease-out,opacity .3s}
+  .worry .cloud{position:absolute;inset:0;border-radius:60px;background:radial-gradient(circle at 35% 40%,#5d5560,#2f2a33 70%);
+    filter:blur(1px);box-shadow:0 0 40px #00000080}
+  .worry .cloud::before,.worry .cloud::after{content:"";position:absolute;border-radius:50%;background:inherit}
+  .worry .cloud::before{width:90px;height:90px;left:22px;top:-30px}
+  .worry .cloud::after{width:70px;height:70px;right:20px;top:-18px}
+  .worry .e{position:relative;font-size:46px;filter:grayscale(.3)}
+  .worry.shake{animation:shake .15s}
+  @keyframes shake{0%{translate:0}33%{translate:-4px 0}66%{translate:4px 0}100%{translate:0}}
+  .big{font-family:"Lilita One",sans-serif;font-size:68px;font-variant-numeric:tabular-nums;line-height:1;margin-top:6px}
+  .goal{font-size:13px;color:var(--sub);letter-spacing:.08em}
+  .tapzone{position:relative;width:100%;height:46%;min-height:230px;display:grid;place-items:center;cursor:pointer;touch-action:none}
+  .moktak{width:230px;max-width:70vw;transition:transform .07s ease-out;filter:drop-shadow(0 18px 24px #0009)}
+  .moktak.hit{transform:scale(.94) translateY(4px)}
+  .mallet{position:absolute;width:110px;right:calc(50% - 150px);top:2%;transform-origin:90% 90%;rotate:-28deg;transition:rotate .07s ease-out;pointer-events:none}
+  .mallet.hit{rotate:2deg}
+  .hint{position:absolute;bottom:4px;left:0;right:0;font-weight:800;letter-spacing:.3em;color:var(--glow);font-size:15px;animation:pulse 1.2s ease-in-out infinite}
+  @keyframes pulse{50%{opacity:.35}}
+  .pop{position:absolute;pointer-events:none;font-weight:800;color:var(--glow);font-size:18px;animation:up .7s ease-out forwards}
+  @keyframes up{to{transform:translateY(-70px);opacity:0}}
+  .ring{position:absolute;width:200px;height:200px;border-radius:50%;border:2px solid #F4C43088;pointer-events:none;animation:ring .5s ease-out forwards}
+  @keyframes ring{from{transform:scale(.6);opacity:.9}to{transform:scale(1.4);opacity:0}}
+  .flash{position:absolute;inset:0;background:radial-gradient(circle,#ffd9a0aa,transparent 60%);opacity:0;pointer-events:none}
+  .flash.on{animation:flash .9s ease-out}
+  @keyframes flash{30%{opacity:1}100%{opacity:0}}
+
+  /* result */
+  .rbig{font-family:"Lilita One",sans-serif;font-size:96px;color:var(--glow);text-shadow:0 4px 0 var(--flame);line-height:1;font-variant-numeric:tabular-nums}
+  .rlabel{color:var(--sub);letter-spacing:.2em;font-size:13px;font-weight:600;margin-top:6px}
+  .state{margin:22px 0 6px;font-size:20px;font-weight:700}
+  .word{margin:0 0 30px;font-size:18px;color:var(--ink);font-style:italic;max-width:300px}
+  .word small{display:block;font-style:normal;color:var(--gold);font-weight:700;font-size:12px;letter-spacing:.2em;margin-top:6px}
+  .btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:300px}
+  .btn{appearance:none;border:0;border-radius:999px;padding:15px 18px;font:inherit;font-weight:700;cursor:pointer;color:var(--ink);background:#ffffff14;text-decoration:none;display:block}
+  .btn.main{background:var(--acc);color:#fff;box-shadow:0 8px 24px #C0392B66}
+  .btn:active{transform:scale(.97)}
+  .row{display:flex;gap:10px}.row .btn{flex:1}
+  .toast{position:absolute;left:50%;bottom:calc(env(safe-area-inset-bottom) + 24px);transform:translateX(-50%);background:#000c;padding:8px 14px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none}
+  .toast.on{opacity:1}
+  @media (prefers-reduced-motion:reduce){.lantern,.hint{animation:none}}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="lanterns" aria-hidden="true"><i class="lantern l1"></i><i class="lantern l3"></i><i class="lantern l2"></i></div>
+
+  <section id="start" class="screen on">
+    <div class="brand">NACHA</div>
+    <h1>Tap away<br>your worries.</h1>
+    <div class="chips" role="group" aria-label="Pick a worry">
+      <button class="chip" data-w="work"><span class="e">💼</span>Work</button>
+      <button class="chip" data-w="money"><span class="e">💸</span>Money</button>
+      <button class="chip" data-w="love"><span class="e">💔</span>Love</button>
+      <button class="chip" data-w="sleep"><span class="e">😴</span>Sleep</button>
+    </div>
+    <div class="best" id="best"></div>
+  </section>
+
+  <section id="play" class="screen" aria-live="polite">
+    <div class="hud">
+      <span class="time" id="time">30s</span>
+      <span class="bar"><i id="bar"></i></span>
+      <span class="count">/ 108</span>
+    </div>
+    <div class="stage">
+      <div class="worry" id="worry"><span class="cloud"></span><span class="e" id="worryE">💼</span></div>
+      <div class="big" id="big">0</div>
+    </div>
+    <div class="tapzone" id="tapzone" role="button" aria-label="Tap the moktak">
+      <div class="flash" id="flash"></div>
+      <svg class="moktak" id="moktak" viewBox="0 0 240 190" aria-hidden="true">
+        <defs>
+          <radialGradient id="wd" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#d9a06a"/><stop offset=".55" stop-color="#a8683a"/><stop offset="1" stop-color="#5f341a"/></radialGradient>
+        </defs>
+        <ellipse cx="120" cy="178" rx="92" ry="9" fill="#0007"/>
+        <path d="M24 108c0-52 44-92 98-92s96 38 96 88c0 44-38 70-96 70S24 150 24 108z" fill="url(#wd)"/>
+        <path d="M40 112c22 10 58 14 92 12 30-2 56-8 72-18" stroke="#3b1f0f" stroke-width="7" stroke-linecap="round" fill="none"/>
+        <path d="M44 118c22 9 56 13 88 11 29-2 54-8 69-17" stroke="#c98a55" stroke-width="2" stroke-linecap="round" fill="none" opacity=".5"/>
+        <circle cx="200" cy="108" r="7" fill="#3b1f0f"/>
+        <path d="M70 46c18-14 46-20 70-14" stroke="#f3c38f" stroke-width="5" stroke-linecap="round" fill="none" opacity=".35"/>
+        <path d="M104 16c-6-10 0-16 16-16s22 6 16 16" fill="#7a4424"/>
+      </svg>
+      <svg class="mallet" id="mallet" viewBox="0 0 120 120" aria-hidden="true">
+        <rect x="58" y="40" width="10" height="78" rx="5" fill="#8a5a36" transform="rotate(-40 63 79)"/>
+        <ellipse cx="38" cy="28" rx="22" ry="20" fill="#e9d6b8"/><ellipse cx="32" cy="22" rx="8" ry="6" fill="#fff" opacity=".5"/>
+      </svg>
+      <div class="hint" id="hint">TAP</div>
+    </div>
+  </section>
+
+  <section id="result" class="screen">
+    <div class="brand">NACHA</div>
+    <div class="rbig" id="rbig">0</div>
+    <div class="rlabel">TAPS</div>
+    <div class="state" id="rstate">Worry cleared 🪷</div>
+    <p class="word" id="rword"></p>
+    <div class="btns">
+      <button class="btn main" id="share">Share</button>
+      <div class="row">
+        <button class="btn" id="again">Again</button>
+        <a class="btn" href="../">Meet NACHA</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast">Saved</div>
+</div>
+
+<script>
+(() => {
+  const GOAL = 108, SECS = 30;
+  const WORRIES = {
+    work:  {e:'💼', god:'NACHA',         words:["Don't give up. I'm right here!","Keep going. I'll raise your luck.","Action adds up. It will shine."]},
+    money: {e:'💸', god:'FDO KING',      words:['The fire burns the worry, not you.','Cut the worry. Keep the will.','Stand firm. The fire is on your side.']},
+    love:  {e:'💔', god:'PREAH SOUSANG', words:['Keep smiling. Good ties will come.','No rush. The right people find you.','Smile. Happiness knows the way.']},
+    sleep: {e:'😴', god:'WHITE KUN SIM', words:["Rest now. I'm listening.",'Breathe out. Let it wash away.','You did enough today. Sleep well.']}
+  };
+  const $ = id => document.getElementById(id);
+  const store = {
+    get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+    set(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+  };
+
+  let worry = 'work', taps = 0, t0 = 0, timer = 0, playing = false, cleared = false, word = '';
+  let ac = null;
+
+  function audio(){
+    if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} }
+    if (ac && ac.state === 'suspended') ac.resume();
+  }
+  function tok(){
+    if (!ac) return;
+    const t = ac.currentTime, f = 520 + Math.random()*60;
+    const o = ac.createOscillator(), g = ac.createGain(), bp = ac.createBiquadFilter();
+    o.type = 'sine'; o.frequency.setValueAtTime(f*1.6, t); o.frequency.exponentialRampToValueAtTime(f, t+.02);
+    bp.type = 'bandpass'; bp.frequency.value = f*1.2; bp.Q.value = 4;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(.9, t+.003); g.gain.exponentialRampToValueAtTime(.0001, t+.16);
+    o.connect(bp).connect(g).connect(ac.destination); o.start(t); o.stop(t+.18);
+    // click transient
+    const n = ac.createBufferSource(), b = ac.createBuffer(1, ac.sampleRate*.02, ac.sampleRate), d = b.getChannelData(0);
+    for (let i=0;i<d.length;i++) d[i] = (Math.random()*2-1) * (1-i/d.length);
+    const ng = ac.createGain(); ng.gain.value = .25; n.buffer = b; n.connect(ng).connect(ac.destination); n.start(t);
+  }
+  function chime(){
+    if (!ac) return;
+    const t = ac.currentTime;
+    [880,1320,1760].forEach((f,i) => {
+      const o = ac.createOscillator(), g = ac.createGain();
+      o.frequency.value = f; g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.25/(i+1),t+.01); g.gain.exponentialRampToValueAtTime(.0001,t+2.2);
+      o.connect(g).connect(ac.destination); o.start(t); o.stop(t+2.3);
+    });
+  }
+
+  function show(id){ document.querySelectorAll('.screen').forEach(s => s.classList.toggle('on', s.id === id)); }
+  function showBest(){ const b = +store.get('nacha-moktak-best') || 0; $('best').textContent = b ? `Best ${b} 🪷` : ''; }
+
+  function start(w){
+    audio();
+    worry = w; taps = 0; cleared = false; playing = true; t0 = 0;
+    $('worryE').textContent = WORRIES[w].e;
+    $('big').textContent = '0'; $('time').textContent = SECS + 's';
+    $('bar').style.transform = 'scaleX(1)';
+    $('worry').style.transform = 'scale(1)'; $('worry').style.opacity = 1;
+    $('hint').style.display = '';
+    show('play');
+  }
+
+  function tick(){
+    if (!playing) return;
+    const left = Math.max(0, SECS - (performance.now() - t0)/1000);
+    $('time').textContent = Math.ceil(left) + 's';
+    $('bar').style.transform = `scaleX(${left/SECS})`;
+    if (left <= 0) return end();
+    timer = requestAnimationFrame(tick);
+  }
+
+  function hit(e){
+    if (!playing) return;
+    e.preventDefault();
+    if (!t0) { t0 = performance.now(); $('hint').style.display = 'none'; timer = requestAnimationFrame(tick); }
+    taps++;
+    tok();
+    if (navigator.vibrate) { try { navigator.vibrate(8); } catch(_){} }
+    $('big').textContent = taps;
+    const m = $('moktak'), ml = $('mallet');
+    m.classList.add('hit'); ml.classList.add('hit');
+    setTimeout(() => { m.classList.remove('hit'); ml.classList.remove('hit'); }, 70);
+    const left = Math.max(0, 1 - taps/GOAL);
+    const wEl = $('worry');
+    wEl.style.transform = `scale(${0.25 + 0.75*left})`;
+    wEl.style.opacity = 0.35 + 0.65*left;
+    wEl.classList.remove('shake'); void wEl.offsetWidth; wEl.classList.add('shake');
+    const z = $('tapzone'), r = z.getBoundingClientRect();
+    const p = document.createElement('span'); p.className = 'pop'; p.textContent = taps % 27 === 0 ? '🪷' : '-1';
+    p.style.left = (e.clientX - r.left - 8 + (Math.random()*30-15)) + 'px'; p.style.top = (e.clientY - r.top - 30) + 'px';
+    z.appendChild(p); setTimeout(() => p.remove(), 700);
+    if (taps % 10 === 0) { const ring = document.createElement('span'); ring.className = 'ring'; z.appendChild(ring); setTimeout(() => ring.remove(), 500); }
+    if (taps >= GOAL) { cleared = true; end(); }
+  }
+
+  function end(){
+    if (!playing) return;
+    playing = false; cancelAnimationFrame(timer);
+    if (cleared) { chime(); $('flash').classList.remove('on'); void $('flash').offsetWidth; $('flash').classList.add('on'); $('worry').style.opacity = 0; }
+    const best = +store.get('nacha-moktak-best') || 0;
+    if (taps > best) store.set('nacha-moktak-best', taps);
+    const list = WORRIES[worry].words; word = list[Math.floor(Math.random()*list.length)];
+    setTimeout(() => {
+      $('rbig').textContent = taps;
+      $('rstate').textContent = cleared ? `${WORRIES[worry].e} cleared 🪷` : `${WORRIES[worry].e} lighter now`;
+      $('rword').innerHTML = '';
+      $('rword').append(word); const s = document.createElement('small'); s.textContent = '— ' + WORRIES[worry].god; $('rword').append(s);
+      show('result');
+    }, cleared ? 900 : 300);
+  }
+
+  function card(){
+    const c = document.createElement('canvas'); c.width = 1080; c.height = 1350;
+    const x = c.getContext('2d');
+    const g = x.createRadialGradient(540,0,50,540,300,1300); g.addColorStop(0,'#3a2019'); g.addColorStop(1,'#120d0c');
+    x.fillStyle = g; x.fillRect(0,0,1080,1350);
+    [[200,120],[880,150],[540,70]].forEach(([lx,ly],i) => {
+      x.save(); x.shadowColor = '#D35400'; x.shadowBlur = 60; x.fillStyle = '#C0392B';
+      x.beginPath(); x.ellipse(lx,ly,i===2?38:48,i===2?54:68,0,0,Math.PI*2); x.fill(); x.restore();
+    });
+    const F = '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif';
+    x.textAlign = 'center'; x.fillStyle = '#F4C430'; x.font = `80px "Lilita One",${F}`; x.fillText('NACHA', 540, 330);
+    x.fillStyle = '#F4C430'; x.font = `300px "Lilita One",${F}`; x.fillText(String(taps), 540, 690);
+    x.fillStyle = '#b9a898'; x.font = `600 44px ${F}`; x.fillText('T A P S', 540, 770);
+    x.fillStyle = '#f6ece0'; x.font = `700 64px ${F}`;
+    x.fillText(`${WORRIES[worry].e} ${cleared ? 'cleared 🪷' : 'lighter now'}`, 540, 920);
+    x.fillStyle = '#f6ece0'; x.font = `italic 500 52px ${F}`;
+    const yEnd = wrap(x, word, 540, 1050, 900, 66);
+    x.fillStyle = '#D4AC0D'; x.font = `700 36px ${F}`; x.fillText('— ' + WORRIES[worry].god, 540, yEnd + 70);
+    x.fillStyle = '#b9a898'; x.font = `500 34px ${F}`; x.fillText('Tap away your worries.', 540, 1270);
+    return c;
+  }
+  function wrap(x, text, cx, y, maxW, lh){
+    const words = text.split(' '); let line = '';
+    for (const w of words) { const t = line ? line + ' ' + w : w; if (x.measureText(t).width > maxW && line) { x.fillText(line, cx, y); y += lh; line = w; } else line = t; }
+    x.fillText(line, cx, y); return y;
+  }
+  function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); setTimeout(() => t.classList.remove('on'), 1600); }
+
+  async function share(){
+    const url = location.href.split('#')[0];
+    const text = `${taps} taps. "${word}" — ${WORRIES[worry].god} 🏮 #NACHA #KhmerSavior`;
+    try { await document.fonts.load('80px "Lilita One"'); } catch(e){}
+    const blob = await new Promise(r => card().toBlob(r, 'image/png'));
+    const file = blob && new File([blob], 'nacha-moktak.png', {type:'image/png'});
+    try {
+      if (file && navigator.canShare && navigator.canShare({files:[file]})) { await navigator.share({files:[file], text, url}); return; }
+      if (navigator.share) { await navigator.share({text, url}); return; }
+    } catch(e) { if (e && e.name === 'AbortError') return; }
+    if (blob) {
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'nacha-moktak.png';
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+      toast('Image saved');
+    }
+  }
+
+  document.querySelectorAll('.chip').forEach(b => b.addEventListener('click', () => start(b.dataset.w)));
+  $('tapzone').addEventListener('pointerdown', hit);
+  document.addEventListener('keydown', e => { if (playing && (e.code === 'Space' || e.code === 'Enter') && !e.repeat) { const r = $('tapzone').getBoundingClientRect(); hit({preventDefault(){}, clientX:r.left+r.width/2, clientY:r.top+r.height/2}); } });
+  $('again').addEventListener('click', () => { showBest(); show('start'); });
+  $('share').addEventListener('click', share);
+  showBest();
+})();
+</script>
+</body>
+</html>
