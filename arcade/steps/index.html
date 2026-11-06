@@ -9,7 +9,7 @@
 @media (pointer:coarse){#lrb{display:none!important}}
 #cv{position:absolute;inset:0;width:100%;height:100%;display:block}
 /* WIREFRAME. GPT images: assets/view1..4.png (panorama, wider each tier), assets/nacha-climb.png, assets/vista-*.png, assets/steps.png */
-body{overflow:hidden;background:#1d1020}
+body{overflow:hidden;background:#1d1020;touch-action:manipulation;-webkit-user-select:none;user-select:none}
 #stage{width:min(100vw,480px);height:100%;max-height:100dvh;position:relative;overflow:hidden;margin:0 auto}
 .scr{position:absolute;inset:0;display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 14px);gap:10px}
 .scr.on{display:flex}.ctr{align-items:center;justify-content:center;text-align:center}
@@ -36,14 +36,14 @@ body{overflow:hidden;background:#1d1020}
 <section class="scr ctr on" id="s0">
   <div class="brand">NACHA</div><div class="h1">108 Steps</div>
   <div class="lore">Walk the path at your own pace. Pick a lane to dodge trees and rocks.</div>
-  <button class="btn main" id="go">Start climbing</button>
+  <button class="btn main" id="go">Start walking</button>
   <a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a>
 </section>
 
 <section class="scr" id="sp">
   <div class="top"><span id="st">0 / 108</span><span id="wo">108 worries</span></div>
   <div class="bar"><i id="sb"></i></div>
-  <div class="view" id="vw"><div class="pano" id="pano"><img id="pimg" alt="" onerror="this.style.display='none'"><span id="plab"></span></div><canvas id="cv"></canvas></div>
+  <div class="view" id="vw"><div class="pano" id="pano"><img id="pimg" alt="" onerror="this.style.display='none'"><span id="plab"></span></div><canvas id="cv"></canvas><div id="hint" style="position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:space-between;padding:0 16px;font:18px 'Lilita One',sans-serif;color:#fff;text-shadow:0 2px 4px #000a;pointer-events:none;transition:opacity .6s"><span>◀ tap left</span><span>tap right ▶</span></div></div>
   <div class="bubble" id="say">Take it step by step.</div>
   <div class="views" id="vs"></div>
   <div id="lrb" style="display:flex;gap:12px"><button class="btn" id="bl" style="flex:1;font-size:22px;padding:16px 0">◀ A</button><button class="btn main" id="br" style="flex:1;font-size:22px;padding:16px 0">E ▶</button></div>
@@ -52,7 +52,7 @@ body{overflow:hidden;background:#1d1020}
 <section class="scr ctr" id="se">
   <div class="brand">NACHA</div>
   <div class="h1">The summit!</div>
-  <div class="view" style="width:100%;flex:0 0 34%"><div class="pano" style="background:linear-gradient(#f4c43055,#c0392b44)"><span>SUMMIT PANORAMA (GPT)</span></div></div>
+  <div class="view" style="width:100%;flex:0 0 34%"><div class="pano" style="background:linear-gradient(#f4c43055,#c0392b44)"><img src="assets/view4.png" alt="" style="object-position:50% 20%" onerror="this.style.display='none'"></div></div>
   <div class="lore" id="el"></div>
   <div id="ef"></div>
   <button class="btn main" id="tol" style="font-size:20px">🌟 Jump to heaven</button>
@@ -63,7 +63,7 @@ body{overflow:hidden;background:#1d1020}
 <section class="scr" id="sl">
   <div class="top"><span>Jump to heaven</span><span id="lh">&nbsp;</span></div>
   <div class="view" id="lv"><div class="pano" id="lp"><span>SKY (GPT: sunrise → clouds → stars)</span></div>
-    <div class="hiker" id="car" style="width:70px;height:90px;bottom:6%">NACHA<br>jumping (GPT)</div></div>
+    <div class="hiker" id="car" style="width:90px;height:100px;bottom:6%;border:0;background:none"><img src="assets/nacha-climb.png" alt="NACHA" style="width:100%;height:100%;object-fit:contain" onerror="this.parentNode.textContent='NACHA'"></div></div>
   <div class="bar"><i id="lb" style="width:0"></i></div>
   <div class="bubble" id="lsay">Hold to charge. Let go to jump!</div>
   <button class="btn main" id="lgo" style="font-size:22px;padding:18px">Hold to charge</button>
@@ -89,7 +89,7 @@ var TS=[[["🐒","A monkey waves hello."],["🦋","A butterfly lands near you."]
 var step,stam,vistas,badges,resting,lastSight,nextFork,rt;
 function show(id){["s0","sp","se","sl"].forEach(function(s){$(s).classList.toggle("on",s===id)})}
 function tier(){for(var i=0;i<TIERS.length;i++)if(step<=TIERS[i].to)return TIERS[i];return TIERS[3]}
-function paint(){var t=tier();$("st").textContent=step+" / 108";$("wo").textContent=(108-step)+" worries left";$("sb").style.width=(step/108*100)+"%";
+function paint(){var hn=$("hint");if(hn)hn.style.opacity=step<6?1:0;var t=tier();$("st").textContent=step+" / 108";$("wo").textContent=(108-step)+" worries left";$("sb").style.width=(step/108*100)+"%";
   $("pano").style.backgroundImage=t.bg;$("pano").style.backgroundSize="100% 260%";$("pano").style.backgroundPosition="50% "+(100-step/108*100)+"%";var im=$("pimg"),n=TIERS.indexOf(t)+1;if(im.dataset.n!=n){im.dataset.n=n;im.style.display="";im.src="assets/view"+n+".png"}$("pano").style.transform="none";$("plab").textContent="";var ti=TIERS.indexOf(t),p0=Math.min(1,Math.max(0,(step-ti*27)/27));im.style.height="128%";im.style.transition="transform .5s";im.style.transform="translateY("+(-21.9*(1-p0)).toFixed(1)+"%)";
   var g="";for(var k=0;k<9;k++)g+='<span class="vc'+(k<gauge?" on":"")+'">&nbsp;</span>';$("vs").innerHTML=g+'<span class="vc'+(gauge>=9?" on":"")+'">FLIP</span>'}
 function say(t){$("say").textContent=t}
@@ -141,12 +141,13 @@ function draw(now){requestAnimationFrame(draw);if(!$("sp").classList.contains("o
   cvx.save();cvx.translate(P[0]+(shake?Math.sin(now/20)*shake*6:0),P[1]-bob);cvx.rotate(tilt+flipA*6.28);cvx.scale(1/sq,sq);
   if(nok)cvx.drawImage(nimg,-ww/2,-hh,ww,hh);else{cvx.fillStyle="#3a2f47cc";cvx.strokeStyle="#9d90ad";cvx.setLineDash([5,4]);cvx.lineWidth=2;cvx.fillRect(-ww/2,-hh,ww,hh);cvx.strokeRect(-ww/2,-hh,ww,hh);cvx.setLineDash([]);cvx.fillStyle="#d9cfe6";cvx.font="11px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText("NACHA",0,-hh/2)}
   cvx.restore();
+  if(shake>.15){cvx.fillStyle="rgba(192,57,43,"+Math.min(.35,shake*.3)+")";cvx.fillRect(0,0,CW,CH)}
   if(gok&&glow>.05){cvx.globalAlpha=Math.min(.8,glow);var gw=hh*1.3,gh=gw*gimg.naturalHeight/gimg.naturalWidth;cvx.drawImage(gimg,P[0]-gw/2,P[1]-gh*.8-bob,gw,gh);cvx.globalAlpha=1}}
 function go(side){if(!$("sp").classList.contains("on"))return;
   var o=obs[step+1];
   if(o===side){ // obstacle in that lane
     if(gauge>=9){gauge=0;ready=false;pl=side;step++;hop=1;glow=1;flipA=1;say("NACHA Flip! Hop over the obstacle.");paint();if(step>=108)summit();return}
-    gauge=0;shake=1;step=Math.max(0,step-FALL);say("Bumped into it! Back "+FALL+" steps. Fill the gauge to hop over.");paint();return}
+    gauge=0;shake=1;try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}step=Math.max(0,step-FALL);say("Bumped into it! Back "+FALL+" steps. Fill the gauge to hop over.");paint();return}
   pl=side;step++;hop=.4;glow=1;gauge=Math.min(9,gauge+1);
   if(step-lastSight>=12){lastSight=step;newSight()}
   if(gauge===9&&!ready){ready=true;say("Flip is ready! You can hop over the next obstacle.")}
