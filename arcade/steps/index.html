@@ -1,163 +1,36 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>108 Steps · NACHA</title>
-<meta name="description" content="Climb 108 steps with NACHA. Pick your route. Enjoy the view."><meta name="robots" content="noindex">
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="description" content="Climb 108 steps with NACHA, one step at a time."><title>108 Steps · NACHA</title>
 <link rel="stylesheet" href="../common.css">
 <style>
-@media (pointer:coarse){#lrb{display:none!important}}
-#cv{position:absolute;inset:0;width:100%;height:100%;display:block}
-/* WIREFRAME. GPT images: assets/view1..4.png (panorama, wider each tier), assets/nacha-climb.png, assets/vista-*.png, assets/steps.png */
-body{overflow:hidden;background:#1d1020}
-#stage{width:min(100vw,480px);height:100%;max-height:100dvh;position:relative;overflow:hidden;margin:0 auto}
-.scr{position:absolute;inset:0;display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 14px);gap:10px}
-.scr.on{display:flex}.ctr{align-items:center;justify-content:center;text-align:center}
-.h1{font:34px/1.05 "Lilita One",sans-serif}.lore{font-size:15px;color:#f6dfbf;max-width:320px;line-height:1.35}
-.top{display:flex;justify-content:space-between;font:18px "Lilita One"}
-.bar{height:10px;border-radius:6px;background:#0006;overflow:hidden}.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#7ad07a,#f4c430);transition:width .2s}
-.view{position:relative;flex:1;border:2px dashed #5a4d68;border-radius:14px;overflow:hidden;background:#2b2433}
-.pano{position:absolute;inset:0;display:grid;place-items:center;color:#9d90ad;font:12px "Lilita One",sans-serif;letter-spacing:.08em;text-align:center;transform-origin:50% 90%;transition:transform .8s,background-position .5s}
-.pano img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hiker{position:absolute;left:50%;bottom:8%;transform:translateX(-50%);width:70px;height:90px;border:2px dashed #9d90ad;border-radius:10px;background:#3a2f47cc;display:grid;place-items:center;font:11px "Lilita One";color:#d9cfe6;text-align:center;transition:bottom .15s}
-.hiker.up{bottom:11%}
-.stairs{position:absolute;left:0;right:0;bottom:0;height:26%;background:repeating-linear-gradient(0deg,#3c2f4a 0 14px,#4a3a5c 14px 28px)}
-.sight{position:absolute;font-size:36px;cursor:pointer;animation:fl 1.6s ease-in-out infinite alternate}@keyframes fl{to{transform:translateY(-8px)}}
-.bubble{background:#fff;color:#241518;border-radius:18px;padding:9px 14px;font-size:16px;line-height:1.3;text-align:center;box-shadow:0 4px 0 #0004;min-height:42px}
-#climb{font-size:24px;padding:18px}
-.opts{display:grid;gap:8px;width:100%}.opts .btn{justify-content:flex-start;text-align:left;font-size:16px;padding:12px 16px}
-.opts small{font:12px sans-serif;opacity:.8;display:block;margin-top:2px}
-.views{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}.vc{font-size:11px;font-family:"Lilita One";padding:3px 8px;border-radius:10px;background:#ffffff18;color:#9d90ad}.vc.on{background:var(--gold);color:#241518}
-.chal{width:100%;height:46px;border-radius:12px;background:#0006;position:relative;overflow:hidden}
-.zone{position:absolute;top:0;bottom:0;background:#7ad07a88}.mk{position:absolute;top:4px;bottom:4px;width:8px;border-radius:4px;background:#fff}
-.stars{font-size:34px;letter-spacing:6px}
-</style></head><body><div id="app"><div id="stage">
-
-<section class="scr ctr on" id="s0">
-  <div class="brand">NACHA</div><div class="h1">108 Steps</div>
-  <div class="lore">Climb at your own pace. Pick the side of each stair. The view opens up as you rise.</div>
-  <button class="btn main" id="go">Start climbing</button>
-  <a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a>
-</section>
-
-<section class="scr" id="sp">
-  <div class="top"><span id="st">0 / 108</span><span id="wo">108 worries</span></div>
-  <div class="bar"><i id="sb"></i></div>
-  <div class="view" id="vw"><div class="pano" id="pano"><img id="pimg" alt="" onerror="this.style.display='none'"><span id="plab"></span></div><canvas id="cv"></canvas></div>
-  <div class="bubble" id="say">Take it step by step.</div>
-  <div class="views" id="vs"></div>
-  <div id="lrb" style="display:flex;gap:12px"><button class="btn" id="bl" style="flex:1;font-size:22px;padding:16px 0">◀ A</button><button class="btn main" id="br" style="flex:1;font-size:22px;padding:16px 0">E ▶</button></div>
-</section>
-
-<section class="scr ctr" id="se">
-  <div class="brand">NACHA</div>
-  <div class="h1">The summit!</div>
-  <div class="view" style="width:100%;flex:0 0 34%"><div class="pano" style="background:linear-gradient(#f4c43055,#c0392b44)"><span>SUMMIT PANORAMA (GPT)</span></div></div>
-  <div class="lore" id="el"></div>
-  <div id="ef"></div>
-  <button class="btn main" id="tol" style="font-size:20px">🌟 Jump to heaven</button>
-  <div class="row"><button class="btn" id="again">Again</button><button class="btn" id="sh">Share</button></div>
-  <a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a>
-</section>
-
-<section class="scr" id="sl">
-  <div class="top"><span>Jump to heaven</span><span id="lh">&nbsp;</span></div>
-  <div class="view" id="lv"><div class="pano" id="lp"><span>SKY (GPT: sunrise → clouds → stars)</span></div>
-    <div class="hiker" id="car" style="width:70px;height:90px;bottom:6%">NACHA<br>jumping (GPT)</div></div>
-  <div class="bar"><i id="lb" style="width:0"></i></div>
-  <div class="bubble" id="lsay">Hold to charge. Let go to jump!</div>
-  <button class="btn main" id="lgo" style="font-size:22px;padding:18px">Hold to charge</button>
-  <div class="row" id="lr" style="display:none"><button class="btn" id="la">Jump again</button><button class="btn main" id="ls">Share</button></div>
-  <div id="lf"></div>
-</section>
-
-</div></div>
-<script src="../common.js"></script>
-<script>
-(function(){"use strict";
-var $=function(i){return document.getElementById(i)};
-var TIERS=[
- {to:27,n:"Forest",bg:"linear-gradient(#3f7a56,#1d3a2c)",sc:1.7},
- {to:54,n:"Hillside",bg:"linear-gradient(#6aa0b8,#3a5a40)",sc:1.4},
- {to:81,n:"Ridge",bg:"linear-gradient(#e8895a,#6a4a78)",sc:1.15},
- {to:108,n:"Summit sky",bg:"linear-gradient(#f4c430,#c0392b)",sc:1.0}];
-var SIGHTS=[["🐒","A monkey waves hello."],["🦋","A butterfly lands near you."],["🐦","A bird sings above."],["🪨","A mossy stone Buddha. You bow."],["⛲","Cool water. Refreshing!"],["🛖","A tiny rest hut."],["🌫️","Mist drifts past."],["🔔","A distant bell rings."]];
-var TS=[[["🐒","A monkey waves hello."],["🦋","A butterfly lands near you."],["🍄","A little mushroom ring."]],
- [["🦌","A deer watches, then leaves."],["🌧️","A quick shower. It passes."],["🪷","A pond of lotus below."]],
- [["🦅","An eagle circles high."],["🌬️","A cool wind lifts your sleeves."],["🏮","A lantern left on a rock."]],
- [["⭐","A star in the daytime?"],["☁️","Clouds at your feet."],["🕊️","A white bird glides by."]]];
-var step,stam,vistas,badges,resting,lastSight,nextFork,rt;
-function show(id){["s0","sp","se","sl"].forEach(function(s){$(s).classList.toggle("on",s===id)})}
-function tier(){for(var i=0;i<TIERS.length;i++)if(step<=TIERS[i].to)return TIERS[i];return TIERS[3]}
-function paint(){var t=tier();$("st").textContent=step+" / 108";$("wo").textContent=(108-step)+" worries left";$("sb").style.width=(step/108*100)+"%";
-  $("pano").style.backgroundImage=t.bg;$("pano").style.backgroundSize="100% 260%";$("pano").style.backgroundPosition="50% "+(100-step/108*100)+"%";var im=$("pimg"),n=TIERS.indexOf(t)+1;if(im.dataset.n!=n){im.dataset.n=n;im.style.display="";im.src="assets/view"+n+".png"}$("pano").style.transform="none";$("plab").textContent="";var ti=TIERS.indexOf(t),p0=Math.min(1,Math.max(0,(step-ti*27)/27));im.style.height="128%";im.style.transition="transform .5s";im.style.transform="translateY("+(-21.9*(1-p0)).toFixed(1)+"%)";
-  var g="";for(var k=0;k<9;k++)g+='<span class="vc'+(k<gauge?" on":"")+'">&nbsp;</span>';$("vs").innerHTML=g+'<span class="vc'+(gauge>=9?" on":"")+'">FLIP</span>'}
-function say(t){$("say").textContent=t}
-function newSight(){[].slice.call($("vw").querySelectorAll(".sight")).forEach(function(e){e.remove()});
-  var pool=SIGHTS.concat(TS[TIERS.indexOf(tier())]),s=pool[Math.floor(Math.random()*pool.length)],e=document.createElement("div");e.className="sight";e.textContent=s[0];e.style.left=(10+Math.random()*70)+"%";e.style.top=(10+Math.random()*40)+"%";
-  e.onclick=function(){say(s[1]);gauge=Math.min(9,gauge+1);e.remove();paint()};$("vw").appendChild(e)}
-var gimg=new Image(),gok=false,glow=0,gauge=0;gimg.onload=function(){gok=true};gimg.src="assets/step-glow.png";
-var FALL=6,FLIPBACK=3;
-var dirs=[],cvx=$("cv").getContext("2d"),CW=0,CH=0,cam={x:0,y:0},hop=0,flipT=null,ready=false,flipA=0,shake=0,xs=[],nimg=new Image(),nok=false;
-nimg.onload=function(){nok=true};nimg.src="assets/nacha-climb.png";
-var PAL=["#5a8a64","#7a9aa8","#c08a6a","#d8b45a"];
-function build(){dirs=[0];xs=[0];var last=Math.random()<.5?0:1;for(var i=1;i<140;i++){var d=Math.random()<.35?last:1-last;if(i>2&&dirs[i-1]===dirs[i-2]&&dirs[i-1]===d&&Math.random()<.6)d=1-d;dirs.push(d);last=d;xs.push(xs[i-1]+(d?1:-1))}
-  for(var j=0;j<xs.length;j++)xs[j]=xs[j]*0.5}
-function size(){var v=$("vw"),r=window.devicePixelRatio||1;CW=v.clientWidth;CH=v.clientHeight;if(!CW)return;$("cv").width=CW*r;$("cv").height=CH*r;cvx.setTransform(r,0,0,r,0,0)}
-function px(i){return CW/2+(xs[i]-cam.x)*CW*0.34}
-function py(i){return CH*0.74-(i-cam.y)*CH*0.105}
-function draw(){requestAnimationFrame(draw);if(!$("sp").classList.contains("on"))return;if(!CW||$("cv").width!==Math.round(CW*(window.devicePixelRatio||1)))size();if(!CW)return;
-  glow*=.9;cam.x+=(xs[step]-cam.x)*.18;cam.y+=(step-cam.y)*.18;hop*=.78;flipA*=.9;shake*=.8;
-  cvx.clearRect(0,0,CW,CH);var t=TIERS.indexOf(tier()),col=PAL[t];
-  // parallax hills (move down as we climb)
-  [0.12,0.22].forEach(function(f,k){cvx.fillStyle=k?"#00000026":"#00000018";var base=CH*(0.62+k*0.12)+cam.y*CH*f*0.5;cvx.beginPath();cvx.moveTo(0,CH);
-    for(var x=0;x<=CW;x+=20){cvx.lineTo(x,base-Math.abs(Math.sin(x*.012+k*2))*CH*.16-k*8)}cvx.lineTo(CW,CH);cvx.fill()});
-  // clouds drifting down
-  cvx.fillStyle="#ffffff30";for(var c=0;c<4;c++){var cy=((c*CH*.33+cam.y*CH*.3)%(CH*1.2))-CH*.1,cx=(c*97+30)%(CW-60);cvx.fillRect(cx,cy,56,10);cvx.fillRect(cx+12,cy-8,34,10)}
-  // stairs
-  var sw=CW*0.26,sh=Math.max(10,CH*0.03);
-  for(var i=Math.min(139,step+9);i>=Math.max(0,step-3);i--){var X=px(i),Y=py(i);
-    var past=i<=step;cvx.globalAlpha=past?.55:.95;cvx.fillStyle="#7a4a2a";cvx.fillRect(X-sw/2,Y+sh*.6,sw,sh*.9);
-    cvx.fillStyle=past?"#d9b98a":"#f0d49a";cvx.fillRect(X-sw/2,Y,sw,sh*.7);cvx.fillStyle="#fff3c8";cvx.fillRect(X-sw/2,Y,sw,3);
-    cvx.strokeStyle="#D4AC0D";cvx.lineWidth=1.5;cvx.strokeRect(X-sw/2,Y,sw,sh*.7+sh*.9*.6);cvx.globalAlpha=1;
-    if(i===step+1){cvx.fillStyle="#f4c430";cvx.shadowColor="#000a";cvx.shadowBlur=6;cvx.font="22px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText(dirs[i]?"▶":"◀",X,Y-8);cvx.shadowBlur=0}}
-  // NACHA
-  var X=px(step),Y=py(step),h=CH*0.26,w=nok?h*nimg.naturalWidth/nimg.naturalHeight:h*.8,jump=hop*CH*.05;
-  cvx.save();cvx.translate(X+(shake?Math.sin(performance.now()/20)*shake*6:0),Y-jump);cvx.rotate(flipA*6.28);
-  if(nok)cvx.drawImage(nimg,-w/2,-h,w,h);else{cvx.fillStyle="#3a2f47cc";cvx.strokeStyle="#9d90ad";cvx.setLineDash([5,4]);cvx.lineWidth=2;cvx.fillRect(-w/2,-h,w,h);cvx.strokeRect(-w/2,-h,w,h);cvx.setLineDash([]);cvx.fillStyle="#d9cfe6";cvx.font="11px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText("NACHA",0,-h/2);cvx.fillText("(GPT)",0,-h/2+13)}
-  cvx.restore();
-  if(gok&&glow>.05){cvx.globalAlpha=Math.min(.8,glow);var gw=CW*.4,gh=gw*gimg.naturalHeight/gimg.naturalWidth;cvx.drawImage(gimg,X-gw/2,Y-gh*.8-jump,gw,gh);cvx.globalAlpha=1}}
-function go(side){if(!$("sp").classList.contains("on"))return;
-  if(flipT){clearTimeout(flipT);flipT=null;flipA=1;hop=1;say("Mid-air flip! You caught the stair.");return}
-  if(side===dirs[step+1]){step++;hop=1;glow=1;gauge=Math.min(9,gauge+1);
-    if(step-lastSight>=12){lastSight=step;newSight()}
-    if(gauge===9&&!ready){ready=true;say("Flip is ready! A slip only sets you back 3.")}
-    else if(step%10===0)say("One more worry gone. ("+(108-step)+" left)");
-    paint();
-    if(step>=108)summit()}
-  else if(gauge>=9){gauge=0;ready=false;step=Math.max(0,step-FLIPBACK);flipA=1;hop=1;shake=0;say("NACHA Flip! Back "+FLIPBACK+" stairs. Try again.");paint()}
-  else{step=Math.max(0,step-FALL);gauge=0;shake=1;say("You fell "+FALL+" stairs! Fill the gauge for a Flip.");paint()}}
-$("bl").onclick=function(){go(0)};$("br").onclick=function(){go(1)};
-document.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse"||e.target.closest("button,.sight,a"))return;
-  if($("sp").classList.contains("on"))go(e.clientX<innerWidth/2?0:1);});
-document.addEventListener("keydown",function(e){var k=e.key.toLowerCase(),L=k==="a"||k==="arrowleft",R=k==="e"||k==="arrowright";if(!L&&!R||e.repeat)return;e.preventDefault();
-  if($("sp").classList.contains("on"))go(R?1:0);});
-requestAnimationFrame(draw);addEventListener("resize",size);
-function summit(){show("se");var tr=NA.train(10);$("el").textContent="108 worries gone. "+tr.line;
-  $("ef").innerHTML=NA.followRow()}
-var pw=0,chg=null,flew=false,LV=[[30,"Treetops","linear-gradient(#6aa0b8,#3a5a40)"],[60,"Clouds","linear-gradient(#bcd8f0,#6aa0b8)"],[90,"The Moon","linear-gradient(#1b1f4a,#6a5a9a)"],[101,"The Stars — Heaven!","linear-gradient(#05051a,#2b1a5a)"]],lres="";
-function lvl(p){for(var i=0;i<LV.length;i++)if(p<LV[i][0])return LV[i]}
-function lreset(){pw=0;flew=false;$("lb").style.width="0";$("lp").style.background="linear-gradient(#f4c43055,#2b2433)";$("car").style.transition="none";$("car").style.bottom="6%";$("lr").style.display="none";$("lgo").style.display="";$("lsay").textContent="Hold to charge. Let go to jump!";$("lh").innerHTML="&nbsp;"}
-function launch(){if(flew||pw<=0)return;flew=true;clearInterval(chg);var L=lvl(pw);$("lgo").style.display="none";
-  $("car").style.transition="bottom 1.6s ease-in";$("car").style.bottom=(6+pw*0.8)+"%";$("lp").style.background=L[2];
-  setTimeout(function(){lres=L[1];$("lh").textContent=L[1];$("lsay").textContent=pw>=90?"NACHA touches heaven. Starlight!":"Nice jump! Try for more power.";$("lr").style.display="flex";$("lf").innerHTML=NA.followRow()},1700)}
-$("tol").onclick=function(){show("sl");lreset()};
-$("lgo").addEventListener("pointerdown",function(e){e.preventDefault();if(flew)return;clearInterval(chg);chg=setInterval(function(){pw=Math.min(100,pw+2.2);$("lb").style.width=pw+"%";if(pw>=100)launch()},30)});
-["pointerup","pointercancel"].forEach(function(ev){$("lgo").addEventListener(ev,launch)});
-$("la").onclick=lreset;
-$("ls").onclick=function(){var t="NACHA jumped to: "+lres+"! "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
-function start(){step=0;stam=100;lastSight=0;gauge=0;ready=false;flipT=null;cam={x:0,y:0};build();show("sp");size();say("Pick the side of the next stair. Fill the gauge for a Flip.");paint()}
-$("go").onclick=start;$("again").onclick=start;
-$("sh").onclick=function(){var t="I climbed all 108 steps with NACHA! "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
-})();
-</script></body></html>
+body{overflow:hidden;background:#281e2c}#stage{width:min(100vw,480px);height:100dvh;position:relative;overflow:hidden;margin:auto}.scr{position:absolute;inset:0;display:none;flex-direction:column;padding:calc(env(safe-area-inset-top) + 12px) 14px calc(env(safe-area-inset-bottom) + 14px);gap:10px}.scr.on{display:flex}.ctr{align-items:center;justify-content:center;text-align:center}.h1{font:700 34px/1.1 system-ui,sans-serif}.lore{font-size:15px;color:#f6dfbf;max-width:320px;line-height:1.5}.top{display:flex;justify-content:space-between;font-weight:700}.bar{height:8px;border-radius:6px;background:#0006;overflow:hidden}.bar i{display:block;height:100%;width:0;background:#e9c267;transition:width .2s}.view{position:relative;flex:1;min-height:160px;border:1px solid #ffffff40;border-radius:16px;overflow:hidden;background:#b9d1bd}.view canvas{width:100%;height:100%;display:block}.bubble{background:#fff9e8;color:#32242a;border-radius:16px;padding:10px 14px;font-size:16px;text-align:center;min-height:44px}.walk{font:700 21px system-ui,sans-serif;padding:15px;min-height:58px;touch-action:none}.walk:focus-visible,.btn:focus-visible,a:focus-visible{outline:3px solid white;outline-offset:3px}.row{max-width:360px}.foot{color:#f6dfbf;font-size:12px;text-align:center;margin:0}#view-label{font-size:13px;color:#f6dfbf;text-align:center}.art{height:min(38vh,240px);width:auto;max-width:75%;object-fit:contain}
+@media(max-height:610px){.scr{gap:6px}.walk{min-height:48px;padding:8px}.art{height:24vh}}
+</style></head><body><div id="app"><main id="stage">
+<section class="scr ctr on" id="intro"><div class="brand">NACHA</div><h1 class="h1">108 Steps</h1><p class="lore">Climb a quiet mountain, one step at a time.</p><img class="art" src="assets/nacha-simple.png" alt="NACHA ready to climb"><button class="btn main" id="start">Start climbing</button><a class="btn" href="../">More games</a></section>
+<section class="scr" id="play"><div class="top"><span id="count">0 / 108</span><span id="remaining">108 steps to the summit</span></div><div class="bar"><i id="bar"></i></div><div class="view" id="view" aria-label="NACHA climbs a mountain staircase"><canvas id="scene" role="img" aria-label="NACHA climbing stairs through the mountains"></canvas></div><div class="bubble" id="message" aria-live="polite">Let's take the first step.</div><div id="view-label">Forest</div><button class="btn main walk" id="walk">Climb one step ▲</button><p class="foot">Tap, or hold to keep climbing.</p></section>
+<section class="scr ctr" id="finish"><div class="brand">NACHA</div><h1 class="h1">108 steps!</h1><p class="lore">You made it to the summit. Rest here, or keep climbing at your own pace.</p><div id="follow"></div><button class="btn main" id="continue">Keep climbing</button><div class="row"><button class="btn" id="again">Start again</button><button class="btn" id="share">Share</button></div><a class="btn" href="../">More games</a></section>
+</main></div><script src="../common.js"></script><script>
+(function(){'use strict';
+var $=function(id){return document.getElementById(id)},canvas=$('scene'),ctx=canvas.getContext('2d'),sprite=new Image();sprite.src='assets/nacha-simple.png';
+var step=0, visualStep=0, milestone=false, downTimer=null, downDelay=null, held=false, w=0,h=0,last=0, bob=0,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function show(id){['intro','play','finish'].forEach(function(v){$(v).classList.toggle('on',v===id)});}
+function size(){var box=$('view'),d=Math.min(devicePixelRatio||1,2);w=box.clientWidth;h=box.clientHeight;canvas.width=Math.round(w*d);canvas.height=Math.round(h*d);ctx.setTransform(d,0,0,d,0,0);}
+function color(a,b,t){var x=parseInt(a.slice(1),16),y=parseInt(b.slice(1),16);var c=[16,8,0].map(function(n){return Math.round(((x>>n)&255)*(1-t)+((y>>n)&255)*t)});return 'rgb('+c.join(',')+')'}
+function mountain(base,amp,shade,phase){ctx.beginPath();ctx.moveTo(0,h);for(var x=0;x<=w+4;x+=4){var y=base-(Math.sin(x/w*5+phase)*.5+.5)*amp-Math.sin(x/w*12+phase)*amp*.12;ctx.lineTo(x,y)}ctx.lineTo(w,h);ctx.closePath();ctx.fillStyle=shade;ctx.fill()}
+function render(now){requestAnimationFrame(render);if(!$('play').classList.contains('on'))return;if(!w||!h)size();var dt=last?Math.min((now-last)/1000,.05):.016;last=now;visualStep+=(step-visualStep)*(reduce?1:Math.min(1,dt*8));bob*=Math.pow(.001,dt);var t=Math.min(step/108,1),sky=ctx.createLinearGradient(0,0,0,h);sky.addColorStop(0,color('#a8d4c4','#a9cbe0',t));sky.addColorStop(1,color('#e5d9b2','#f9dfaa',t));ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
+ctx.fillStyle='rgba(255,246,209,.65)';ctx.beginPath();ctx.arc(w*.77,h*.17,w*.09,0,Math.PI*2);ctx.fill();mountain(h*.58,h*(.15+.13*t),color('#9cb7a0','#91a9ae',t),.4);mountain(h*.69,h*(.15+.07*t),color('#6d957c','#7f9d8b',t),2.3);mountain(h*.79,h*.16,color('#48765e','#5b826e',t),4);
+var horizon=h*.38,bottom=h*1.12,spacing=12,offset=((visualStep%1)+1)%1;
+ctx.fillStyle='#a59175';ctx.beginPath();ctx.moveTo(w*.425,horizon);ctx.lineTo(w*.575,horizon);ctx.lineTo(w*1.065,bottom);ctx.lineTo(-w*.065,bottom);ctx.closePath();ctx.fill();
+for(var i=spacing;i>=0;i--){var p=(i+offset)/spacing;if(p>1)continue;var y=horizon+(bottom-horizon)*p*p,half=w*(.075+.49*p*p),thick=1.5+h*.012*p;
+ctx.strokeStyle='rgba(91,70,52,.7)';ctx.lineWidth=Math.max(1,thick*.28);ctx.beginPath();ctx.moveTo(w/2-half,y);ctx.lineTo(w/2+half,y);ctx.stroke();
+ctx.strokeStyle='rgba(255,239,205,.48)';ctx.lineWidth=Math.max(1,thick*.18);ctx.beginPath();ctx.moveTo(w/2-half,y-thick*.6);ctx.lineTo(w/2+half,y-thick*.6);ctx.stroke();}
+var sh=Math.min(h*.30,w*.38),sw=sh*(sprite.naturalWidth&&sprite.naturalHeight?sprite.naturalWidth/sprite.naturalHeight:1);if(sprite.complete&&sprite.naturalWidth){ctx.save();ctx.translate(w/2,h*.78-(reduce?0:bob*8));ctx.scale(step%2?-1:1,1);ctx.drawImage(sprite,-sw/2,-sh,sw,sh);ctx.restore();}}
+function paint(){$('count').textContent=step<=108?step+' / 108':step+' steps';$('remaining').textContent=step<108?(108-step)+' steps to the summit':'Beyond the summit';$('bar').style.width=Math.min(step/108*100,100)+'%';$('view-label').textContent=step<=27?'Forest':step<=54?'Hillside':step<=81?'Ridge':step<=108?'Summit':'Beyond the summit';}
+function advance(){if(!$('play').classList.contains('on'))return;step++;bob=1;paint();if(step===108&&!milestone){milestone=true;stopHold();show('finish');if(window.NA&&typeof NA.train==='function')NA.train(10);}}
+function stopHold(){clearTimeout(downDelay);clearInterval(downTimer);downDelay=null;downTimer=null;held=false;}
+$('walk').addEventListener('pointerdown',function(e){if(e.button!==0)return;e.preventDefault();held=true;this.setPointerCapture(e.pointerId);advance();if(held)downDelay=setTimeout(function(){downTimer=setInterval(advance,170)},350)});
+['pointerup','pointercancel','lostpointercapture'].forEach(function(v){$('walk').addEventListener(v,stopHold)});$('walk').addEventListener('click',function(e){if(e.detail===0)advance()});window.addEventListener('blur',stopHold);
+function start(){stopHold();step=0;visualStep=0;milestone=false;last=0;show('play');size();paint();$('message').textContent="Let's take the first step."}
+$('start').onclick=start;$('again').onclick=start;$('continue').onclick=function(){show('play');size();paint();$('message').textContent="The path continues. Take your time."};
+$('share').onclick=function(){var text='I climbed 108 steps with NACHA! #NACHA',url=location.href.split('?')[0];if(navigator.share)navigator.share({text:text,url:url}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(text+' '+url).then(function(){if(window.NA)NA.toast('Copied')}).catch(function(){})};
+if(window.NA)$('follow').innerHTML=NA.followRow();window.addEventListener('resize',size);requestAnimationFrame(render);
+})();</script></body></html>
