@@ -35,26 +35,22 @@
 <div id="app"><div id="stage">
   <div class="brand">NACHA</div>
   <h1>Mini Games</h1>
-  <p class="sub">Quick plays. Meet the four gods.</p>
+  <p class="sub">Quick plays with NACHA.</p>
   <div class="cards" id="cards"></div>
-  <h3>YOUR GODS</h3>
-  <div id="gods"></div>
   <div id="follow"></div>
 </div></div>
 <script src="common.js"></script>
 <script>
 (function () {
   var GAMES = [
-    { href: "quiz/", t: "Which Khmer Savior are you?", d: "4 questions · meet the gods", img: NA.god("fdo") },
-    { href: "dress/", t: "Dress NACHA", d: "Style his outfit · share your look", img: NA.nacha({ mood: "smile", pose: "cheer" }) },
-    { href: "wait/", t: "Wait with NACHA", d: "He's pouting. Cheer him up.", img: NA.nacha({ mood: "pout", pose: "phone" }) },
-    { href: "burn/", t: "Burn the Haze", d: "Evil energy creeps in. Use the fire.", img: NA.god("fdo") },
-    { t: "Coming soon", d: "More games with the gods", img: NA.god("kunsim"), soon: true }
+    { href: "courtyard/", t: "Quiet Courtyard", d: "Take a breath with NACHA", emo: "🪷" },
+    { href: "wisdom/", t: "Little Wisdom", d: "Pick the kind way", emo: "💭" },
+    { href: "sweep/", t: "Sweep the Courtyard", d: "Swipe the falling leaves", emo: "🍂" },
+    { href: "stack/", t: "Build the Tower", d: "Tap to stack it high", emo: "🛕" }
   ];
   document.getElementById("cards").innerHTML = GAMES.map(function (g) {
-    return '<a class="card' + (g.soon ? " soon" : "") + '"' + (g.href ? ' href="' + g.href + '"' : "") + '><div class="ic"><img alt="" src="' + NA.dataURL(g.img) + '"></div><div><b>' + g.t + "</b><span>" + g.d + "</span></div></a>";
+    return '<a class="card' + (g.soon ? " soon" : "") + '"' + (g.href ? ' href="' + g.href + '"' : "") + '><div class="ic" style="font-size:44px;display:grid;place-items:center">' + g.emo + '</div><div><b>' + g.t + "</b><span>" + g.d + "</span></div></a>";
   }).join("");
-  document.getElementById("gods").innerHTML = NA.godsStrip("");
   document.getElementById("follow").innerHTML = NA.followRow();
   var bg = document.getElementById("bg"), bx = bg.getContext("2d"), t0 = performance.now(), last = t0, leaves;
   function fit() { var w = innerWidth, h = innerHeight, d = Math.min(2, devicePixelRatio || 1); bg.width = w * d; bg.height = h * d; bx.setTransform(d, 0, 0, d, 0, 0); leaves = NA.leaves(12, w, h); }
