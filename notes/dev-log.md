@@ -6,7 +6,7 @@
 - **Temple Tour**: 5つの寺をめぐり、道中は景色、到着したら館内を整える。
 - **Quiet Courtyard / Little Wisdom / Sweep / Stack**: 小さな遊び。
 
-（108 Steps は開発が難しいため一旦止め、リポジトリには残してある。）
+（108 Steps と Temple Tour は一覧から非表示にした。ファイルは残してあり、URLを直接開けば遊べる。）
 
 ## ルール
 - 画像はClaudeでは作らない。灰色の枠（ワイヤーフレーム）で作り、GPTの絵を所定のファイル名で `assets/` に置く。
