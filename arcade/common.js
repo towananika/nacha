@@ -244,6 +244,16 @@
       '<a class="btn x" href="' + NA.X + '" target="_blank" rel="noopener">Follow on X</a>' +
       '<a class="btn ig" href="' + NA.IG + '" target="_blank" rel="noopener">Follow on IG</a></div>';
   };
+
+  // Training ranks (placeholder English names; official rank names TBD). Local only, no server.
+  NA.RANKS = [["Novice", 0], ["Disciple", 30], ["Monk", 100], ["Senior Monk", 250], ["Master", 500], ["High Priest", 1000], ["Grand Abbot", 2000]];
+  NA.trainTotal = function () { return +NA.store.get("na-train", 0) || 0; };
+  NA.rankOf = function (t) { var r = 0; for (var i = 0; i < NA.RANKS.length; i++) if (t >= NA.RANKS[i][1]) r = i; return r; };
+  NA.train = function (pts) {
+    var before = NA.trainTotal(), total = before + pts; NA.store.set("na-train", total);
+    var r = NA.rankOf(total), up = r > NA.rankOf(before), nx = NA.RANKS[r + 1];
+    return { total: total, rank: NA.RANKS[r][0], up: up, line: "Training +" + pts + " · " + NA.RANKS[r][0] + (up ? " ⬆ NEW RANK!" : nx ? " (next at " + nx[1] + ")" : " (top rank)") };
+  };
   NA.toast = function (msg) {
     var t = document.getElementById("toast");
     if (!t) { t = document.createElement("div"); t.id = "toast"; t.className = "toast"; document.body.appendChild(t); }

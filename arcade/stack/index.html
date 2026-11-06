@@ -40,7 +40,7 @@ draw:function(){var g=this,base=H*.82+g.cam;
 
 function start(){$("o0").classList.remove("on");$("o1").classList.remove("on");G.init();run=true}
 function finish(score,msg){run=false;var b=best(),nb=score>b;if(nb)try{localStorage.setItem(KEY,score)}catch(e){}
- $("rs").textContent=score;$("rb").textContent=nb?"New best!":"Best "+b;$("rt").textContent=msg;$("rF").innerHTML=NA.followRow();$("o1").classList.add("on");G.last=score}
+ $("rs").textContent=score;$("rb").textContent=nb?"New best!":"Best "+b;$("rt").textContent=msg;var tr=NA.train(10);$("rb").textContent+=" · "+tr.line;$("rF").innerHTML=NA.followRow();$("o1").classList.add("on");G.last=score}
 function frame(now){var dt=Math.min(.05,(now-last)/1000);last=now;
  NA.drawBG(x,W,H,(now-t0)*.012,(now-t0)/1000,"sun");NA.drawLeaves(x,leaves,W,H,dt);
  if(run)G.step(dt);G.draw();requestAnimationFrame(frame)}

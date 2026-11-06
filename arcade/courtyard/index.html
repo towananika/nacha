@@ -55,7 +55,8 @@ main{max-width:480px;margin:0 auto;padding:12px 16px 40px;min-height:100dvh;disp
 </div>
 <div id="follow"></div>
 
-<div class="sec">MORE WITH NACHA</div>
+<div class="sec">TRAINING HALL</div>
+<div class="bubble" id="rank" style="font-size:16px"></div>
 <div class="doors">
   <a class="btn" href="../burn/">🔥 Fire watch</a>
   <a class="btn" href="../wisdom/">💭 Little wisdom</a>
@@ -88,5 +89,7 @@ $("word").onclick=function(){wi=(wi+1)%WORDS.length;say(WORDS[wi]);heard++;set("
 $("hush").onclick=function(){say("…")};
 $("follow").innerHTML=NA.followRow();
 friends();
+var t=NA.trainTotal(),r=NA.rankOf(t),nx=NA.RANKS[r+1];
+$("rank").textContent="Rank: "+NA.RANKS[r][0]+" · "+t+" training"+(nx?" · next rank at "+nx[1]:" · top rank")+". Every training session counts.";
 })();
 </script></body></html>

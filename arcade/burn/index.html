@@ -145,8 +145,8 @@
     $("rs").textContent = score;
     $("rt").textContent = !pure ? "The haze got in…" : big ? "The temple is pure! 🔥" : "Some haze remains";
     
-    NA.unlock("fdo"); var b0 = best(), nb = score > b0; if (nb) setBest(score);
-    $("rl").textContent = (nb ? "New best! " : "Best " + b0 + " · ") + "Max combo " + bestC + (team ? " · Team " + Math.min(GOAL, team + score) + " / " + GOAL + (team + score >= GOAL ? " 🔥 Purified together!" : "") : ""); $("rGods").innerHTML = NA.godsStrip(""); $("rFollow").innerHTML = NA.followRow();
+    NA.unlock("fdo"); var tr = NA.train(10); var b0 = best(), nb = score > b0; if (nb) setBest(score);
+    $("rl").textContent = (nb ? "New best! " : "Best " + b0 + " · ") + "Max combo " + bestC + " · " + tr.line + (team ? " · Team " + Math.min(GOAL, team + score) + " / " + GOAL + (team + score >= GOAL ? " 🔥 Purified together!" : "") : ""); $("rGods").innerHTML = NA.godsStrip(""); $("rFollow").innerHTML = NA.followRow();
   }
   $("chal").addEventListener("click", function () {
     var u = location.origin + location.pathname + "?s=" + seed + "&t=" + (team + score);

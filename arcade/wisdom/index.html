@@ -35,6 +35,6 @@ function show(){var d=D[(s+n)%D.length];$("cnt").textContent="Question "+(n+1)+"
  $("ch").innerHTML=d.c.map(function(c,i){return '<button class="btn" data-i="'+i+'">'+c+"</button>"}).join("")}
 $("ch").addEventListener("click",function(e){var b=e.target.closest(".btn");if(!b||$("nx").classList.contains("hid")===false)return;
  var d=D[(s+n)%D.length];b.classList.add("pick");$("rp").textContent=d.r[+b.dataset.i];$("nx").classList.remove("hid");$("nx").textContent=n+1>=N?"Done":"Next"});
-$("nx").onclick=function(){n++;if(n>=N){$("ch").innerHTML="";$("q").textContent="Thank you for thinking kindly.";$("cnt").textContent="";$("nx").classList.add("hid");$("end").classList.remove("hid");$("follow").innerHTML=NA.followRow();return}show()};
+$("nx").onclick=function(){n++;if(n>=N){$("ch").innerHTML="";$("q").textContent="Thank you for thinking kindly.";$("cnt").textContent="";$("nx").classList.add("hid");$("end").classList.remove("hid");var tr=NA.train(10);$("q").textContent="Thank you for thinking kindly. "+tr.line;$("follow").innerHTML=NA.followRow();return}show()};
 show()})();
 </script></body></html>
