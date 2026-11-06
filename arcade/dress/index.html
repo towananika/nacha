@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Dress NACHA · NACHA</title>
+<meta name="description" content="Style NACHA's outfit and share your look.">
+<meta property="og:title" content="Dress NACHA">
+<meta property="og:description" content="Style NACHA's outfit and share your look.">
+<meta name="theme-color" content="#1d1020">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common.css">
+<style>
+  body{overflow:auto}
+  #app{display:block;height:auto;min-height:100%}
+  #stage{width:min(100vw,480px);margin:0 auto;min-height:100dvh;background:#1d1020;padding-bottom:calc(env(safe-area-inset-bottom) + 24px)}
+  .view{position:relative;width:100%;aspect-ratio:4/4.2;overflow:hidden}
+  .view canvas{position:absolute;inset:0;width:100%;height:100%}
+  .view #me{position:absolute;left:50%;bottom:2%;height:88%;transform:translateX(-50%);filter:drop-shadow(0 10px 0 #0003)}
+  .view .brand{position:absolute;left:0;right:0;top:12px;text-align:center}
+  .panel{padding:14px 14px 0}
+  .grp{margin-bottom:12px}
+  .grp h3{font:14px "Lilita One",sans-serif;letter-spacing:.14em;color:#e9c9a4;margin:0 0 6px}
+  .chips{display:flex;gap:8px;flex-wrap:wrap}
+  .chip{appearance:none;border:2px solid #ffffff2a;background:#ffffff10;color:#fff;border-radius:999px;padding:7px 12px;font:15px "Lilita One",sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px}
+  .chip i{width:16px;height:16px;border-radius:50%;border:2px solid #fff6;display:block}
+  .chip.on{border-color:var(--gold);background:#f4c43026}
+  .bar{display:flex;gap:10px;padding:6px 14px 0}
+  .bar .btn{flex:1}
+  .after{padding:6px 14px 0}
+</style>
+</head>
+<body>
+<div id="app"><div id="stage">
+  <div class="view" id="view"><canvas id="bg"></canvas><div class="brand">NACHA</div><div id="me"></div></div>
+  <div class="panel" id="panel"></div>
+  <div class="bar"><button class="btn" id="rnd">🎲 Random</button><button class="btn main" id="share">Share</button></div>
+  <div class="after" id="after" style="text-align:center"></div>
+</div></div>
+<script src="../common.js"></script>
+<script>
+(function () {
+  "use strict";
+  var $ = function (id) { return document.getElementById(id); };
+  var G = [
+    { k: "jacket", t: "JACKET", o: [["Classic", "#c8372d"], ["Crimson", "#8f2a22"], ["Gold", "#e0a31f"], ["Jade", "#2f8f6b"], ["Sky", "#3b78c9"], ["Blossom", "#e2708c"]] },
+    { k: "ribbon", t: "RIBBON", o: [["Red", "#df3b2f"], ["Gold", "#f0c030"], ["White", "#fbf6ee"], ["Teal", "#26a69a"], ["Pink", "#f48fb1"]] },
+    { k: "tassel", t: "TASSEL", o: [["White", "#fbf6ee"], ["Gold", "#f0c030"], ["Red", "#df3b2f"], ["Black", "#24201f"]] },
+    { k: "pose", t: "POSE", o: [["Hello", "wave"], ["Cool", "cross"], ["Waiting", "phone"], ["Yay", "cheer"], ["Relax", "down"]] },
+    { k: "mood", t: "MOOD", o: [["Smirk", "smirk"], ["Smile", "smile"], ["Pout", "pout"], ["Sleepy", "sleepy"], ["Stern", "stern"]] },
+    { k: "theme", t: "BACKGROUND", o: [["Sunrise", "sun"], ["Night", "night"], ["Cream", "cream"]] }
+  ];
+  var st = { jacket: "#c8372d", ribbon: "#df3b2f", tassel: "#fbf6ee", pose: "wave", mood: "smile", theme: "sun" };
+  try { var sv = JSON.parse(NA.store.get("na-dress") || "null"); if (sv) st = Object.assign(st, sv); } catch (e) {}
+
+  function svg() { return NA.nacha({ jacket: st.jacket, ribbon: st.ribbon, tassel: st.tassel, pose: st.pose, mood: st.mood, trim: st.jacket === "#e0a31f" ? "#fff2c4" : "#e6b43a" }); }
+  function render() {
+    $("me").innerHTML = svg().replace("<svg ", '<svg style="height:100%;width:auto" ');
+    NA.store.set("na-dress", JSON.stringify(st));
+    var chips = document.querySelectorAll(".chip");
+    chips.forEach(function (c) { c.classList.toggle("on", st[c.dataset.k] === c.dataset.v); });
+    draw();
+  }
+  function build() {
+    $("panel").innerHTML = G.map(function (g) {
+      return '<div class="grp"><h3>' + g.t + '</h3><div class="chips">' + g.o.map(function (o) {
+        var sw = /^#/.test(o[1]) ? '<i style="background:' + o[1] + '"></i>' : "";
+        return '<button class="chip" data-k="' + g.k + '" data-v="' + o[1] + '">' + sw + o[0] + "</button>";
+      }).join("") + "</div></div>";
+    }).join("");
+    $("panel").addEventListener("click", function (e) {
+      var c = e.target.closest(".chip"); if (!c) return;
+      st[c.dataset.k] = c.dataset.v; render();
+    });
+  }
+  var bg = $("bg"), bx = bg.getContext("2d");
+  function draw() {
+    var v = $("view"), w = v.clientWidth, h = v.clientHeight, d = Math.min(2, window.devicePixelRatio || 1);
+    if (bg.width !== w * d) { bg.width = w * d; bg.height = h * d; }
+    bx.setTransform(d, 0, 0, d, 0, 0);
+    NA.drawBG(bx, w, h, 60, 0, st.theme);
+  }
+  window.addEventListener("resize", draw);
+
+  $("rnd").addEventListener("click", function () {
+    G.forEach(function (g) { st[g.k] = g.o[Math.floor(Math.random() * g.o.length)][1]; }); render();
+  });
+  $("share").addEventListener("click", function () {
+    NA.fontReady().then(function () { return NA.card({ theme: st.theme, svg: svg(), big: "My NACHA look", label: "TODAY'S OOTD", line: "Style yours at the NACHA mini games." }); })
+      .then(function (c) { return NA.share(c, "My NACHA look! Dress NACHA yours " + NA.HANDLE + " #NACHA", "nacha-ootd.png"); })
+      .then(function () { NA.unlock("nacha"); $("after").innerHTML = NA.followRow() + '<p><a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a></p>'; });
+  });
+  build(); NA.fontReady().then(render);
+})();
+</script>
+</body>
+</html>
