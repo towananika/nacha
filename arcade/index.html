@@ -45,10 +45,6 @@
   var GAMES = [
     { href: "steps/", t: "108 Steps", d: "Climb, pick routes, enjoy the view", emo: "⛰️" },
     { href: "tour/", t: "Temple Tour", d: "Travel, tidy, clear the haze", emo: "🧳" },
-    { href: "courtyard/", t: "Quiet Courtyard", d: "Take a breath with NACHA", emo: "🪷" },
-    { href: "wisdom/", t: "Little Wisdom", d: "Pick the kind way", emo: "💭" },
-    { href: "sweep/", t: "Sweep the Courtyard", d: "Swipe the falling leaves", emo: "🍂" },
-    { href: "stack/", t: "Build the Tower", d: "Tap to stack it high", emo: "🛕" }
   ];
   document.getElementById("cards").innerHTML = GAMES.map(function (g) {
     return '<a class="card' + (g.soon ? " soon" : "") + '"' + (g.href ? ' href="' + g.href + '"' : "") + '><div class="ic" style="font-size:44px;display:grid;place-items:center">' + g.emo + '</div><div><b>' + g.t + "</b><span>" + g.d + "</span></div></a>";
