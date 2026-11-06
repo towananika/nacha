@@ -97,12 +97,12 @@ function newSight(){[].slice.call($("vw").querySelectorAll(".sight")).forEach(fu
   var pool=SIGHTS.concat(TS[TIERS.indexOf(tier())]),s=pool[Math.floor(Math.random()*pool.length)],e=document.createElement("div");e.className="sight";e.textContent=s[0];e.style.left=(10+Math.random()*70)+"%";e.style.top=(10+Math.random()*40)+"%";
   e.onclick=function(){say(s[1]);gauge=Math.min(9,gauge+1);e.remove();paint()};$("vw").appendChild(e)}
 var gimg=new Image(),gok=false,glow=0,gauge=0;gimg.onload=function(){gok=true};gimg.src="assets/step-glow.png";
-var FALL=6,FLIPBACK=3;
+var FALL=6,FLIPBACK=3,lastT=0,combo=0,falls=0,gold={},best=0;try{best=+localStorage.getItem("na-steps-best")||0}catch(e){}
 var dirs=[],cvx=$("cv").getContext("2d"),CW=0,CH=0,cam={x:0,y:0},hop=0,flipT=null,ready=false,flipA=0,shake=0,xs=[],nimg=new Image(),nok=false;
 nimg.onload=function(){nok=true};nimg.src="assets/nacha-climb.png";
 var PAL=["#5a8a64","#7a9aa8","#c08a6a","#d8b45a"];
 function build(){dirs=[0];xs=[0];var last=Math.random()<.5?0:1;for(var i=1;i<140;i++){var d=Math.random()<.35?last:1-last;if(i>2&&dirs[i-1]===dirs[i-2]&&dirs[i-1]===d&&Math.random()<.6)d=1-d;dirs.push(d);last=d;xs.push(xs[i-1]+(d?1:-1))}
-  for(var j=0;j<xs.length;j++)xs[j]=xs[j]*0.5}
+  for(var j=0;j<xs.length;j++)xs[j]=xs[j]*0.5;gold={};for(var g=6+Math.floor(Math.random()*5);g<108;g+=7+Math.floor(Math.random()*6))gold[g]=1}
 function size(){var v=$("vw"),r=window.devicePixelRatio||1;CW=v.clientWidth;CH=v.clientHeight;if(!CW)return;$("cv").width=CW*r;$("cv").height=CH*r;cvx.setTransform(r,0,0,r,0,0)}
 function px(i){return CW/2+(xs[i]-cam.x)*CW*0.34}
 function py(i){return CH*0.74-(i-cam.y)*CH*0.105}
@@ -118,9 +118,10 @@ function draw(){requestAnimationFrame(draw);if(!$("sp").classList.contains("on")
   var sw=CW*0.26,sh=Math.max(10,CH*0.03);
   for(var i=Math.min(139,step+9);i>=Math.max(0,step-3);i--){var X=px(i),Y=py(i);
     var past=i<=step;cvx.globalAlpha=past?.55:.95;cvx.fillStyle="#7a4a2a";cvx.fillRect(X-sw/2,Y+sh*.6,sw,sh*.9);
-    cvx.fillStyle=past?"#d9b98a":"#f0d49a";cvx.fillRect(X-sw/2,Y,sw,sh*.7);cvx.fillStyle="#fff3c8";cvx.fillRect(X-sw/2,Y,sw,3);
+    cvx.fillStyle=gold[i]?"#ffd84a":(past?"#d9b98a":"#f0d49a");cvx.fillRect(X-sw/2,Y,sw,sh*.7);cvx.fillStyle="#fff3c8";cvx.fillRect(X-sw/2,Y,sw,3);
     cvx.strokeStyle="#D4AC0D";cvx.lineWidth=1.5;cvx.strokeRect(X-sw/2,Y,sw,sh*.7+sh*.9*.6);cvx.globalAlpha=1;
     if(i===step+1){cvx.fillStyle="#f4c430";cvx.shadowColor="#000a";cvx.shadowBlur=6;cvx.font="22px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText(dirs[i]?"▶":"◀",X,Y-8);cvx.shadowBlur=0}}
+  if(combo>=3){cvx.fillStyle="#fff";cvx.shadowColor="#c0392b";cvx.shadowBlur=8;cvx.font="26px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText("x"+combo+" RHYTHM",CW/2,CH*.09);cvx.shadowBlur=0}
   // NACHA
   var X=px(step),Y=py(step),h=CH*0.26,w=nok?h*nimg.naturalWidth/nimg.naturalHeight:h*.8,jump=hop*CH*.05;
   cvx.save();cvx.translate(X+(shake?Math.sin(performance.now()/20)*shake*6:0),Y-jump);cvx.rotate(flipA*6.28);
@@ -129,21 +130,22 @@ function draw(){requestAnimationFrame(draw);if(!$("sp").classList.contains("on")
   if(gok&&glow>.05){cvx.globalAlpha=Math.min(.8,glow);var gw=CW*.4,gh=gw*gimg.naturalHeight/gimg.naturalWidth;cvx.drawImage(gimg,X-gw/2,Y-gh*.8-jump,gw,gh);cvx.globalAlpha=1}}
 function go(side){if(!$("sp").classList.contains("on"))return;
   if(flipT){clearTimeout(flipT);flipT=null;flipA=1;hop=1;say("Mid-air flip! You caught the stair.");return}
-  if(side===dirs[step+1]){step++;hop=1;glow=1;gauge=Math.min(9,gauge+1);
+  if(side===dirs[step+1]){var now=performance.now(),quick=now-lastT<650;lastT=now;combo=quick?combo+1:1;var gain=quick&&combo>=3?2:1;if(gold[step+1]){gain+=3;say("Golden stair! +3")}
+    step++;hop=1;glow=1;gauge=Math.min(9,gauge+gain);
     if(step-lastSight>=12){lastSight=step;newSight()}
-    if(gauge===9&&!ready){ready=true;say("Flip is ready! A slip only sets you back 3.")}
+    if(gold[step])glow=2;if(gauge===9&&!ready){ready=true;say("Flip is ready! A slip only sets you back 3.")}
     else if(step%10===0)say("One more worry gone. ("+(108-step)+" left)");
     paint();
     if(step>=108)summit()}
-  else if(gauge>=9){gauge=0;ready=false;step=Math.max(0,step-FLIPBACK);flipA=1;hop=1;shake=0;say("NACHA Flip! Back "+FLIPBACK+" stairs. Try again.");paint()}
-  else{step=Math.max(0,step-FALL);gauge=0;shake=1;say("You fell "+FALL+" stairs! Fill the gauge for a Flip.");paint()}}
+  else if(gauge>=9){combo=0;falls++;gauge=0;ready=false;step=Math.max(0,step-FLIPBACK);flipA=1;hop=1;shake=0;say("NACHA Flip! Back "+FLIPBACK+" stairs. Try again.");paint()}
+  else{combo=0;falls++;step=Math.max(0,step-FALL);gauge=0;shake=1;say("You fell "+FALL+" stairs! Fill the gauge for a Flip.");paint()}}
 $("bl").onclick=function(){go(0)};$("br").onclick=function(){go(1)};
 document.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse"||e.target.closest("button,.sight,a"))return;
   if($("sp").classList.contains("on"))go(e.clientX<innerWidth/2?0:1);});
 document.addEventListener("keydown",function(e){var k=e.key.toLowerCase(),L=k==="a"||k==="arrowleft",R=k==="e"||k==="arrowright";if(!L&&!R||e.repeat)return;e.preventDefault();
   if($("sp").classList.contains("on"))go(R?1:0);});
 requestAnimationFrame(draw);addEventListener("resize",size);
-function summit(){show("se");var tr=NA.train(10);$("el").textContent="108 worries gone. "+tr.line;
+function summit(){show("se");var tr=NA.train(10);var st=falls<=2?3:falls<=6?2:1;if(st>best){best=st;try{localStorage.setItem("na-steps-best",best)}catch(e){}}$("el").textContent="108 worries gone. "+"★".repeat(st)+"☆".repeat(3-st)+" ("+falls+" falls · best "+"★".repeat(best)+") "+tr.line;
   $("ef").innerHTML=NA.followRow()}
 var pw=0,chg=null,flew=false,LV=[[30,"Treetops","linear-gradient(#6aa0b8,#3a5a40)"],[60,"Clouds","linear-gradient(#bcd8f0,#6aa0b8)"],[90,"The Moon","linear-gradient(#1b1f4a,#6a5a9a)"],[101,"The Stars — Heaven!","linear-gradient(#05051a,#2b1a5a)"]],lres="";
 function lvl(p){for(var i=0;i<LV.length;i++)if(p<LV[i][0])return LV[i]}
@@ -156,7 +158,7 @@ $("lgo").addEventListener("pointerdown",function(e){e.preventDefault();if(flew)r
 ["pointerup","pointercancel"].forEach(function(ev){$("lgo").addEventListener(ev,launch)});
 $("la").onclick=lreset;
 $("ls").onclick=function(){var t="NACHA jumped to: "+lres+"! "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
-function start(){step=0;stam=100;lastSight=0;gauge=0;ready=false;flipT=null;cam={x:0,y:0};build();show("sp");size();say("Pick the side of the next stair. Fill the gauge for a Flip.");paint()}
+function start(){step=0;stam=100;lastSight=0;gauge=0;combo=0;falls=0;lastT=0;ready=false;flipT=null;cam={x:0,y:0};build();show("sp");size();say("Pick the side of the next stair. Fill the gauge for a Flip.");paint()}
 $("go").onclick=start;$("again").onclick=start;
 $("sh").onclick=function(){var t="I climbed all 108 steps with NACHA! "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
 })();
