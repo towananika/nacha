@@ -104,29 +104,39 @@ var PAL=["#5a8a64","#7a9aa8","#c08a6a","#d8b45a"];
 function build(){dirs=[0];xs=[0];var last=Math.random()<.5?0:1;for(var i=1;i<140;i++){var d=Math.random()<.35?last:1-last;if(i>2&&dirs[i-1]===dirs[i-2]&&dirs[i-1]===d&&Math.random()<.6)d=1-d;dirs.push(d);last=d;xs.push(xs[i-1]+(d?1:-1))}
   for(var j=0;j<xs.length;j++)xs[j]=xs[j]*0.5}
 function size(){var v=$("vw"),r=window.devicePixelRatio||1;CW=v.clientWidth;CH=v.clientHeight;if(!CW)return;$("cv").width=CW*r;$("cv").height=CH*r;cvx.setTransform(r,0,0,r,0,0)}
-function px(i){return CW/2+(xs[i]-cam.x)*CW*0.34}
-function py(i){return CH*0.74-(i-cam.y)*CH*0.105}
+var F_,CX_,CY_;
+function proj(X,Y,Z){var k=F_/Z;return[CX_+X*k,CY_-Y*k]}
 function draw(){requestAnimationFrame(draw);if(!$("sp").classList.contains("on"))return;if(!CW||$("cv").width!==Math.round(CW*(window.devicePixelRatio||1)))size();if(!CW)return;
-  glow*=.9;cam.x+=(xs[step]-cam.x)*.18;cam.y+=(step-cam.y)*.18;hop*=.78;flipA*=.9;shake*=.8;
-  cvx.clearRect(0,0,CW,CH);var t=TIERS.indexOf(tier()),col=PAL[t];
-  // parallax hills (move down as we climb)
-  [0.12,0.22].forEach(function(f,k){cvx.fillStyle=k?"#00000026":"#00000018";var base=CH*(0.62+k*0.12)+cam.y*CH*f*0.5;cvx.beginPath();cvx.moveTo(0,CH);
-    for(var x=0;x<=CW;x+=20){cvx.lineTo(x,base-Math.abs(Math.sin(x*.012+k*2))*CH*.16-k*8)}cvx.lineTo(CW,CH);cvx.fill()});
-  // clouds drifting down
-  cvx.fillStyle="#ffffff30";for(var c=0;c<4;c++){var cy=((c*CH*.33+cam.y*CH*.3)%(CH*1.2))-CH*.1,cx=(c*97+30)%(CW-60);cvx.fillRect(cx,cy,56,10);cvx.fillRect(cx+12,cy-8,34,10)}
-  // stairs
-  var sw=CW*0.26,sh=Math.max(10,CH*0.03);
-  for(var i=Math.min(139,step+9);i>=Math.max(0,step-3);i--){var X=px(i),Y=py(i);
-    var past=i<=step;cvx.globalAlpha=past?.55:.95;cvx.fillStyle="#7a4a2a";cvx.fillRect(X-sw/2,Y+sh*.6,sw,sh*.9);
-    cvx.fillStyle=past?"#d9b98a":"#f0d49a";cvx.fillRect(X-sw/2,Y,sw,sh*.7);cvx.fillStyle="#fff3c8";cvx.fillRect(X-sw/2,Y,sw,3);
-    cvx.strokeStyle="#D4AC0D";cvx.lineWidth=1.5;cvx.strokeRect(X-sw/2,Y,sw,sh*.7+sh*.9*.6);cvx.globalAlpha=1;
-    if(i===step+1){cvx.fillStyle="#f4c430";cvx.shadowColor="#000a";cvx.shadowBlur=6;cvx.font="22px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText(dirs[i]?"▶":"◀",X,Y-8);cvx.shadowBlur=0}}
-  // NACHA
-  var X=px(step),Y=py(step),h=CH*0.26,w=nok?h*nimg.naturalWidth/nimg.naturalHeight:h*.8,jump=hop*CH*.05;
-  cvx.save();cvx.translate(X+(shake?Math.sin(performance.now()/20)*shake*6:0),Y-jump);cvx.rotate(flipA*6.28);
-  if(nok)cvx.drawImage(nimg,-w/2,-h,w,h);else{cvx.fillStyle="#3a2f47cc";cvx.strokeStyle="#9d90ad";cvx.setLineDash([5,4]);cvx.lineWidth=2;cvx.fillRect(-w/2,-h,w,h);cvx.strokeRect(-w/2,-h,w,h);cvx.setLineDash([]);cvx.fillStyle="#d9cfe6";cvx.font="11px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText("NACHA",0,-h/2);cvx.fillText("(GPT)",0,-h/2+13)}
+  glow*=.9;cam.x+=(xs[step]-cam.x)*.12;cam.y+=(step-cam.y)*.2;hop*=.78;flipA*=.9;shake*=.8;
+  cvx.clearRect(0,0,CW,CH);F_=CW*0.78;CX_=CW/2;CY_=CH*0.42;
+  var ZB=4.4,HC=2.3,RISE=.42,TH=1.3,WH=.85,LAT=2.7,t=TIERS.indexOf(tier());
+  var earth=[["#b79c78","#7d5f43"],["#b8a17c","#7a6347"],["#c0a07a","#80593f"],["#cdb28a","#8d6a4a"]][t];
+  // draw far -> near
+  for(var n=Math.min(139,Math.ceil(cam.y)+16);n>=Math.max(0,step);n--){var r=n-cam.y,Zc=r+ZB;if(Zc<=.55)continue;
+    var X=(xs[n]-cam.x)*LAT,Yw=r*RISE-HC,z0=Zc-.5,z1=Zc+.5;if(z0<.45)z0=.45;
+    var a1=proj(X-WH,Yw,z0),a2=proj(X+WH,Yw,z0),a3=proj(X+WH,Yw,z1),a4=proj(X-WH,Yw,z1),b1=proj(X-WH,Yw-TH,z0),b2=proj(X+WH,Yw-TH,z0);
+    var fade=Math.max(.25,1-Math.max(0,Zc-9)/9),past=n<=step;
+    cvx.globalAlpha=fade;
+    // side face (toward the centre) then riser
+    var sx=X<0?X+WH:X-WH,sa=proj(sx,Yw,z0),sb=proj(sx,Yw,z1),sc=proj(sx,Yw-TH,z1),sd=proj(sx,Yw-TH,z0);
+    cvx.fillStyle="#5e4630";cvx.beginPath();cvx.moveTo(sa[0],sa[1]);cvx.lineTo(sb[0],sb[1]);cvx.lineTo(sc[0],sc[1]);cvx.lineTo(sd[0],sd[1]);cvx.closePath();cvx.fill();
+    cvx.fillStyle=earth[1];cvx.beginPath();cvx.moveTo(a1[0],a1[1]);cvx.lineTo(a2[0],a2[1]);cvx.lineTo(b2[0],b2[1]);cvx.lineTo(b1[0],b1[1]);cvx.closePath();cvx.fill();
+    cvx.strokeStyle="#00000030";cvx.lineWidth=1;cvx.beginPath();var mid1=proj(X-WH,Yw-TH*.5,z0),mid2=proj(X+WH,Yw-TH*.5,z0);cvx.moveTo(mid1[0],mid1[1]);cvx.lineTo(mid2[0],mid2[1]);cvx.stroke();
+    // top
+    cvx.fillStyle=past?earth[0]:"#d6bd92";cvx.beginPath();cvx.moveTo(a1[0],a1[1]);cvx.lineTo(a2[0],a2[1]);cvx.lineTo(a3[0],a3[1]);cvx.lineTo(a4[0],a4[1]);cvx.closePath();cvx.fill();
+    cvx.strokeStyle="#fff3c8";cvx.lineWidth=Math.max(1,F_/Zc*.04);cvx.beginPath();cvx.moveTo(a1[0],a1[1]);cvx.lineTo(a2[0],a2[1]);cvx.stroke();
+    // moss patches + side lanterns for a temple feel
+    if(n%3===0){cvx.fillStyle="#5c7a4a88";var m=proj(X-WH*.6,Yw,Zc);cvx.fillRect(m[0],m[1]-F_/Zc*.05,F_/Zc*.5,F_/Zc*.1)}
+    if(n%5===0){var L=proj(X+(WH+.35)*(n%10?1:-1),Yw,Zc),rr=F_/Zc*.14;cvx.fillStyle="#6b4a2f";cvx.fillRect(L[0]-rr*.2,L[1]-rr*4,rr*.4,rr*4);cvx.fillStyle="#f4c430";cvx.beginPath();cvx.arc(L[0],L[1]-rr*4.4,rr*1.1,0,6.3);cvx.fill()}
+    cvx.globalAlpha=1;
+    if(n===step+1){var c=proj(X,Yw,Zc);cvx.fillStyle="#f4c430";cvx.shadowColor="#000a";cvx.shadowBlur=6;cvx.font=Math.max(16,F_/Zc*.5)+"px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText(dirs[n]?"▶":"◀",c[0],c[1]-F_/Zc*.1);cvx.shadowBlur=0}
+  }
+  // NACHA, seen from behind, on the current stair
+  var r0=step-cam.y,Z0=r0+ZB,X0=(xs[step]-cam.x)*LAT,Y0=r0*RISE-HC,P=proj(X0,Y0,Z0),hh=1.55*F_/Z0,ww=nok?hh*nimg.naturalWidth/nimg.naturalHeight:hh*.8,jump=hop*hh*.12;
+  cvx.save();cvx.translate(P[0]+(shake?Math.sin(performance.now()/20)*shake*6:0),P[1]-jump);cvx.rotate(flipA*6.28);
+  if(nok)cvx.drawImage(nimg,-ww/2,-hh,ww,hh);else{cvx.fillStyle="#3a2f47cc";cvx.strokeStyle="#9d90ad";cvx.setLineDash([5,4]);cvx.lineWidth=2;cvx.fillRect(-ww/2,-hh,ww,hh);cvx.strokeRect(-ww/2,-hh,ww,hh);cvx.setLineDash([]);cvx.fillStyle="#d9cfe6";cvx.font="11px Lilita One,sans-serif";cvx.textAlign="center";cvx.fillText("NACHA",0,-hh/2)}
   cvx.restore();
-  if(gok&&glow>.05){cvx.globalAlpha=Math.min(.8,glow);var gw=CW*.4,gh=gw*gimg.naturalHeight/gimg.naturalWidth;cvx.drawImage(gimg,X-gw/2,Y-gh*.8-jump,gw,gh);cvx.globalAlpha=1}}
+  if(gok&&glow>.05){cvx.globalAlpha=Math.min(.8,glow);var gw=hh*1.3,gh=gw*gimg.naturalHeight/gimg.naturalWidth;cvx.drawImage(gimg,P[0]-gw/2,P[1]-gh*.8-jump,gw,gh);cvx.globalAlpha=1}}
 function go(side){if(!$("sp").classList.contains("on"))return;
   if(flipT){clearTimeout(flipT);flipT=null;flipA=1;hop=1;say("Mid-air flip! You caught the stair.");return}
   if(side===dirs[step+1]){step++;hop=1;glow=1;gauge=Math.min(9,gauge+1);
