@@ -63,6 +63,30 @@
     var done=function(){toast.hidden=false;setTimeout(function(){toast.hidden=true},1800)};
     if(navigator.clipboard)navigator.clipboard.writeText(url).then(done,function(){});else done();
   });
+  // 煩悩やきシェアボタン
+  var burnForm=document.getElementById('burnForm'),burnShareBtn=document.getElementById('burnShareBtn');
+  var lastBurnWord='';
+  if(burnForm){
+    burnForm.addEventListener('submit',function(){
+      setTimeout(function(){lastBurnWord=document.getElementById('burnIn').value||'';},100);
+    });
+  }
+  if(burnShareBtn){
+    burnShareBtn.hidden=true; // 最初は非表示
+    // 焼いた後に表示する
+    var burnRes=document.getElementById('burnRes');
+    if(burnRes){
+      var bObs=new MutationObserver(function(){if(burnRes.textContent.trim())burnShareBtn.hidden=false;});
+      bObs.observe(burnRes,{childList:true,characterData:true,subtree:true});
+    }
+    burnShareBtn.addEventListener('click',function(){
+      var word=lastBurnWord||document.getElementById('burnIn').value||'モヤモヤ';
+      var url='https://towananika.github.io/nacha/';
+      var text='\xf0\x9f\x94\xa5 \u300c'+word+'\u300d\u3092\u30ca\u30c1\u30e3\u306e\u706b\u7130\u69cd\u3067\u713c\u304d\u306f\u3089\u3063\u305f\uff01 #NACHA #\u7169\u60a9\u3084\u304d '+url;
+      var xUrl='https://x.com/intent/tweet?text='+encodeURIComponent('\ud83d\udd25 \u300c'+word+'\u300d\u3092\u30ca\u30c1\u30e3\u306e\u706b\u7130\u69cd\u3067\u713c\u304d\u306f\u3089\u3063\u305f\uff01 #NACHA #\u7169\u60a9\u3084\u304d '+url);
+      window.open(xUrl,'_blank','noopener');
+    });
+  }
   // reveal
   var rv=[].slice.call(document.querySelectorAll('.reveal'));
   if('IntersectionObserver' in window){
