@@ -1,0 +1,1220 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>NACHA — ナチャ寺の落ち葉はき（お寺の作務ゲーム）</title>
+<meta name="description" content="15秒で心を整えるお寺の作務（さむ）ゲーム。指でサッサッと落ち葉を掃き清め、徳を積もう！境内の珍客やお宝が見つかるかも？">
+<meta name="theme-color" content="#1b1715">
+<meta property="og:type" content="website">
+<meta property="og:title" content="NACHA — ナチャ寺の落ち葉はき（お寺の作務ゲーム）">
+<meta property="og:description" content="15秒で心を整えるお寺の作務ゲーム。指でサッサッと落ち葉を掃いて徳を積もう！">
+<meta property="og:image" content="https://towananika.github.io/nacha/assets/poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B9%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  :root {
+    --temple-dark: #1b1715;
+    --temple-stone: #332d28;
+    --gold-bright: #F5C542;
+    --red-vermilion: #C0392B;
+  }
+  body {
+    background: #141110;
+    color: #f1e9df;
+    overflow-x: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+  }
+  .clean-header {
+    position: sticky;
+    top: 0;
+    z-index: 25;
+    background: rgba(20, 17, 16, 0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #332c27;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .clean-header .back-btn {
+    color: #f1e9df;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: #2a231f;
+    border: 1px solid #4a3e36;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .clean-header .header-title {
+    font-family: "Noto Serif JP", serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+  }
+  .clean-header .ctrl-btns {
+    display: flex;
+    gap: 8px;
+  }
+  .ctrl-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid #4a3e36;
+    background: #2a231f;
+    color: #f1e9df;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  .ctrl-btn:active {
+    transform: scale(0.95);
+  }
+
+  /* ゲームエリア */
+  .game-wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 12px 14px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ステータスバー（残り煩悩・タイマー） */
+  .status-bar {
+    width: 100%;
+    background: #231c18;
+    border: 1px solid #3e332c;
+    border-radius: 18px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+  .status-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .status-label {
+    font-size: 11px;
+    color: #a89a8c;
+    letter-spacing: 0.05em;
+  }
+  .status-val {
+    font-family: "Lilita One", "M PLUS Rounded 1c", sans-serif;
+    font-size: 20px;
+    color: var(--gold-bright);
+    line-height: 1.1;
+  }
+  .gauge-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .gauge-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: #15110e;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid #4a3e36;
+  }
+  .gauge-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #C0392B, #E5B338);
+    border-radius: 999px;
+    transition: width 0.15s ease-out;
+  }
+
+  /* Canvasステージ */
+  .stage-container {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 4/5;
+    background: #1c1815;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 2px solid #4a3e36;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    touch-action: none; /* スクロール無効化してスワイプ優先 */
+  }
+  #gameCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+  }
+  #gameCanvas:active {
+    cursor: grabbing;
+  }
+
+  /* 操作ガイド */
+  .hint-text {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #a89a8c;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hint-text span.key {
+    background: #2a231f;
+    border: 1px solid #4a3e36;
+    padding: 2px 8px;
+    border-radius: 6px;
+    color: var(--gold-bright);
+    font-weight: 700;
+  }
+
+  /* お宝発見ポップアップ（トースト風） */
+  .treasure-toast {
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(192, 57, 43, 0.95);
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-family: "Noto Serif JP", serif;
+    font-size: 14px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+    border: 1px solid #ff9d8f;
+    transition: all 0.3s cubic-bezier(0.2, 1.4, 0.4, 1);
+    z-index: 10;
+  }
+  .treasure-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* 完了モーダル（清掃完了 / 結果発表） */
+  .result-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(10, 8, 7, 0.88);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  .result-modal.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .result-card {
+    width: 100%;
+    max-width: 440px;
+    background: #231c18;
+    border: 2px solid #5a4a3e;
+    border-radius: 24px;
+    padding: 24px 20px 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 16px 40px rgba(0,0,0,0.8);
+    transform: scale(0.9);
+    transition: transform 0.3s cubic-bezier(0.2, 1.4, 0.4, 1);
+  }
+  .result-modal.active .result-card {
+    transform: scale(1);
+  }
+
+  /* 落款印風スタンプ */
+  .stamp-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border: 3px double #C0392B;
+    border-radius: 12px;
+    color: #ff5b47;
+    font-family: "Noto Serif JP", serif;
+    font-weight: 900;
+    font-size: 26px;
+    letter-spacing: 0.15em;
+    background: rgba(192, 57, 43, 0.12);
+    box-shadow: inset 0 0 12px rgba(192, 57, 43, 0.3);
+    transform: rotate(-3deg);
+    margin-bottom: 12px;
+    animation: stampIn 0.4s cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
+  }
+  @keyframes stampIn {
+    0% { transform: scale(2) rotate(-15deg); opacity: 0; }
+    100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+  }
+
+  .rank-title {
+    font-family: "Noto Serif JP", serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    margin: 6px 0 2px;
+  }
+  .rank-desc {
+    font-size: 13px;
+    color: #c4b5a6;
+    margin-bottom: 16px;
+    line-height: 1.4;
+  }
+
+  /* タイムとお宝のボックス */
+  .result-stats {
+    background: #181310;
+    border: 1px solid #3e332c;
+    border-radius: 16px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    text-align: left;
+  }
+  .res-stat-label {
+    font-size: 11px;
+    color: #8c7e72;
+  }
+  .res-stat-val {
+    font-family: "Lilita One", "M PLUS Rounded 1c", sans-serif;
+    font-size: 20px;
+    color: #fff;
+  }
+
+  .item-found-box {
+    background: rgba(229, 179, 56, 0.1);
+    border: 1px dashed #E5B338;
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+  .item-found-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+  }
+  .item-found-name {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--gold-bright);
+  }
+  .item-found-note {
+    font-size: 12px;
+    color: #c4b5a6;
+    line-height: 1.3;
+  }
+
+  /* アクションボタン */
+  .act-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .act-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    border-radius: 14px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: transform 0.1s, opacity 0.2s;
+  }
+  .act-btn:active {
+    transform: scale(0.98);
+  }
+  .btn-share-x {
+    background: #1d9bf0;
+    color: #fff;
+  }
+  .btn-save-img {
+    background: linear-gradient(135deg, #E5B338, #C0392B);
+    color: #fff;
+  }
+  .btn-retry {
+    background: #332a24;
+    color: #f1e9df;
+    border: 1px solid #4a3e36;
+  }
+
+  /* 非表示の書き出し用Canvas */
+  #shareCanvas {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<header class="clean-header">
+  <a class="back-btn" href="../">← <span>ホーム</span></a>
+  <div class="header-title">🪷 那茶寺・作務録</div>
+  <div class="ctrl-btns">
+    <button class="ctrl-btn" id="soundBtn" title="音のON/OFF" aria-label="音の切り替え">🔊</button>
+    <button class="ctrl-btn" id="resetBtn" title="やり直す" aria-label="リセット">🔄</button>
+  </div>
+</header>
+
+<main class="game-wrap">
+  <!-- ステータスバー -->
+  <div class="status-bar">
+    <div class="status-item">
+      <span class="status-label">作務時間</span>
+      <span class="status-val" id="timeDisplay">0.0s</span>
+    </div>
+    <div class="gauge-wrap">
+      <div style="display:flex; justify-content:space-between; font-size:11px; color:#a89a8c;">
+        <span>心の清浄度</span>
+        <b id="cleanPercent" style="color:var(--gold-bright);">0%</b>
+      </div>
+      <div class="gauge-bar-bg">
+        <div class="gauge-bar-fill" id="cleanGauge"></div>
+      </div>
+    </div>
+    <div class="status-item" style="text-align:right;">
+      <span class="status-label">残る煩悩</span>
+      <span class="status-val" id="leavesLeft">35</span>
+    </div>
+  </div>
+
+  <!-- メインCanvasステージ -->
+  <div class="stage-container" id="stageWrap">
+    <canvas id="gameCanvas"></canvas>
+    <div class="treasure-toast" id="treasureToast">
+      <span id="toastIcon">🐱</span>
+      <span id="toastText">境内の猫を発見！</span>
+    </div>
+  </div>
+
+  <p class="hint-text">
+    <span>🧹 画面をなぞって（スワイプして）落ち葉を外へ掃き出そう！</span>
+  </p>
+</main>
+
+<!-- 結果モーダル -->
+<div class="result-modal" id="resultModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="result-card">
+    <div class="stamp-badge">心身清浄</div>
+    <div class="rank-title" id="resRankTitle">神仏級の箒さばき</div>
+    <p class="rank-desc" id="resRankDesc">風火輪に乗ったナチャ並みの神速。境内もあなたの心もチリひとつありません。</p>
+
+    <div class="result-stats">
+      <div>
+        <div class="res-stat-label">所要時間</div>
+        <div class="res-stat-val" id="resTime">12.4秒</div>
+      </div>
+      <div>
+        <div class="res-stat-label">積んだ徳</div>
+        <div class="res-stat-val" style="color:var(--gold-bright);">＋108</div>
+      </div>
+    </div>
+
+    <div class="item-found-box">
+      <div class="item-found-icon" id="resItemIcon">🐱</div>
+      <div>
+        <div class="item-found-name" id="resItemName">境内で爆睡する茶トラ猫</div>
+        <div class="item-found-note" id="resItemNote">掃き掃除の最中ですが微動だにしませんでした。</div>
+      </div>
+    </div>
+
+    <div class="act-btns">
+      <a class="act-btn btn-share-x" id="btnShareX" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+        結果をXでポスト
+      </a>
+      <button class="act-btn btn-save-img" id="btnSaveImg">
+        <span>📸</span> 結果画像を保存（ストーリーズ・共有用）
+      </button>
+      <button class="act-btn btn-retry" id="btnModalRetry">
+        <span>🔄</span> もう一度作務をする
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 画像書き出し用のオフスクリーンCanvas -->
+<canvas id="shareCanvas" width="1080" height="1080"></canvas>
+
+<nav class="tabs" aria-label="Main">
+  <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
+  <a href="../characters/"><span aria-hidden="true">🪷</span><b>キャラ</b></a>
+  <a href="../amulet/"><span aria-hidden="true">🏷️</span><b>お守り</b></a>
+  <a href="./" aria-current="page"><span aria-hidden="true">🧹</span><b>作務掃除</b></a>
+  <a href="../team/"><span aria-hidden="true">👤</span><b>マイページ</b></a>
+</nav>
+
+<script>
+(function() {
+  'use strict';
+
+  if (!CanvasRenderingContext2D.prototype.roundRect) {
+    CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+      var rad = (typeof r === 'number') ? r : 12;
+      this.beginPath();
+      this.moveTo(x + rad, y);
+      this.arcTo(x + w, y, x + w, y + h, rad);
+      this.arcTo(x + w, y + h, x, y + h, rad);
+      this.arcTo(x, y + h, x, y, rad);
+      this.arcTo(x, y, x + w, y, rad);
+      this.closePath();
+      return this;
+    };
+  }
+
+  // --- サウンドエンジン（Web Audio API・外部ファイル不要） ---
+  var audioCtx = null;
+  var soundEnabled = true;
+
+  function initAudio() {
+    if (!audioCtx) {
+      var AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (AudioContext) audioCtx = new AudioContext();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+  }
+
+  function playBroomSound() {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      var t = audioCtx.currentTime;
+      var bufferSize = audioCtx.sampleRate * 0.08;
+      var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      var data = buffer.getChannelData(0);
+      for (var i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+      }
+      var noise = audioCtx.createBufferSource();
+      noise.buffer = buffer;
+      var filter = audioCtx.createBiquadFilter();
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(800 + Math.random() * 400, t);
+      filter.Q.setValueAtTime(2.5, t);
+      var gain = audioCtx.createGain();
+      gain.gain.setValueAtTime(0.18, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+      noise.start(t);
+    } catch(e) {}
+  }
+
+  function playBellChime() {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      var t = audioCtx.currentTime;
+      var freqs = [528, 1056, 1584];
+      freqs.forEach(function(f, idx) {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, t);
+        var vol = (idx === 0) ? 0.35 : 0.12;
+        gain.gain.setValueAtTime(vol, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 2.5);
+      });
+    } catch(e) {}
+  }
+
+  function playDiscoverSound() {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      var t = audioCtx.currentTime;
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(659.25, t); // E5
+      osc.frequency.setValueAtTime(880, t + 0.08); // A5
+      gain.gain.setValueAtTime(0.2, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.35);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + 0.4);
+    } catch(e) {}
+  }
+
+  // --- お宝・珍客リスト（お寺あるある） ---
+  var TREASURES = [
+    {
+      id: 'cat',
+      icon: '🐱',
+      name: '境内で爆睡する茶トラ猫',
+      desc: '作務中ですが微動だにしません。撫でると徳が上がります。',
+      tweet: '境内で爆睡する茶トラ猫🐱を発見！'
+    },
+    {
+      id: 'coin',
+      icon: '🪙',
+      name: '賽銭箱に届かなかった5円玉',
+      desc: '「ご縁がありますように」と投げられたが手前に落ちた小銭。徳+50。',
+      tweet: '賽銭箱に届かなかった5円玉🪙を発見！ご縁がありますように。'
+    },
+    {
+      id: 'airpods',
+      icon: '🎧',
+      name: '誰かのAirPods（右耳）',
+      desc: '座禅中にポロッと落とした現代人の煩悩。充電残り14%。',
+      tweet: '誰かの落としたAirPods🎧を発見！現代の煩悩を供養しました。'
+    },
+    {
+      id: 'monkey',
+      icon: '🐒',
+      name: '参道のイタズラ猿',
+      desc: '参拝者のバナナを狙っている。箒を向けると威嚇してきます。',
+      tweet: '参道のイタズラ猿🐒と遭遇！バナナを死守しました。'
+    },
+    {
+      id: 'crocs',
+      icon: '🩴',
+      name: '片方だけ置き去りのサンダル',
+      desc: 'なぜ片足だけで帰れたのか、お寺最大の七不思議。',
+      tweet: '片方だけ置き去りのサンダル🩴を発見！お寺の七不思議です。'
+    },
+    {
+      id: 'lotus',
+      icon: '🪷',
+      name: '奇跡の黄金蓮華',
+      desc: '千年に一度咲くといわれる伝説の蓮華。超大吉・大開運！',
+      tweet: '千年に一度の奇跡の黄金蓮華🪷を発見！超大吉です。'
+    }
+  ];
+
+  // --- ゲームステート ---
+  var canvas = document.getElementById('gameCanvas');
+  var ctx = canvas.getContext('2d');
+  var stageWrap = document.getElementById('stageWrap');
+  
+  var W = 0, H = 0, dpr = 1;
+  var leaves = [];
+  var totalLeaves = 38;
+  var clearedCount = 0;
+  var isPlaying = false;
+  var isCleared = false;
+  var startTime = 0;
+  var clearTime = 0;
+  var timerInterval = null;
+
+  var currentTreasure = null;
+  var treasureRevealed = false;
+  var treasurePos = { x: 0.5, y: 0.5 };
+
+  // ポインター追従
+  var pointer = { x: -999, y: -999, active: false, px: -999, py: -999, speed: 0 };
+  var sweepTrail = [];
+  var lastSoundTime = 0;
+
+  // 葉っぱの種類（色と形状）
+  var LEAF_TYPES = ['momiji', 'icho', 'lotus', 'temple'];
+
+  function randomRange(min, max) { return min + Math.random() * (max - min); }
+
+  function resize() {
+    var rect = stageWrap.getBoundingClientRect();
+    W = rect.width;
+    H = rect.height;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function initGame() {
+    resize();
+    leaves = [];
+    clearedCount = 0;
+    isPlaying = false;
+    isCleared = false;
+    startTime = 0;
+    clearTime = 0;
+    treasureRevealed = false;
+    sweepTrail = [];
+    clearInterval(timerInterval);
+
+    document.getElementById('timeDisplay').textContent = '0.0s';
+    document.getElementById('cleanPercent').textContent = '0%';
+    document.getElementById('cleanGauge').style.width = '0%';
+    document.getElementById('leavesLeft').textContent = totalLeaves;
+    document.getElementById('resultModal').classList.remove('active');
+    document.getElementById('treasureToast').classList.remove('show');
+
+    // ランダムなお宝を決定し、中央付近に配置
+    currentTreasure = TREASURES[Math.floor(Math.random() * TREASURES.length)];
+    treasurePos = {
+      x: W * randomRange(0.35, 0.65),
+      y: H * randomRange(0.35, 0.65)
+    };
+
+    // 葉っぱを生成（全体に散らしつつ、お宝の上にも少し集める）
+    for (var i = 0; i < totalLeaves; i++) {
+      var lx, ly;
+      if (i < 8) {
+        // お宝の近くに密集させる
+        lx = treasurePos.x + randomRange(-40, 40);
+        ly = treasurePos.y + randomRange(-40, 40);
+      } else {
+        lx = randomRange(W * 0.1, W * 0.9);
+        ly = randomRange(H * 0.1, H * 0.9);
+      }
+
+      leaves.push({
+        x: lx,
+        y: ly,
+        vx: 0,
+        vy: 0,
+        type: LEAF_TYPES[Math.floor(Math.random() * LEAF_TYPES.length)],
+        angle: randomRange(0, Math.PI * 2),
+        vAngle: randomRange(-0.02, 0.02),
+        size: randomRange(26, 38),
+        cleared: false,
+        opacity: 1
+      });
+    }
+  }
+
+  // --- 描画ルーチン ---
+  function drawTempleStoneBG() {
+    // 寺院の石畳（温かい敷石）
+    ctx.fillStyle = '#221c18';
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.strokeStyle = '#322922';
+    ctx.lineWidth = 3;
+
+    // 石畳の目地グリッド
+    var tileSize = 70;
+    var cols = Math.ceil(W / tileSize);
+    var rows = Math.ceil(H / tileSize);
+
+    for (var r = 0; r <= rows; r++) {
+      var y = r * tileSize;
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(W, y);
+      ctx.stroke();
+    }
+    for (var c = 0; c <= cols; c++) {
+      var x = c * tileSize;
+      ctx.beginPath();
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, H);
+      ctx.stroke();
+    }
+
+    // 中央にうっすら寺院の蓮華紋章
+    ctx.save();
+    ctx.translate(W / 2, H / 2);
+    ctx.strokeStyle = 'rgba(229, 179, 56, 0.06)';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.arc(0, 0, Math.min(W, H) * 0.28, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function drawTreasure() {
+    if (!currentTreasure) return;
+    ctx.save();
+    ctx.translate(treasurePos.x, treasurePos.y);
+
+    // 見つかったら後光エフェクト
+    if (treasureRevealed) {
+      ctx.fillStyle = 'rgba(245, 197, 66, 0.25)';
+      ctx.beginPath();
+      ctx.arc(0, 0, 36, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    ctx.font = '36px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(currentTreasure.icon, 0, 0);
+
+    ctx.restore();
+  }
+
+  function drawLeaf(leaf) {
+    if (leaf.cleared) return;
+    ctx.save();
+    ctx.translate(leaf.x, leaf.y);
+    ctx.rotate(leaf.angle);
+    ctx.globalAlpha = leaf.opacity;
+
+    // 影
+    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.beginPath();
+    ctx.ellipse(3, 4, leaf.size * 0.5, leaf.size * 0.35, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // 葉の描画（種類別）
+    if (leaf.type === 'momiji') {
+      // 紅葉（赤・深紅）
+      ctx.fillStyle = '#C0392B';
+      ctx.beginPath();
+      ctx.moveTo(0, -leaf.size * 0.6);
+      ctx.lineTo(leaf.size * 0.3, -leaf.size * 0.2);
+      ctx.lineTo(leaf.size * 0.6, -leaf.size * 0.1);
+      ctx.lineTo(leaf.size * 0.2, leaf.size * 0.2);
+      ctx.lineTo(leaf.size * 0.4, leaf.size * 0.5);
+      ctx.lineTo(0, leaf.size * 0.3);
+      ctx.lineTo(-leaf.size * 0.4, leaf.size * 0.5);
+      ctx.lineTo(-leaf.size * 0.2, leaf.size * 0.2);
+      ctx.lineTo(-leaf.size * 0.6, -leaf.size * 0.1);
+      ctx.lineTo(-leaf.size * 0.3, -leaf.size * 0.2);
+      ctx.closePath();
+      ctx.fill();
+    } else if (leaf.type === 'icho') {
+      // イチョウ（鮮やかな黄金黄）
+      ctx.fillStyle = '#E5B338';
+      ctx.beginPath();
+      ctx.moveTo(0, leaf.size * 0.4);
+      ctx.arc(0, 0, leaf.size * 0.5, Math.PI * 1.1, Math.PI * 1.9, false);
+      ctx.closePath();
+      ctx.fill();
+      // 葉柄
+      ctx.strokeStyle = '#8E6E1A';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, leaf.size * 0.1);
+      ctx.lineTo(0, leaf.size * 0.55);
+      ctx.stroke();
+    } else if (leaf.type === 'lotus') {
+      // 蓮の花びら（淡い桃色〜白グラデーション）
+      var grad = ctx.createLinearGradient(0, -leaf.size * 0.5, 0, leaf.size * 0.5);
+      grad.addColorStop(0, '#FFA8C5');
+      grad.addColorStop(1, '#FFF2F6');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, leaf.size * 0.3, leaf.size * 0.55, 0, 0, Math.PI * 2);
+      ctx.fill();
+    } else {
+      // 寺院の枯れ葉（琥珀色・茶）
+      ctx.fillStyle = '#8B5A2B';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, leaf.size * 0.35, leaf.size * 0.5, Math.PI / 4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = '#5A3716';
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(0, -leaf.size * 0.4);
+      ctx.lineTo(0, leaf.size * 0.4);
+      ctx.stroke();
+    }
+
+    ctx.restore();
+  }
+
+  function drawSweepTrail() {
+    // 箒の軌跡と風エフェクト
+    if (sweepTrail.length < 2) return;
+    ctx.save();
+    ctx.strokeStyle = 'rgba(245, 197, 66, 0.4)';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    for (var i = 1; i < sweepTrail.length; i++) {
+      var p1 = sweepTrail[i - 1];
+      var p2 = sweepTrail[i];
+      var age = (performance.now() - p2.t) / 300;
+      if (age < 1) {
+        ctx.lineWidth = (1 - age) * 16;
+        ctx.strokeStyle = 'rgba(245, 197, 66, ' + ((1 - age) * 0.45) + ')';
+        ctx.beginPath();
+        ctx.moveTo(p1.x, p1.y);
+        ctx.lineTo(p2.x, p2.y);
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  }
+
+  // --- ゲームループ・物理計算 ---
+  function update() {
+    var now = performance.now();
+
+    // 軌跡の寿命管理
+    sweepTrail = sweepTrail.filter(function(p) { return now - p.t < 300; });
+
+    // 葉っぱの物理計算
+    var remainingNearTreasure = 0;
+    var sweepRadius = 52;
+
+    leaves.forEach(function(leaf) {
+      if (leaf.cleared) return;
+
+      // ポインター（箒）との衝突判定
+      if (pointer.active && pointer.speed > 1.2) {
+        var dx = leaf.x - pointer.x;
+        var dy = leaf.y - pointer.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < sweepRadius) {
+          // スワイプの勢いに応じて吹き飛ばす
+          var force = Math.min(pointer.speed * 1.8, 32);
+          var nx = (dist === 0) ? 1 : dx / dist;
+          var ny = (dist === 0) ? 0 : dy / dist;
+
+          leaf.vx = (pointer.vx * 0.7) + (nx * force);
+          leaf.vy = (pointer.vy * 0.7) + (ny * force);
+          leaf.vAngle = (Math.random() - 0.5) * 0.35;
+
+          // サウンド
+          if (now - lastSoundTime > 90) {
+            playBroomSound();
+            lastSoundTime = now;
+          }
+        }
+      }
+
+      // 速度の減衰と移動
+      leaf.x += leaf.vx;
+      leaf.y += leaf.vy;
+      leaf.angle += leaf.vAngle;
+      leaf.vx *= 0.91;
+      leaf.vy *= 0.91;
+      leaf.vAngle *= 0.94;
+
+      // 画面端判定（外へ出たらクリア）
+      var pad = 30;
+      if (leaf.x < -pad || leaf.x > W + pad || leaf.y < -pad || leaf.y > H + pad) {
+        leaf.cleared = true;
+        clearedCount++;
+        onProgressUpdate();
+      }
+
+      // お宝の上に残っている葉のカウント
+      if (!treasureRevealed && currentTreasure) {
+        var tdx = leaf.x - treasurePos.x;
+        var tdy = leaf.y - treasurePos.y;
+        if (Math.sqrt(tdx * tdx + tdy * tdy) < 46) {
+          remainingNearTreasure++;
+        }
+      }
+    });
+
+    // お宝の出現判定
+    if (!treasureRevealed && remainingNearTreasure === 0 && currentTreasure) {
+      treasureRevealed = true;
+      playDiscoverSound();
+      showTreasureToast();
+    }
+
+    // 100%完了判定
+    if (!isCleared && clearedCount >= totalLeaves) {
+      onGameClear();
+    }
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    drawTempleStoneBG();
+    drawTreasure();
+    leaves.forEach(drawLeaf);
+    drawSweepTrail();
+  }
+
+  function loop() {
+    update();
+    render();
+    requestAnimationFrame(loop);
+  }
+
+  // --- イベントリスナー（ポインター操作） ---
+  function onPointerDown(e) {
+    initAudio();
+    pointer.active = true;
+    var rect = canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    pointer.x = x;
+    pointer.y = y;
+    pointer.px = x;
+    pointer.py = y;
+    pointer.vx = 0;
+    pointer.vy = 0;
+    pointer.speed = 0;
+
+    sweepTrail.push({ x: x, y: y, t: performance.now() });
+
+    if (!isPlaying && !isCleared) {
+      startGameTimer();
+    }
+  }
+
+  function onPointerMove(e) {
+    if (!pointer.active) return;
+    var rect = canvas.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+
+    var vx = x - pointer.x;
+    var vy = y - pointer.y;
+    pointer.vx = vx;
+    pointer.vy = vy;
+    pointer.speed = Math.sqrt(vx * vx + vy * vy);
+    pointer.px = pointer.x;
+    pointer.py = pointer.y;
+    pointer.x = x;
+    pointer.y = y;
+
+    sweepTrail.push({ x: x, y: y, t: performance.now() });
+  }
+
+  function onPointerUp() {
+    pointer.active = false;
+    pointer.speed = 0;
+  }
+
+  canvas.addEventListener('pointerdown', onPointerDown);
+  window.addEventListener('pointermove', onPointerMove);
+  window.addEventListener('pointerup', onPointerUp);
+  window.addEventListener('pointercancel', onPointerUp);
+
+  // --- 進行状況とタイマー ---
+  function startGameTimer() {
+    isPlaying = true;
+    startTime = performance.now();
+    timerInterval = setInterval(function() {
+      var elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+      document.getElementById('timeDisplay').textContent = elapsed + 's';
+    }, 100);
+  }
+
+  function onProgressUpdate() {
+    var pct = Math.floor((clearedCount / totalLeaves) * 100);
+    document.getElementById('cleanPercent').textContent = pct + '%';
+    document.getElementById('cleanGauge').style.width = pct + '%';
+    document.getElementById('leavesLeft').textContent = (totalLeaves - clearedCount);
+  }
+
+  function showTreasureToast() {
+    var toast = document.getElementById('treasureToast');
+    document.getElementById('toastIcon').textContent = currentTreasure.icon;
+    document.getElementById('toastText').textContent = currentTreasure.name + ' 発見！';
+    toast.classList.add('show');
+    setTimeout(function() {
+      toast.classList.remove('show');
+    }, 3200);
+  }
+
+  function onGameClear() {
+    isCleared = true;
+    isPlaying = false;
+    clearInterval(timerInterval);
+    clearTime = ((performance.now() - startTime) / 1000).toFixed(1);
+    playBellChime();
+
+    // ランク・評価決定
+    var t = parseFloat(clearTime);
+    var rankTitle = '', rankDesc = '';
+    if (t < 11.0) {
+      rankTitle = '神仏級の箒さばき';
+      rankDesc = '風火輪に乗ったナチャ並みの神速。境内もあなたの心もチリひとつありません！';
+    } else if (t < 18.0) {
+      rankTitle = '歴戦の住職級';
+      rankDesc = '無駄のない流れるような作務。日頃の煩悩も綺麗さっぱり洗い流されました。';
+    } else if (t < 28.0) {
+      rankTitle = '精進の修行僧級';
+      rankDesc = '一枚一枚丁寧に掃き清めました。その真面目さに寺院の神々も微笑んでいます。';
+    } else {
+      rankTitle = '猫とまったり級';
+      rankDesc = 'お寺の長閑な空気に癒やされながら、マイペースに作務を完遂しました。';
+    }
+
+    document.getElementById('resRankTitle').textContent = rankTitle;
+    document.getElementById('resRankDesc').textContent = rankDesc;
+    document.getElementById('resTime').textContent = clearTime + '秒';
+    document.getElementById('resItemIcon').textContent = currentTreasure.icon;
+    document.getElementById('resItemName').textContent = currentTreasure.name;
+    document.getElementById('resItemNote').textContent = currentTreasure.desc;
+
+    // X共有リンクの設定
+    var tweetText = 'ナチャ寺で落ち葉を掃き清めました！🪷\n' +
+      '【作務タイム: ' + clearTime + '秒｜称号: ' + rankTitle + '】\n' +
+      currentTreasure.tweet + '\n' +
+      '心が整うお寺の作務ゲーム #ナチャ寺の落ち葉はき #お寺あるある\n';
+    var tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText) + '&url=' + encodeURIComponent('https://towananika.github.io/nacha/clean/');
+    document.getElementById('btnShareX').href = tweetUrl;
+
+    setTimeout(function() {
+      document.getElementById('resultModal').classList.add('active');
+    }, 500);
+  }
+
+  // --- 結果画像の生成・保存（Instagram / X 用 1:1 Canvas） ---
+  function generateShareImage() {
+    var sc = document.getElementById('shareCanvas');
+    var sctx = sc.getContext('2d');
+    var sW = 1080, sH = 1080;
+
+    // 背景：重厚な寺院トーン
+    sctx.fillStyle = '#181310';
+    sctx.fillRect(0, 0, sW, sH);
+
+    // 外枠（二重金枠）
+    sctx.strokeStyle = '#D4AC0D';
+    sctx.lineWidth = 8;
+    sctx.strokeRect(36, 36, sW - 72, sH - 72);
+    sctx.strokeStyle = '#5A471C';
+    sctx.lineWidth = 2;
+    sctx.strokeRect(48, 48, sW - 96, sH - 96);
+
+    // 四隅の飾り
+    var corn = 30;
+    sctx.fillStyle = '#D4AC0D';
+    [[48,48], [sW-48,48], [48,sH-48], [sW-48,sH-48]].forEach(function(p) {
+      sctx.fillRect(p[0] - corn/2, p[1] - corn/2, corn, corn);
+    });
+
+    // タイトル
+    sctx.font = '900 48px "Noto Serif JP", serif';
+    sctx.fillStyle = '#F5C542';
+    sctx.textAlign = 'center';
+    sctx.fillText('那 茶 寺 · 作 務 録', sW / 2, 130);
+
+    // 落款印（心身清浄）
+    sctx.save();
+    sctx.translate(sW / 2, 260);
+    sctx.rotate(-0.04);
+    sctx.fillStyle = 'rgba(192, 57, 43, 0.2)';
+    sctx.fillRect(-150, -55, 300, 110);
+    sctx.strokeStyle = '#C0392B';
+    sctx.lineWidth = 6;
+    sctx.strokeRect(-150, -55, 300, 110);
+    sctx.font = '900 58px "Noto Serif JP", serif';
+    sctx.fillStyle = '#ff6b57';
+    sctx.fillText('心 身 清 浄', 0, 18);
+    sctx.restore();
+
+    // 称号
+    sctx.font = '700 40px "Noto Serif JP", serif';
+    sctx.fillStyle = '#FFFFFF';
+    sctx.fillText('【 ' + document.getElementById('resRankTitle').textContent + ' 】', sW / 2, 410);
+
+    // タイム ＆ 徳
+    sctx.fillStyle = '#261e19';
+    sctx.strokeStyle = '#4a3c33';
+    sctx.lineWidth = 2;
+    sctx.beginPath();
+    sctx.roundRect(160, 470, sW - 320, 140, 20);
+    sctx.fill();
+    sctx.stroke();
+
+    sctx.font = '26px "Noto Serif JP", serif';
+    sctx.fillStyle = '#a89a8c';
+    sctx.fillText('清掃タイム: ' + clearTime + '秒   /   積んだ徳: ＋108', sW / 2, 535);
+    sctx.font = '22px "Noto Serif JP", serif';
+    sctx.fillStyle = '#E5B338';
+    sctx.fillText('煩悩100%消滅 · 境内完全清浄', sW / 2, 575);
+
+    // 発見したお宝
+    sctx.fillStyle = 'rgba(229, 179, 56, 0.12)';
+    sctx.strokeStyle = '#E5B338';
+    sctx.beginPath();
+    sctx.roundRect(160, 640, sW - 320, 180, 20);
+    sctx.fill();
+    sctx.stroke();
+
+    sctx.font = '64px "Segoe UI Emoji", sans-serif';
+    sctx.fillText(currentTreasure.icon, 250, 745);
+
+    sctx.font = '700 32px "Noto Serif JP", serif';
+    sctx.fillStyle = '#F5C542';
+    sctx.textAlign = 'left';
+    sctx.fillText(currentTreasure.name, 320, 715);
+
+    sctx.font = '24px "Noto Serif JP", serif';
+    sctx.fillStyle = '#d5c7b9';
+    sctx.fillText(currentTreasure.desc.slice(0, 22), 320, 765);
+
+    // フッタークレジット
+    sctx.textAlign = 'center';
+    sctx.font = '22px "Lilita One", sans-serif';
+    sctx.fillStyle = '#8c7d71';
+    sctx.fillText('NACHA TEMPLE SAMU PROJECT · towananika.github.io/nacha/clean/', sW / 2, 940);
+    sctx.font = '20px "Noto Serif JP", serif';
+    sctx.fillText('那茶（ナチャ）— カンボジア寺院の小さな神様', sW / 2, 980);
+
+    // ダウンロードトリガー
+    try {
+      var dataUrl = sc.toDataURL('image/png');
+      var a = document.createElement('a');
+      a.download = 'nacha-samu-' + Date.now() + '.png';
+      a.href = dataUrl;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    } catch(e) {
+      alert('画像の保存に失敗しました。スクリーンショットをお試しください。');
+    }
+  }
+
+  // --- イベント登録 ---
+  document.getElementById('btnSaveImg').addEventListener('click', generateShareImage);
+  document.getElementById('btnModalRetry').addEventListener('click', function() {
+    initGame();
+  });
+  document.getElementById('resetBtn').addEventListener('click', function() {
+    initGame();
+  });
+
+  // 音の切り替え
+  document.getElementById('soundBtn').addEventListener('click', function() {
+    soundEnabled = !soundEnabled;
+    this.textContent = soundEnabled ? '🔊' : '🔇';
+  });
+
+  // 画面リサイズ追従
+  window.addEventListener('resize', function() {
+    resize();
+    render();
+  });
+
+  // 初期化開始
+  initGame();
+  requestAnimationFrame(loop);
+
+})();
+</script>
+</body>
+</html>

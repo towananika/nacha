@@ -1,104 +1,106 @@
-<!doctype html>
-<html lang="ja">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NACHA Fan Page (Unofficial)</title>
-<meta name="description" content="非公式ファンページ：小さな神様ナチャと遊べるミニゲームと、ちょっとした紹介">
-<meta name="theme-color" content="#C0392B">
-<meta property="og:type" content="website"><meta property="og:title" content="NACHA Fan Page (Unofficial)"><meta property="og:description" content="非公式ファンページ：小さな神様ナチャと遊べるミニゲームと、ちょっとした紹介"><meta property="og:image" content="https://towananika.github.io/nacha/assets/cast.jpg">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%AE%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css">
-</head>
-<body>
-<a class="skip" href="#main" data-i="skip">メインへ</a>
-<div class="bar"><a class="brand" href="./">NACHA</a>
-<div class="barr"><a class="pill" href="team/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span data-i="acct">マイページ</span></a>
-<div class="lang"><button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></button>
-<ul class="lmenu" id="langMenu" hidden><li><button data-l="ja">日本語</button></li><li><button data-l="en">English</button></li><li><button data-l="ko">한국어</button></li><li><button data-l="zh">繁體中文</button></li><li><button data-l="zhs">简体中文</button></li><li><button data-l="th">ภาษาไทย</button></li><li><button data-l="km">ភាសាខ្មែរ</button></li><li><button data-l="id">Bahasa Indonesia</button></li></ul></div></div></div>
-<p class="unoff" id="unoffBar"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
-<div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
-<main id="main">
-<section class="playhero">
-  <div class="phtxt">
-    <h1 class="logo">NACHA</h1>
-    <p data-i="ph_lead">小さな神様ナチャと、30秒であそぼう</p>
-    <a class="btn big" href="arcade/spear/">▶ <span data-i="ph_cta">あそぶ</span></a>
-  </div>
-  <button class="nbtn" type="button" id="nachaBtn" aria-label="Tap Nacha">
-    <span class="bubble" id="bubble">Hey, it's Nacha!</span>
-    <img id="nachaImg" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
-    <span class="tapme" aria-hidden="true" data-i="ph_tap">タップしてみて</span>
-  </button>
-</section>
-
-<section class="reveal">
-  <h2 class="sec" data-i="games_h">ミニゲーム</h2>
-  <a class="game" href="arcade/spear/">
-    <span class="gemo" aria-hidden="true">🔥</span>
-    <span class="gtxt"><b>Fire Spear</b><span data-i="g_spear">悪気をタップで焼きはらえ！</span></span>
-    <span class="gplay" aria-hidden="true">▶</span>
-  </a>
-  <div class="game soon" aria-disabled="true">
-    <span class="gemo" aria-hidden="true">🛞</span>
-    <span class="gtxt"><b data-i="g_more">つぎのゲーム</b><span data-i="g_more_d">準備中…ナチャが修行中</span></span>
-  </div>
-</section>
-
-<section class="omikuji reveal" id="omikuji">
-  <img src="assets/nacha-pray.webp" alt="" width="429" height="686" loading="lazy">
-  <div>
-    <small data-i="mk_h">ナチャみくじ</small>
-    <q id="wordText" data-i="mk_tap">ボタンを押して、今日のことばを引こう</q>
-    <p class="luck" id="luck" hidden></p>
-    <button class="btn" type="button" id="drawBtn"><span data-i="mk_btn">ひく</span></button>
-  </div>
-</section>
-
-<section class="burn reveal" id="burn">
-  <img class="bnacha" src="assets/nacha-spear.webp" alt="" loading="lazy">
-  <small data-i="bn_h">煩悩やき</small>
-  <p class="bsub" data-i="bn_sub">モヤモヤを書くと、ナチャが火焔槍で焼きはらう</p>
-  <form id="burnForm" class="bform" autocomplete="off">
-    <div class="bpaper" id="bPaper"><input id="burnIn" maxlength="40" data-i18n-ph="bn_ph" placeholder="例: 月曜がこわい" aria-label="worry"></div>
-    <button class="btn bbtn" type="submit">🔥 <span data-i="bn_btn">焼く</span></button>
-  </form>
-  <p class="bres" id="burnRes" aria-live="polite"></p>
-  <p class="bnote" data-i="bn_note">書いた言葉はどこにも送られません</p>
-</section>
-
-<section class="reveal">
-  <h2 class="sec" data-i="about_h">ナチャのこと</h2>
-  <p class="what" data-i="what">NACHAは、実在の仏教寺院と神様キャラクター「ナチャ」から生まれたミームコインのプロジェクト。お寺の活動を透明に支える方法を探りながら、お寺の物語を世界のクリプトコミュニティに届けます。</p>
-  <div class="tiles">
-    <a class="tile" href="characters/"><img src="assets/poster.jpg" alt="" loading="lazy" style="object-position:50% 38%"><b data-i="t_chars">ナチャってだれ？</b></a>
-    <a class="tile" href="amulet/"><img src="assets/outfit.jpg" alt="" loading="lazy" style="object-position:15% 58%"><b data-i="t_amulet">毎日のお守り</b></a>
-    <a class="tile" href="roadmap/"><img src="assets/app.jpg" alt="" loading="lazy" style="object-position:82% 50%"><b data-i="t_road">これからの歩み</b></a>
-    <a class="tile" href="#real"><img src="assets/cast.jpg" alt="" loading="lazy" style="object-position:30% 50%"><b data-i="real_h">カンボジアのお寺</b></a>
-  </div>
-  <div class="real" id="real">
-    <span class="flag" aria-hidden="true">🇰🇭</span>
-    <div><p><b data-i="real_1">カンボジア・プノンペン</b><br><span data-i="real_2">悠遊観音堂。創設者が1年かけて、風・水・大地の調和した土地を探して建てた。</span></p><p data-i="real_3">ナチャは、そのお寺で暮らす小さな神様。</p></div>
-  </div>
-</section>
-
-<section class="reveal">
-  <h2 class="sec" data-i="links">リンク</h2>
-  <div class="icons">
-    <a href="https://x.com/nacha_project" target="_blank" rel="noopener"><i class="b-x"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></i><span>X</span></a>
-    <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener"><i class="b-ig"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></i><span>Instagram</span></a>
-    <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener"><i class="b-tt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></i><span>TikTok</span></a>
-    <a href="https://www.youtube.com/channel/UCSL-AKI-8_qfWnOJYKSf26Q" target="_blank" rel="noopener"><i class="b-yt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></i><span>YouTube</span></a>
-    <a href="https://nacha.club/" target="_blank" rel="noopener"><i class="b-hp"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></i><span data-i="site">公式サイト</span></a>
-    <a href="https://linktr.ee/Nacha_Project" target="_blank" rel="noopener"><i class="b-lt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="m13.73635 5.85251 4.00467-4.11665 2.3248 2.3808-4.20064 4.00466h5.9085v3.30473h-5.9365l4.22865 4.10766-2.3248 2.3338L12.0005 12.099l-5.74052 5.76852-2.3248-2.3248 4.22864-4.10766h-5.9375V8.12132h5.9085L3.93417 4.11666l2.3248-2.3808 4.00468 4.11665V0h3.4727zm-3.4727 10.30614h3.4727V24h-3.4727z"/></svg></i><span>Linktree</span></a>
-  </div>
-</section>
-<footer>NACHA Fan Page · Unofficial</footer>
-</main>
-<nav class="tabs" aria-label="Main"><a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a><a href="characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">キャラ</b></a><a href="amulet/"><span aria-hidden="true">🏷️</span><b data-i="nav_amulet">お守り</b></a><a href="roadmap/"><span aria-hidden="true">🗺️</span><b data-i="nav_road">ロードマップ</b></a><a href="arcade/"><span aria-hidden="true">🎮</span><b data-i="nav_play">あそぶ</b></a></nav><script src="assets/i18n.js"></script>
-<script src="assets/site.js"></script>
-</body>
-</html>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NACHA Fan Page (Unofficial)</title>
+<meta name="description" content="非公式ファンページ：小さな神様ナチャと遊べるミニゲームと、ちょっとした紹介">
+<meta name="theme-color" content="#C0392B">
+<meta property="og:type" content="website"><meta property="og:title" content="NACHA Fan Page (Unofficial)"><meta property="og:description" content="非公式ファンページ：小さな神様ナチャと遊べるミニゲームと、ちょっとした紹介"><meta property="og:image" content="https://towananika.github.io/nacha/assets/cast.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%AE%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main" data-i="skip">メインへ</a>
+<div class="bar"><a class="brand" href="./">NACHA</a>
+<div class="barr"><a class="pill" href="team/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span data-i="acct">マイページ</span></a>
+<div class="lang"><button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></button>
+<ul class="lmenu" id="langMenu" hidden><li><button data-l="ja">日本語</button></li><li><button data-l="en">English</button></li><li><button data-l="ko">한국어</button></li><li><button data-l="zh">繁體中文</button></li><li><button data-l="zhs">简体中文</button></li><li><button data-l="th">ภาษาไทย</button></li><li><button data-l="km">ភាសាខ្មែរ</button></li><li><button data-l="id">Bahasa Indonesia</button></li></ul></div></div></div>
+<p class="unoff" id="unoffBar"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
+<main id="main">
+<section class="playhero">
+  <div class="phtxt">
+    <h1 class="logo">NACHA</h1>
+    <p data-i="ph_lead">小さな神様ナチャと、30秒であそぼう</p>
+    <a class="btn big" href="arcade/spear/">▶ <span data-i="ph_cta">あそぶ</span></a>
+  </div>
+  <button class="nbtn" type="button" id="nachaBtn" aria-label="Tap Nacha">
+    <span class="bubble" id="bubble">Hey, it's Nacha!</span>
+    <img id="nachaImg" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
+    <span class="tapme" aria-hidden="true" data-i="ph_tap">タップしてみて</span>
+  </button>
+</section>
+
+<section class="reveal">
+  <h2 class="sec" data-i="games_h">ミニゲーム</h2>
+  <a class="game" href="clean/" style="border: 2px solid var(--gold); box-shadow: 0 4px 14px rgba(212, 172, 13, 0.2);">
+    <span class="gemo" aria-hidden="true">🧹</span>
+    <span class="gtxt"><b style="color:var(--gold);">ナチャ寺の落ち葉はき</b><span>15秒で作務！指でサッサッと煩悩を掃き清めよう</span></span>
+    <span class="gplay" aria-hidden="true">▶</span>
+  </a>
+  <a class="game" href="arcade/spear/">
+    <span class="gemo" aria-hidden="true">🔥</span>
+    <span class="gtxt"><b>Fire Spear</b><span data-i="g_spear">悪気をタップで焼きはらえ！</span></span>
+    <span class="gplay" aria-hidden="true">▶</span>
+  </a>
+</section>
+
+<section class="omikuji reveal" id="omikuji">
+  <img src="assets/nacha-pray.webp" alt="" width="429" height="686" loading="lazy">
+  <div>
+    <small data-i="mk_h">ナチャみくじ</small>
+    <q id="wordText" data-i="mk_tap">ボタンを押して、今日のことばを引こう</q>
+    <p class="luck" id="luck" hidden></p>
+    <button class="btn" type="button" id="drawBtn"><span data-i="mk_btn">ひく</span></button>
+  </div>
+</section>
+
+<section class="burn reveal" id="burn">
+  <img class="bnacha" src="assets/nacha-spear.webp" alt="" loading="lazy">
+  <small data-i="bn_h">煩悩やき</small>
+  <p class="bsub" data-i="bn_sub">モヤモヤを書くと、ナチャが火焔槍で焼きはらう</p>
+  <form id="burnForm" class="bform" autocomplete="off">
+    <div class="bpaper" id="bPaper"><input id="burnIn" maxlength="40" data-i18n-ph="bn_ph" placeholder="例: 月曜がこわい" aria-label="worry"></div>
+    <button class="btn bbtn" type="submit">🔥 <span data-i="bn_btn">焼く</span></button>
+  </form>
+  <p class="bres" id="burnRes" aria-live="polite"></p>
+  <p class="bnote" data-i="bn_note">書いた言葉はどこにも送られません</p>
+</section>
+
+<section class="reveal">
+  <h2 class="sec" data-i="about_h">ナチャのこと</h2>
+  <p class="what" data-i="what">NACHAは、実在の仏教寺院と神様キャラクター「ナチャ」から生まれたミームコインのプロジェクト。お寺の活動を透明に支える方法を探りながら、お寺の物語を世界のクリプトコミュニティに届けます。</p>
+  <div class="tiles">
+    <a class="tile" href="characters/"><img src="assets/poster.jpg" alt="" loading="lazy" style="object-position:50% 38%"><b data-i="t_chars">ナチャってだれ？</b></a>
+    <a class="tile" href="amulet/"><img src="assets/outfit.jpg" alt="" loading="lazy" style="object-position:15% 58%"><b data-i="t_amulet">毎日のお守り</b></a>
+    <a class="tile" href="clean/"><img src="assets/waiting.jpg" alt="" loading="lazy" style="object-position:50% 40%"><b>お寺の作務（掃除）</b></a>
+    <a class="tile" href="roadmap/"><img src="assets/app.jpg" alt="" loading="lazy" style="object-position:82% 50%"><b data-i="t_road">これからの歩み</b></a>
+    <a class="tile" href="#real"><img src="assets/cast.jpg" alt="" loading="lazy" style="object-position:30% 50%"><b data-i="real_h">カンボジアのお寺</b></a>
+  </div>
+  <div class="real" id="real">
+    <span class="flag" aria-hidden="true">🇰🇭</span>
+    <div><p><b data-i="real_1">カンボジア・プノンペン</b><br><span data-i="real_2">悠遊観音堂。創設者が1年かけて、風・水・大地の調和した土地を探して建てた。</span></p><p data-i="real_3">ナチャは、そのお寺で暮らす小さな神様。</p></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <h2 class="sec" data-i="links">リンク</h2>
+  <div class="icons">
+    <a href="https://x.com/nacha_project" target="_blank" rel="noopener"><i class="b-x"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></i><span>X</span></a>
+    <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener"><i class="b-ig"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></i><span>Instagram</span></a>
+    <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener"><i class="b-tt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></i><span>TikTok</span></a>
+    <a href="https://www.youtube.com/channel/UCSL-AKI-8_qfWnOJYKSf26Q" target="_blank" rel="noopener"><i class="b-yt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></i><span>YouTube</span></a>
+    <a href="https://nacha.club/" target="_blank" rel="noopener"><i class="b-hp"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></i><span data-i="site">公式サイト</span></a>
+    <a href="https://linktr.ee/Nacha_Project" target="_blank" rel="noopener"><i class="b-lt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="m13.73635 5.85251 4.00467-4.11665 2.3248 2.3808-4.20064 4.00466h5.9085v3.30473h-5.9365l4.22865 4.10766-2.3248 2.3338L12.0005 12.099l-5.74052 5.76852-2.3248-2.3248 4.22864-4.10766h-5.9375V8.12132h5.9085L3.93417 4.11666l2.3248-2.3808 4.00468 4.11665V0h3.4727zm-3.4727 10.30614h3.4727V24h-3.4727z"/></svg></i><span>Linktree</span></a>
+  </div>
+</section>
+<footer>NACHA Fan Page · Unofficial</footer>
+</main>
+<nav class="tabs" aria-label="Main"><a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a><a href="characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">キャラ</b></a><a href="amulet/"><span aria-hidden="true">🏷️</span><b data-i="nav_amulet">お守り</b></a><a href="roadmap/"><span aria-hidden="true">🗺️</span><b data-i="nav_road">ロードマップ</b></a><a href="arcade/"><span aria-hidden="true">🎮</span><b data-i="nav_play">あそぶ</b></a></nav><script src="assets/i18n.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
