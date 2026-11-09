@@ -27,11 +27,11 @@
 <p class="ps" id="ptS" data-i="tm_sub">開発用の非公開資料は、関係者だけが見られます</p>
 
 <section id="authBox" class="card authc" hidden>
-  <h1 class="ah" data-i="tm_login">ログイン</h1>
-  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><p class="or"><span data-i="g_or">または</span></p></div>
-  <form id="authForm" autocomplete="on">
-    <label><span data-i="tm_idmail">IDまたはメール</span><input id="aId" name="username" autocomplete="username" required minlength="3" maxlength="100"></label>
-    <label><span data-i="tm_pw">パスワード</span><span class="pwf"><input id="aPw" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="64"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
+  <div class="ahero"><span class="abub"><h1 class="ah0" data-i="au_hi">おかえり！</h1></span><img src="../assets/nacha-wink.png" alt="" width="712" height="1072"></div>
+  <div class="gbox"><div class="gbtn" id="gBtn"></div><button class="mbtn" type="button" id="mailBtn" aria-expanded="false">✉️ <span data-i="g_mail">メールで続ける</span></button></div>
+  <form id="authForm" class="mform" autocomplete="on" hidden>
+    <label><span class="vh" data-i="tm_idmail">IDまたはメール</span><input id="aId" data-i18n-ph="tm_idmail" placeholder="IDまたはメール" name="username" autocomplete="username" required minlength="3" maxlength="100"></label>
+    <label><span class="vh" data-i="tm_pw">パスワード</span><span class="pwf"><input id="aPw" data-i18n-ph="tm_pw" placeholder="パスワード" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="64"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
     <button class="btn" type="submit" id="aSubmit"><span id="aSubmitL" data-i="tm_login">ログイン</span></button>
     <p class="amsg" id="aMsg" role="alert"></p>
   </form>

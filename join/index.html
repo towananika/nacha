@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 </head>
-<body>
+<body class="authmode">
 <a class="skip" href="#main" data-i="skip">メインへ</a>
 <div class="bar"><a class="brand" href="../">NACHA</a>
 <div class="barr"><a class="pill" href="../team/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span data-i="acct">ログイン・登録</span></a><button class="ibtn" id="shareBtn" type="button" aria-label="Share"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg></button>
@@ -24,11 +24,11 @@
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
 <main id="main">
 <section class="card authc">
-  <h1 class="ah" data-i="jn_title">会員登録</h1>
-  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><p class="or"><span data-i="g_or">または</span></p></div>
-  <form id="joinForm" autocomplete="on" novalidate>
-    <label><span data-i="jn_mail">メールアドレス</span><input id="jEmail" name="email" type="email" autocomplete="email" required maxlength="100"></label>
-    <label><span data-i="tm_pw">パスワード</span><span class="pwf"><input id="jPw" name="new-password" type="password" autocomplete="new-password" required minlength="8" maxlength="64" data-i18n-ph="ph_pw8" placeholder="8文字以上"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
+  <div class="ahero"><span class="abub"><h1 class="ah0" data-i="au_new">はじめまして！</h1></span><img src="../assets/nacha-wink.png" alt="" width="712" height="1072"></div>
+  <div class="gbox"><div class="gbtn" id="gBtn"></div><button class="mbtn" type="button" id="mailBtn" aria-expanded="false">✉️ <span data-i="g_mail">メールで続ける</span></button></div>
+  <form id="joinForm" class="mform" autocomplete="on" novalidate hidden>
+    <label><span class="vh" data-i="jn_mail">メールアドレス</span><input id="jEmail" data-i18n-ph="jn_mail" placeholder="メールアドレス" name="email" type="email" autocomplete="email" required maxlength="100"></label>
+    <label><span class="vh" data-i="tm_pw">パスワード</span><span class="pwf"><input id="jPw" name="new-password" type="password" autocomplete="new-password" required minlength="8" maxlength="64" data-i18n-ph="ph_pw8" placeholder="8文字以上"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
     <button class="btn" type="submit" id="jSubmit"><span data-i="jn_title">会員登録</span></button>
     <p class="amsg" id="jMsg" role="alert"></p>
   </form>

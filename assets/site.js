@@ -73,3 +73,7 @@
 
 // パスワードの表示・非表示（ログイン・会員登録）
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-eye]');if(!b)return;var i=b.parentNode.querySelector('input');i.type=i.type==='password'?'text':'password';b.classList.toggle('on',i.type==='text')});
+
+// 「メールで続ける」を押したときだけ入力欄を開く
+(function(){var b=document.getElementById('mailBtn');if(!b)return;var f=document.querySelector('.mform');
+b.addEventListener('click',function(){f.hidden=false;b.hidden=true;b.setAttribute('aria-expanded','true');var i=f.querySelector('input');if(i)i.focus()})})();

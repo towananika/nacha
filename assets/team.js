@@ -31,6 +31,7 @@
   function render(){
     var u=state&&state.user;
     $('authBox').hidden=!!u; $('meBox').hidden=!u; $('ptT').hidden=$('ptS').hidden=!u;
+    document.body.classList.toggle('authmode',!u);
     $('generalNote').hidden=!(u&&!u.member);
     $('docBox').hidden=!(u&&u.member&&doc);
     $('aSubmitL').textContent=t(mode==='login'?'tm_login':'tm_reg');
@@ -125,7 +126,7 @@
         if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();shareHub();load()}
         else $('aMsg').textContent=t('g_err')+' ('+(j.error||j.status)+')';   // 原因が分かるように理由も出す
       },function(){$('aMsg').textContent=err('net')});
-    },'continue_with').then(function(ok){$('gBox').hidden=!ok});
+    },'continue_with').then(function(ok){$('gBtn').hidden=!ok});
     if(want==='link')nachaGoogle($('gLink'),function(cred){
       call('googlelink',{credential:cred}).then(function(j){
         if(j.ok){state.user=j.user;save();render()}else alert(t(j.error==='google-used'?'g_used':'g_err'));

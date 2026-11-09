@@ -198,3 +198,18 @@ a.linkbtn{text-align:center}
 .afoot{margin:16px 0 0;text-align:center;font-size:14px;color:var(--sub)}
 .afoot a{color:var(--acc);font-weight:700}
 .authc .amsg:empty{display:none}
+
+/* ログイン A+B+D: ナチャの一言＋ボタン2つ、周りは静かに */
+body.authmode .tabs,body.authmode #shareBtn,body.authmode .barr .pill{display:none}
+body.authmode main{padding-bottom:24px}
+.ahero{display:flex;flex-direction:column;align-items:center;margin:-4px 0 6px}
+.ahero img{width:auto;height:150px;object-fit:contain;filter:drop-shadow(0 6px 10px #0002)}
+.abub{position:relative;background:#fff;color:#1A1A1A;padding:8px 16px;border-radius:16px;box-shadow:0 3px 0 #0002;margin-bottom:8px}
+.abub:after{content:"";position:absolute;left:50%;bottom:-8px;margin-left:-8px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
+.ah0{margin:0;font:22px/1.1 "Lilita One",sans-serif;font-weight:400;color:var(--acc)}
+.mbtn{width:280px;max-width:100%;min-height:44px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:15px;font-weight:700;cursor:pointer}
+.mbtn:hover{border-color:var(--acc)}
+.mform{margin-top:6px}
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.authc .afoot{font-size:13px}
+.authc form[hidden],.gbtn[hidden],.mbtn[hidden]{display:none}
