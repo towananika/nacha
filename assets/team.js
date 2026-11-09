@@ -19,6 +19,7 @@
     pw:{ja:'パスワードは8〜64文字です',en:'Password: 8–64 characters',ko:'비밀번호는 8~64자예요',zh:'密碼須為 8–64 個字元'},
     'pw-id':{ja:'IDと同じパスワードは使えません',en:'Password must differ from ID',ko:'ID와 같은 비밀번호는 쓸 수 없어요',zh:'密碼不可與 ID 相同'},
     'too-many':{ja:'試行が多すぎます。しばらく待ってください',en:'Too many tries. Please wait.',ko:'시도가 너무 많아요. 잠시 기다려 주세요',zh:'嘗試次數過多，請稍候'},
+    ready:{ja:'ログインの受付を準備中です。しばらくしてからもう一度お試しください',en:'Login is being set up. Please try again later.',ko:'로그인을 준비 중이에요. 잠시 후 다시 시도해 주세요',zh:'登入功能準備中，請稍後再試'},
     net:{ja:'通信できませんでした',en:'Could not connect',ko:'연결할 수 없어요',zh:'無法連線'},
     none:{ja:'資料はまだ登録されていません',en:'No documents yet',ko:'아직 등록된 자료가 없어요',zh:'尚未登錄資料'}};
   function lang(){var l=document.documentElement.lang;return l==='zh-Hant'?'zh':(ERR.wrong[l]?l:(l==='ja'?'ja':'en'))}
@@ -102,7 +103,7 @@
     call(mode,{id:$('aId').value.trim().toLowerCase(),pw:$('aPw').value}).then(function(j){
       b.disabled=false;
       if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();$('aPw').value='';load()}
-      else $('aMsg').textContent=err(j.error);
+      else $('aMsg').textContent=err(j.error||(j.service?'ready':'net'));
     },function(){b.disabled=false;$('aMsg').textContent=err('net')});
   });
   $('logoutBtn').addEventListener('click',function(){

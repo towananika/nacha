@@ -10,6 +10,7 @@
     taken:{ja:'このIDは使われています',en:'This ID is taken',ko:'이미 사용 중인 ID예요',zh:'此 ID 已被使用'},
     full:{ja:'登録できる人数の上限です',en:'Registration is full',ko:'가입 가능 인원이 가득 찼어요',zh:'註冊人數已滿'},
     'too-many':{ja:'試行が多すぎます。しばらく待ってください',en:'Too many tries. Please wait.',ko:'시도가 너무 많아요. 잠시 기다려 주세요',zh:'嘗試次數過多，請稍候'},
+    ready:{ja:'登録の受付を準備中です。しばらくしてからもう一度お試しください',en:'Sign-up is being set up. Please try again later.'},
     net:{ja:'通信できませんでした',en:'Could not connect',ko:'연결할 수 없어요',zh:'無法連線'}};
   function msg(k){var l=document.documentElement.lang;l=l==='zh-Hant'?'zh':l;var m=M[k]||M.net;return m[l]||(l==='ja'?m.ja:m.en)}
   $('joinForm').addEventListener('submit',function(ev){
@@ -23,7 +24,7 @@
       .then(function(j){
         b.disabled=false;
         if(j.ok&&j.token){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}))}catch(e){}location.href='../team/'}
-        else $('jMsg').textContent=msg(j.error);
+        else $('jMsg').textContent=msg(j.error||(j.service?'ready':'net'));
       },function(){b.disabled=false;$('jMsg').textContent=msg('net')});
   });
 })();

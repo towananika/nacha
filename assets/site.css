@@ -173,3 +173,9 @@ a.linkbtn{text-align:center}
 @media (max-width:420px){.playhero h1{font-size:44px}}
 .what{margin:0 4px 12px;font-size:14px;line-height:1.7}
 .lmenu{max-height:70vh;overflow:auto}
+.pill{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-size:12px;font-weight:700;white-space:nowrap}
+.pill:hover{border-color:var(--acc);color:var(--acc)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin-bottom:14px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.seg>*{display:block;text-align:center;padding:9px 6px;border-radius:9px;font-size:14px;font-weight:700;color:var(--sub);text-decoration:none}
+.seg .on{background:var(--acc);color:#fff}
+@media (max-width:380px){.pill span{display:none}}
