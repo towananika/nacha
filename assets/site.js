@@ -31,7 +31,7 @@
   // tap Nacha (公式の画像だけを使う)
   var nb=document.getElementById('nachaBtn');
   if(nb){
-    var P=['assets/nacha-wink.png','assets/nacha-spear.png','assets/nacha-pray.png','assets/nacha-wheels.png'];
+    var P=['assets/nacha-wink.webp','assets/nacha-spear.webp','assets/nacha-pray.webp','assets/nacha-wheels.webp'];
     var L=["Hey, it's Nacha!","Let's play!","Fire spear, ready!","Don't tell them it was me.","Small god, big heart!","Wind-fire wheels, go!","Small steps. Strong spirit."];
     var pi=0,li=0,img=document.getElementById('nachaImg'),bb=document.getElementById('bubble');
     P.forEach(function(u){var i=new Image();i.src=u});
