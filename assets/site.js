@@ -195,3 +195,15 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
   var d=new Date().toISOString().slice(0,10),seen='';try{seen=localStorage.getItem('nacha-unoff')||'';localStorage.setItem('nacha-unoff',d)}catch(e){}
   if(seen===d){b.classList.add('gone');b.style.transition='none';return}
   setTimeout(function(){b.classList.add('gone')},10000)})();
+// 時間帯連動（夕暮れ・深夜の寄り添い挨拶）
+(function(){
+  var hr = new Date().getHours();
+  var bb = document.getElementById('bubble');
+  if (bb) {
+    if (hr >= 22 || hr < 5) {
+      bb.textContent = '夜遅くまでお疲れさま。無理しないでね🌙';
+    } else if (hr >= 17) {
+      bb.textContent = '今日もお疲れさま！お堂でひと休みしていこう🏮';
+    }
+  }
+})();
