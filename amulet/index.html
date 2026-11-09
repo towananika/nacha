@@ -909,8 +909,9 @@ function updateXShareLink(customOshi, customPray) {
 
     ctx.font = '700 28px "M PLUS Rounded 1c", sans-serif';
     ctx.fillStyle = '#F5D77F';
+    var cd = calcCd();
     var subH = currentMode === 'oshi' 
-      ? '推し色: ' + activeColor.name + activeColor.emoji + ' · チケット当選＆神席加護' 
+      ? '推し色: ' + activeColor.name + activeColor.emoji + (cd ? ' · ' + cd : ' · チケット当選＆神席加護')
       : 'NACHA AMULET · カンボジア寺院の小さな神様';
     ctx.fillText(subH, 540, 205);
 
@@ -1000,17 +1001,24 @@ function updateXShareLink(customOshi, customPray) {
     ctx.font = '20px "Noto Serif JP", serif';
     ctx.fillText('那茶（ナチャ）— カンボジア悠遊観音堂の小さな神様', 540, 1260);
 
-    // ダウンロード
+    // モーダルで表示（スマホ長押し保存＆PCダウンロード両対応）
     try {
       var dataUrl = canvas.toDataURL('image/png');
-      var a = document.createElement('a');
-      a.download = 'nacha-amulet-' + (activeColor.id) + '-' + Date.now() + '.png';
-      a.href = dataUrl;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      var saveModal = document.getElementById('saveModal');
+      var savedModalImg = document.getElementById('savedModalImg');
+      var directDlBtn = document.getElementById('directDlBtn');
+      var fileName = 'nacha-amulet-' + (activeColor.id) + '-' + Date.now() + '.png';
+
+      savedModalImg.src = dataUrl;
+      directDlBtn.href = dataUrl;
+      directDlBtn.download = fileName;
+      saveModal.style.display = 'flex';
+
+      var closeModal = function() { saveModal.style.display = 'none'; };
+      document.getElementById('closeSaveModalBtn').onclick = closeModal;
+      document.getElementById('closeSaveModalBtn2').onclick = closeModal;
     } catch(err) {
-      alert('画像の保存に失敗しました。スクリーンショットをお試しください。');
+      alert('画像の生成に失敗しました。画面のスクリーンショットをお試しください。');
     }
   });
 
@@ -1032,5 +1040,26 @@ function updateXShareLink(customOshi, customPray) {
 
 })();
 </script>
+
+  <!-- 画像保存・長押し案内モーダル -->
+  <div id="saveModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;padding:20px;overflow-y:auto;-webkit-overflow-scrolling:touch;align-items:center;justify-content:center;backdrop-filter:blur(8px);">
+    <div style="background:var(--card,#1c121f);border:1px solid rgba(229,179,56,0.3);border-radius:20px;max-width:440px;width:100%;padding:20px;box-sizing:border-box;text-align:center;position:relative;box-shadow:0 10px 40px rgba(0,0,0,0.6);">
+      <button type="button" id="closeSaveModalBtn" style="position:absolute;top:12px;right:14px;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:4px;">✕</button>
+      <div style="font-size:12px;font-weight:700;color:var(--gold,#E5B338);letter-spacing:1px;margin-bottom:4px;">✨ お守りが完成しました</div>
+      <h3 style="font-size:17px;margin:0 0 10px;color:#fff;">画像を保存して持ち歩こう</h3>
+      <p style="font-size:12.5px;color:var(--sub,#bbb);margin:0 0 14px;line-height:1.5;">
+        📱 <b>スマートフォンの方:</b><br>下の画像を<b>【長押し】</b>して「写真に保存」してください。<br>
+        💻 <b>パソコンの方:</b> 下の保存ボタンからダウンロードできます。
+      </p>
+      <div style="margin:0 auto 16px;max-width:260px;border-radius:12px;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.15);">
+        <img id="savedModalImg" src="" alt="完成したお守り" style="width:100%;height:auto;display:block;">
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <a id="directDlBtn" href="#" download="nacha-amulet.png" class="btn gold" style="display:inline-block;padding:12px;font-size:14px;font-weight:700;text-decoration:none;border-radius:999px;">📥 画像を端末にダウンロード</a>
+        <button type="button" id="closeSaveModalBtn2" class="btn" style="padding:10px;font-size:13px;border-radius:999px;">閉じる</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

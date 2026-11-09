@@ -698,15 +698,29 @@ main {
     "「胸の苦しい塊、少しずつ溶けて軽くなってきたかな？」"
   ];
 
+  var secLeft = 0;
+  var secIntervalId = null;
+
+  function tickSecond() {
+    if (secLeft > 0) {
+      var prefix = breatheStep === 1 ? "すーっと吸って… " : (breatheStep === 2 ? "そっと止めて… " : "ふーっと吐いて… ");
+      breatheText.textContent = prefix + secLeft + "秒";
+      secLeft--;
+    }
+  }
+
   function runBreatheCycle() {
     if (!breathingActive) return;
+    clearInterval(secIntervalId);
 
     if (breatheStep === 0) {
       // すって (4秒)
       haloCircle.className = 'halo-circle inhale';
-      breatheText.textContent = "すーっと吸って…";
+      secLeft = 4;
+      tickSecond();
+      secIntervalId = setInterval(tickSecond, 1000);
       breatheText.style.color = "var(--lotus-pink)";
-      breatheTimer.textContent = "お腹に光を集めるイメージで（4秒）";
+      breatheTimer.textContent = "お腹に光を集めるイメージで";
       nachaWhisper.innerHTML = WHISPERS[0];
       playSingingBowlTone(396, 4.0);
 
@@ -715,9 +729,11 @@ main {
     } else if (breatheStep === 1) {
       // とめて (3秒)
       haloCircle.className = 'halo-circle hold';
-      breatheText.textContent = "そっと止めて…";
+      secLeft = 3;
+      tickSecond();
+      secIntervalId = setInterval(tickSecond, 1000);
       breatheText.style.color = "var(--gold-glow)";
-      breatheTimer.textContent = "心の中を静けさで満たそう（3秒）";
+      breatheTimer.textContent = "心の中を静けさで満たそう";
       nachaWhisper.innerHTML = WHISPERS[1];
 
       breatheStep = 2;
@@ -725,15 +741,16 @@ main {
     } else {
       // はいて (6秒)
       haloCircle.className = 'halo-circle exhale';
-      breatheText.textContent = "ふーっと吐いて…";
+      secLeft = 6;
+      tickSecond();
+      secIntervalId = setInterval(tickSecond, 1000);
       breatheText.style.color = "var(--text-soft)";
-      breatheTimer.textContent = "身体の中の疲れを全部外へ（6秒）";
+      breatheTimer.textContent = "身体の中の疲れを全部外へ";
       breatheCount++;
       var wIdx = (breatheCount % (WHISPERS.length - 2)) + 2;
       nachaWhisper.innerHTML = WHISPERS[wIdx];
-      playSingingBowlTone(432, 5.0); // 432Hz: 宇宙・自然の調和周波数
+      playSingingBowlTone(432, 5.0);
 
-      // 3回深呼吸を達成したらコイン付与
       if (breatheCount === 3 && window.NachaCoins) {
         var r = NachaCoins.earn('mindful_breathe', 5, null, { skipVerify: true });
         if (r && r.success && window.NachaCoins.showEarnToast) {
@@ -759,6 +776,7 @@ main {
   function stopBreathing() {
     breathingActive = false;
     clearTimeout(breatheTimerId);
+    clearInterval(secIntervalId);
     haloCircle.className = 'halo-circle';
     breatheText.textContent = "おつかれさま、よくできたね";
     breatheText.style.color = "#fff";
