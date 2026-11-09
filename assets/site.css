@@ -171,3 +171,4 @@ a.linkbtn{text-align:center}
 .tiles+.real{margin-top:12px}
 @media (prefers-reduced-motion:reduce){.btn.big,.nbtn img{animation:none}}
 @media (max-width:420px){.playhero h1{font-size:44px}}
+.what{margin:0 4px 12px;font-size:14px;line-height:1.7}
