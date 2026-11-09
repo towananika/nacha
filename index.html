@@ -63,68 +63,74 @@
   .font{margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:12px;color:var(--sub)}
   .font b{display:block;font-family:"Lilita One",sans-serif;font-weight:400;font-size:26px;color:var(--acc);letter-spacing:.04em}
   @media (max-width:420px){.sym{grid-template-columns:1fr}}
+  .lang{display:flex;justify-content:flex-end;gap:6px;margin-bottom:10px}
+  .lang button{font:inherit;font-size:12px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--sub);cursor:pointer}
+  .lang button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff}
+  .lang button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  [hidden]{display:none!important}
   footer{margin-top:36px;text-align:center;color:var(--sub);font-size:12px}
 </style>
 </head>
 <body>
 <main>
+  <nav class="lang" aria-label="Language"><button data-l="ja">日本語</button><button data-l="en">EN</button><button data-l="ko">한국어</button><button data-l="zh">繁體</button></nav>
   <header>
-    <img class="hero" src="assets/cast.jpg" alt="NACHAと3柱の神様" width="1023" height="576" fetchpriority="high">
+    <img class="hero" src="assets/cast.jpg" data-i18n-alt="heroAlt" alt="NACHAと3柱の神様" width="1023" height="576" fetchpriority="high">
     <h1>NACHA</h1>
-    <p class="lead">小さな神様ナチャと、カンボジアのお寺のものがたり</p>
+    <p class="lead" data-i="lead">小さな神様ナチャと、カンボジアのお寺のものがたり</p>
     <div class="cta">
-      <a href="https://x.com/nacha_project" target="_blank" rel="noopener">X をフォロー</a>
+      <a href="https://x.com/nacha_project" target="_blank" rel="noopener" data-i="fx">X をフォロー</a>
       <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener">Instagram</a>
     </div>
   </header>
 
-  <h2>NACHAってなに？</h2>
+  <h2 data-i="h_about">NACHAってなに？</h2>
   <div class="story">
-    <p>いたずら好きで、まっすぐで、こっそり人助けをする小さな神様。それがナチャです。</p>
-    <p>舞台は、カンボジアに実在する悠遊観音堂。現代と精霊の世界が重なるこの土地に「悪気」が染み出すとき、ナチャと3柱の神様が、人々の夢と希望を守ります。</p>
-    <p>お寺・文化・コミュニティをつなぐプロジェクトです。まずはナチャに会いに来てください。</p>
+    <p data-i="p1">いたずら好きで、まっすぐで、こっそり人助けをする小さな神様。それがナチャです。</p>
+    <p data-i="p2">舞台は、カンボジアに実在する悠遊観音堂。現代と精霊の世界が重なるこの土地に「悪気」が染み出すとき、ナチャと3柱の神様が、人々の夢と希望を守ります。</p>
+    <p data-i="p3">お寺・文化・コミュニティをつなぐプロジェクトです。まずはナチャに会いに来てください。</p>
   </div>
 
-  <h2>NACHAのしるし</h2>
+  <h2 data-i="h_sym">NACHAのしるし</h2>
   <div class="sym">
-    <img src="assets/outfit.jpg" alt="ナチャの衣装" width="512" height="640" loading="lazy">
+    <img src="assets/outfit.jpg" data-i18n-alt="outAlt" alt="ナチャの衣装" width="512" height="640" loading="lazy">
     <ul>
-      <li><b>黒いダブルおだんご＋赤いリボン</b>風にたなびく赤いリボンが目印。</li>
-      <li><b>赤い上着と金の龍</b>袖と裾に金の龍の刺繍。</li>
-      <li><b>黒い帯と白いタッセル</b>金の結び飾りと白い房。</li>
-      <li><b>琥珀色の大きな目</b>やんちゃで、まっすぐなまなざし。</li>
-      <li><b>火焔槍と風火輪</b>炎の槍と、風と火の車輪で駆ける。</li>
+      <li><b data-i="l1t">黒いダブルおだんご＋赤いリボン</b><span data-i="l1d">風にたなびく赤いリボンが目印。</span></li>
+      <li><b data-i="l2t">赤い上着と金の龍</b><span data-i="l2d">袖と裾に金の龍の刺繍。</span></li>
+      <li><b data-i="l3t">黒い帯と白いタッセル</b><span data-i="l3d">金の結び飾りと白い房。</span></li>
+      <li><b data-i="l4t">琥珀色の大きな目</b><span data-i="l4d">やんちゃで、まっすぐなまなざし。</span></li>
+      <li><b data-i="l5t">火焔槍と風火輪</b><span data-i="l5d">炎の槍と、風と火の車輪で駆ける。</span></li>
     </ul>
   </div>
   <div class="sw">
-    <div style="background:#C0392B">ナチャレッド<br>#C0392B</div>
-    <div style="background:#D4AC0D">聖なる金<br>#D4AC0D</div>
-    <div style="background:#1A1A1A">墨黒<br>#1A1A1A</div>
-    <div style="background:#fffdf9;color:#7a6e64">クリーム</div>
+    <div style="background:#C0392B"><span data-i="c1">ナチャレッド</span><br>#C0392B</div>
+    <div style="background:#D4AC0D"><span data-i="c2">聖なる金</span><br>#D4AC0D</div>
+    <div style="background:#1A1A1A"><span data-i="c3">墨黒</span><br>#1A1A1A</div>
+    <div style="background:#fffdf9;color:#7a6e64"><span data-i="c4">クリーム</span></div>
   </div>
-  <div class="font"><b>NACHA</b>ロゴ書体：Lilita One（丸みのある太字）／ 筆文字の赤いロゴと、赤い落款「哪吒」</div>
-  <div class="motif"><span>🪷 蓮</span><span>🔥 護摩の火</span><span>🏮 提灯</span><span>📿 数珠</span><span>🛕 アンコール風の塔</span><span>🍂 舞う赤い葉</span><span>🎀 赤いリボン</span></div>
+  <div class="font"><b>NACHA</b><span data-i="font">ロゴ書体：Lilita One（丸みのある太字）／ 筆文字の赤いロゴと、赤い落款「哪吒」</span></div>
+  <div class="motif"><span>🪷 <i data-i="m1" style="font-style:normal">蓮</i></span><span>🔥 <i data-i="m2" style="font-style:normal">護摩の火</i></span><span>🏮 <i data-i="m3" style="font-style:normal">提灯</i></span><span>📿 <i data-i="m4" style="font-style:normal">数珠</i></span><span>🛕 <i data-i="m5" style="font-style:normal">アンコール風の塔</i></span><span>🍂 <i data-i="m6" style="font-style:normal">舞う赤い葉</i></span><span>🎀 <i data-i="m7" style="font-style:normal">赤いリボン</i></span></div>
 
-  <h2>仲間たち</h2>
+  <h2 data-i="h_cast">仲間たち</h2>
   <div class="cast">
-    <div class="n"><b>NACHA 那吒</b><small>主人公。火焔槍と風火輪で駆ける小さな神様。勇敢で、やんちゃで、困っている人を放っておけない。</small></div>
-    <div><b>白衣観音</b><small>みんなを呼び集めるリーダー。いつも笑顔で話を聴いてくれる。</small></div>
-    <div><b>不動明王</b><small>護摩の炎で煩悩を焼きはらう。怒りではなく覚悟の人。</small></div>
-    <div class="n"><b>南極老人</b><small>鶴を連れた長寿の神様。あわてず、笑って、いいご縁を結ぶ。</small></div>
+    <div class="n"><b>NACHA 那吒</b><small data-i="k0">主人公。火焔槍と風火輪で駆ける小さな神様。勇敢で、やんちゃで、困っている人を放っておけない。</small></div>
+    <div><b data-i="k1n">白衣観音</b><small data-i="k1">みんなを呼び集めるリーダー。いつも笑顔で話を聴いてくれる。</small></div>
+    <div><b data-i="k2n">不動明王</b><small data-i="k2">護摩の炎で煩悩を焼きはらう。怒りではなく覚悟の人。</small></div>
+    <div class="n"><b data-i="k3n">南極老人</b><small data-i="k3">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を結ぶ。</small></div>
   </div>
 
-  <h2>PLAY</h2>
+  <h2 data-i="h_play">PLAY</h2>
   <div class="list">
-    <a class="item" href="arcade/"><span class="ico">🏮</span><span class="txt"><b>NACHA Mini Games</b><span>ナチャと遊べるミニゲーム（Fire Spear・108 Steps・Temple Tour）</span></span><span class="arrow">→</span></a>
+    <a class="item" href="arcade/"><span class="ico">🏮</span><span class="txt"><b>NACHA Mini Games</b><span data-i="play">ナチャと遊べるミニゲーム（Fire Spear・108 Steps・Temple Tour）</span></span><span class="arrow">→</span></a>
   </div>
 
-  <h2>COMING SOON</h2>
+  <h2 data-i="h_soon">COMING SOON</h2>
   <img class="app" src="assets/app.jpg" alt="NACHA APP Coming Soon" width="1672" height="941" loading="lazy">
 
-  <h2>WEBSITE</h2>
+  <h2 data-i="h_web">WEBSITE</h2>
   <div class="list">
-    <a class="item" href="https://nacha.club/" target="_blank" rel="noopener"><span class="ico">HP</span><span class="txt"><b>公式サイト</b><span>nacha.club</span></span><span class="arrow">↗</span></a>
-    <a class="item" href="https://sale.nacha.vip/" target="_blank" rel="noopener"><span class="ico">$</span><span class="txt"><b>アフターセール</b><span>sale.nacha.vip</span></span><span class="arrow">↗</span></a>
+    <a class="item" href="https://nacha.club/" target="_blank" rel="noopener"><span class="ico">HP</span><span class="txt"><b data-i="site">公式サイト</b><span>nacha.club</span></span><span class="arrow">↗</span></a>
+    <a class="item" href="https://sale.nacha.vip/" target="_blank" rel="noopener"><span class="ico">$</span><span class="txt"><b data-i="sale">アフターセール</b><span>sale.nacha.vip</span></span><span class="arrow">↗</span></a>
     <a class="item" href="https://linktr.ee/Nacha_Project" target="_blank" rel="noopener"><span class="ico">🔗</span><span class="txt"><b>Linktree</b><span>linktr.ee/Nacha_Project</span></span><span class="arrow">↗</span></a>
   </div>
 
@@ -136,25 +142,29 @@
     <a class="item" href="https://www.youtube.com/channel/UCSL-AKI-8_qfWnOJYKSf26Q" target="_blank" rel="noopener"><span class="ico">YT</span><span class="txt"><b>YouTube</b><span>NACHA</span></span><span class="arrow">↗</span></a>
   </div>
 
-  <h2>投稿時間</h2>
-  <table>
-    <thead><tr><th>時間</th><th>SNS</th><th>内容</th></tr></thead>
-    <tbody>
-      <tr><td class="t">10:30</td><td>X</td><td>長文</td></tr>
-      <tr><td class="t">14:00</td><td>X</td><td>ことば</td></tr>
-      <tr><td class="t">20:00</td><td>X</td><td>スレッド</td></tr>
-      <tr><td class="t">20:00</td><td>Instagram</td><td>フィード</td></tr>
-      <tr><td class="t">20:05</td><td>Instagram</td><td>ストーリー</td></tr>
-      <tr><td class="t">20:10</td><td>Instagram</td><td>動画</td></tr>
-    </tbody>
-  </table>
-
-  <h2>チーム用</h2>
-  <div class="list">
-    <a class="item" href="https://towananika.github.io/remitech/nacha/"><span class="ico">⚙</span><span class="txt"><b>REMITECH HUB（NACHA）</b><span>準備タブ・コピー文（社内の内容はログインが必要）</span></span><span class="arrow">→</span></a>
-  </div>
-
   <footer>NACHA Project</footer>
 </main>
+<script>
+(function(){
+var T={"en": {"lead": "The small god Nacha and a temple story from Cambodia", "fx": "Follow on X", "h_about": "Who is NACHA?", "p1": "Mischievous, upright, and secretly kind: that is Nacha, a small god.", "p2": "The story is set at Yuyu Kannondo, a real temple in Cambodia, where the modern and spirit worlds overlap. When evil energy seeps in, Nacha and three gods protect people’s dreams and hope.", "p3": "A project that connects temple, culture and community. Come and meet Nacha.", "h_sym": "NACHA’s signs", "l1t": "Black double buns + red ribbons", "l1d": "Red ribbons flowing in the wind.", "l2t": "Red jacket with golden dragons", "l2d": "Gold dragon embroidery on sleeves and hem.", "l3t": "Black sash, white tassel", "l3d": "A gold knot and white tassel.", "l4t": "Big amber eyes", "l4d": "A mischievous, straight gaze.", "l5t": "Fire spear & wind-fire wheels", "l5d": "Rides on wheels of wind and fire.", "c1": "Nacha Red", "c2": "Sacred Gold", "c3": "Ink Black", "c4": "Cream", "font": "Logo font: Lilita One (rounded, bold) / red brush-stroke logo and the red seal “哪吒”", "m1": "Lotus", "m2": "Goma fire", "m3": "Lantern", "m4": "Prayer beads", "m5": "Angkor-style towers", "m6": "Falling red leaves", "m7": "Red ribbon", "h_cast": "The gods", "k0": "The hero. A small god who dashes with a fire spear and wind-fire wheels. Brave, mischievous, never leaves someone in trouble.", "k1n": "White Kun Sim", "k1": "The leader who calls everyone together. Always smiling, always listening.", "k2n": "Fdo King", "k2": "Burns away worldly desires with goma fire. A god of resolve, not anger.", "k3n": "Preah Sousang", "k3": "The longevity god with a crane. Unhurried, smiling, and good at making good ties.", "h_play": "PLAY", "play": "Play with Nacha: Fire Spear, 108 Steps, Temple Tour", "h_soon": "COMING SOON", "h_web": "WEBSITE", "site": "Official site", "sale": "After sale", "heroAlt": "NACHA and three gods", "outAlt": "Nacha’s outfit"}, "ko": {"lead": "작은 신 나차와 캄보디아 사원 이야기", "fx": "X 팔로우", "h_about": "NACHA는 누구?", "p1": "장난기 많고, 곧고, 몰래 사람을 돕는 작은 신. 그게 나차예요.", "p2": "무대는 캄보디아에 실제로 있는 유유관음당. 현대와 정령의 세계가 겹친 이곳에 ‘악기’가 스며들 때, 나차와 세 신이 사람들의 꿈과 희망을 지켜요.", "p3": "사원·문화·커뮤니티를 잇는 프로젝트입니다. 먼저 나차를 만나러 오세요.", "h_sym": "NACHA의 상징", "l1t": "검은 쌍둥이 올림머리 + 빨간 리본", "l1d": "바람에 휘날리는 빨간 리본이 포인트.", "l2t": "빨간 상의와 금빛 용", "l2d": "소매와 밑단에 금빛 용 자수.", "l3t": "검은 띠와 하얀 술", "l3d": "금빛 매듭과 하얀 술 장식.", "l4t": "호박색 큰 눈", "l4d": "장난기 있고 곧은 눈빛.", "l5t": "화염창과 풍화륜", "l5d": "바람과 불의 바퀴로 달려요.", "c1": "나차 레드", "c2": "신성한 금색", "c3": "먹빛 검정", "c4": "크림", "font": "로고 서체: Lilita One(둥글고 굵은 글꼴) / 붓글씨 빨간 로고와 빨간 낙관 ‘哪吒’", "m1": "연꽃", "m2": "호마의 불", "m3": "등불", "m4": "염주", "m5": "앙코르풍 탑", "m6": "흩날리는 빨간 잎", "m7": "빨간 리본", "h_cast": "신들", "k0": "주인공. 화염창과 풍화륜으로 달리는 작은 신. 용감하고 장난꾸러기이며, 어려운 사람을 그냥 지나치지 못해요.", "k1n": "백의관음", "k1": "모두를 불러 모으는 리더. 늘 웃으며 이야기를 들어줘요.", "k2n": "부동명왕", "k2": "호마의 불꽃으로 번뇌를 태워요. 분노가 아니라 각오의 신.", "k3n": "남극노인", "k3": "학과 함께하는 장수의 신. 서두르지 않고 웃으며 좋은 인연을 맺어요.", "h_play": "PLAY", "play": "나차와 함께 놀기: Fire Spear · 108 Steps · Temple Tour", "h_soon": "COMING SOON", "h_web": "WEBSITE", "site": "공식 사이트", "sale": "애프터 세일", "heroAlt": "NACHA와 세 신", "outAlt": "나차의 의상"}, "zh": {"lead": "小神明哪吒與柬埔寨寺廟的故事", "fx": "追蹤 X", "h_about": "NACHA 是誰？", "p1": "頑皮、正直，又會偷偷幫助別人的小神明，就是哪吒。", "p2": "故事舞台是柬埔寨真實存在的悠遊觀音堂。在現代與精靈世界重疊的這片土地，當「惡氣」滲出時，哪吒與三位神明會守護人們的夢想與希望。", "p3": "這是連結寺廟、文化與社群的計畫。先來和哪吒見個面吧。", "h_sym": "NACHA 的標誌", "l1t": "黑色雙丸子頭＋紅絲帶", "l1d": "隨風飄動的紅絲帶是特徵。", "l2t": "紅色上衣與金龍", "l2d": "袖口與下襬繡有金龍。", "l3t": "黑腰帶與白流蘇", "l3d": "金色結飾與白色流蘇。", "l4t": "琥珀色大眼睛", "l4d": "調皮又正直的眼神。", "l5t": "火尖槍與風火輪", "l5d": "踩著風與火的輪子奔馳。", "c1": "哪吒紅", "c2": "神聖金", "c3": "墨黑", "c4": "奶油白", "font": "標誌字體：Lilita One（圓潤粗體）／ 毛筆風紅色標誌與紅色印章「哪吒」", "m1": "蓮花", "m2": "護摩之火", "m3": "燈籠", "m4": "念珠", "m5": "吳哥風格的塔", "m6": "飄落的紅葉", "m7": "紅絲帶", "h_cast": "夥伴們", "k0": "主角。以火尖槍與風火輪奔馳的小神明。勇敢、調皮，看到有人有困難就無法置之不理。", "k1n": "白衣觀音", "k1": "召集大家的領袖。總是笑著傾聽。", "k2n": "不動明王", "k2": "以護摩之火燒盡煩惱。不是憤怒，而是決心的化身。", "k3n": "南極老人", "k3": "帶著仙鶴的長壽之神。從容微笑，擅長結下好緣分。", "h_play": "PLAY", "play": "和哪吒一起玩：Fire Spear・108 Steps・Temple Tour", "h_soon": "COMING SOON", "h_web": "WEBSITE", "site": "官方網站", "sale": "後續銷售", "heroAlt": "NACHA 與三位神明", "outAlt": "哪吒的服裝"}};
+var els=[].slice.call(document.querySelectorAll('[data-i]')),alts=[].slice.call(document.querySelectorAll('[data-i18n-alt]')),only=[];
+els.forEach(function(e){e.dataset.ja=e.textContent});
+alts.forEach(function(e){e.dataset.ja=e.alt});
+function set(l){
+  document.documentElement.lang=l==='zh'?'zh-Hant':l;
+  els.forEach(function(e){var t=l==='ja'?e.dataset.ja:(T[l][e.dataset.i]||e.dataset.ja);e.textContent=t});
+  alts.forEach(function(e){e.alt=l==='ja'?e.dataset.ja:(T[l][e.dataset.i18nAlt]||e.dataset.ja)});
+  only.forEach(function(e){e.hidden=e.dataset.only!==l});
+  [].forEach.call(document.querySelectorAll('.lang button'),function(b){b.setAttribute('aria-pressed',b.dataset.l===l)});
+}
+function pick(){
+  try{var s=localStorage.getItem('nacha-lang');if(s)return s}catch(e){}
+  var n=(navigator.language||'ja').toLowerCase();
+  return n.indexOf('ja')===0?'ja':n.indexOf('ko')===0?'ko':n.indexOf('zh')===0?'zh':n.indexOf('en')===0?'en':'ja';
+}
+document.querySelector('.lang').addEventListener('click',function(ev){var b=ev.target.closest('button');if(!b)return;try{localStorage.setItem('nacha-lang',b.dataset.l)}catch(e){}set(b.dataset.l)});
+set(pick());
+})();
+</script>
 </body>
 </html>
