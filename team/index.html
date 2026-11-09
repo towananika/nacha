@@ -17,7 +17,7 @@
 <body>
 <a class="skip" href="#main" data-i="skip">メインへ</a>
 <div class="bar"><a class="brand" href="../">NACHA</a>
-<div class="barr"><a class="pill" href="../team/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span data-i="acct">ログイン・登録</span></a>
+<div class="barr"><a class="pill" href="../team/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span data-i="acct">マイページ</span></a>
 <div class="lang"><button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></button>
 <ul class="lmenu" id="langMenu" hidden><li><button data-l="ja">日本語</button></li><li><button data-l="en">English</button></li><li><button data-l="ko">한국어</button></li><li><button data-l="zh">繁體中文</button></li><li><button data-l="zhs">简体中文</button></li><li><button data-l="th">ภาษาไทย</button></li><li><button data-l="km">ភាសាខ្មែរ</button></li><li><button data-l="id">Bahasa Indonesia</button></li></ul></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
@@ -40,9 +40,47 @@
 <section id="meBox" class="card mec" hidden>
   <div class="me"><span class="mav" id="meAv"></span><div class="minfo"><b id="meId"></b><small id="meMail"></small></div><span class="rbadge" id="meRole"></span></div>
   <p class="rdesc" id="meDesc"></p>
-  <a class="admlink" id="admLink" href="../admin/" hidden>👥 <span data-i="ad_title">会員の管理</span><span aria-hidden="true">›</span></a>
+  
+  <!-- マイページ・機能タイルメニュー -->
+  <div class="my-dashboard" id="myDashboard">
+    <div class="dash-tiles">
+      <a class="dash-tile" id="dashAdmin" href="../admin/" hidden>
+        <span class="dash-icon">👥</span>
+        <div class="dash-text">
+          <b>会員の管理</b>
+          <small>メンバー一覧の確認・権限の変更</small>
+        </div>
+        <span class="dash-badge">管理者限定</span>
+      </a>
+      <a class="dash-tile" id="dashDocs" href="#docBox" hidden>
+        <span class="dash-icon">📚</span>
+        <div class="dash-text">
+          <b>プロジェクト関連資料</b>
+          <small>社内スライド・企画書（章別ボード）</small>
+        </div>
+        <span class="dash-arrow">&darr;</span>
+      </a>
+      <a class="dash-tile" id="dashAmulet" href="../amulet/">
+        <span class="dash-icon">🏷️</span>
+        <div class="dash-text">
+          <b>蓮華護身符（お守り）</b>
+          <small>毎日の加護を授かる・デジタル願掛け</small>
+        </div>
+        <span class="dash-arrow">&rarr;</span>
+      </a>
+      <a class="dash-tile" id="dashSecurity" href="#pwBox">
+        <span class="dash-icon">🔒</span>
+        <div class="dash-text">
+          <b>アカウント設定</b>
+          <small>パスワード変更・Google連携</small>
+        </div>
+        <span class="dash-arrow">&darr;</span>
+      </a>
+    </div>
+  </div>
+
   <div class="glink"><small id="gLinked" hidden></small><small id="gLinkHint" data-i="g_linkhint" hidden>Googleをつなぐと、次からボタン1つで入れます</small><div id="gLink"></div></div>
-  <details class="pwbox"><summary><span id="pwSum" data-i="pw_change">パスワードを変える</span></summary>
+  <details class="pwbox" id="pwBox"><summary><span id="pwSum" data-i="pw_change">パスワードを変える</span></summary>
     <form id="pwForm" class="mform" autocomplete="on">
       <label id="pwCurL"><span class="vh" data-i="pw_cur">今のパスワード</span><span class="pwf"><input id="pwCur" type="password" autocomplete="current-password" maxlength="64" data-i18n-ph="pw_cur" placeholder="今のパスワード"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
       <label><span class="vh" data-i="pw_new">新しいパスワード</span><span class="pwf"><input id="pwNew" type="password" autocomplete="new-password" required minlength="8" maxlength="64" data-i18n-ph="pw_new" placeholder="新しいパスワード（8文字以上）"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
@@ -58,8 +96,24 @@
   <div class="dochead"><h2 class="sec" data-i="tm_docs">開発資料</h2><span class="secret" data-i="tm_secret">社外秘・転載禁止</span></div>
   <h3 class="doctitle" id="docTitle"></h3>
   <input class="search" id="docSearch" type="search" data-i18n-ph="tm_search" placeholder="資料内を検索">
-  <ol class="slides" id="slides"></ol>
+  <div id="chaptersContainer"></div>
 </section>
+<!-- スライド詳細表示モーダル -->
+<div class="slide-modal-backdrop" id="slideModal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="slide-modal">
+    <div class="slide-modal-header">
+      <h3 id="modalTitle">スライド詳細</h3>
+      <button class="slide-modal-close" id="modalClose" type="button" aria-label="閉じる">&times;</button>
+    </div>
+    <div class="slide-modal-body" id="modalBody"></div>
+    <div class="slide-modal-footer">
+      <button class="btn alt" id="modalPrev" type="button">&larr; 前へ</button>
+      <span id="modalPage" style="font-size:12px;color:var(--sub);font-weight:700;"></span>
+      <button class="btn" id="modalNext" type="button">次へ &rarr;</button>
+    </div>
+  </div>
+</div>
+
 <footer class="ufoot"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></footer>
 </main>
 <nav class="tabs" aria-label="Main"><a href="../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a><a href="../characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">キャラ</b></a><a href="../roadmap/"><span aria-hidden="true">🗺️</span><b data-i="nav_road">ロードマップ</b></a><a href="../arcade/"><span aria-hidden="true">🎮</span><b data-i="nav_play">あそぶ</b></a></nav><script src="../assets/i18n.js"></script>

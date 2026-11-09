@@ -34,7 +34,10 @@
     document.body.classList.toggle('authmode',!u);
     $('docBox').hidden=!(u&&u.member&&doc);
     $('aSubmitL').textContent=t(mode==='login'?'tm_login':'tm_reg');
-    $('admLink').hidden=!(u&&u.admin);
+    
+    if($('dashAdmin')) $('dashAdmin').hidden=!(u&&u.admin);
+    if($('dashDocs')) $('dashDocs').hidden=!(u&&u.member&&doc);
+
     if(u){
       var r=u.owner?'owner':u.admin?'admin':u.member?'member':'user';
       $('meId').textContent=u.id;$('meMail').textContent=u.google||u.email||'';
@@ -57,19 +60,162 @@
     }).then(function(j){if(j){doc=j;draw()}render()},function(){render()});
   }
   function showNone(){var g=$('generalNote');g.hidden=false;g.firstElementChild.textContent=err('none')}
-  function draw(){
-    $('docTitle').textContent=doc.title||'';
-    var ol=$('slides');ol.textContent='';
-    (doc.slides||[]).forEach(function(s){
-      var li=document.createElement('li');li.className='slide';
-      var h=document.createElement('h4');h.textContent=(s.n?s.n+'. ':'')+(s.title||'');li.appendChild(h);
-      (s.lines||[]).forEach(function(x){var p=document.createElement('p');p.textContent=x;li.appendChild(p)});
-      li.dataset.q=((s.title||'')+' '+(s.lines||[]).join(' ')).toLowerCase();
-      ol.appendChild(li);
+var currentModalIdx = 0, allSlides = [];
+
+  function getChapterName(slide, prevChapter) {
+    var lines = slide.lines || [];
+    for (var i = 0; i < lines.length; i++) {
+      var m = /^(\d{2}\s*\/[^\n\r]+)/.exec(lines[i]);
+      if (m) return m[1].trim();
+    }
+    return prevChapter || '01 / OVERVIEW';
+  }
+
+  function openSlideModal(idx) {
+    if (!allSlides || !allSlides.length) return;
+    if (idx < 0) idx = 0;
+    if (idx >= allSlides.length) idx = allSlides.length - 1;
+    currentModalIdx = idx;
+
+    var s = allSlides[idx];
+    $('modalTitle').textContent = (s.n ? s.n + '. ' : '') + (s.title || '無題');
+    
+    var body = $('modalBody');
+    body.innerHTML = '';
+    (s.lines || []).forEach(function(line) {
+      var p = document.createElement('p');
+      p.textContent = line;
+      body.appendChild(p);
     });
+
+    $('modalPage').textContent = (idx + 1) + ' / ' + allSlides.length;
+    $('modalPrev').disabled = (idx === 0);
+    $('modalNext').disabled = (idx === allSlides.length - 1);
+
+    var modal = $('slideModal');
+    modal.classList.add('active');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeSlideModal() {
+    var modal = $('slideModal');
+    if (modal) {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  var modalBound = false;
+  function setupModalEvents() {
+    if (modalBound) return;
+    modalBound = true;
+    var closeBtn = $('modalClose'), modal = $('slideModal');
+    if (closeBtn) closeBtn.addEventListener('click', closeSlideModal);
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) closeSlideModal();
+      });
+    }
+    var prevBtn = $('modalPrev'), nextBtn = $('modalNext');
+    if (prevBtn) prevBtn.addEventListener('click', function() { openSlideModal(currentModalIdx - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function() { openSlideModal(currentModalIdx + 1); });
+
+    document.addEventListener('keydown', function(e) {
+      if (!modal || !modal.classList.contains('active')) return;
+      if (e.key === 'Escape') closeSlideModal();
+      else if (e.key === 'ArrowLeft') openSlideModal(currentModalIdx - 1);
+      else if (e.key === 'ArrowRight') openSlideModal(currentModalIdx + 1);
+    });
+  }
+
+  function draw() {
+    $('docTitle').textContent = doc.title || '';
+    allSlides = doc.slides || [];
+    setupModalEvents();
+
+    var container = $('chaptersContainer');
+    if (!container) return;
+    container.innerHTML = '';
+
+    // 章ごとにスライドをグループ化
+    var chapters = [], curChapter = null, lastChapterName = '';
+    allSlides.forEach(function(s, idx) {
+      s._globalIndex = idx;
+      var cName = getChapterName(s, lastChapterName);
+      if (!curChapter || curChapter.name !== cName) {
+        curChapter = { name: cName, slides: [] };
+        chapters.push(curChapter);
+        lastChapterName = cName;
+      }
+      curChapter.slides.push(s);
+    });
+
+    // 章アコーディオンとボードの生成
+    chapters.forEach(function(ch, chIdx) {
+      var details = document.createElement('details');
+      details.className = 'chapter-accordion';
+      if (chIdx < 2) details.open = true; // 最初の2章を開く
+
+      var summary = document.createElement('summary');
+      summary.className = 'chapter-summary';
+      summary.innerHTML = '<div class="chapter-title-wrap"><span class="chapter-icon">📑</span><span>' + 
+        ch.name + '</span><span class="chapter-badge">' + ch.slides.length + '件</span></div>' +
+        '<span class="chapter-arrow">▶</span>';
+      details.appendChild(summary);
+
+      var grid = document.createElement('div');
+      grid.className = 'board-grid';
+
+      ch.slides.forEach(function(s) {
+        var card = document.createElement('div');
+        card.className = 'slide-card';
+        card.dataset.q = ((s.title || '') + ' ' + (s.lines || []).join(' ')).toLowerCase();
+
+        var previewLines = (s.lines || []).filter(function(l) {
+          return !/^\d{2}\s*\//.test(l) && l.length > 2;
+        }).slice(0, 3).join(' / ');
+
+        card.innerHTML = 
+          '<div class="slide-card-head">' +
+            '<span class="slide-card-num">#' + (s.n || (s._globalIndex + 1)) + '</span>' +
+          '</div>' +
+          '<h4>' + (s.title || '無題スライド') + '</h4>' +
+          '<p class="slide-card-preview">' + (previewLines || 'スライド内容を確認') + '</p>' +
+          '<span class="slide-card-cta">詳細を見る &rarr;</span>';
+
+        card.addEventListener('click', function() {
+          openSlideModal(s._globalIndex);
+        });
+
+        grid.appendChild(card);
+      });
+
+      details.appendChild(grid);
+      container.appendChild(details);
+    });
+
     filter();
   }
-  function filter(){var q=$('docSearch').value.trim().toLowerCase();[].forEach.call(document.querySelectorAll('.slide'),function(li){li.hidden=!!q&&li.dataset.q.indexOf(q)<0})}
+
+  function filter() {
+    var q = $('docSearch').value.trim().toLowerCase();
+    var accordions = document.querySelectorAll('.chapter-accordion');
+    accordions.forEach(function(acc) {
+      var cards = acc.querySelectorAll('.slide-card');
+      var matchedCount = 0;
+      cards.forEach(function(card) {
+        var match = !q || card.dataset.q.indexOf(q) >= 0;
+        card.hidden = !match;
+        if (match) matchedCount++;
+      });
+      if (q) {
+        acc.open = (matchedCount > 0);
+        acc.hidden = (matchedCount === 0);
+      } else {
+        acc.hidden = false;
+      }
+    });
+    }
   $('docSearch').addEventListener('input',filter);
   $('authForm').addEventListener('submit',function(ev){
     ev.preventDefault();
@@ -80,6 +226,7 @@
       else $('aMsg').textContent=err(j.error||(j.service?'ready':'net'));
     },function(){b.disabled=false;$('aMsg').textContent=err('net')});
   });
+
   // Googleでログイン / ログイン中は「Googleをつなぐ」
   var gShown='';
   function gSetup(){

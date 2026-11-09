@@ -320,3 +320,307 @@ body.authmode main{padding-bottom:24px}
 .icons i{border-radius:50%;color:#fff}
 .icons .b-x{background:#000}.icons .b-ig{background:radial-gradient(circle at 30% 107%,#fdf497 0,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
 .icons .b-tt{background:#111}.icons .b-yt{background:#FF0000}.icons .b-hp{background:var(--acc)}.icons .b-lt{background:#43E55E;color:#0b3d17}
+
+/* --- 関連資料ボード＆章折りたたみ（2026-11-09） --- */
+.chapter-accordion {
+  margin-top: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.chapter-accordion[open] {
+  border-color: var(--acc);
+  box-shadow: 0 4px 14px rgba(192, 57, 43, 0.08);
+}
+.chapter-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  background: var(--card);
+  user-select: none;
+  list-style: none;
+}
+.chapter-summary::-webkit-details-marker {
+  display: none;
+}
+.chapter-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.chapter-icon {
+  font-size: 18px;
+}
+.chapter-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accSoft);
+  color: var(--acc);
+}
+.chapter-arrow {
+  transition: transform 0.25s ease;
+  font-size: 13px;
+  color: var(--sub);
+}
+.chapter-accordion[open] .chapter-arrow {
+  transform: rotate(90deg);
+  color: var(--acc);
+}
+
+/* ボード（グリッドレイアウト） */
+.board-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  padding: 14px 16px 18px;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+@media (min-width: 600px) {
+  .board-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* スライドカード */
+.slide-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.slide-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--acc);
+  box-shadow: 0 6px 16px rgba(42, 36, 32, 0.08);
+}
+.slide-card:active {
+  transform: scale(0.98);
+}
+.slide-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.slide-card-num {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 6px;
+  background: var(--line);
+  color: var(--sub);
+}
+.slide-card h4 {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink);
+  line-height: 1.35;
+  font-weight: 700;
+}
+.slide-card-preview {
+  font-size: 12.5px;
+  color: var(--sub);
+  line-height: 1.5;
+  margin: 6px 0 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+.slide-card-cta {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--acc);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 詳細表示モーダル */
+.slide-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(20, 16, 14, 0.75);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.slide-modal-backdrop.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.slide-modal {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 580px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(20px) scale(0.96);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+.slide-modal-backdrop.active .slide-modal {
+  transform: none;
+}
+.slide-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid var(--line);
+}
+.slide-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--acc);
+  line-height: 1.35;
+}
+.slide-modal-close {
+  background: none;
+  border: 0;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--sub);
+  padding: 2px 6px;
+  border-radius: 8px;
+}
+.slide-modal-close:hover {
+  color: var(--acc);
+  background: var(--accSoft);
+}
+.slide-modal-body {
+  padding: 18px 20px;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.slide-modal-body p {
+  margin: 0 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(230, 221, 208, 0.5);
+}
+.slide-modal-body p:last-child {
+  border-bottom: 0;
+}
+.slide-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--bg);
+}
+.slide-modal-footer .btn {
+  padding: 8px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* --- マイページ ダッシュボードタイル（2026-11-09） --- */
+.my-dashboard {
+  margin-top: 18px;
+}
+.dash-tiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 540px) {
+  .dash-tiles {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.dash-tile {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.dash-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--acc);
+  box-shadow: 0 8px 20px rgba(192, 57, 43, 0.12);
+}
+.dash-tile:active {
+  transform: scale(0.98);
+}
+.dash-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: var(--accSoft);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  flex: none;
+}
+.dash-text {
+  flex: 1;
+  min-width: 0;
+}
+.dash-text b {
+  display: block;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+.dash-text small {
+  display: block;
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.4;
+}
+.dash-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #1A1A1A;
+  color: #F4D03F;
+  position: absolute;
+  top: 10px;
+  right: 12px;
+}
+.dash-arrow {
+  color: var(--sub);
+  font-weight: 700;
+  font-size: 16px;
+}
