@@ -1,6 +1,6 @@
-// 会員登録: 登録した人は一般ユーザー。NACHA 専用の会員（サーバーの /nacha/auth/register。ハブとは別）
+// 会員登録: 登録した人は一般ユーザー。とわないか統合ログインのアカウント（ハブと共通。権限はサイト別）
 (function(){
-  var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth';
+  var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth', HUBKEY='remitech-auth';
   var $=function(id){return document.getElementById(id)};
   var M={id:{ja:'IDは英数字3〜20文字です',en:'ID: 3–20 letters/numbers',ko:'ID는 영문·숫자 3~20자예요',zh:'ID 須為 3–20 個英數字'},
     pw:{ja:'パスワードは8〜64文字です',en:'Password: 8–64 characters',ko:'비밀번호는 8~64자예요',zh:'密碼須為 8–64 個字元'},
@@ -23,7 +23,7 @@
       .then(function(r){return r.json().catch(function(){return {}})})
       .then(function(j){
         b.disabled=false;
-        if(j.ok&&j.token){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}))}catch(e){}location.href='../team/'}
+        if(j.ok&&j.token){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}));localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}location.href='../team/'}
         else $('jMsg').textContent=msg(j.error||(j.service?'ready':'net'));
       },function(){b.disabled=false;$('jMsg').textContent=msg('net')});
   });

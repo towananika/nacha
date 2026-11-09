@@ -1,13 +1,17 @@
-// 関係者ページ: ログインはハブ（REMITECH HUB）と別々（サーバーの /nacha/auth/*）。
+// 関係者ページ: とわないか統合ログイン。アカウントとログインの鍵はハブ（REMITECH HUB）と共通、権限は NACHA 用（サーバーの /nacha/auth/*）。
 // 資料そのものは公開リポジトリに置かず、ログインした関係者（member）にだけサーバーの /internal/nachadev から渡す。
 (function(){
-  var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth', DOC='nachadev';
+  var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth', HUBKEY='remitech-auth', DOC='nachadev';
   var $=function(id){return document.getElementById(id)};
   var t=window.nachaT||function(k){return k};
   var state=null, mode='login', doc=null;
-  try{state=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){state=null}
-  if(state&&!(state.token&&state.exp>Date.now()))state=null;
+  function read(k){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v&&v.token&&v.exp>Date.now()?v:null}catch(e){return null}}
+  state=read(KEY);
+  // ハブでログイン済みなら、その鍵をそのまま使う（権限は下の renew で NACHA 用に取り直す）
+  var hub=read(HUBKEY);if(hub&&(!state||state.token!==hub.token))state={token:hub.token,exp:hub.exp,user:{id:(hub.user||{}).id||'',member:false,admin:false}};
   function save(){try{if(state)localStorage.setItem(KEY,JSON.stringify(state));else localStorage.removeItem(KEY)}catch(e){}}
+  // ハブにも同じログインを渡す（ハブは開いたときに自分の権限を取り直す）
+  function shareHub(){try{var h=read(HUBKEY);if(state&&(!h||h.token!==state.token))localStorage.setItem(HUBKEY,JSON.stringify({token:state.token,exp:state.exp,user:{id:state.user.id,member:false,admin:false}}))}catch(e){}}
   function hdr(){return state?{'Authorization':'Bearer '+state.token}:{}}
   function call(op,body){
     return fetch(API+'/auth/'+op,{method:'POST',cache:'no-store',headers:Object.assign({'Content-Type':'application/json'},hdr()),body:JSON.stringify(body||{})})
@@ -102,12 +106,13 @@
     var b=$('aSubmit');b.disabled=true;$('aMsg').textContent='';
     call(mode,{id:$('aId').value.trim().toLowerCase(),pw:$('aPw').value}).then(function(j){
       b.disabled=false;
-      if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();$('aPw').value='';load()}
+      if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();shareHub();$('aPw').value='';load()}
       else $('aMsg').textContent=err(j.error||(j.service?'ready':'net'));
     },function(){b.disabled=false;$('aMsg').textContent=err('net')});
   });
   $('logoutBtn').addEventListener('click',function(){
-    var h=hdr();state=null;doc=null;save();render();
+    var h=hdr(),tok=state&&state.token;state=null;doc=null;save();render();
+    try{var hb=read(HUBKEY);if(hb&&hb.token===tok)localStorage.removeItem(HUBKEY)}catch(e){}
     fetch(API+'/auth/logout',{method:'POST',headers:h}).catch(function(){});
   });
   document.addEventListener('nacha-lang',render);
