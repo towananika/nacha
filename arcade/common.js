@@ -5,6 +5,9 @@
   NA.X = "https://x.com/nacha_project";
   NA.IG = "https://www.instagram.com/nacha_project/";
   NA.HANDLE = "@nacha_project";
+  var artBase = new URL('assets/', document.currentScript.src).href;
+  NA.nachaArt = artBase + 'nacha-standing.webp';
+  var templeArt = new Image(); templeArt.onload = function () { window.dispatchEvent(new Event('nacha-art-ready')); }; templeArt.src = artBase + 'temple-courtyard.webp';
 
   /* ---------- storage ---------- */
   NA.store = {
@@ -61,6 +64,13 @@
     cream: { flat: "#fbf1df", towers: ["#e9d3b0", "#dcc197", "#cdb084"], disc: "#f6cdbd", discY: 0.38, cloud: "rgba(255,255,255,.7)" }
   };
   NA.drawBG = function (ctx, w, h, scroll, t, theme) {
+    if ((!theme || theme === 'sun') && templeArt.complete && templeArt.naturalWidth) {
+      var scale = Math.max(w / templeArt.naturalWidth, h / templeArt.naturalHeight);
+      var iw = templeArt.naturalWidth * scale, ih = templeArt.naturalHeight * scale;
+      ctx.drawImage(templeArt, (w - iw) / 2, (h - ih) / 2, iw, ih);
+      ctx.fillStyle = 'rgba(26, 11, 22, .34)'; ctx.fillRect(0, 0, w, h);
+      return;
+    }
     var T = THEMES[theme || "sun"] || THEMES.sun;
     if (T.flat) { ctx.fillStyle = T.flat; ctx.fillRect(0, 0, w, h); }
     else {
