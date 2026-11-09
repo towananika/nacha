@@ -121,11 +121,11 @@
     if(want===gShown)return;gShown=want;
     $('gLink').textContent='';$('gBtn').textContent='';
     if(want==='login')nachaGoogle($('gBtn'),function(cred){
-      $('aMsg').textContent='';
+      $('gMsg').textContent='';
       call('google',{credential:cred}).then(function(j){
         if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();shareHub();load()}
-        else $('aMsg').textContent=t('g_err')+' ('+(j.error||j.status)+')';   // 原因が分かるように理由も出す
-      },function(){$('aMsg').textContent=err('net')});
+        else $('gMsg').textContent=t('g_err')+' ('+(j.error||j.status)+')';   // 原因が分かるように理由も出す
+      },function(){$('gMsg').textContent=err('net')});
     },'continue_with').then(function(ok){$('gBtn').hidden=!ok});
     if(want==='link')nachaGoogle($('gLink'),function(cred){
       call('googlelink',{credential:cred}).then(function(j){

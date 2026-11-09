@@ -213,3 +213,4 @@ body.authmode main{padding-bottom:24px}
 .vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .authc .afoot{font-size:13px}
 .authc form[hidden],.gbtn[hidden],.mbtn[hidden]{display:none}
+.gmsg{text-align:center;margin-top:8px}
