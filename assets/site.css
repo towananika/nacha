@@ -273,3 +273,8 @@ body.authmode main{padding-bottom:24px}
 .mec .me .minfo{flex:1}
 #logoutBtn{margin-top:4px}
 .ah0{font:400 17px/1.3 "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--ink)}
+/* タイルの文字を絵に重ねず、下の帯に（絵の中の英字とぶつからないように） */
+.tile{display:flex;flex-direction:column;aspect-ratio:auto;background:var(--card);text-decoration:none}
+.tile img{position:static;display:block;width:100%;height:auto;aspect-ratio:3/4}
+.tile b{position:static;padding:9px 6px;background:var(--card);color:var(--ink);font:400 14px/1.2 "Lilita One","M PLUS Rounded 1c",sans-serif;border-top:1px solid var(--line)}
+.tile:hover b{color:var(--acc)}
