@@ -5,23 +5,33 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>NACHA Links</title>
 <meta name="description" content="NACHA プロジェクトの公式サイト・SNS・リンクまとめ">
-<meta name="robots" content="noindex">
+<meta property="og:title" content="NACHA Links">
+<meta property="og:description" content="NACHA プロジェクトの公式サイト・SNS・ゲームのリンクまとめ">
+<meta property="og:image" content="assets/cast.jpg">
+<meta name="theme-color" content="#C0392B">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#f5f0e8;--card:#fffdf9;--ink:#2a2420;--sub:#7a6e64;--line:#e6ddd0;--acc:#c0503f;--accSoft:#c0503f14}
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1715;--card:#26201d;--ink:#f1e9df;--sub:#ab9e92;--line:#3a312c;--acc:#e0705e;--accSoft:#e0705e1f}}
-  :root[data-theme="dark"]{--bg:#1b1715;--card:#26201d;--ink:#f1e9df;--sub:#ab9e92;--line:#3a312c;--acc:#e0705e;--accSoft:#e0705e1f}
+  :root{--bg:#f5f0e8;--card:#fffdf9;--ink:#2a2420;--sub:#7a6e64;--line:#e6ddd0;--acc:#C0392B;--gold:#D4AC0D;--accSoft:#C0392B14}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1715;--card:#26201d;--ink:#f1e9df;--sub:#ab9e92;--line:#3a312c;--acc:#e0705e;--gold:#D4AC0D;--accSoft:#e0705e1f}}
+  :root[data-theme="dark"]{--bg:#1b1715;--card:#26201d;--ink:#f1e9df;--sub:#ab9e92;--line:#3a312c;--acc:#e0705e;--gold:#D4AC0D;--accSoft:#e0705e1f}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP","Malgun Gothic",sans-serif}
-  main{max-width:560px;margin:0 auto;padding:40px 16px 56px}
-  header{text-align:center;margin-bottom:28px}
+  main{max-width:560px;margin:0 auto;padding:16px 16px 56px}
+  header{text-align:center;margin-bottom:20px}
+  .hero{display:block;width:100%;height:auto;border-radius:18px;border:1px solid var(--line);box-shadow:0 6px 20px #0002}
   .logo{width:72px;height:72px;border-radius:50%;background:var(--acc);color:#fff;display:grid;place-items:center;margin:0 auto 12px;font-weight:800;font-size:26px;letter-spacing:.02em}
-  h1{margin:0;font-size:28px;letter-spacing:.08em}
-  .lead{margin:4px 0 0;color:var(--sub);font-size:14px}
+  h1{margin:14px 0 0;font-family:"Lilita One",sans-serif;font-weight:400;font-size:34px;letter-spacing:.06em;color:var(--acc)}
+  .lead{margin:2px 0 0;color:var(--sub);font-size:14px}
   h2{font-size:13px;letter-spacing:.12em;color:var(--sub);margin:28px 4px 10px;font-weight:600}
   .list{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
   a.item{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card);border:1px solid var(--line);border-radius:14px;color:inherit;text-decoration:none;transition:transform .12s,border-color .12s}
   a.item:hover{border-color:var(--acc);transform:translateY(-1px)}
   a.item:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+  .cta{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .cta a{display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border-radius:12px;background:var(--acc);color:#fff;text-decoration:none;font-weight:700;font-size:15px}
+  .cta a.alt{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+  .cta a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
   .ico{flex:none;width:40px;height:40px;border-radius:10px;background:var(--accSoft);color:var(--acc);display:grid;place-items:center;font-weight:700;font-size:14px}
   .txt{min-width:0;flex:1}
   .txt b{display:block;font-size:15px}
@@ -33,21 +43,83 @@
   th{font-size:12px;color:var(--sub);font-weight:600}
   td.t{font-variant-numeric:tabular-nums;font-weight:600;width:72px}
   .note{color:var(--sub);font-size:12px;margin:8px 4px 0}
+  .story{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15px}
+  .story p{margin:0 0 8px}.story p:last-child{margin:0}
+  .cast{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cast div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .cast b{display:block;font-size:14px;color:var(--acc)}.cast small{display:block;color:var(--sub);font-size:12px;margin-top:2px;line-height:1.5}
+  .cast .n{grid-column:1/-1;border-color:var(--acc);background:var(--accSoft)}
+  .app{display:block;width:100%;height:auto;border-radius:14px;border:1px solid var(--line);margin-top:10px}
+  @media (prefers-reduced-motion:no-preference){.hero{animation:in .6s ease-out both}@keyframes in{from{opacity:0;transform:translateY(6px)}}}
+  .sym{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:12px;align-items:start}
+  .sym img{width:100%;height:auto;border-radius:14px;border:1px solid var(--line)}
+  .sym ul{margin:0;padding:0;list-style:none;font-size:13px;line-height:1.55}
+  .sym li b{display:block}.sym li{margin:0 0 8px;padding-left:14px;position:relative}
+  .sym li:before{content:"";position:absolute;left:0;top:.55em;width:6px;height:6px;border-radius:50%;background:var(--acc)}
+  .sw{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+  .sw div{border-radius:10px;padding:18px 6px 6px;font-size:11px;color:#fff;text-align:center;border:1px solid var(--line)}
+  .motif{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+  .motif span{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px}
+  .font{margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-size:12px;color:var(--sub)}
+  .font b{display:block;font-family:"Lilita One",sans-serif;font-weight:400;font-size:26px;color:var(--acc);letter-spacing:.04em}
+  @media (max-width:420px){.sym{grid-template-columns:1fr}}
   footer{margin-top:36px;text-align:center;color:var(--sub);font-size:12px}
 </style>
 </head>
 <body>
 <main>
   <header>
-    <div class="logo" aria-hidden="true">N</div>
+    <img class="hero" src="assets/cast.jpg" alt="NACHAと3柱の神様" width="1023" height="576" fetchpriority="high">
     <h1>NACHA</h1>
-    <p class="lead">NACHA プロジェクトのリンクまとめ</p>
+    <p class="lead">小さな神様ナチャと、カンボジアのお寺のものがたり</p>
+    <div class="cta">
+      <a href="https://x.com/nacha_project" target="_blank" rel="noopener">X をフォロー</a>
+      <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener">Instagram</a>
+    </div>
   </header>
+
+  <h2>NACHAってなに？</h2>
+  <div class="story">
+    <p>いたずら好きで、まっすぐで、こっそり人助けをする小さな神様。それがナチャです。</p>
+    <p>舞台は、カンボジアに実在する悠遊観音堂。現代と精霊の世界が重なるこの土地に「悪気」が染み出すとき、ナチャと3柱の神様が、人々の夢と希望を守ります。</p>
+    <p>お寺・文化・コミュニティをつなぐプロジェクトです。まずはナチャに会いに来てください。</p>
+  </div>
+
+  <h2>NACHAのしるし</h2>
+  <div class="sym">
+    <img src="assets/outfit.jpg" alt="ナチャの衣装" width="512" height="640" loading="lazy">
+    <ul>
+      <li><b>黒いダブルおだんご＋赤いリボン</b>風にたなびく赤いリボンが目印。</li>
+      <li><b>赤い上着と金の龍</b>袖と裾に金の龍の刺繍。</li>
+      <li><b>黒い帯と白いタッセル</b>金の結び飾りと白い房。</li>
+      <li><b>琥珀色の大きな目</b>やんちゃで、まっすぐなまなざし。</li>
+      <li><b>火焔槍と風火輪</b>炎の槍と、風と火の車輪で駆ける。</li>
+    </ul>
+  </div>
+  <div class="sw">
+    <div style="background:#C0392B">ナチャレッド<br>#C0392B</div>
+    <div style="background:#D4AC0D">聖なる金<br>#D4AC0D</div>
+    <div style="background:#1A1A1A">墨黒<br>#1A1A1A</div>
+    <div style="background:#fffdf9;color:#7a6e64">クリーム</div>
+  </div>
+  <div class="font"><b>NACHA</b>ロゴ書体：Lilita One（丸みのある太字）／ 筆文字の赤いロゴと、赤い落款「哪吒」</div>
+  <div class="motif"><span>🪷 蓮</span><span>🔥 護摩の火</span><span>🏮 提灯</span><span>📿 数珠</span><span>🛕 アンコール風の塔</span><span>🍂 舞う赤い葉</span><span>🎀 赤いリボン</span></div>
+
+  <h2>仲間たち</h2>
+  <div class="cast">
+    <div class="n"><b>NACHA 那吒</b><small>主人公。火焔槍と風火輪で駆ける小さな神様。勇敢で、やんちゃで、困っている人を放っておけない。</small></div>
+    <div><b>白衣観音</b><small>みんなを呼び集めるリーダー。いつも笑顔で話を聴いてくれる。</small></div>
+    <div><b>不動明王</b><small>護摩の炎で煩悩を焼きはらう。怒りではなく覚悟の人。</small></div>
+    <div class="n"><b>南極老人</b><small>鶴を連れた長寿の神様。あわてず、笑って、いいご縁を結ぶ。</small></div>
+  </div>
 
   <h2>PLAY</h2>
   <div class="list">
-    <a class="item" href="arcade/"><span class="ico">🏮</span><span class="txt"><b>NACHA Mini Games</b><span>Fire Spear</span></span><span class="arrow">→</span></a>
+    <a class="item" href="arcade/"><span class="ico">🏮</span><span class="txt"><b>NACHA Mini Games</b><span>ナチャと遊べるミニゲーム（Fire Spear・108 Steps・Temple Tour）</span></span><span class="arrow">→</span></a>
   </div>
+
+  <h2>COMING SOON</h2>
+  <img class="app" src="assets/app.jpg" alt="NACHA APP Coming Soon" width="1672" height="941" loading="lazy">
 
   <h2>WEBSITE</h2>
   <div class="list">
