@@ -100,6 +100,11 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
     pw:{ja:['パスワードは8〜64文字です','8文字以上にしてください'],en:['Password must be 8–64 characters','Use at least 8 characters'],ko:['비밀번호는 8~64자예요','8자 이상으로 해 주세요']},
     'pw-id':{ja:['IDやメールと同じパスワードは使えません','別のパスワードにしてください'],en:['Password must differ from ID/email','Choose a different password'],ko:['ID·이메일과 같은 비밀번호는 안 돼요','다른 비밀번호로 해 주세요']},
     id:{ja:['IDの形が正しくありません','英数字3〜20文字、またはメールアドレスを入れてください'],en:['Invalid ID','Use 3–20 letters/numbers, or your email'],ko:['ID 형식이 올바르지 않아요','영문·숫자 3~20자 또는 이메일을 입력해 주세요']},
+    'admin-user':{ja:['この人の区分は変えられません','オーナーは変えられません。管理者を外すのはオーナーだけです'],en:['This role cannot be changed','The owner cannot be changed; only the owner can remove admins'],ko:['이 사람의 구분은 바꿀 수 없어요','오너는 바꿀 수 없고, 관리자 해제는 오너만 가능해요']},
+    owner:{ja:['オーナーだけができる操作です','管理者を外すときはオーナーに頼んでください'],en:['Only the owner can do this','Ask the owner to remove an admin'],ko:['오너만 할 수 있어요','관리자 해제는 오너에게 부탁해 주세요']},
+    'no-user':{ja:['その会員が見つかりません','ほかの管理者が先に変えたかもしれません。読み直してください'],en:['Member not found','Someone may have changed it. Reload the page'],ko:['회원을 찾을 수 없어요','다른 관리자가 바꿨을 수 있어요. 새로고침해 주세요']},
+    admin:{ja:['管理者だけができる操作です','あなたの区分が変わったかもしれません。読み直してください'],en:['Admins only','Your role may have changed. Reload the page'],ko:['관리자만 가능해요','구분이 바뀌었을 수 있어요. 새로고침해 주세요']},
+    login:{ja:['ログインが切れました','もう一度ログインしてください'],en:['Your login expired','Please log in again'],ko:['로그인이 만료됐어요','다시 로그인해 주세요']},
     full:{ja:['登録できる人数の上限です','管理者に連絡してください'],en:['Registration is full','Please contact an admin'],ko:['가입 인원이 가득 찼어요','관리자에게 연락해 주세요']}
   };
   // code: サーバーの error。返事: 1行目が何が起きたか、2行目が考えられる原因
@@ -110,3 +115,7 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
     return m[0]+'\n'+pre+m[1]+(W[code]?'':' ('+code+')');
   };
 })();
+
+// ログイン中はヘッダーに自分のIDを出す
+(function(){try{var v=JSON.parse(localStorage.getItem('nacha-auth')||'null');if(!(v&&v.token&&v.exp>Date.now()&&v.user&&v.user.id))return;
+[].forEach.call(document.querySelectorAll('.barr .pill span'),function(s){s.removeAttribute('data-i');s.textContent=v.user.id})}catch(e){}})();

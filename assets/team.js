@@ -35,51 +35,20 @@
     $('generalNote').hidden=!(u&&!u.member);
     $('docBox').hidden=!(u&&u.member&&doc);
     $('aSubmitL').textContent=t(mode==='login'?'tm_login':'tm_reg');
-    $('admBox').hidden=!(u&&u.admin);
-    if(u){$('meId').textContent=u.id;$('meRole').textContent=t(roleKey(u));$('meRole').className='badge'+(u.member?' on':'')}
-    if(u&&u.admin&&users)drawUsers();
+    $('admLink').hidden=!(u&&u.admin);
+    if(u){
+      var r=u.owner?'owner':u.admin?'admin':u.member?'member':'user';
+      $('meId').textContent=u.id;$('meMail').textContent=u.google||u.email||'';
+      $('meAv').textContent=(u.id[0]||'?').toUpperCase();$('meAv').className='mav r-'+r;
+      $('meRole').textContent=t(roleKey(u));$('meRole').className='rbadge r-'+r;
+      $('meDesc').textContent=t('ad_d_'+r);
+      // Google だけで作ったアカウントは、今のパスワードなしで初めのパスワードを決める
+      $('pwCurL').hidden=u.hasPassword===false;$('pwSum').textContent=t(u.hasPassword===false?'pw_set':'pw_change');
+    }
     gSetup();
   }
   function roleKey(u){return u.owner?'adm_owner':u.admin?'adm_admin':u.member?'tm_member':'tm_user'}
-  var users=null;
-  function getJson(path){return fetch(API+path,{cache:'no-store',headers:hdr()}).then(function(r){return r.json().catch(function(){return {}}).then(function(j){j.status=r.status;return j})})}
-  function loadUsers(){
-    if(!(state&&state.user&&state.user.admin))return;
-    getJson('/auth/users').then(function(j){if(j.users){users=j.users;drawUsers()}},function(){});
-  }
-  function drawUsers(){
-    var me=state.user,ul=$('ulist');ul.textContent='';
-    users.forEach(function(x){
-      var li=document.createElement('li');li.className='urow';
-      var info=document.createElement('div');info.className='uinfo';
-      var b=document.createElement('b');b.textContent=x.id;info.appendChild(b);
-      if(x.email){var e=document.createElement('small');e.textContent=x.email;info.appendChild(e)}
-      li.appendChild(info);
-      if(x.owner||(x.admin&&!me.owner)||x.id===me.id){
-        var bd=document.createElement('span');bd.className='badge'+(x.member?' on':'');bd.textContent=t(roleKey(x));li.appendChild(bd);
-      }else{
-        var sel=document.createElement('select');sel.setAttribute('aria-label',x.id);
-        [['user','tm_user'],['member','tm_member'],['admin','adm_admin']].forEach(function(o){var op=document.createElement('option');op.value=o[0];op.textContent=t(o[1]);sel.appendChild(op)});
-        var cur=x.admin?'admin':x.member?'member':'user';sel.value=cur;
-        sel.addEventListener('change',function(){setRole(x,cur,sel.value,sel)});
-        li.appendChild(sel);
-      }
-      ul.appendChild(li);
-    });
-  }
-  function post(op,body){return call(op,body)}
-  function setRole(x,cur,next,sel){
-    sel.disabled=true;
-    var p=Promise.resolve({ok:true});
-    if(cur==='admin')p=post('admin',{id:x.id,admin:false});
-    p.then(function(j){
-      if(!j.ok)return j;
-      if(next==='admin')return post('admin',{id:x.id,admin:true});
-      return post('member',{id:x.id,member:next==='member'});
-    }).then(function(j){sel.disabled=false;loadUsers();if(!j.ok)alert(j.error||'error')},function(){sel.disabled=false;loadUsers()});
-  }
   function load(){
-    loadUsers();
     if(!(state&&state.user&&state.user.member))return render();
     fetch(API+'/internal/'+DOC,{cache:'no-store',headers:hdr()}).then(function(r){
       if(r.status===401){state=null;save();return null}
@@ -133,6 +102,18 @@
       });
     },'signin_with');
   }
+  // パスワードを変える・初めて決める（サーバーの /auth/password。済んだら新しいログインの鍵に替わる）
+  $('pwForm').addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var cur=$('pwCur').value,pw=$('pwNew').value,pw2=$('pwNew2').value,m=$('pwMsg');m.textContent='';
+    if(pw.length<8||pw.length>64){m.textContent=err('pw');return}
+    if(pw!==pw2){m.textContent=t('pw_mismatch');return}
+    call('password',{current:cur,pw:pw}).then(function(j){
+      if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();try{localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}
+        $('pwCur').value=$('pwNew').value=$('pwNew2').value='';m.textContent=t('pw_done');render()}
+      else m.textContent=err(j.error||'net');
+    },function(){m.textContent=err('net')});
+  });
   $('logoutBtn').addEventListener('click',function(){
     var h=hdr(),tok=state&&state.token;state=null;doc=null;save();render();
     try{var hb=read(HUBKEY);if(hb&&hb.token===tok)localStorage.removeItem(HUBKEY)}catch(e){}

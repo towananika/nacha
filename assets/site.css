@@ -232,3 +232,43 @@ body.authmode main{padding-bottom:24px}
 .ah0{font:700 16px/1.3 system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink)}
 .authc .afoot{margin-top:18px}
 .authc .gbox[hidden]{display:none}.authc .back{display:block;margin:2px auto 0;text-decoration:none;color:var(--sub)}
+
+/* 会員の管理・マイページ（2026-11-09） */
+.rchips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0 10px}
+.chip{flex:0 0 auto;display:flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip b{font-size:12px;color:var(--sub)}
+.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}.chip.on b{color:#fff}
+.mlist{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:8px}
+.mrow{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.mempty{color:var(--sub);text-align:center;padding:24px 0}
+.mav{flex:0 0 40px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-weight:800;color:#fff;background:#B8A99A}
+.minfo{flex:1;min-width:0;display:grid;gap:1px}
+.minfo b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.minfo small{color:var(--sub);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mtop{display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;min-width:0}
+.tag{flex:0 0 auto;font-size:10px;font-weight:700;padding:1px 7px;border-radius:999px;background:var(--bg);color:var(--sub);border:1px solid var(--line)}
+.tag.g{color:#1a73e8;border-color:#1a73e833}
+.rbadge,.rsel{flex:0 0 auto;font:inherit;font-size:12px;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid transparent}
+.rsel{cursor:pointer;padding-right:6px}
+.r-user{background:#EFE8E1;color:#6B5E52}.mav.r-user{background:#B8A99A;color:#fff}
+.r-member{background:#FBEFD0;color:#8A6A00}.mav.r-member{background:#D4AC0D;color:#fff}
+.r-admin{background:#F7DCD8;color:#A93226}.mav.r-admin{background:#C0392B;color:#fff}
+.r-owner{background:#1A1A1A;color:#F4D03F}.mav.r-owner{background:#1A1A1A;color:#F4D03F}
+.legend{margin-top:16px;font-size:13px;color:var(--sub)}
+.legend summary{cursor:pointer;font-weight:700}
+.legend dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:10px 0 0}
+.legend dt{font-weight:700;color:var(--ink)}.legend dd{margin:0}
+.mec .me{display:flex;align-items:center;gap:12px}
+.rdesc{margin:10px 0 0;font-size:13px;color:var(--sub)}
+.admlink{display:flex;justify-content:space-between;gap:8px;margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-weight:700;text-decoration:none}
+.admlink:hover{border-color:var(--acc)}
+.pwbox{margin:12px 0}
+.pwbox summary{cursor:pointer;font-size:14px;font-weight:700;color:var(--acc)}
+.pwbox form{display:grid;gap:10px;margin-top:10px}
+.pwbox input{font:inherit;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%;height:46px}
+.pwbox .btn{border:0;cursor:pointer;font:inherit;font-weight:700;height:44px;border-radius:999px}
+.pwbox label[hidden]{display:none}
+.minfo small.mdate{white-space:normal}
+.mec{display:block}
+.mec .me .minfo{flex:1}
+#logoutBtn{margin-top:4px}

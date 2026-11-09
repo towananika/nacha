@@ -40,18 +40,22 @@
 </section>
 
 <section id="meBox" class="card mec" hidden>
-  <div class="me"><b id="meId"></b><span class="badge" id="meRole"></span></div>
+  <div class="me"><span class="mav" id="meAv"></span><div class="minfo"><b id="meId"></b><small id="meMail"></small></div><span class="rbadge" id="meRole"></span></div>
+  <p class="rdesc" id="meDesc"></p>
+  <a class="admlink" id="admLink" href="../admin/" hidden>👥 <span data-i="ad_title">会員の管理</span><span aria-hidden="true">›</span></a>
   <div class="glink"><small id="gLinked" hidden></small><div id="gLink"></div></div>
+  <details class="pwbox"><summary><span id="pwSum" data-i="pw_change">パスワードを変える</span></summary>
+    <form id="pwForm" class="mform" autocomplete="on">
+      <label id="pwCurL"><span class="vh" data-i="pw_cur">今のパスワード</span><span class="pwf"><input id="pwCur" type="password" autocomplete="current-password" maxlength="64" data-i18n-ph="pw_cur" placeholder="今のパスワード"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
+      <label><span class="vh" data-i="pw_new">新しいパスワード</span><span class="pwf"><input id="pwNew" type="password" autocomplete="new-password" required minlength="8" maxlength="64" data-i18n-ph="pw_new" placeholder="新しいパスワード（8文字以上）"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
+      <label><span class="vh" data-i="ph_pw2">もう一度パスワード</span><span class="pwf"><input id="pwNew2" type="password" autocomplete="new-password" required minlength="8" maxlength="64" data-i18n-ph="ph_pw2" placeholder="もう一度パスワード"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
+      <button class="btn" type="submit"><span data-i="pw_save">保存</span></button>
+      <p class="amsg" id="pwMsg" role="alert"></p>
+    </form>
+  </details>
   <button class="btn alt sm" type="button" id="logoutBtn"><span data-i="tm_out">ログアウト</span></button>
 </section>
 <p class="card note2" id="generalNote" hidden><span data-i="tm_general">一般ユーザーとしてログイン中です。関係者の資料は、管理者が権限を付けると見られます。</span></p>
-
-<section id="admBox" hidden>
-  <h2 class="sec" data-i="adm_h">会員の管理</h2>
-  <p class="note2" data-i="adm_note">管理者はオーナー以外の会員を管理者にできます。管理者を外せるのはオーナーだけです。</p>
-  <ul class="ulist" id="ulist"></ul>
-</section>
-
 <section id="docBox" hidden>
   <div class="dochead"><h2 class="sec" data-i="tm_docs">開発資料</h2><span class="secret" data-i="tm_secret">社外秘・転載禁止</span></div>
   <h3 class="doctitle" id="docTitle"></h3>
