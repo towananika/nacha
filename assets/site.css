@@ -297,3 +297,21 @@ body.authmode main{padding-bottom:24px}
 @keyframes bfire{0%{opacity:0;transform:translate(-50%,0) scale(.4)}30%{opacity:1}100%{opacity:0;transform:translate(-50%,-70px) scale(1.3)}}
 @media (prefers-reduced-motion:reduce){.bfly,.bfire{animation-duration:.01s}}
 .bres{max-width:66%;font-size:15px;white-space:pre-line;line-height:1.3}
+
+/* 非公式の表示: ホームは入ってから10秒だけ帯で出す。ほかのページは下に小さく（2026-11-09） */
+#unoffBar{transition:opacity .6s,max-height .6s,padding .6s;max-height:80px;overflow:hidden}
+#unoffBar.gone{opacity:0;max-height:0;padding-top:0;padding-bottom:0}
+.ufoot{margin:28px 0 8px;text-align:center;font-size:11.5px;color:var(--sub)}
+.ufoot a{color:var(--acc);font-weight:700}
+
+/* 3柱: 公式の集合絵（cast.jpg）から顔の部分だけを丸く見せる（絵そのものは変えない） */
+.gods{grid-template-columns:1fr!important;gap:10px}
+.god{display:grid!important;grid-template-columns:72px 1fr!important;gap:14px;align-items:start;text-align:left!important;border-top:1px solid var(--line)!important;border-left:5px solid var(--g)!important;padding:14px!important}
+.gface{width:72px;height:72px;border-radius:50%;background:url(../assets/cast.jpg) no-repeat;background-size:491px auto;border:3px solid var(--g);box-shadow:0 2px 8px #0002}
+.god h3{display:inline;margin:0 6px 0 0;font:400 18px/1.2 "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--ink)}
+.gen{color:var(--sub);font-size:11px;letter-spacing:.04em}
+.god p{margin:4px 0 0;font-size:13px}
+.gtags{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px!important}
+.gtags span{font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line);color:var(--ink)}
+.gtags i{font-style:normal}
+.gnote{margin:10px 0 0;text-align:center;font-size:11.5px;color:var(--sub)}

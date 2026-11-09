@@ -142,3 +142,6 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
     if(navigator.vibrate)try{navigator.vibrate(30)}catch(e){}
   });
 })();
+
+// ホームの非公式の帯は10秒で消す（下のフッターには常に残る）
+(function(){var b=document.getElementById('unoffBar');if(b)setTimeout(function(){b.classList.add('gone')},10000)})();
