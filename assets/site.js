@@ -77,3 +77,34 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
 // 「メールで続ける」を押したときだけ入力欄を開く
 (function(){var b=document.getElementById('mailBtn');if(!b)return;var f=document.querySelector('.mform');
 b.addEventListener('click',function(){f.hidden=false;b.hidden=true;b.setAttribute('aria-expanded','true');var i=f.querySelector('input');if(i)i.focus()})})();
+// ログイン・登録のエラー: 「何が起きたか」と「考えられる原因」を出す（2026-11-09）
+(function(){
+  var W={
+    wrong:{ja:['IDかパスワードが違います','打ち間違い、大文字・小文字、Googleで作ったアカウント（Googleボタンから入れます）を確かめてください'],en:['Wrong ID or password','Check for typos, caps lock, or whether you signed up with Google (use the Google button)'],ko:['ID 또는 비밀번호가 달라요','오타, 대소문자, Google로 가입했는지(Google 버튼 사용) 확인해 주세요']},
+    'too-many':{ja:['少し待ってください','何度も失敗したので一時的に止めています。15分〜1時間後にもう一度どうぞ'],en:['Please wait a bit','Too many failed tries. Try again in 15–60 minutes'],ko:['잠시 기다려 주세요','실패가 많아 잠시 막았어요. 15분~1시간 후 다시 시도해 주세요']},
+    net:{ja:['通信できませんでした','電波が弱い、広告ブロックなどがサーバーを止めている、またはサーバーが更新中かもしれません'],en:['Could not connect','Weak signal, an ad blocker, or the server is being updated'],ko:['연결할 수 없어요','신호가 약하거나, 광고 차단기, 또는 서버 업데이트 중일 수 있어요']},
+    ready:{ja:['サーバーの準備がまだです','サーバーが古い版のままかもしれません（管理者がデプロイすると直ります）'],en:['Server not ready','The server may be on an old version (an admin needs to deploy)'],ko:['서버 준비가 안 됐어요','서버가 예전 버전일 수 있어요(관리자가 배포하면 해결)']},
+    'google-off':{ja:['Googleログインは準備中です','サーバーにGoogleの設定がまだありません（管理者向け）'],en:['Google sign-in is not set up','The server has no Google client ID yet (for admins)'],ko:['Google 로그인 준비 중이에요','서버에 Google 설정이 아직 없어요(관리자용)']},
+    'google-aud':{ja:['Googleの設定が合っていません','サイトとサーバーのGoogleクライアントIDが違います（管理者向け）'],en:['Google settings do not match','The site and server use different Google client IDs (for admins)'],ko:['Google 설정이 맞지 않아요','사이트와 서버의 Google 클라이언트 ID가 달라요(관리자용)']},
+    'google-expired':{ja:['時間切れになりました','Googleの確認から時間がたちました。もう一度ボタンを押してください。続くなら端末の時計を確かめてください'],en:['It timed out','Press the button again. If it keeps happening, check your device clock'],ko:['시간이 초과됐어요','버튼을 다시 눌러 주세요. 계속되면 기기 시계를 확인해 주세요']},
+    'google-unverified':{ja:['Googleのメールが未確認です','Googleアカウントのメールアドレスを確認してから、もう一度どうぞ'],en:['Google email not verified','Verify the email on your Google account, then try again'],ko:['Google 이메일이 미인증이에요','Google 계정 이메일을 인증한 뒤 다시 시도해 주세요']},
+    'google-invalid':{ja:['Googleの確認を受け取れませんでした','ページを読み直して（Ctrl+Shift+R）もう一度。続くならサーバーが古い版かもしれません'],en:['Could not read the Google sign-in','Reload the page and try again. If it continues, the server may be outdated'],ko:['Google 확인을 받지 못했어요','페이지를 새로고침하고 다시 시도해 주세요. 계속되면 서버가 예전 버전일 수 있어요']},
+    'google-net':{ja:['Googleに確認できませんでした','サーバーからGoogleにつながりませんでした。少ししてからもう一度どうぞ'],en:['Could not reach Google','The server could not reach Google. Try again shortly'],ko:['Google에 확인할 수 없었어요','서버가 Google에 연결하지 못했어요. 잠시 후 다시 시도해 주세요']},
+    'google-used':{ja:['このGoogleは別のアカウントにつながっています','前にGoogleボタンでログインして、別のアカウントができているかもしれません'],en:['This Google is linked to another account','You may have created a separate account with the Google button before'],ko:['이 Google은 다른 계정에 연결되어 있어요','예전에 Google 버튼으로 다른 계정을 만들었을 수 있어요']},
+    google:{ja:['Googleでログインできませんでした','ページを読み直して（Ctrl+Shift+R）もう一度。続くならサーバーが古い版かもしれません'],en:['Google sign-in failed','Reload the page and try again. The server may be outdated'],ko:['Google 로그인에 실패했어요','새로고침 후 다시 시도해 주세요. 서버가 예전 버전일 수 있어요']},
+    taken:{ja:['このIDは使われています','別のIDにしてください'],en:['This ID is taken','Choose another ID'],ko:['이미 사용 중인 ID예요','다른 ID를 써 주세요']},
+    'email-taken':{ja:['このメールは登録済みです','ログインから入ってください。パスワードを忘れたら管理者に再設定コードをもらえます'],en:['This email is already registered','Log in instead. If you forgot the password, ask an admin for a reset code'],ko:['이미 가입된 이메일이에요','로그인해 주세요. 비밀번호를 잊었다면 관리자에게 재설정 코드를 받으세요']},
+    email:{ja:['メールアドレスの形が正しくありません','@や.の位置、余分な空白を確かめてください'],en:['Invalid email','Check the @, dots and extra spaces'],ko:['이메일 형식이 올바르지 않아요','@와 점, 공백을 확인해 주세요']},
+    pw:{ja:['パスワードは8〜64文字です','8文字以上にしてください'],en:['Password must be 8–64 characters','Use at least 8 characters'],ko:['비밀번호는 8~64자예요','8자 이상으로 해 주세요']},
+    'pw-id':{ja:['IDやメールと同じパスワードは使えません','別のパスワードにしてください'],en:['Password must differ from ID/email','Choose a different password'],ko:['ID·이메일과 같은 비밀번호는 안 돼요','다른 비밀번호로 해 주세요']},
+    id:{ja:['IDの形が正しくありません','英数字3〜20文字、またはメールアドレスを入れてください'],en:['Invalid ID','Use 3–20 letters/numbers, or your email'],ko:['ID 형식이 올바르지 않아요','영문·숫자 3~20자 또는 이메일을 입력해 주세요']},
+    full:{ja:['登録できる人数の上限です','管理者に連絡してください'],en:['Registration is full','Please contact an admin'],ko:['가입 인원이 가득 찼어요','관리자에게 연락해 주세요']}
+  };
+  // code: サーバーの error。返事: 1行目が何が起きたか、2行目が考えられる原因
+  window.nachaWhy=function(code){
+    var l=document.documentElement.lang;l=l==='zh-Hant'||l==='zh-Hans'?'en':l;
+    var w=W[code]||W.net, m=w[l]||(l==='ja'?w.ja:w.en)||w.ja;
+    var pre=l==='ja'?'考えられる原因: ':l==='ko'?'예상 원인: ':'Likely cause: ';
+    return m[0]+'\n'+pre+m[1]+(W[code]?'':' ('+code+')');
+  };
+})();

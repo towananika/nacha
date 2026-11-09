@@ -27,7 +27,7 @@
     net:{ja:'通信できませんでした',en:'Could not connect',ko:'연결할 수 없어요',zh:'無法連線'},
     none:{ja:'資料はまだ登録されていません',en:'No documents yet',ko:'아직 등록된 자료가 없어요',zh:'尚未登錄資料'}};
   function lang(){var l=document.documentElement.lang;return l==='zh-Hant'?'zh':(ERR.wrong[l]?l:(l==='ja'?'ja':'en'))}
-  function err(k){return (ERR[k]||ERR.net)[lang()]}
+  function err(k){return k!=='none'&&window.nachaWhy?nachaWhy(k):(ERR[k]||ERR.net)[lang()]}
   function render(){
     var u=state&&state.user;
     $('authBox').hidden=!!u; $('meBox').hidden=!u; $('ptT').hidden=$('ptS').hidden=!u;
@@ -124,12 +124,12 @@
       $('gMsg').textContent='';
       call('google',{credential:cred}).then(function(j){
         if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();shareHub();load()}
-        else $('gMsg').textContent=t('g_err')+' ('+(j.error||j.status)+')';   // 原因が分かるように理由も出す
+        else $('gMsg').textContent=err(j.error||(j.service?'ready':'google'));
       },function(){$('gMsg').textContent=err('net')});
     },'continue_with').then(function(ok){$('gBtn').hidden=!ok});
     if(want==='link')nachaGoogle($('gLink'),function(cred){
       call('googlelink',{credential:cred}).then(function(j){
-        if(j.ok){state.user=j.user;save();render()}else alert(t(j.error==='google-used'?'g_used':'g_err'));
+        if(j.ok){state.user=j.user;save();render()}else alert(err(j.error||'google'));
       });
     },'signin_with');
   }

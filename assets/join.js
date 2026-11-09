@@ -13,13 +13,13 @@
     'too-many':{ja:'試行が多すぎます。しばらく待ってください',en:'Too many tries. Please wait.',ko:'시도가 너무 많아요. 잠시 기다려 주세요',zh:'嘗試次數過多，請稍候'},
     ready:{ja:'登録の受付を準備中です。しばらくしてからもう一度お試しください',en:'Sign-up is being set up. Please try again later.'},
     net:{ja:'通信できませんでした',en:'Could not connect',ko:'연결할 수 없어요',zh:'無法連線'}};
-  function msg(k){var l=document.documentElement.lang;l=l==='zh-Hant'?'zh':l;var m=M[k]||M.net;return m[l]||(l==='ja'?m.ja:m.en)}
+  function msg(k){if(k!=='pw2'&&window.nachaWhy)return nachaWhy(k);var l=document.documentElement.lang;l=l==='zh-Hant'?'zh':l;var m=M[k]||M.net;return m[l]||(l==='ja'?m.ja:m.en)}
   // Googleで登録（同じ一般ユーザー。IDはメールの@の前から自動で作る）
   if(window.nachaGoogle)nachaGoogle($('gBtn'),function(cred){
     $('gMsg').textContent='';
     fetch(API+'/auth/google',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({credential:cred})})
       .then(function(r){return r.json().catch(function(){return {}})})
-      .then(function(j){if(j.ok&&j.token)done(j);else $('gMsg').textContent=j.error&&M[j.error]?msg(j.error):(window.nachaT?nachaT('g_err'):'Google error')+' ('+(j.error||'?')+')'},function(){$('gMsg').textContent=msg('net')});
+      .then(function(j){if(j.ok&&j.token)done(j);else $('gMsg').textContent=msg(j.error||(j.service?'ready':'google'))},function(){$('gMsg').textContent=msg('net')});
   },'signup_with').then(function(ok){$('gBtn').hidden=!ok});
   function done(j){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}));localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}location.href='../team/'}
   $('joinForm').addEventListener('submit',function(ev){

@@ -214,3 +214,5 @@ body.authmode main{padding-bottom:24px}
 .authc .afoot{font-size:13px}
 .authc form[hidden],.gbtn[hidden],.mbtn[hidden]{display:none}
 .gmsg{text-align:center;margin-top:8px}
+.amsg{white-space:pre-line;line-height:1.5}
+.amsg{color:var(--sub);font-size:12px}.amsg::first-line{color:var(--acc);font-size:14px;font-weight:700}
