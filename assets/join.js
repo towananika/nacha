@@ -1,6 +1,6 @@
-// 会員登録: 登録した人は一般ユーザー。ハブと同じサーバー（/auth/register）と同じログイン保存場所を使う
+// 会員登録: 登録した人は一般ユーザー。NACHA 専用の会員（サーバーの /nacha/auth/register。ハブとは別）
 (function(){
-  var API='https://remitech-chores.jaykim-can.workers.dev', KEY='remitech-auth';
+  var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth';
   var $=function(id){return document.getElementById(id)};
   var M={id:{ja:'IDは英数字3〜20文字です',en:'ID: 3–20 letters/numbers',ko:'ID는 영문·숫자 3~20자예요',zh:'ID 須為 3–20 個英數字'},
     pw:{ja:'パスワードは8〜64文字です',en:'Password: 8–64 characters',ko:'비밀번호는 8~64자예요',zh:'密碼須為 8–64 個字元'},

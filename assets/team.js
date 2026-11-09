@@ -1,7 +1,7 @@
-// 関係者ページ: ハブ（REMITECH HUB）と同じログインを使う。
+// 関係者ページ: ログインはハブ（REMITECH HUB）と別々（サーバーの /nacha/auth/*）。
 // 資料そのものは公開リポジトリに置かず、ログインした関係者（member）にだけサーバーの /internal/nachadev から渡す。
 (function(){
-  var API='https://remitech-chores.jaykim-can.workers.dev', KEY='remitech-auth', DOC='nachadev';
+  var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth', DOC='nachadev';
   var $=function(id){return document.getElementById(id)};
   var t=window.nachaT||function(k){return k};
   var state=null, mode='login', doc=null;
