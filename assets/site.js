@@ -68,7 +68,20 @@
   var lastBurnWord='';
   if(burnForm){
     burnForm.addEventListener('submit',function(){
-      setTimeout(function(){lastBurnWord=document.getElementById('burnIn').value||'';},100);
+      setTimeout(function(){
+        lastBurnWord=document.getElementById('burnIn').value||'';
+        if(window.NachaCoins){
+          var res = window.NachaCoins.earn('burn', 5);
+          if(res.success){
+            var toast=document.getElementById('toast');
+            if(toast){
+              toast.textContent = '煩悩を焼き払った！ +5 ナチャコイン獲得';
+              toast.hidden = false;
+              setTimeout(function(){toast.hidden=true;}, 2400);
+            }
+          }
+        }
+      },100);
     });
   }
   if(burnShareBtn){

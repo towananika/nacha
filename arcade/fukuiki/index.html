@@ -1,0 +1,830 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NACHA 大福引き · 縁起カードガチャ</title>
+<meta name="description" content="小さな神様ナチャと引く大福引き。コインを稼ぎ、最高レア「神吉」を引き当てよう！">
+<meta name="theme-color" content="#1d1020">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../common.css">
+<style>
+:root{
+  --gold:#D4AC0D;
+  --gold-glow:#F4D03F;
+  --nacha-red:#C0392B;
+  --bg-dark:#140c17;
+}
+body{overflow-x:hidden;overflow-y:auto;background:var(--bg-dark);color:#fff;touch-action:manipulation;font-family:"M PLUS Rounded 1c",sans-serif}
+#stage{width:min(100vw,540px);margin:0 auto;min-height:100dvh;position:relative;padding:calc(env(safe-area-inset-top)+10px) 14px calc(env(safe-area-inset-bottom)+20px);text-align:center}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+
+/* ヘッダー＆コイン残高 */
+.top-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+.home-pill{color:#fff;text-decoration:none;font:700 13px "Lilita One",sans-serif;background:#ffffff14;border:1px solid #ffffff28;border-radius:999px;padding:6px 14px;backdrop-filter:blur(6px);transition:background .2s}
+.home-pill:hover{background:#ffffff24}
+.coin-badge{display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#2c1a06,#4a2e0a);border:1.5px solid var(--gold);padding:5px 14px;border-radius:999px;font:800 15px "Lilita One",sans-serif;color:var(--gold-glow);box-shadow:0 0 12px #d4ac0d44}
+.coin-badge svg{animation:spinCoin 6s linear infinite}
+@keyframes spinCoin{0%,90%{transform:rotateY(0)}100%{transform:rotateY(360deg)}}
+
+/* 画面切り替え */
+.view-panel{display:none;flex-direction:column;align-items:center;width:100%}
+.view-panel.active{display:flex}
+
+/* タイトルエリア */
+.fuku-title{margin:4px 0 2px;font:900 clamp(38px,10vw,52px)/1 "Lilita One","M PLUS Rounded 1c",sans-serif;background:linear-gradient(180deg,#FFF6D6 0%,#F4D03F 45%,#D4AC0D 70%,#996500 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 3px 0 #573300)}
+.fuku-sub{margin:0 0 14px;font-size:13px;color:#f6dfbfaa;letter-spacing:.08em}
+
+/* ナチャキャラクターエリア */
+.nacha-stage{position:relative;width:min(100%,300px);margin:4px 0 16px;cursor:pointer;user-select:none}
+.nacha-avatar{width:100%;max-height:220px;object-fit:contain;filter:drop-shadow(0 10px 24px rgba(0,0,0,0.6));animation:templeBob 3.2s ease-in-out infinite}
+@keyframes templeBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.nacha-dialog{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#fff;color:#1d1020;font:800 13px/1.3 "M PLUS Rounded 1c",sans-serif;padding:8px 16px;border-radius:18px;box-shadow:0 6px 16px rgba(0,0,0,0.3);white-space:nowrap;pointer-events:none;z-index:2;border:2px solid var(--gold)}
+.nacha-dialog:after{content:"";position:absolute;left:50%;bottom:-7px;margin-left:-7px;border-width:7px 7px 0;border-style:solid;border-color:#fff transparent;display:block;width:0}
+
+/* ガチャ実行ボタン群 */
+.draw-actions{display:grid;grid-template-columns:1fr 1.25fr;gap:10px;width:100%;max-width:440px;margin:8px 0 14px}
+.btn-gacha{position:relative;border:0;border-radius:18px;padding:12px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;overflow:hidden;box-shadow:0 6px 0 rgba(0,0,0,0.4);transition:transform .1s,box-shadow .1s}
+.btn-gacha:active{transform:translateY(4px);box-shadow:0 2px 0 rgba(0,0,0,0.4)}
+.btn-single{background:linear-gradient(145deg,#d35400,#e67e22);border:2px solid #f39c12}
+.btn-ten{background:linear-gradient(145deg,#b8860b,#f1c40f 50%,#b8860b);border:2px solid #fff;color:#241518;box-shadow:0 6px 0 #734f00,0 0 20px #f4d03f55}
+.btn-ten:active{box-shadow:0 2px 0 #734f00}
+.btn-title{font:900 18px "Lilita One","M PLUS Rounded 1c",sans-serif;display:flex;align-items:center;gap:4px}
+.btn-cost{font:700 12px "Lilita One",sans-serif;opacity:.9;margin-top:2px}
+.btn-badge-hot{position:absolute;top:5px;right:6px;background:#e74c3c;color:#fff;font-size:9.5px;font-weight:900;padding:2px 7px;border-radius:999px;box-shadow:0 2px 6px rgba(0,0,0,0.3)}
+
+/* 作務（コインを稼ぐ）カード */
+.earn-card{width:100%;max-width:440px;background:rgba(30,18,36,0.7);border:1.5px dashed #ffffff33;border-radius:20px;padding:14px;margin-top:6px;backdrop-filter:blur(8px)}
+.earn-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.earn-head h3{margin:0;font-size:14px;font-weight:800;color:var(--gold-glow);display:flex;align-items:center;gap:6px}
+.earn-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.earn-btn{background:#ffffff10;border:1px solid #ffffff24;border-radius:14px;padding:10px 8px;color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;transition:all .15s}
+.earn-btn:hover{background:#ffffff20;border-color:var(--gold)}
+.earn-btn:active{transform:scale(0.97)}
+.earn-btn.done{opacity:.45;pointer-events:none}
+.earn-btn .emo{font-size:22px}
+.earn-btn .label{font-size:12px;font-weight:700}
+.earn-btn .reward{font-size:10.5px;color:var(--gold);font-weight:800}
+
+/* ===== 演出画面（神殿の引き時） ===== */
+#viewAnim{min-height:75vh;justify-content:center}
+.anim-gate{width:160px;height:160px;position:relative;display:grid;place-items:center}
+.anim-glow{position:absolute;inset:-30px;background:radial-gradient(circle,rgba(244,208,63,0.4) 0%,transparent 70%);animation:pulseGlow 1.2s ease-in-out infinite alternate}
+@keyframes pulseGlow{from{transform:scale(0.85);opacity:.5}to{transform:scale(1.2);opacity:1}}
+.anim-drum{width:120px;height:120px;border-radius:30px;background:linear-gradient(135deg,#c0392b,#8e1a10);border:4px solid var(--gold);box-shadow:0 0 30px #d4ac0d66;display:grid;place-items:center;font-size:60px;animation:drumSpin .4s ease-in-out infinite alternate}
+@keyframes drumSpin{0%{transform:rotate(-6deg) scale(0.96)}100%{transform:rotate(6deg) scale(1.04)}}
+.anim-text{margin-top:24px;font:800 20px "Lilita One",sans-serif;color:var(--gold-glow);letter-spacing:.1em;animation:animFade .8s infinite alternate}
+@keyframes animFade{from{opacity:.4}to{opacity:1}}
+
+/* ===== 結果画面 ===== */
+#viewResult{padding-bottom:30px}
+.result-banner{margin:6px 0 12px;display:flex;align-items:center;gap:8px}
+.result-h{font:900 24px "Lilita One",sans-serif;color:var(--gold-glow)}
+.skip-btn{background:#ffffff18;border:1px solid #ffffff33;color:#fff;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer}
+
+/* カードグリッド（10連 & 1連） */
+.cards-container{width:100%;max-width:480px;display:grid;gap:10px;margin-bottom:18px}
+.cards-container.single{grid-template-columns:1fr;max-width:240px;margin-left:auto;margin-right:auto}
+.cards-container.ten{grid-template-columns:repeat(5,1fr)}
+@media(max-width:460px){
+  .cards-container.ten{grid-template-columns:repeat(3,1fr);gap:8px}
+}
+
+/* 個別カードのスタイル（豪華ビジュアル） */
+.card-item{perspective:1000px;aspect-ratio:3/4.6;cursor:pointer;position:relative}
+.card-box{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.2,1.2,.3,1)}
+.card-box.flipped{transform:rotateY(180deg)}
+.c-front,.c-back{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 6px;overflow:hidden}
+
+/* 裏面 */
+.c-back{background:linear-gradient(145deg,#251429,#130816);border:2px solid #5d3f66;box-shadow:inset 0 0 14px rgba(0,0,0,0.6)}
+.c-back:after{content:"🎴";font-size:32px;margin:auto;filter:drop-shadow(0 2px 6px #000)}
+
+/* 表面（レア度別デザイン） */
+.c-front{transform:rotateY(180deg)}
+
+/* --- 【普通】（和紙・清楚・銀藍） --- */
+.r-futsuu .c-front{
+  background:linear-gradient(160deg,#2b231b 0%,#1a1510 100%);
+  border:2px solid #c9a050;
+  box-shadow:0 6px 14px rgba(0,0,0,0.5);
+}
+.r-futsuu .card-badge{background:#c9a05024;color:#f3d790;border:1px solid #c9a05066}
+
+/* --- 【吉】（紅蓮・火焔オーラ・躍動） --- */
+.r-kichi .c-front{
+  background:radial-gradient(circle at 50% 20%,#7d1d14 0%,#3d0c07 70%,#1a0402 100%);
+  border:2.5px solid #ff5733;
+  box-shadow:0 0 16px rgba(231,76,60,0.4),inset 0 0 12px rgba(255,87,51,0.2);
+}
+.r-kichi .c-front:before{
+  content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,87,51,0.06) 0 4px,transparent 4px 8px);pointer-events:none;
+}
+.r-kichi .card-badge{background:#e74c3c33;color:#ff9e91;border:1px solid #e74c3caa}
+
+/* --- 【大吉】（金箔曼荼羅・極上純金・パーティクル） --- */
+.r-daikichi .c-front{
+  background:linear-gradient(145deg,#423005 0%,#241a02 50%,#543f09 100%);
+  border:3px solid #ffea79;
+  box-shadow:0 0 22px rgba(244,208,63,0.65),inset 0 0 20px rgba(255,234,121,0.3);
+  animation:daikichiShine 4s linear infinite;
+}
+@keyframes daikichiShine{
+  0%,100%{border-color:#ffea79}
+  50%{border-color:#fff3a8;box-shadow:0 0 32px rgba(255,243,168,0.9)}
+}
+.r-daikichi .c-front:before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 40%,rgba(255,234,121,0.2) 0%,transparent 60%);
+  pointer-events:none;
+}
+.r-daikichi .card-badge{background:linear-gradient(90deg,#f39c12,#f1c40f);color:#241518;font-weight:900;border:1px solid #fff}
+
+/* --- 【神吉】（至高神聖・七色ホログラム光背・神仏雷光） --- */
+.r-kamikichi .c-front{
+  background:linear-gradient(135deg,#1f1338 0%,#090514 50%,#2a1435 100%);
+  border:3.5px solid #ffffff;
+  box-shadow:0 0 35px rgba(255,255,255,0.9),0 0 60px rgba(155,89,182,0.6),inset 0 0 24px rgba(255,255,255,0.4);
+  animation:kamiRainbow 3s linear infinite;
+}
+@keyframes kamiRainbow{
+  0%{filter:hue-rotate(0deg) drop-shadow(0 0 10px #ff6b81)}
+  50%{filter:hue-rotate(180deg) drop-shadow(0 0 18px #70a1ff)}
+  100%{filter:hue-rotate(360deg) drop-shadow(0 0 10px #ff6b81)}
+}
+.r-kamikichi .c-front:after{
+  content:"";position:absolute;inset:-50%;background:linear-gradient(45deg,transparent 40%,rgba(255,255,255,0.4) 50%,transparent 60%);
+  transform:rotate(25deg);animation:shimmer 2.2s infinite;pointer-events:none;
+}
+@keyframes shimmer{0%{transform:translateX(-100%) rotate(25deg)}100%{transform:translateX(100%) rotate(25deg)}}
+.r-kamikichi .card-badge{background:#ffffff;color:#130816;font-weight:900;box-shadow:0 0 10px #fff}
+
+/* カード内のテキスト・アイコン要素 */
+.card-badge{font-size:clamp(8.5px,2vw,10.5px);font-weight:900;padding:2px 8px;border-radius:999px;letter-spacing:.05em;z-index:1}
+.card-emo{font-size:clamp(26px,7vw,42px);line-height:1;margin:auto 0;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5));z-index:1}
+.card-name{font:900 clamp(9.5px,2.4vw,13px)/1.2 "M PLUS Rounded 1c",sans-serif;color:#fff;text-align:center;margin-top:2px;z-index:1}
+
+/* アクションボタン（シェア・再挑戦） */
+.result-actions{display:flex;gap:10px;width:100%;max-width:440px;margin-top:8px}
+.btn-share-x{flex:1;background:linear-gradient(135deg,#1da1f2,#0c7abf);color:#fff;border:0;border-radius:16px;padding:14px;font:900 16px "Lilita One",sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 14px rgba(29,161,242,0.4)}
+.btn-retry{flex:1;background:#ffffff18;border:1.5px solid #ffffff33;color:#fff;border-radius:16px;padding:14px;font:900 16px "Lilita One",sans-serif;cursor:pointer}
+.btn-retry:hover{background:#ffffff28}
+
+/* ===== 詳細ポップアップモーダル ===== */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,5,15,0.85);backdrop-filter:blur(6px);z-index:90;display:none;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s}
+.modal-overlay.open{display:flex;opacity:1}
+.modal-card{width:100%;max-width:380px;background:linear-gradient(160deg,#241528,#120816);border:2px solid var(--gold);border-radius:26px;padding:24px 20px 20px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.8);position:relative}
+.modal-close-x{position:absolute;top:12px;right:14px;background:none;border:0;color:#fff;font-size:24px;cursor:pointer;opacity:.7}
+.modal-emo{font-size:74px;margin-bottom:8px;line-height:1}
+.modal-badge{display:inline-block;padding:3px 14px;border-radius:999px;font-size:12px;font-weight:900;margin-bottom:8px}
+.modal-title{font:900 24px "Lilita One","M PLUS Rounded 1c",sans-serif;margin:0 0 10px;color:var(--gold-glow)}
+.modal-quote{font:700 16px/1.6 "Noto Serif JP",serif;color:#fcecd2;margin:12px 0 20px;padding:12px 14px;background:rgba(255,255,255,0.06);border-radius:14px;border-left:4px solid var(--gold);text-align:left}
+
+/* ===== 作務ミッション：ボット防止・合掌ミニゲーム モーダル ===== */
+.mission-box{width:100%;max-width:380px;background:linear-gradient(160deg,#1c1224,#0e0614);border:2px solid var(--gold);border-radius:24px;padding:22px 18px;text-align:center;position:relative}
+.mission-title{font:900 20px "M PLUS Rounded 1c",sans-serif;color:var(--gold-glow);margin:0 0 6px}
+.mission-desc{font-size:13px;color:#f6dfbfaa;margin:0 0 14px}
+.lotus-field{position:relative;width:100%;height:180px;background:#00000044;border:1.5px dashed #ffffff28;border-radius:18px;overflow:hidden;margin-bottom:14px}
+.lotus-target{position:absolute;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,#ffd700,#e67e22);border:2px solid #fff;display:grid;place-items:center;font-size:22px;cursor:pointer;transform:scale(0);transition:transform .2s cubic-bezier(0.18, 0.89, 0.32, 1.28);box-shadow:0 0 16px #f39c12}
+.lotus-target.spawn{transform:scale(1)}
+.lotus-target:active{transform:scale(0.85)}
+.mission-step{font-size:13px;color:var(--gold-glow);font-weight:800;margin-bottom:6px}
+
+/* トースト通知 */
+.toast-msg{position:fixed;bottom:calc(env(safe-area-inset-bottom)+30px);left:50%;transform:translateX(-50%) translateY(20px);background:linear-gradient(90deg,#D4AC0D,#F4D03F);color:#1a0f00;font:900 14px "M PLUS Rounded 1c",sans-serif;padding:10px 22px;border-radius:999px;box-shadow:0 8px 24px rgba(0,0,0,0.4);opacity:0;pointer-events:none;transition:all .25s ease;z-index:99}
+.toast-msg.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div id="stage">
+
+  <!-- ヘッダー -->
+  <header class="top-nav">
+    <a class="home-pill" href="../">← アーケード</a>
+    <div class="coin-badge" id="coinBadge" title="ナチャコイン残高">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><circle cx="12" cy="12" r="10"/><text x="12" y="16" font-size="12" font-weight="900" text-anchor="middle" fill="#241518">N</text></svg>
+      <span id="coinVal">0</span> <small style="font-size:10px">コイン</small>
+    </div>
+  </header>
+
+  <!-- ================= 1. メイン画面 ================= -->
+  <main class="view-panel active" id="viewMain">
+    <h1 class="fuku-title">大福引き</h1>
+    <p class="fuku-sub">徳を積み、最高位「神吉」を授かろう</p>
+
+    <!-- ナチャキャラクター -->
+    <div class="nacha-stage" id="nachaStage" title="ナチャをタップしてみて">
+      <div class="nacha-dialog" id="nachaBubble">ようこそ！運試ししていってね！</div>
+      <img class="nacha-avatar" src="../../assets/nacha-pray.webp" alt="NACHA">
+    </div>
+
+    <!-- 引くボタン群 -->
+    <div class="draw-actions">
+      <button class="btn-gacha btn-single" id="btnSingle">
+        <div class="btn-title">🎴 1回引く</div>
+        <div class="btn-cost">5 コイン</div>
+      </button>
+      <button class="btn-gacha btn-ten" id="btnTen">
+        <span class="btn-badge-hot">吉以上確定</span>
+        <div class="btn-title">✨ 10連引く</div>
+        <div class="btn-cost">45 コイン <small>(5枚お得!)</small></div>
+      </button>
+    </div>
+
+    <!-- 作務（コインを稼ぐ）カード -->
+    <section class="earn-card">
+      <div class="earn-head">
+        <h3>🪷 毎日の作務でコインを稼ぐ</h3>
+        <span style="font-size:11px;color:#f6dfbfaa">ボット不可・人間のみ</span>
+      </div>
+      <div class="earn-grid">
+        <button class="earn-btn" id="btnTaskLotus">
+          <span class="emo">🪷</span>
+          <span class="label">灯火のお清め</span>
+          <span class="reward">+10 コイン</span>
+        </button>
+        <button class="earn-btn" id="btnTaskPray">
+          <span class="emo">🙏</span>
+          <span class="label">朝夕の合掌</span>
+          <span class="reward">+5 コイン</span>
+        </button>
+        <a class="earn-btn" href="../spear/">
+          <span class="emo">🔥</span>
+          <span class="label">Fire Spear</span>
+          <span class="reward">最大 +10 コイン</span>
+        </a>
+        <a class="earn-btn" href="../../#burn">
+          <span class="emo">📜</span>
+          <span class="label">煩悩やき</span>
+          <span class="reward">+5 コイン</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= 2. 抽選演出画面 ================= -->
+  <section class="view-panel" id="viewAnim">
+    <div class="anim-gate">
+      <div class="anim-glow"></div>
+      <div class="anim-drum" id="animDrum">🎴</div>
+    </div>
+    <div class="anim-text" id="animText">おみくじ筒を振っています…</div>
+  </section>
+
+  <!-- ================= 3. 結果画面 ================= -->
+  <section class="view-panel" id="viewResult">
+    <div class="result-banner">
+      <span class="result-h" id="resultTitle">結果発表！</span>
+      <button class="skip-btn" id="btnFlipAll" style="display:none">一括オープン</button>
+    </div>
+
+    <!-- カード一覧コンテナ -->
+    <div class="cards-container single" id="cardsGrid"></div>
+
+    <!-- アクションボタン -->
+    <div class="result-actions">
+      <button class="btn-share-x" id="btnShareX">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        結果をシェア
+      </button>
+      <button class="btn-retry" id="btnRetry">もう一度引く</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- 詳細モーダル -->
+<div class="modal-overlay" id="cardModal">
+  <div class="modal-card">
+    <button class="modal-close-x" id="modalClose">&times;</button>
+    <div class="modal-emo" id="mEmo"></div>
+    <div class="modal-badge" id="mBadge"></div>
+    <h2 class="modal-title" id="mTitle"></h2>
+    <div class="modal-quote" id="mQuote"></div>
+    <button class="skip-btn" id="modalOkBtn" style="padding:10px 28px;font-size:14px">受け取る</button>
+  </div>
+</div>
+
+<!-- 作務（蓮の火灯し：ボット防止）モーダル -->
+<div class="modal-overlay" id="missionModal">
+  <div class="mission-box">
+    <button class="modal-close-x" id="missionClose">&times;</button>
+    <h3 class="mission-title">🪷 灯火のお清め</h3>
+    <p class="mission-desc">現れる 3 つの蓮の灯火を順番にタップしてください</p>
+    <div class="mission-step" id="missionStep">灯火 (1 / 3) を待っています…</div>
+    <div class="lotus-field" id="lotusField">
+      <div class="lotus-target" id="lotusTarget">🪷</div>
+    </div>
+    <p style="font-size:11px;color:#f6dfbf88;margin:0">※ 人間の正しい指の動きとリズムを認証します</p>
+  </div>
+</div>
+
+<!-- トーストメッセージ -->
+<div class="toast-msg" id="toastMsg"></div>
+
+<script src="../../assets/coins.js"></script>
+<script src="../common.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  // ===== カードマスターデータ（全24種・4段階レアリティ） =====
+  var CARDS = [
+    // 普通 (8種)
+    { id:1,  r:'futsuu',   label:'普通',   emo:'🪷', title:'蓮の一輪',   quote:'泥の中に咲く蓮のように、清らかな心はどこでも輝く。' },
+    { id:2,  r:'futsuu',   label:'普通',   emo:'🕯️', title:'香炉の煙',   quote:'静かな祈りは、目に見えぬところで必ず道を開く。' },
+    { id:3,  r:'futsuu',   label:'普通',   emo:'🪙', title:'お賽銭',     quote:'小さき施しが、やがて巡り巡って己を救う。' },
+    { id:4,  r:'futsuu',   label:'普通',   emo:'📖', title:'御朱印帳',   quote:'急がず歩んだ一歩一歩が、かけがえのない人生の標となる。' },
+    { id:5,  r:'futsuu',   label:'普通',   emo:'🌿', title:'参道の緑',   quote:'風に揺れても折れぬ竹のように、しなやかに生きよ。' },
+    { id:6,  r:'futsuu',   label:'普通',   emo:'🔔', title:'朝の鐘',     quote:'澄みわたる一打が、心積もった迷いを払い去る。' },
+    { id:7,  r:'futsuu',   label:'普通',   emo:'🍵', title:'那茶の一服', quote:'立ち止まって茶を味わう静寂こそ、至高の贅沢。' },
+    { id:8,  r:'futsuu',   label:'普通',   emo:'📿', title:'木彫りの数珠', quote:'日々の感謝をひとつずつ紡げば、心に安らぎが宿る。' },
+
+    // 吉 (8種)
+    { id:9,  r:'kichi',    label:'吉',     emo:'🔥', title:'火焔槍',     quote:'胸に燻る迷いも不安も、ナチャの神火が一瞬で焼き払う！' },
+    { id:10, r:'kichi',    label:'吉',     emo:'🛞', title:'風火輪',     quote:'千里の道もひとっ飛び。恐れず前へ、風に乗れ！' },
+    { id:11, r:'kichi',    label:'吉',     emo:'🪢', title:'吉祥組紐',   quote:'良縁は固く結ばれ、解けぬ力となってあなたを支える。' },
+    { id:12, r:'kichi',    label:'吉',     emo:'⛩️', title:'紅き神門',   quote:'門を一歩くぐれば、そこからは新たな開運の領域。' },
+    { id:13, r:'kichi',    label:'吉',     emo:'🐉', title:'黄金龍の加護', quote:'内に眠る龍が目覚める。堂々と己の道を貫け。' },
+    { id:14, r:'kichi',    label:'吉',     emo:'🌕', title:'満月の照見', quote:'曇りなき月光のように、あなたの真価が世に照らし出される。' },
+    { id:15, r:'kichi',    label:'吉',     emo:'🏮', title:'護摩の浄火', quote:'願う心は炎となり、天に届いて力強い道標となる。' },
+    { id:16, r:'kichi',    label:'吉',     emo:'🕊️', title:'吉祥の白鶴', quote:'長い歳月の努力がまもなく実を結び、大空へと羽ばたく。' },
+
+    // 大吉 (6種)
+    { id:17, r:'daikichi', label:'大吉',   emo:'✨', title:'黄金蓮華座', quote:'大きな転機の訪れ！すべての巡り合わせがあなたを祝福している。' },
+    { id:18, r:'daikichi', label:'大吉',   emo:'🏯', title:'四神来光',   quote:'観音・不動・南極老人が勢揃い！何事も恐るるに足らず。' },
+    { id:19, r:'daikichi', label:'大吉',   emo:'🌅', title:'神山黎明',   quote:'闇夜は完全に明けた。これより昇る朝日のごとく運気絶好調！' },
+    { id:20, r:'daikichi', label:'大吉',   emo:'👑', title:'不動明王の剣', quote:'断ち切れぬ悪縁も迷いも一刀両断。大いなる覚悟が道を拓く。' },
+    { id:21, r:'daikichi', label:'大吉',   emo:'🌸', title:'満願成就',   quote:'あきらめず信じ続けた願いが、美しく咲き誇る時が来た！' },
+    { id:22, r:'daikichi', label:'大吉',   emo:'🛕', title:'黄金鈴楼響音', quote:'天界を揺るがす吉祥の響き。幸運の波が次々と押し寄せる。' },
+
+    // 神吉 (2種)
+    { id:23, r:'kamikichi',label:'神吉',   emo:'🌟', title:'ナチャ神変大降臨', quote:'内緒だけどね、今日だけ特別に最強の天恵を与えたよ！絶対大丈夫だから、胸を張っていきな！' },
+    { id:24, r:'kamikichi',label:'神吉',   emo:'💫', title:'万仏無量大祝福', quote:'森羅万象すべてがあなたの味方。今こそ信じる最高の未来へ、躊躇なく飛び込め！' }
+  ];
+
+  var POOLS = {
+    futsuu: CARDS.filter(function(c){ return c.r==='futsuu'; }),
+    kichi: CARDS.filter(function(c){ return c.r==='kichi'; }),
+    daikichi: CARDS.filter(function(c){ return c.r==='daikichi'; }),
+    kamikichi: CARDS.filter(function(c){ return c.r==='kamikichi'; })
+  };
+
+  // レアリティ抽選重み（普通:52%, 吉:32%, 大吉:13%, 神吉:3%）
+  function drawOneRarity(guaranteeKichi) {
+    var p = Math.random();
+    if (p < 0.03) return 'kamikichi';
+    if (p < 0.16) return 'daikichi';
+    if (p < 0.48 || guaranteeKichi) return 'kichi';
+    return 'futsuu';
+  }
+
+  function pickRandomCard(rarity) {
+    var pool = POOLS[rarity];
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  // ===== UI管理 =====
+  var $ = function(id){ return document.getElementById(id); };
+  var coinValEl = $('coinVal');
+  var toastEl = $('toastMsg');
+
+  function showToast(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    setTimeout(function(){ toastEl.classList.remove('show'); }, 2200);
+  }
+
+  function refreshCoins() {
+    var total = window.NachaCoins ? window.NachaCoins.getBalance() : 0;
+    coinValEl.textContent = total;
+    // タスク完了状態の反映
+    if (window.NachaCoins) {
+      if (!window.NachaCoins.canEarnDaily('lotus_clean')) $('btnTaskLotus').classList.add('done');
+      if (!window.NachaCoins.canEarnDaily('daily_pray')) $('btnTaskPray').classList.add('done');
+    }
+  }
+
+  if (window.NachaCoins) {
+    window.NachaCoins.onChange(refreshCoins);
+  }
+  refreshCoins();
+
+  // ナチャセリフ集
+  var DIALOGS = [
+    '今日も来てくれてありがとう！',
+    '徳を積むと、神吉が出やすいかも…？',
+    '10連は吉以上が必ず1枚入るよ！',
+    'お寺のお清めをしてコインを集めよう！',
+    '火焔槍でモヤモヤを吹き飛ばそう！'
+  ];
+  var diaIdx = 0;
+  $('nachaStage').addEventListener('click', function(e){
+    if (!e.isTrusted) return;
+    diaIdx = (diaIdx + 1) % DIALOGS.length;
+    $('nachaBubble').textContent = DIALOGS[diaIdx];
+    this.classList.remove('hop');
+    void this.offsetWidth;
+    this.classList.add('hop');
+  });
+
+  // ===== ガチャ実行ロジック =====
+  var lastDrawResults = [];
+
+  function executeDraw(count) {
+    var cost = count === 1 ? 5 : 45;
+    if (!window.NachaCoins || !window.NachaCoins.spend(cost)) {
+      showToast('コインが足りません！作務で稼ごう');
+      $('nachaBubble').textContent = 'コインが足りないよ！下でお清めしてきてね！';
+      return;
+    }
+
+    // 画面切り替え：抽選演出へ
+    $('viewMain').classList.remove('active');
+    $('viewResult').classList.remove('active');
+    $('viewAnim').classList.add('active');
+
+    var drum = $('animDrum');
+    var drumIcons = ['🎴','✨','🔥','🏮','🪷'];
+    var interval = setInterval(function(){
+      drum.textContent = drumIcons[Math.floor(Math.random() * drumIcons.length)];
+    }, 80);
+
+    setTimeout(function(){
+      clearInterval(interval);
+      // 結果生成
+      var results = [];
+      for (var i = 0; i < count; i++) {
+        // 10連の場合、最後の1枚は「吉」以上保証
+        var guarantee = (count === 10 && i === 9 && !results.some(function(c){ return c.r !== 'futsuu'; }));
+        var r = drawOneRarity(guarantee);
+        results.push(pickRandomCard(r));
+      }
+      lastDrawResults = results;
+      showResults(results, count);
+    }, count === 10 ? 1500 : 900);
+  }
+
+  $('btnSingle').addEventListener('click', function(e){
+    if (!e.isTrusted) return;
+    executeDraw(1);
+  });
+  $('btnTen').addEventListener('click', function(e){
+    if (!e.isTrusted) return;
+    executeDraw(10);
+  });
+
+  // 結果画面表示
+  function showResults(results, count) {
+    $('viewAnim').classList.remove('active');
+    $('viewResult').classList.add('active');
+
+    var grid = $('cardsGrid');
+    grid.innerHTML = '';
+    grid.className = 'cards-container ' + (count === 1 ? 'single' : 'ten');
+
+    var hasDaikichi = results.some(function(c){ return c.r === 'daikichi'; });
+    var hasKamikichi = results.some(function(c){ return c.r === 'kamikichi'; });
+
+    if (hasKamikichi) {
+      $('resultTitle').textContent = '🌟 神 吉 降 臨 ！！！ 🌟';
+      try { navigator.vibrate && navigator.vibrate([60, 80, 100, 120]); } catch(e){}
+    } else if (hasDaikichi) {
+      $('resultTitle').textContent = '✨ 大 吉 獲 得 ！！ ✨';
+      try { navigator.vibrate && navigator.vibrate([40, 60, 80]); } catch(e){}
+    } else {
+      $('resultTitle').textContent = count === 1 ? '授かった縁起物' : '10連結果発表！';
+    }
+
+    var skipBtn = $('btnFlipAll');
+    if (count > 1) {
+      skipBtn.style.display = 'inline-block';
+      skipBtn.textContent = '一括オープン';
+    } else {
+      skipBtn.style.display = 'none';
+    }
+
+    // カード生成
+    results.forEach(function(card, idx){
+      var cardItem = document.createElement('div');
+      cardItem.className = 'card-item r-' + card.r;
+      cardItem.innerHTML = 
+        '<div class="card-box" id="cb_' + idx + '">' +
+          '<div class="c-back"></div>' +
+          '<div class="c-front">' +
+            '<span class="card-badge">' + card.label + '</span>' +
+            '<div class="card-emo">' + card.emo + '</div>' +
+            '<div class="card-name">' + card.title + '</div>' +
+          '</div>' +
+        '</div>';
+
+      grid.appendChild(cardItem);
+
+      // 個別クリックでモーダル詳細表示
+      cardItem.addEventListener('click', function(){
+        var box = $('cb_' + idx);
+        if (!box.classList.contains('flipped')) {
+          box.classList.add('flipped');
+        } else {
+          openCardModal(card);
+        }
+      });
+
+      // 順次めくり演出
+      setTimeout(function(){
+        var box = $('cb_' + idx);
+        if (box) box.classList.add('flipped');
+      }, 250 + idx * (count === 1 ? 150 : 120));
+    });
+
+    skipBtn.onclick = function(){
+      for (var i = 0; i < count; i++) {
+        var box = $('cb_' + i);
+        if (box) box.classList.add('flipped');
+      }
+      skipBtn.style.display = 'none';
+    };
+  }
+
+  // もう一度引く
+  $('btnRetry').addEventListener('click', function(e){
+    if (!e.isTrusted) return;
+    $('viewResult').classList.remove('active');
+    $('viewMain').classList.add('active');
+    refreshCoins();
+  });
+
+  // ===== 詳細モーダル =====
+  function openCardModal(card) {
+    $('mEmo').textContent = card.emo;
+    $('mTitle').textContent = card.title;
+    $('mQuote').textContent = '「' + card.quote + '」';
+    var badge = $('mBadge');
+    badge.textContent = card.label;
+    badge.className = 'modal-badge card-badge r-' + card.r;
+    $('cardModal').classList.add('open');
+  }
+
+  $('modalClose').addEventListener('click', function(){ $('cardModal').classList.remove('open'); });
+  $('modalOkBtn').addEventListener('click', function(){ $('cardModal').classList.remove('open'); });
+  $('cardModal').addEventListener('click', function(e){
+    if (e.target === this) this.classList.remove('open');
+  });
+
+  // ===== 作務1: 蓮の火灯し（ボット防止インタラクション） =====
+  var lotusCount = 0;
+  var lotusTimestamps = [];
+  var lotusTimer = null;
+
+  function spawnLotusTarget() {
+    var field = $('lotusField');
+    var target = $('lotusTarget');
+    var fw = field.clientWidth - 50;
+    var fh = field.clientHeight - 50;
+    var rx = Math.floor(Math.random() * Math.max(10, fw));
+    var ry = Math.floor(Math.random() * Math.max(10, fh));
+
+    target.style.left = rx + 'px';
+    target.style.top = ry + 'px';
+    target.classList.remove('spawn');
+    void target.offsetWidth;
+    target.classList.add('spawn');
+
+    $('missionStep').textContent = '灯火 (' + (lotusCount + 1) + ' / 3) をタップ！';
+  }
+
+  $('btnTaskLotus').addEventListener('click', function(e){
+    if (!e.isTrusted) return;
+    if (window.NachaCoins && !window.NachaCoins.canEarnDaily('lotus_clean')) {
+      showToast('本日の灯火のお清めは完了しています');
+      return;
+    }
+    lotusCount = 0;
+    lotusTimestamps = [];
+    $('missionModal').classList.add('open');
+    spawnLotusTarget();
+  });
+
+  $('lotusTarget').addEventListener('pointerdown', function(e){
+    // ボット検証: isTrusted 必須 & タップ間隔チェック
+    if (!e.isTrusted) {
+      showToast('ボットの操作を検知しました');
+      $('missionModal').classList.remove('open');
+      return;
+    }
+
+    var now = Date.now();
+    lotusTimestamps.push(now);
+
+    // 人間チェック：あまりにも高速（50ms以下）な機械的連打は弾く
+    if (lotusTimestamps.length >= 2) {
+      var diff = now - lotusTimestamps[lotusTimestamps.length - 2];
+      if (diff < 80) {
+        showToast('操作が早すぎます。ゆっくり心を込めてタップしてください');
+        return;
+      }
+    }
+
+    lotusCount++;
+    try { navigator.vibrate && navigator.vibrate(20); } catch(err){}
+
+    if (lotusCount < 3) {
+      spawnLotusTarget();
+    } else {
+      // 成功！コイン付与
+      $('missionModal').classList.remove('open');
+      if (window.NachaCoins) {
+        var res = window.NachaCoins.earn('lotus_clean', 10, e, { requirePointer: true });
+        if (res.success) {
+          showToast('お清め完了！ +10 ナチャコイン獲得');
+          $('nachaBubble').textContent = 'ありがとう！お寺がとても清まったよ！';
+          refreshCoins();
+        } else {
+          showToast('本日はすでに受取済みです');
+        }
+      }
+    }
+  });
+
+  $('missionClose').addEventListener('click', function(){ $('missionModal').classList.remove('open'); });
+
+  // ===== 作務2: 朝夕の合掌 =====
+  $('btnTaskPray').addEventListener('click', function(e){
+    if (!e.isTrusted) return;
+    if (window.NachaCoins) {
+      var res = window.NachaCoins.earn('daily_pray', 5, e);
+      if (res.success) {
+        showToast('合掌・心願成就！ +5 ナチャコイン獲得');
+        $('nachaBubble').textContent = 'ナチャも一緒にお祈りしたよ！';
+        refreshCoins();
+      } else {
+        showToast('本日の合掌はすでに行いました');
+      }
+    }
+  });
+
+  // ===== X シェア機能（Canvas 1080×1080 高解像度生成） =====
+  $('btnShareX').addEventListener('click', function(e){
+    if (!e.isTrusted || !lastDrawResults.length) return;
+
+    var bestCard = lastDrawResults.reduce(function(prev, curr){
+      var rank = { kamikichi:4, daikichi:3, kichi:2, futsuu:1 };
+      return (rank[curr.r] > rank[prev.r]) ? curr : prev;
+    }, lastDrawResults[0]);
+
+    var canvas = document.createElement('canvas');
+    canvas.width = 1080;
+    canvas.height = 1080;
+    var ctx = canvas.getContext('2d');
+
+    // 背景グラデーション
+    var bgGrad = ctx.createLinearGradient(0, 0, 0, 1080);
+    bgGrad.addColorStop(0, '#1c1024');
+    bgGrad.addColorStop(0.5, '#120718');
+    bgGrad.addColorStop(1, '#2c0d1b');
+    ctx.fillStyle = bgGrad;
+    ctx.fillRect(0, 0, 1080, 1080);
+
+    // 金の曼荼羅調装飾枠
+    ctx.strokeStyle = 'rgba(212,172,13,0.35)';
+    ctx.lineWidth = 4;
+    ctx.strokeRect(36, 36, 1008, 1008);
+    ctx.strokeRect(48, 48, 984, 984);
+
+    // タイトル
+    ctx.textAlign = 'center';
+    ctx.font = '900 64px "Lilita One",sans-serif';
+    ctx.fillStyle = '#F4D03F';
+    ctx.fillText('NACHA 大 福 引 き', 540, 140);
+
+    // サブタイトル
+    ctx.font = '700 32px "M PLUS Rounded 1c",sans-serif';
+    ctx.fillStyle = '#fcecd2';
+    ctx.fillText(lastDrawResults.length === 10 ? '— 10連福引き祈願結果 —' : '— 縁起物授受祈願 —', 540, 200);
+
+    // メインカードの描画（最高レア）
+    var cardX = 290, cardY = 250, cardW = 500, cardH = 580;
+    var cardGrad = ctx.createLinearGradient(cardX, cardY, cardX + cardW, cardY + cardH);
+    if (bestCard.r === 'kamikichi') {
+      cardGrad.addColorStop(0, '#2d143d');
+      cardGrad.addColorStop(0.5, '#0e0417');
+      cardGrad.addColorStop(1, '#3b1234');
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 8;
+    } else if (bestCard.r === 'daikichi') {
+      cardGrad.addColorStop(0, '#594109');
+      cardGrad.addColorStop(0.5, '#2b1f03');
+      cardGrad.addColorStop(1, '#664c0d');
+      ctx.strokeStyle = '#F4D03F';
+      ctx.lineWidth = 7;
+    } else if (bestCard.r === 'kichi') {
+      cardGrad.addColorStop(0, '#701a11');
+      cardGrad.addColorStop(0.5, '#3b0d08');
+      cardGrad.addColorStop(1, '#54150f');
+      ctx.strokeStyle = '#ff6b57';
+      ctx.lineWidth = 6;
+    } else {
+      cardGrad.addColorStop(0, '#2e241c');
+      cardGrad.addColorStop(1, '#17110c');
+      ctx.strokeStyle = '#D4AC0D';
+      ctx.lineWidth = 5;
+    }
+
+    ctx.fillStyle = cardGrad;
+    roundRect(ctx, cardX, cardY, cardW, cardH, 32);
+    ctx.fill();
+    ctx.stroke();
+
+    // 絵文字
+    ctx.font = '160px sans-serif';
+    ctx.fillText(bestCard.emo, 540, 470);
+
+    // レアリティバッジ
+    ctx.font = '900 36px "M PLUS Rounded 1c",sans-serif';
+    ctx.fillStyle = bestCard.r === 'kamikichi' ? '#fff' : (bestCard.r === 'daikichi' ? '#F4D03F' : '#ff9e91');
+    ctx.fillText('【 ' + bestCard.label + ' 】', 540, 560);
+
+    // カード名
+    ctx.font = '900 48px "Lilita One","M PLUS Rounded 1c",sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(bestCard.title, 540, 630);
+
+    // お言葉
+    ctx.font = '700 26px "Noto Serif JP",serif';
+    ctx.fillStyle = '#fcecd2';
+    ctx.fillText('「' + bestCard.quote.slice(0, 24) + '」', 540, 740);
+    if (bestCard.quote.length > 24) {
+      ctx.fillText(bestCard.quote.slice(24), 540, 780);
+    }
+
+    // フッター
+    ctx.font = '800 34px "Lilita One",sans-serif';
+    ctx.fillStyle = 'rgba(244,208,63,0.9)';
+    ctx.fillText('#NACHA #大福引き  https://towananika.github.io/nacha/arcade/fukuiki/', 540, 960);
+
+    // シェア処理
+    var tweetText = 'ナチャの大福引きで【' + bestCard.label + '】「' + bestCard.title + '」を引き当てました！\n' +
+      '「' + bestCard.quote + '」\n\n' +
+      '#NACHA #大福引き #推し活祈願\n' +
+      'https://towananika.github.io/nacha/arcade/fukuiki/';
+
+    try {
+      canvas.toBlob(function(blob){
+        if (blob && navigator.canShare && navigator.canShare({ files: [new File([blob], 'nacha-fukuiki.png', { type:'image/png' })] })) {
+          var file = new File([blob], 'nacha-fukuiki.png', { type:'image/png' });
+          navigator.share({
+            title: 'NACHA 大福引き',
+            text: tweetText,
+            files: [file]
+          }).catch(function(){ openTweet(tweetText); });
+        } else {
+          openTweet(tweetText);
+        }
+      }, 'image/png');
+    } catch(err) {
+      openTweet(tweetText);
+    }
+  });
+
+  function openTweet(text) {
+    window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text), '_blank', 'noopener');
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // ===== 背景パーティクル演出 =====
+  var bgCanvas = $('bg'), bctx = bgCanvas.getContext('2d'), t0 = performance.now(), lastTime = t0, leaves;
+  function resizeBG() {
+    var w = innerWidth, h = innerHeight, d = Math.min(2, devicePixelRatio || 1);
+    bgCanvas.width = w * d; bgCanvas.height = h * d;
+    bctx.setTransform(d, 0, 0, d, 0, 0);
+    if (window.NA && window.NA.leaves) leaves = window.NA.leaves(12, w, h);
+  }
+  function loopBG(now) {
+    var dt = Math.min(0.05, (now - lastTime) / 1000);
+    lastTime = now;
+    if (window.NA && window.NA.drawBG) {
+      window.NA.drawBG(bctx, innerWidth, innerHeight, (now - t0) * 0.01, (now - t0) / 1000);
+      if (leaves) window.NA.drawLeaves(bctx, leaves, innerWidth, innerHeight, dt);
+    }
+    requestAnimationFrame(loopBG);
+  }
+  addEventListener('resize', resizeBG);
+  resizeBG();
+  requestAnimationFrame(loopBG);
+
+})();
+</script>
+</body></html>
