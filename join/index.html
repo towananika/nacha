@@ -27,6 +27,7 @@
 <p class="ps" data-i="jn_sub">登録すると一般ユーザーになります。とわないか共通のアカウントです</p>
 <section class="card authc">
   <div class="seg"><a href="../team/" data-i="tm_login">ログイン</a><span class="on" data-i="jn_title">会員登録</span></div>
+  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><button class="abtn" type="button" disabled aria-disabled="true"><span data-i="g_apple">Appleでログイン（準備中）</span></button><p class="or"><span data-i="g_or">または</span></p></div>
   <form id="joinForm" autocomplete="on" novalidate>
     <label><span data-i="tm_id">ID</span><input id="jId" name="username" autocomplete="username" required minlength="3" maxlength="20"></label>
     <label><span data-i="jn_email">メールアドレス（任意）</span><input id="jEmail" name="email" type="email" autocomplete="email" maxlength="100"></label>
@@ -41,6 +42,7 @@
 </main>
 <nav class="tabs" aria-label="Main"><a href="../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a><a href="../characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">キャラ</b></a><a href="../roadmap/"><span aria-hidden="true">🗺️</span><b data-i="nav_road">ロードマップ</b></a><a href="../arcade/"><span aria-hidden="true">🎮</span><b data-i="nav_play">あそぶ</b></a></nav><script src="../assets/i18n.js"></script>
 <script src="../assets/site.js"></script>
+<script src="../assets/google.js"></script>
 <script src="../assets/join.js"></script>
 </body>
 </html>

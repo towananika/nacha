@@ -37,6 +37,7 @@
     $('admBox').hidden=!(u&&u.admin);
     if(u){$('meId').textContent=u.id;$('meRole').textContent=t(roleKey(u));$('meRole').className='badge'+(u.member?' on':'')}
     if(u&&u.admin&&users)drawUsers();
+    gSetup();
   }
   function roleKey(u){return u.owner?'adm_owner':u.admin?'adm_admin':u.member?'tm_member':'tm_user'}
   var users=null;
@@ -110,6 +111,27 @@
       else $('aMsg').textContent=err(j.error||(j.service?'ready':'net'));
     },function(){b.disabled=false;$('aMsg').textContent=err('net')});
   });
+  // Googleでログイン / ログイン中は「Googleをつなぐ」
+  var gShown='';
+  function gSetup(){
+    if(!window.nachaGoogle)return;
+    var u=state&&state.user, want=u?(u.google?'':'link'):'login';
+    $('gLinked').hidden=!(u&&u.google);if(u&&u.google)$('gLinked').textContent='✓ '+t('g_linked')+' · '+u.google;
+    if(want===gShown)return;gShown=want;
+    $('gLink').textContent='';$('gBtn').textContent='';
+    if(want==='login')nachaGoogle($('gBtn'),function(cred){
+      $('aMsg').textContent='';
+      call('google',{credential:cred}).then(function(j){
+        if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();shareHub();load()}
+        else $('aMsg').textContent=t('g_err');
+      },function(){$('aMsg').textContent=err('net')});
+    },'continue_with').then(function(ok){$('gBox').hidden=!ok});
+    if(want==='link')nachaGoogle($('gLink'),function(cred){
+      call('googlelink',{credential:cred}).then(function(j){
+        if(j.ok){state.user=j.user;save();render()}else alert(t(j.error==='google-used'?'g_used':'g_err'));
+      });
+    },'signin_with');
+  }
   $('logoutBtn').addEventListener('click',function(){
     var h=hdr(),tok=state&&state.token;state=null;doc=null;save();render();
     try{var hb=read(HUBKEY);if(hb&&hb.token===tok)localStorage.removeItem(HUBKEY)}catch(e){}

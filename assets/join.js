@@ -13,6 +13,14 @@
     ready:{ja:'登録の受付を準備中です。しばらくしてからもう一度お試しください',en:'Sign-up is being set up. Please try again later.'},
     net:{ja:'通信できませんでした',en:'Could not connect',ko:'연결할 수 없어요',zh:'無法連線'}};
   function msg(k){var l=document.documentElement.lang;l=l==='zh-Hant'?'zh':l;var m=M[k]||M.net;return m[l]||(l==='ja'?m.ja:m.en)}
+  // Googleで登録（同じ一般ユーザー。IDはメールの@の前から自動で作る）
+  if(window.nachaGoogle)nachaGoogle($('gBtn'),function(cred){
+    $('jMsg').textContent='';
+    fetch(API+'/auth/google',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({credential:cred})})
+      .then(function(r){return r.json().catch(function(){return {}})})
+      .then(function(j){if(j.ok&&j.token)done(j);else $('jMsg').textContent=j.error&&M[j.error]?msg(j.error):(window.nachaT?nachaT('g_err'):'Google error')},function(){$('jMsg').textContent=msg('net')});
+  },'signup_with').then(function(ok){$('gBox').hidden=!ok});
+  function done(j){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}));localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}location.href='../team/'}
   $('joinForm').addEventListener('submit',function(ev){
     ev.preventDefault();
     var id=$('jId').value.trim().toLowerCase(),em=$('jEmail').value.trim(),pw=$('jPw').value,pw2=$('jPw2').value;
@@ -23,7 +31,7 @@
       .then(function(r){return r.json().catch(function(){return {}})})
       .then(function(j){
         b.disabled=false;
-        if(j.ok&&j.token){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}));localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}location.href='../team/'}
+        if(j.ok&&j.token)done(j);
         else $('jMsg').textContent=msg(j.error||(j.service?'ready':'net'));
       },function(){b.disabled=false;$('jMsg').textContent=msg('net')});
   });

@@ -179,3 +179,11 @@ a.linkbtn{text-align:center}
 .seg>*{display:block;text-align:center;padding:9px 6px;border-radius:9px;font-size:14px;font-weight:700;color:var(--sub);text-decoration:none}
 .seg .on{background:var(--acc);color:#fff}
 @media (max-width:380px){.pill span{display:none}}
+/* Googleでログイン・Apple（準備中） */
+.gbox{display:grid;gap:10px;justify-items:center;margin-bottom:6px}
+.gbtn{min-height:44px;display:flex;justify-content:center}
+.abtn{width:280px;max-width:100%;min-height:40px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--sub);font:inherit;font-size:14px;opacity:.55;cursor:not-allowed}
+.or{display:flex;align-items:center;gap:10px;width:100%;margin:2px 0 0;color:var(--sub);font-size:12px}
+.or:before,.or:after{content:"";flex:1;border-top:1px solid var(--line)}
+.glink{display:grid;gap:6px;justify-items:start;margin:10px 0}
+.glink small{color:var(--sub)}

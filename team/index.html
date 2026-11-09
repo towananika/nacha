@@ -28,6 +28,7 @@
 
 <section id="authBox" class="card authc" hidden>
   <div class="seg"><span class="on" data-i="tm_login">ログイン</span><a href="../join/" data-i="jn_title">会員登録</a></div>
+  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><button class="abtn" type="button" disabled aria-disabled="true"><span data-i="g_apple">Appleでログイン（準備中）</span></button><p class="or"><span data-i="g_or">または</span></p></div>
   <form id="authForm" autocomplete="on">
     <label><span data-i="tm_id">ID</span><input id="aId" name="username" autocomplete="username" required minlength="3" maxlength="20" pattern="[A-Za-z0-9_.\-]{3,20}"></label>
     <label><span data-i="tm_pw">パスワード</span><input id="aPw" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="64"></label>
@@ -39,6 +40,7 @@
 
 <section id="meBox" class="card mec" hidden>
   <div class="me"><b id="meId"></b><span class="badge" id="meRole"></span></div>
+  <div class="glink"><small id="gLinked" hidden></small><div id="gLink"></div></div>
   <button class="btn alt sm" type="button" id="logoutBtn"><span data-i="tm_out">ログアウト</span></button>
 </section>
 <p class="card note2" id="generalNote" hidden><span data-i="tm_general">一般ユーザーとしてログイン中です。関係者の資料は、管理者が権限を付けると見られます。</span></p>
@@ -58,6 +60,7 @@
 </main>
 <nav class="tabs" aria-label="Main"><a href="../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a><a href="../characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">キャラ</b></a><a href="../roadmap/"><span aria-hidden="true">🗺️</span><b data-i="nav_road">ロードマップ</b></a><a href="../arcade/"><span aria-hidden="true">🎮</span><b data-i="nav_play">あそぶ</b></a></nav><script src="../assets/i18n.js"></script>
 <script src="../assets/site.js"></script>
+<script src="../assets/google.js"></script>
 <script src="../assets/team.js"></script>
 </body>
 </html>
