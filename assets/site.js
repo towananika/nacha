@@ -144,4 +144,8 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
 })();
 
 // ホームの非公式の帯は10秒で消す（下のフッターには常に残る）
-(function(){var b=document.getElementById('unoffBar');if(b)setTimeout(function(){b.classList.add('gone')},10000)})();
+(function(){var b=document.getElementById('unoffBar');if(!b)return;
+  // その日の最初の1回だけ10秒出す。2回目からは最初から出さない（下のフッターには残る）
+  var d=new Date().toISOString().slice(0,10),seen='';try{seen=localStorage.getItem('nacha-unoff')||'';localStorage.setItem('nacha-unoff',d)}catch(e){}
+  if(seen===d){b.classList.add('gone');b.style.transition='none';return}
+  setTimeout(function(){b.classList.add('gone')},10000)})();
