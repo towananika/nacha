@@ -30,9 +30,8 @@
   function err(k){return k!=='none'&&window.nachaWhy?nachaWhy(k):(ERR[k]||ERR.net)[lang()]}
   function render(){
     var u=state&&state.user;
-    $('authBox').hidden=!!u; $('meBox').hidden=!u; $('ptT').hidden=$('ptS').hidden=!u;
+    $('authBox').hidden=!!u; $('meBox').hidden=!u; $('ptT').hidden=!u;
     document.body.classList.toggle('authmode',!u);
-    $('generalNote').hidden=!(u&&!u.member);
     $('docBox').hidden=!(u&&u.member&&doc);
     $('aSubmitL').textContent=t(mode==='login'?'tm_login':'tm_reg');
     $('admLink').hidden=!(u&&u.admin);
@@ -86,7 +85,7 @@
   function gSetup(){
     if(!window.nachaGoogle)return;
     var u=state&&state.user, want=u?(u.google?'':'link'):'login';
-    $('gLinked').hidden=!(u&&u.google);if(u&&u.google)$('gLinked').textContent='✓ '+t('g_linked')+' · '+u.google;
+    $('gLinked').hidden=!(u&&u.google);$('gLinkHint').hidden=!(u&&!u.google);if(u&&u.google)$('gLinked').textContent='✓ '+t('g_linked')+' · '+u.google;
     if(want===gShown)return;gShown=want;
     $('gLink').textContent='';$('gBtn').textContent='';
     if(want==='login')nachaGoogle($('gBtn'),function(cred){
