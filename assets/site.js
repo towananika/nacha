@@ -32,7 +32,16 @@
   var nb=document.getElementById('nachaBtn');
   if(nb){
     var P=['assets/nacha-wink.webp','assets/nacha-spear.webp','assets/nacha-pray.webp','assets/nacha-wheels.webp'];
-    var L=["大丈夫、ナチャが見守ってるよ！","推し活楽しんでる？","当落ドキドキするよね、一緒に祈ろう！","その本気の好きって気持ち、尊いよ！","席が遠くても、愛はステージに届いてるさ！","内緒だけど、君に最強の加護かけといたよ！"];
+    var L=[
+      "大丈夫、ナチャが見守ってるよ！",
+      "今日も生きててくれてありがとうね。はなまる満点だよ！",
+      "疲れたら何もしなくていいんだよ。お堂で休んでいってね。",
+      "当落ドキドキするよね、一緒に祈ろう！",
+      "その本気の好きって気持ち、すっごく尊いよ！",
+      "泣いちゃう日があってもいいんだよ。僕はずっと君の味方さ。",
+      "席が遠くても、愛はステージに届いてるさ！",
+      "内緒だけど、君に最強の加護かけといたよ！🪷✨"
+    ];
     var pi=0,li=0,img=document.getElementById('nachaImg'),bb=document.getElementById('bubble');
     P.forEach(function(u){var i=new Image();i.src=u});
     nb.addEventListener('click',function(ev){

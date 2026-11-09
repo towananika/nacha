@@ -267,6 +267,17 @@ main{max-width:720px;margin:0 auto;padding:12px 16px 36px;text-align:center}
     });
   });
 
+  
+  // URLパラメータからの願い事自動引き継ぎ（お守りからの境内巡礼）
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var sharedWish = params.get('wish');
+    if (sharedWish && $('gomaInput')) {
+      $('gomaInput').value = sharedWish;
+      showToast('お守りの願いを引き継ぎました！そのまま炎にくべてね🔥');
+    }
+  } catch(e){}
+
   // 護摩木カウント
   var totalCount = 1284;
   try {

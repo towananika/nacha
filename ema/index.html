@@ -355,7 +355,8 @@ main{max-width:720px;margin:0 auto;padding:12px 16px 36px}
     $('emaAuthorInput').value = '';
 
     renderEmas();
-    showToast('「願い事、ナチャがしっかり受け取ったよ！絶対大丈夫だからね！🪷✨」');
+
+  showToast('「願い事、ナチャがしっかり受け取ったよ！絶対大丈夫だからね！🪷✨」');
 
     // コイン付与
     if (window.NachaCoins) {
@@ -480,6 +481,20 @@ main{max-width:720px;margin:0 auto;padding:12px 16px 36px}
   });
 
   renderEmas();
+
+  // URLパラメータからの願い事・推し名引き継ぎ（境内巡礼）
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var sharedWish = params.get('wish');
+    var sharedAuthor = params.get('author');
+    if (sharedWish || sharedAuthor) {
+      $('writeModal').classList.add('open');
+      if (sharedWish && $('emaWishInput')) $('emaWishInput').value = sharedWish;
+      if (sharedAuthor && $('emaAuthorInput')) $('emaAuthorInput').value = sharedAuthor;
+      showToast('お守りの願いを引き継ぎました！そのまま奉納できるよ🪵');
+    }
+  } catch(e){}
+
 
 })();
 </script>

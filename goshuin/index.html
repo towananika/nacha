@@ -205,7 +205,13 @@ main{max-width:720px;margin:0 auto;padding:12px 16px 36px}
     window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text), '_blank', 'noopener');
   });
 
-  document.getElementById('btnSaveGoshuin').addEventListener('click', function(){
+  document.getElementById('btnSaveGoshuin').addEventListener('click', function(e){
+    if (window.NachaCoins) {
+      var res = NachaCoins.earn('goshuin_save', 5, e);
+      if (res && res.success) {
+        if (window.NachaCoins.showEarnToast) NachaCoins.showEarnToast(5, '御朱印授受の記念功徳');
+      }
+    }
     renderGoshuinCanvas(function(blob){
       if (!blob) return;
       var a = document.createElement('a');
