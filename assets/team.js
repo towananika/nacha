@@ -36,6 +36,7 @@
     $('aSubmitL').textContent=t(mode==='login'?'tm_login':'tm_reg');
     
     if($('dashAdmin')) $('dashAdmin').hidden=!(u&&u.admin);
+    if($('dashDev')) $('dashDev').hidden=!(u&&(u.admin||u.owner));
     if($('dashDocs')) $('dashDocs').hidden=!(u&&u.member&&doc);
 
     if(u){

@@ -722,3 +722,161 @@ body.authmode main{padding-bottom:24px}
   font-weight: 700;
   font-size: 16px;
 }
+/* ====================================================
+   シンプル＆ミニマルデザイン：3つの扉 (doors-section)
+   ==================================================== */
+.hero-zen {
+  text-align: center;
+  padding: 18px 0 24px;
+}
+.temple-tag {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--sub);
+  background: var(--accSoft);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+.logo-clean {
+  font-family: "Lilita One", -apple-system, sans-serif;
+  font-size: 44px;
+  letter-spacing: 2px;
+  color: var(--acc);
+  margin: 0 0 6px;
+  text-shadow: 0 2px 10px rgba(192, 57, 43, 0.2);
+}
+.hero-clean-lead {
+  font-size: 14.5px;
+  color: var(--sub);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+.doors-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 10px 0 32px;
+}
+.door-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px 22px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.04);
+  transition: all 0.25s cubic-bezier(0.2, 1.4, 0.4, 1);
+  position: relative;
+  overflow: hidden;
+}
+.door-card:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.09);
+  border-color: var(--acc);
+}
+.door-card:active {
+  transform: scale(0.99);
+}
+.door-icon-box {
+  font-size: 38px;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: var(--accSoft);
+  flex-shrink: 0;
+}
+.door-pray .door-icon-box {
+  background: rgba(192, 57, 43, 0.12);
+}
+.door-rest .door-icon-box {
+  background: rgba(248, 187, 208, 0.2);
+}
+.door-temple .door-icon-box {
+  background: rgba(212, 172, 13, 0.15);
+}
+
+.door-text-box {
+  flex: 1;
+  text-align: left;
+}
+.door-sub {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--sub);
+  margin-bottom: 2px;
+}
+.door-title {
+  font-family: "Noto Serif JP", serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 4px;
+}
+.door-desc {
+  font-size: 12.5px;
+  color: var(--sub);
+  line-height: 1.5;
+  margin: 0;
+}
+.door-arrow {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--line);
+  transition: transform 0.2s, color 0.2s;
+  flex-shrink: 0;
+}
+.door-card:hover .door-arrow {
+  color: var(--acc);
+  transform: translateX(4px);
+}
+
+/* 控えめな境内リンク */
+.sub-amenities {
+  text-align: center;
+  margin: 24px 0 32px;
+  padding-top: 18px;
+  border-top: 1px dashed var(--line);
+}
+.sub-amenities-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--sub);
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.amenity-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+.amenity-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--sub);
+  text-decoration: none;
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 6px 14px;
+  border-radius: 999px;
+  transition: all 0.2s;
+}
+.amenity-links a:hover {
+  border-color: var(--acc);
+  color: var(--ink);
+  transform: translateY(-1px);
+}

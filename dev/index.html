@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NACHA [DEV] 開発公開版 · 管理者限定</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#C0392B">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%9B%A0%EF%B8%8F%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@400;700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+/* 開発版専用のバナーとゲート */
+.dev-banner {
+  background: linear-gradient(135deg, #1f1408, #38240b);
+  border-bottom: 1.5px solid #D4AC0D;
+  color: #F4D03F;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  letter-spacing: 0.5px;
+}
+.dev-badge {
+  background: #D4AC0D;
+  color: #1a1005;
+  font-size: 10px;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+.btn-live {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.25);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  text-decoration: none;
+}
+.btn-live:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* 管理者ゲート画面 */
+#adminGate {
+  max-width: 440px;
+  margin: 60px auto 40px;
+  padding: 32px 24px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+.gate-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+.gate-title {
+  font-family: "Noto Serif JP", serif;
+  font-size: 20px;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.gate-desc {
+  font-size: 13px;
+  color: var(--sub);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+/* 開発版メインコンテンツ（初期は非表示で認証後に開帳） */
+#devApp {
+  display: none;
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<!-- 開発版ステータスバー -->
+<div class="dev-banner">
+  <div>
+    <span class="dev-badge">DEV STAGING</span>
+    <span>開発公開版 (シンプル化検証環境)</span>
+  </div>
+  <a href="../" class="btn-live">本番公開版へ ↗</a>
+</div>
+
+<!-- 管理者認証ゲート（未認証時に表示） -->
+<div id="adminGate">
+  <div class="gate-icon" id="gateIcon">🔒</div>
+  <h2 class="gate-title" id="gateTitle">確認中…</h2>
+  <p class="gate-desc" id="gateDesc">管理者権限を確認しています。少々お待ちください。</p>
+  <div id="gateAction"></div>
+</div>
+
+<!-- ==============================================
+     開発公開版 メイン（シンプル＆洗練された3つの扉）
+     ============================================== -->
+<div id="devApp">
+
+  <!-- ヘッダー -->
+  <div class="bar">
+    <a class="brand" href="./">NACHA <small style="font-size:11px;color:#D4AC0D;font-family:sans-serif;font-weight:700">DEV</small></a>
+    <div class="barr">
+      <a class="pill" href="../team/">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
+        <span id="adminUserName">管理者</span>
+      </a>
+    </div>
+  </div>
+
+  <main id="main">
+
+    <!-- 1. 清らかなヒーロー部（余白と温もり） -->
+    <section class="hero-zen">
+      <span class="temple-tag">カンボジア 悠遊観音堂 · 小さな神様</span>
+      <h1 class="logo-clean">NACHA</h1>
+      <p class="hero-clean-lead">
+        推しを愛する心に寄り添い、<br>
+        疲れたこころをそっと休める場所。
+      </p>
+
+      <div style="display:flex;justify-content:center;margin:12px 0 20px;">
+        <button class="nbtn" type="button" id="nachaBtn" aria-label="Tap Nacha">
+          <span class="bubble" id="bubble">生きてるだけで、今日のはなまる満点だよ！</span>
+          <img id="nachaImg" src="../assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
+          <span class="tapme" aria-hidden="true">タップしてね</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- 2. 目的別の「3つの扉」（メインの導線） -->
+    <section class="doors-section">
+      
+      <!-- 扉①：推し活祈願所 -->
+      <a href="../amulet/" class="door-card door-pray">
+        <div class="door-icon-box">🧧</div>
+        <div class="door-text-box">
+          <span class="door-sub">推し活祈願 · 当選 · 神席 · 絵馬</span>
+          <h2 class="door-title">推し活お守り授与所</h2>
+          <p class="door-desc">推し色8色を選び、名前とカウントダウンを刻むデジタルお守り。境内の絵馬掛け所にも直通。</p>
+        </div>
+        <span class="door-arrow">→</span>
+      </a>
+
+      <!-- 扉②：こころの休憩所 -->
+      <a href="../rest/" class="door-card door-rest">
+        <div class="door-icon-box">🪷</div>
+        <div class="door-text-box">
+          <span class="door-sub">深呼吸 · 木魚ASMR · 弱音の預かり所</span>
+          <h2 class="door-title">こころの休憩所</h2>
+          <p class="door-desc">何も頑張らなくていい避難所。すーはー深呼吸と澄んだ木魚の音で、重い心を解き放つ場所。</p>
+        </div>
+        <span class="door-arrow">→</span>
+      </a>
+
+      <!-- 扉③：ナチャとお寺の物語 -->
+      <a href="../characters/" class="door-card door-temple">
+        <div class="door-icon-box">🏮</div>
+        <div class="door-text-box">
+          <span class="door-sub">実在の寺院 · キャラクター</span>
+          <h2 class="door-title">小さな神様ナチャのこと</h2>
+          <p class="door-desc">カンボジア・プノンペンの悠遊観音堂で暮らす小さな神様と、見守る3柱の仲間たちの物語。</p>
+        </div>
+        <span class="door-arrow">→</span>
+      </a>
+
+    </section>
+
+    <!-- 3. ひっそり楽しむ「境内のあそび処」（控えめなリンク群） -->
+    <section class="sub-amenities">
+      <div class="sub-amenities-label">⛩️ 境内の各堂をめぐる</div>
+      <div class="amenity-links">
+        <a href="../arcade/mokugyo/">🪵 電子木魚</a>
+        <a href="../goma/">🔥 護摩堂</a>
+        <a href="../ema/">🪵 絵馬掛け</a>
+        <a href="../arcade/fukuiki/">🎴 大福引き</a>
+        <a href="../goshuin/">📿 御朱印帳</a>
+      </div>
+    </section>
+
+    <!-- 4. ナチャみくじ（日々の小さなお楽しみ） -->
+    <section class="omikuji reveal" id="omikuji" style="margin-top:20px;">
+      <h2 class="sec"><span>🪷 今日のナチャみくじ</span></h2>
+      <div class="owrap">
+        <div class="obox">
+          <div class="otxt" id="wordText">ボタンを押して、今日のことばを引こう</div>
+          <div class="oluck" id="luck" hidden></div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:12px;">
+        <button class="btn gold" id="drawBtn" type="button" style="padding:10px 24px;border-radius:999px;">ひく</button>
+      </div>
+    </section>
+
+    <footer class="ufoot" style="margin-top:40px;">
+      <span>このページはNACHA開発公開版（Staging）です。</span>
+    </footer>
+
+  </main>
+
+  <!-- シンプル4大タブバー -->
+  <nav class="tabs" aria-label="Main">
+    <a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
+    <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
+    <a href="../rest/"><span aria-hidden="true">🪷</span><b>休憩所</b></a>
+    <a href="../characters/"><span aria-hidden="true">🗺️</span><b>キャラ</b></a>
+  </nav>
+
+</div>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/coins.js"></script>
+<script src="../assets/site.js"></script>
+<script>
+// ============================================
+// 管理者権限認証ロジック (Gatekeeper)
+// ============================================
+(function() {
+  'use strict';
+
+  var API = 'https://remitech-chores.jaykim-can.workers.dev/nacha';
+  var KEY = 'nacha-auth';
+  var HUBKEY = 'remitech-auth';
+
+  var gate = document.getElementById('adminGate');
+  var gateIcon = document.getElementById('gateIcon');
+  var gateTitle = document.getElementById('gateTitle');
+  var gateDesc = document.getElementById('gateDesc');
+  var gateAction = document.getElementById('gateAction');
+  var devApp = document.getElementById('devApp');
+  var adminUserName = document.getElementById('adminUserName');
+
+  function readAuth(k) {
+    try {
+      var v = JSON.parse(localStorage.getItem(k) || 'null');
+      return (v && v.token && v.exp > Date.now()) ? v : null;
+    } catch(e) {
+      return null;
+    }
+  }
+
+  var authState = readAuth(KEY) || readAuth(HUBKEY);
+
+  function showGateError(icon, title, desc, actionHtml) {
+    gate.style.display = 'block';
+    devApp.style.display = 'none';
+    gateIcon.textContent = icon;
+    gateTitle.textContent = title;
+    gateDesc.innerHTML = desc;
+    gateAction.innerHTML = actionHtml || '';
+  }
+
+  // 1. 未ログインの場合
+  if (!authState || !authState.token) {
+    showGateError(
+      '🔒',
+      'ログインが必要です',
+      '開発公開版（nacha/dev）を閲覧・検証するには、管理者アカウントでのログインが必要です。',
+      '<a href="../team/" class="btn" style="padding:10px 24px;border-radius:999px;">マイページでログイン</a>'
+    );
+    return;
+  }
+
+  // 2. サーバーへトークン検証と管理者権限の確認
+  fetch(API + '/auth/renew', {
+    method: 'POST',
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + authState.token
+    },
+    body: JSON.stringify({})
+  })
+  .then(function(res) {
+    return res.json().catch(function() { return {}; });
+  })
+  .then(function(data) {
+    if (!data.ok || !data.user) {
+      showGateError(
+        '🔑',
+        'ログインの期限が切れました',
+        '再度ログインしてから開発ページへアクセスしてください。',
+        '<a href="../team/" class="btn" style="padding:10px 24px;border-radius:999px;">ログインし直す</a>'
+      );
+      return;
+    }
+
+    var user = data.user;
+    authState.user = user;
+    try { localStorage.setItem(KEY, JSON.stringify(authState)); } catch(e){}
+
+    // 管理者またはオーナー権限をチェック
+    if (!user.admin && !user.owner) {
+      showGateError(
+        '⛔',
+        '管理者権限がありません',
+        '現在のアカウント（<b>' + (user.id || 'ユーザー') + '</b>）には、開発公開版を閲覧する管理者権限が付与されていません。<br>閲覧が必要な場合はオーナーにお問い合わせください。',
+        '<a href="../" class="btn" style="padding:10px 24px;border-radius:999px;">通常公開版へ戻る</a>'
+      );
+      return;
+    }
+
+    // 認証成功！開発版を表示
+    gate.style.display = 'none';
+    devApp.style.display = 'block';
+    if (adminUserName) {
+      adminUserName.textContent = (user.id || '管理者') + (user.owner ? ' (Owner)' : ' (Admin)');
+    }
+  })
+  .catch(function(err) {
+    showGateError(
+      '📡',
+      '通信エラー',
+      '認証サーバーとの通信に失敗しました。インターネット接続を確認して再度お試しください。',
+      '<button onclick="location.reload()" class="btn">再読み込み</button>'
+    );
+  });
+
+})();
+</script>
+</body>
+</html>
