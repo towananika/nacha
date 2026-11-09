@@ -123,7 +123,7 @@
       $('aMsg').textContent='';
       call('google',{credential:cred}).then(function(j){
         if(j.ok&&j.token){state={token:j.token,exp:j.exp,user:j.user};save();shareHub();load()}
-        else $('aMsg').textContent=t('g_err');
+        else $('aMsg').textContent=t('g_err')+' ('+(j.error||j.status)+')';   // 原因が分かるように理由も出す
       },function(){$('aMsg').textContent=err('net')});
     },'continue_with').then(function(ok){$('gBox').hidden=!ok});
     if(want==='link')nachaGoogle($('gLink'),function(cred){

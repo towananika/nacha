@@ -19,7 +19,7 @@
     $('jMsg').textContent='';
     fetch(API+'/auth/google',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({credential:cred})})
       .then(function(r){return r.json().catch(function(){return {}})})
-      .then(function(j){if(j.ok&&j.token)done(j);else $('jMsg').textContent=j.error&&M[j.error]?msg(j.error):(window.nachaT?nachaT('g_err'):'Google error')},function(){$('jMsg').textContent=msg('net')});
+      .then(function(j){if(j.ok&&j.token)done(j);else $('jMsg').textContent=j.error&&M[j.error]?msg(j.error):(window.nachaT?nachaT('g_err'):'Google error')+' ('+(j.error||'?')+')'},function(){$('jMsg').textContent=msg('net')});
   },'signup_with').then(function(ok){$('gBox').hidden=!ok});
   function done(j){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}));localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}location.href='../team/'}
   $('joinForm').addEventListener('submit',function(ev){
