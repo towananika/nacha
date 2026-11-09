@@ -1,20 +1,23 @@
 (function(){
-  window.nachaT=function(k){var l=document.documentElement.lang;l=l==='zh-Hant'?'zh':l;var D=window.NACHA_I18N||{};return (D[l]||D.ja||{})[k]||(D.ja||{})[k]||k};
+  var LANGS={ja:'ja',en:'en',ko:'ko',zh:'zh-Hant',zhs:'zh-Hans',th:'th',km:'km',id:'id'};
+  window.nachaT=function(k){var l=document.documentElement.lang;l=l==='zh-Hant'?'zh':l==='zh-Hans'?'zhs':l;var D=window.NACHA_I18N||{};return (D[l]||{})[k]||(l!=='ja'&&(D.en||{})[k])||(D.ja||{})[k]||k};
   var D=window.NACHA_I18N||{},W=window.NACHA_WORDS||[];
   var els=[].slice.call(document.querySelectorAll('[data-i]'));
   els.forEach(function(e){e.dataset.ja=e.textContent});
   function set(l){
     var d=D[l]||{};
-    document.documentElement.lang=l==='zh'?'zh-Hant':l;
-    els.forEach(function(e){e.textContent=l==='ja'?e.dataset.ja:(d[e.dataset.i]||e.dataset.ja)});
-    [].forEach.call(document.querySelectorAll('[data-i18n-ph]'),function(e){var k=e.dataset.i18nPh;if(!e.dataset.jaPh)e.dataset.jaPh=e.placeholder;e.placeholder=l==='ja'?e.dataset.jaPh:((D[l]||{})[k]||e.dataset.jaPh)});
+    document.documentElement.lang=LANGS[l]||l;
+    els.forEach(function(e){e.textContent=l==='ja'?e.dataset.ja:(d[e.dataset.i]||(D.en||{})[e.dataset.i]||e.dataset.ja)});
+    [].forEach.call(document.querySelectorAll('[data-i18n-ph]'),function(e){var k=e.dataset.i18nPh;if(!e.dataset.jaPh)e.dataset.jaPh=e.placeholder;e.placeholder=l==='ja'?e.dataset.jaPh:((D[l]||{})[k]||(D.en||{})[k]||e.dataset.jaPh)});
     document.dispatchEvent(new CustomEvent('nacha-lang',{detail:l}));
     [].forEach.call(document.querySelectorAll('#langMenu button'),function(b){b.setAttribute('aria-current',b.dataset.l===l)});
   }
   function pick(){
     try{var s=localStorage.getItem('nacha-lang');if(s&&D[s])return s}catch(e){}
     var n=(navigator.language||'ja').toLowerCase();
-    return n.indexOf('ko')===0?'ko':n.indexOf('zh')===0?'zh':n.indexOf('en')===0?'en':'ja';
+    if(n.indexOf('zh')===0)return /hant|tw|hk|mo/.test(n)?'zh':'zhs';
+    var p=n.split('-')[0];if(p==='ms')p='id';
+    return D[p]?p:(p==='ja'?'ja':'en');
   }
   var btn=document.getElementById('langBtn'),menu=document.getElementById('langMenu');
   function close(){if(menu){menu.hidden=true;btn.setAttribute('aria-expanded','false')}}
