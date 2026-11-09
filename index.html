@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>NACHA Fan Page (Unofficial)</title>
-<meta name="description" content="非公式ファンページ：カンボジアの実在のお寺で暮らす小さな神様ナチャの紹介とリンクまとめ">
+<meta name="description" content="非公式ファンページ：小さな神様ナチャと遊べるミニゲームと、ちょっとした紹介">
 <meta name="theme-color" content="#C0392B">
-<meta property="og:type" content="website"><meta property="og:title" content="NACHA Fan Page (Unofficial)"><meta property="og:description" content="非公式ファンページ：カンボジアの実在のお寺で暮らす小さな神様ナチャの紹介とリンクまとめ"><meta property="og:image" content="https://towananika.github.io/nacha/assets/cast.jpg">
+<meta property="og:type" content="website"><meta property="og:title" content="NACHA Fan Page (Unofficial)"><meta property="og:description" content="非公式ファンページ：小さな神様ナチャと遊べるミニゲームと、ちょっとした紹介"><meta property="og:image" content="https://towananika.github.io/nacha/assets/cast.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%AE%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,46 +22,67 @@
 <p class="unoff"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
 <main id="main">
-<section class="hero">
-  <img src="assets/cast.jpg" alt="NACHA and three gods" width="1023" height="576" fetchpriority="high">
-  <h1 class="logo">NACHA</h1>
-  <p class="lead" data-i="lead">カンボジアの実在のお寺で暮らす、小さな神様</p>
-  <div class="cta">
-    <a class="btn" href="https://x.com/nacha_project" target="_blank" rel="noopener">X <span data-i="follow">フォロー</span></a>
-    <a class="btn alt" href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener">Instagram</a>
+<section class="playhero">
+  <div class="phtxt">
+    <h1 class="logo">NACHA</h1>
+    <p data-i="ph_lead">小さな神様ナチャと、30秒であそぼう</p>
+    <a class="btn big" href="arcade/spear/">▶ <span data-i="ph_cta">あそぶ</span></a>
+  </div>
+  <button class="nbtn" type="button" id="nachaBtn" aria-label="Tap Nacha">
+    <span class="bubble" id="bubble">Hey, it's Nacha!</span>
+    <img id="nachaImg" src="assets/nacha-wink.png" alt="Nacha" width="712" height="1072">
+    <span class="tapme" aria-hidden="true" data-i="ph_tap">タップしてみて</span>
+  </button>
+</section>
+
+<section class="reveal">
+  <h2 class="sec" data-i="games_h">ミニゲーム</h2>
+  <a class="game" href="arcade/spear/">
+    <span class="gemo" aria-hidden="true">🔥</span>
+    <span class="gtxt"><b>Fire Spear</b><span data-i="g_spear">悪気をタップで焼きはらえ！</span></span>
+    <span class="gplay" aria-hidden="true">▶</span>
+  </a>
+  <div class="game soon" aria-disabled="true">
+    <span class="gemo" aria-hidden="true">🛞</span>
+    <span class="gtxt"><b data-i="g_more">つぎのゲーム</b><span data-i="g_more_d">準備中…ナチャが修行中</span></span>
   </div>
 </section>
 
-<section class="tiles reveal">
-  <a class="tile" href="characters/"><img src="assets/poster.jpg" alt="" loading="lazy" style="object-position:50% 38%"><b data-i="t_chars">キャラ紹介</b></a>
-  <a class="tile" href="roadmap/"><img src="assets/app.jpg" alt="" loading="lazy" style="object-position:82% 50%"><b data-i="t_road">ロードマップ</b></a>
-  <a class="tile" href="arcade/"><img src="assets/waiting.jpg" alt="" loading="lazy" style="object-position:50% 40%"><b data-i="t_play">あそぶ</b></a>
+<section class="omikuji reveal" id="omikuji">
+  <img src="assets/nacha-pray.png" alt="" width="429" height="686" loading="lazy">
+  <div>
+    <small data-i="mk_h">ナチャみくじ</small>
+    <q id="wordText" data-i="mk_tap">ボタンを押して、今日のことばを引こう</q>
+    <p class="luck" id="luck" hidden></p>
+    <button class="btn" type="button" id="drawBtn"><span data-i="mk_btn">ひく</span></button>
+  </div>
 </section>
 
-<section class="word reveal" aria-live="polite">
-  <small data-i="word">NACHA's Word</small>
-  <q id="wordText">Small steps. Strong spirit.</q>
-  <img src="assets/grow.jpg" alt="" loading="lazy">
-</section>
-
-<section class="real reveal">
-  <span class="flag" aria-hidden="true">🇰🇭</span>
-  <div><h2 data-i="real_h">実在するお寺</h2><p><b data-i="real_1">カンボジア・プノンペン</b><br><span data-i="real_2">悠遊観音堂。創設者が1年かけて、風・水・大地の調和した土地を探して建てた。</span></p><p data-i="real_3">ナチャは、そのお寺で暮らす小さな神様。</p></div>
+<section class="reveal">
+  <h2 class="sec" data-i="about_h">ナチャのこと</h2>
+  <div class="tiles">
+    <a class="tile" href="characters/"><img src="assets/poster.jpg" alt="" loading="lazy" style="object-position:50% 38%"><b data-i="t_chars">キャラ紹介</b></a>
+    <a class="tile" href="roadmap/"><img src="assets/app.jpg" alt="" loading="lazy" style="object-position:82% 50%"><b data-i="t_road">ロードマップ</b></a>
+    <a class="tile" href="#real"><img src="assets/cast.jpg" alt="" loading="lazy" style="object-position:30% 50%"><b data-i="real_h">実在するお寺</b></a>
+  </div>
+  <div class="real" id="real">
+    <span class="flag" aria-hidden="true">🇰🇭</span>
+    <div><p><b data-i="real_1">カンボジア・プノンペン</b><br><span data-i="real_2">悠遊観音堂。創設者が1年かけて、風・水・大地の調和した土地を探して建てた。</span></p><p data-i="real_3">ナチャは、そのお寺で暮らす小さな神様。</p></div>
+  </div>
 </section>
 
 <section class="reveal">
   <h2 class="sec" data-i="links">リンク</h2>
   <div class="icons">
-    <a href="https://nacha.club/" target="_blank" rel="noopener"><i>HP</i><span data-i="site">公式サイト</span></a>
     <a href="https://x.com/nacha_project" target="_blank" rel="noopener"><i>X</i><span>X</span></a>
     <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener"><i>IG</i><span>Instagram</span></a>
     <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener"><i>TT</i><span>TikTok</span></a>
     <a href="https://www.youtube.com/channel/UCSL-AKI-8_qfWnOJYKSf26Q" target="_blank" rel="noopener"><i>YT</i><span>YouTube</span></a>
+    <a href="https://nacha.club/" target="_blank" rel="noopener"><i>HP</i><span data-i="site">公式サイト</span></a>
     <a href="https://linktr.ee/Nacha_Project" target="_blank" rel="noopener"><i>🔗</i><span>Linktree</span></a>
-    <a href="https://sale.nacha.vip/" target="_blank" rel="noopener"><i>🪷</i><span data-i="sale">アフターセール</span></a>
   </div>
 </section>
-<footer>NACHA · The Temple Project</footer>
+<footer>NACHA Fan Page · Unofficial</footer>
 </main>
 <nav class="tabs" aria-label="Main"><a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a><a href="characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">キャラ</b></a><a href="roadmap/"><span aria-hidden="true">🗺️</span><b data-i="nav_road">ロードマップ</b></a><a href="arcade/"><span aria-hidden="true">🎮</span><b data-i="nav_play">あそぶ</b></a></nav><script src="assets/i18n.js"></script>
 <script src="assets/site.js"></script>

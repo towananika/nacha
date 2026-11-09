@@ -25,9 +25,33 @@
     document.addEventListener('keydown',function(ev){if(ev.key==='Escape')close()});
   }
   set(pick());
-  // word of the day
-  var wt=document.getElementById('wordText');
-  if(wt&&W.length){var day=Math.floor(Date.now()/864e5);wt.textContent=W[day%W.length]}
+  // tap Nacha (公式の画像だけを使う)
+  var nb=document.getElementById('nachaBtn');
+  if(nb){
+    var P=['assets/nacha-wink.png','assets/nacha-spear.png','assets/nacha-pray.png','assets/nacha-wheels.png'];
+    var L=["Hey, it's Nacha!","Let's play!","Fire spear, ready!","Don't tell them it was me.","Small god, big heart!","Wind-fire wheels, go!","Small steps. Strong spirit."];
+    var pi=0,li=0,img=document.getElementById('nachaImg'),bb=document.getElementById('bubble');
+    P.forEach(function(u){var i=new Image();i.src=u});
+    nb.addEventListener('click',function(ev){
+      pi=(pi+1)%P.length;li=(li+1)%L.length;img.src=P[pi];bb.textContent=L[li];
+      nb.classList.remove('hop');void nb.offsetWidth;nb.classList.add('hop');
+      var r=nb.getBoundingClientRect();
+      for(var k=0;k<6;k++){var s=document.createElement('span');s.className='spark';s.textContent=['✨','🔥','🪷','⭐'][k%4];
+        s.style.left=(ev.clientX-r.left||r.width/2)+'px';s.style.top=(ev.clientY-r.top||r.height/2)+'px';
+        s.style.setProperty('--dx',(Math.random()*120-60)+'px');s.style.setProperty('--dy',(-Math.random()*90-20)+'px');
+        nb.appendChild(s);setTimeout(function(x){return function(){x.remove()}}(s),800)}
+    });
+  }
+  // NACHA fortune
+  var db=document.getElementById('drawBtn');
+  if(db&&W.length){
+    var LUCK=['🔥 Lucky item: a red ribbon','🪷 Lucky item: a lotus','🏮 Lucky item: a lantern','📿 Lucky item: prayer beads','🍂 Lucky item: a red leaf','🛞 Lucky item: wheels'];
+    db.addEventListener('click',function(){
+      var box=document.getElementById('omikuji'),wt=document.getElementById('wordText'),lk=document.getElementById('luck');
+      box.classList.remove('shake');void box.offsetWidth;box.classList.add('shake');
+      setTimeout(function(){wt.textContent=W[Math.floor(Math.random()*W.length)];lk.textContent=LUCK[Math.floor(Math.random()*LUCK.length)];lk.hidden=false},450);
+    });
+  }
   // share
   var sb=document.getElementById('shareBtn'),toast=document.getElementById('toast');
   if(sb)sb.addEventListener('click',function(){
