@@ -30,7 +30,7 @@
   function err(k){return (ERR[k]||ERR.net)[lang()]}
   function render(){
     var u=state&&state.user;
-    $('authBox').hidden=!!u; $('meBox').hidden=!u;
+    $('authBox').hidden=!!u; $('meBox').hidden=!u; $('ptT').hidden=$('ptS').hidden=!u;
     $('generalNote').hidden=!(u&&!u.member);
     $('docBox').hidden=!(u&&u.member&&doc);
     $('aSubmitL').textContent=t(mode==='login'?'tm_login':'tm_reg');

@@ -70,3 +70,6 @@
     rv.forEach(function(e){io.observe(e)});
   }else rv.forEach(function(e){e.classList.add('in')});
 })();
+
+// パスワードの表示・非表示（ログイン・会員登録）
+document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('[data-eye]');if(!b)return;var i=b.parentNode.querySelector('input');i.type=i.type==='password'?'text':'password';b.classList.toggle('on',i.type==='text')});

@@ -23,19 +23,19 @@
 <p class="unoff"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
 <main id="main">
-<h1 class="pt" data-i="tm_title">関係者ページ</h1>
-<p class="ps" data-i="tm_sub">開発用の非公開資料は、関係者だけが見られます</p>
+<h1 class="pt" id="ptT" data-i="tm_title">関係者ページ</h1>
+<p class="ps" id="ptS" data-i="tm_sub">開発用の非公開資料は、関係者だけが見られます</p>
 
 <section id="authBox" class="card authc" hidden>
-  <div class="seg"><span class="on" data-i="tm_login">ログイン</span><a href="../join/" data-i="jn_title">会員登録</a></div>
-  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><button class="abtn" type="button" disabled aria-disabled="true"><span data-i="g_apple">Appleでログイン（準備中）</span></button><p class="or"><span data-i="g_or">または</span></p></div>
+  <h1 class="ah" data-i="tm_login">ログイン</h1>
+  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><p class="or"><span data-i="g_or">または</span></p></div>
   <form id="authForm" autocomplete="on">
     <label><span data-i="tm_idmail">IDまたはメール</span><input id="aId" name="username" autocomplete="username" required minlength="3" maxlength="100"></label>
-    <label><span data-i="tm_pw">パスワード</span><input id="aPw" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="64"></label>
+    <label><span data-i="tm_pw">パスワード</span><span class="pwf"><input id="aPw" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="64"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
     <button class="btn" type="submit" id="aSubmit"><span id="aSubmitL" data-i="tm_login">ログイン</span></button>
     <p class="amsg" id="aMsg" role="alert"></p>
-    <a class="linkbtn" href="../join/"><span data-i="tm_toreg">アカウントがない方はこちら</span></a>
   </form>
+  <p class="afoot"><span data-i="tm_noacc">アカウントがない方は</span> <a href="../join/" data-i="jn_title">会員登録</a></p>
 </section>
 
 <section id="meBox" class="card mec" hidden>

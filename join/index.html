@@ -23,20 +23,16 @@
 <p class="unoff"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
 <main id="main">
-<h1 class="pt" data-i="jn_title">会員登録</h1>
-<p class="ps" data-i="jn_sub">登録すると一般ユーザーになります。とわないか共通のアカウントです</p>
 <section class="card authc">
-  <div class="seg"><a href="../team/" data-i="tm_login">ログイン</a><span class="on" data-i="jn_title">会員登録</span></div>
-  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><button class="abtn" type="button" disabled aria-disabled="true"><span data-i="g_apple">Appleでログイン（準備中）</span></button><p class="or"><span data-i="g_or">または</span></p></div>
+  <h1 class="ah" data-i="jn_title">会員登録</h1>
+  <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><p class="or"><span data-i="g_or">または</span></p></div>
   <form id="joinForm" autocomplete="on" novalidate>
     <label><span data-i="jn_mail">メールアドレス</span><input id="jEmail" name="email" type="email" autocomplete="email" required maxlength="100"></label>
-    <label><span data-i="tm_pw">パスワード</span><input id="jPw" name="new-password" type="password" autocomplete="new-password" required minlength="8" maxlength="64"></label>
-    <label><span data-i="jn_pw2">パスワード（確認）</span><input id="jPw2" type="password" autocomplete="new-password" required minlength="8" maxlength="64"></label>
-    <p class="hint" data-i="jn_hint2">パスワードは8文字以上。ログインはメールアドレスでできます</p>
+    <label><span data-i="tm_pw">パスワード</span><span class="pwf"><input id="jPw" name="new-password" type="password" autocomplete="new-password" required minlength="8" maxlength="64" data-i18n-ph="ph_pw8" placeholder="8文字以上"><button class="eye" type="button" aria-label="Show password" data-eye>👁</button></span></label>
     <button class="btn" type="submit" id="jSubmit"><span data-i="jn_title">会員登録</span></button>
     <p class="amsg" id="jMsg" role="alert"></p>
-    <a class="linkbtn" href="../team/"><span data-i="jn_have">すでに登録済みの方はログイン</span></a>
   </form>
+  <p class="afoot"><span data-i="jn_have2">登録済みの方は</span> <a href="../team/" data-i="tm_login">ログイン</a></p>
 </section>
 </main>
 <nav class="tabs" aria-label="Main"><a href="../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a><a href="../characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">キャラ</b></a><a href="../roadmap/"><span aria-hidden="true">🗺️</span><b data-i="nav_road">ロードマップ</b></a><a href="../arcade/"><span aria-hidden="true">🎮</span><b data-i="nav_play">あそぶ</b></a></nav><script src="../assets/i18n.js"></script>

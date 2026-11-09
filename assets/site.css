@@ -187,3 +187,14 @@ a.linkbtn{text-align:center}
 .or:before,.or:after{content:"";flex:1;border-top:1px solid var(--line)}
 .glink{display:grid;gap:6px;justify-items:start;margin:10px 0}
 .glink small{color:var(--sub)}
+
+/* ログイン・会員登録をシンプルに（2026-11-09） */
+.authc{max-width:420px;margin-left:auto;margin-right:auto;padding:22px 18px}
+.ah{margin:0 0 14px;text-align:center;font:28px/1.1 "Lilita One",sans-serif;color:var(--acc);font-weight:400;letter-spacing:.03em}
+.pwf{position:relative;display:block}
+.pwf input{padding-right:44px}
+.eye{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;background:none;font-size:18px;cursor:pointer;opacity:.45}
+.eye.on{opacity:1}
+.afoot{margin:16px 0 0;text-align:center;font-size:14px;color:var(--sub)}
+.afoot a{color:var(--acc);font-weight:700}
+.authc .amsg:empty{display:none}
