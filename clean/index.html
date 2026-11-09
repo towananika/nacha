@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>NACHA — ナチャ寺の落ち葉はき（お寺の作務ゲーム）</title>
-<meta name="description" content="15秒で心を整えるお寺の作務（さむ）ゲーム。指でサッサッと落ち葉を掃き清め、徳を積もう！境内の珍客やお宝が見つかるかも？">
+<title>NACHA — ナチャ寺の作務（心を整える落ち葉はき）</title>
+<meta name="description" content="ゆっくり丁寧に掃いて徳を積む、お寺の作務ゲーム。ちりとりに落ち葉を集め、寝ている境内の猫を起こさないよう心を整えよう。">
 <meta name="theme-color" content="#1b1715">
 <meta property="og:type" content="website">
-<meta property="og:title" content="NACHA — ナチャ寺の落ち葉はき（お寺の作務ゲーム）">
-<meta property="og:description" content="15秒で心を整えるお寺の作務ゲーム。指でサッサッと落ち葉を掃いて徳を積もう！">
-<meta property="og:image" content="https://towananika.github.io/nacha/assets/poster.jpg">
+<meta property="og:title" content="NACHA — ナチャ寺の作務（心を整える落ち葉はき）">
+<meta property="og:description" content="ゆっくり丁寧に掃いて徳を積む、お寺の作務ゲーム。寝ている猫を起こさず、ちりとりに落ち葉を集めよう！">
+<meta property="og:image" content="https://towananika.github.io/nacha/assets/waiting.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%B9%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,13 +17,13 @@
 <link rel="stylesheet" href="../assets/site.css">
 <style>
   :root {
-    --temple-dark: #1b1715;
-    --temple-stone: #332d28;
+    --temple-dark: #141110;
     --gold-bright: #F5C542;
     --red-vermilion: #C0392B;
+    --green-zen: #4E8752;
   }
   body {
-    background: #141110;
+    background: var(--temple-dark);
     color: #f1e9df;
     overflow-x: hidden;
     user-select: none;
@@ -34,7 +34,7 @@
     position: sticky;
     top: 0;
     z-index: 25;
-    background: rgba(20, 17, 16, 0.92);
+    background: rgba(20, 17, 16, 0.94);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid #332c27;
     padding: 10px 16px;
@@ -88,20 +88,20 @@
   .game-wrap {
     max-width: 680px;
     margin: 0 auto;
-    padding: 12px 14px 20px;
+    padding: 10px 14px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  /* ステータスバー（残り煩悩・タイマー） */
+  /* ステータスバー（残り・コンボ・タイマー） */
   .status-bar {
     width: 100%;
     background: #231c18;
     border: 1px solid #3e332c;
     border-radius: 18px;
     padding: 10px 16px;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -119,9 +119,23 @@
   }
   .status-val {
     font-family: "Lilita One", "M PLUS Rounded 1c", sans-serif;
-    font-size: 20px;
+    font-size: 19px;
     color: var(--gold-bright);
     line-height: 1.1;
+  }
+  .combo-badge {
+    color: #ff9e42;
+    font-weight: 700;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    transition: transform 0.15s;
+  }
+  .combo-badge.glow {
+    transform: scale(1.15);
+    color: var(--gold-bright);
+    text-shadow: 0 0 10px rgba(245, 197, 66, 0.6);
   }
   .gauge-wrap {
     flex: 1;
@@ -140,9 +154,30 @@
   .gauge-bar-fill {
     height: 100%;
     width: 0%;
-    background: linear-gradient(90deg, #C0392B, #E5B338);
+    background: linear-gradient(90deg, #E5B338, #4E8752);
     border-radius: 999px;
-    transition: width 0.15s ease-out;
+    transition: width 0.2s ease-out;
+  }
+
+  /* ルールガイド（作務の心得） */
+  .zen-rules {
+    width: 100%;
+    background: rgba(35, 28, 24, 0.7);
+    border: 1px dashed #4a3e36;
+    border-radius: 12px;
+    padding: 6px 12px;
+    margin-bottom: 10px;
+    font-size: 11px;
+    color: #c4b5a6;
+    display: flex;
+    justify-content: space-around;
+    gap: 8px;
+    text-align: center;
+  }
+  .zen-rules span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
   }
 
   /* Canvasステージ */
@@ -155,8 +190,8 @@
     border-radius: 24px;
     overflow: hidden;
     border: 2px solid #4a3e36;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    touch-action: none; /* スクロール無効化してスワイプ優先 */
+    box-shadow: 0 12px 36px rgba(0,0,0,0.65);
+    touch-action: none; /* スクロール防止 */
   }
   #gameCanvas {
     width: 100%;
@@ -168,45 +203,51 @@
     cursor: grabbing;
   }
 
-  /* 操作ガイド */
-  .hint-text {
-    margin-top: 10px;
-    font-size: 13px;
-    color: #a89a8c;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .hint-text span.key {
-    background: #2a231f;
-    border: 1px solid #4a3e36;
-    padding: 2px 8px;
-    border-radius: 6px;
-    color: var(--gold-bright);
-    font-weight: 700;
-  }
-
-  /* お宝発見ポップアップ（トースト風） */
-  .treasure-toast {
+  /* 乱暴注意アラート */
+  .zen-warning {
     position: absolute;
-    top: 16px;
+    top: 14px;
     left: 50%;
     transform: translateX(-50%) translateY(-20px);
     opacity: 0;
     pointer-events: none;
     background: rgba(192, 57, 43, 0.95);
     color: #fff;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+    border: 1px solid #ff9d8f;
+    transition: all 0.25s ease;
+    z-index: 10;
+    white-space: nowrap;
+  }
+  .zen-warning.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* お宝トースト */
+  .treasure-toast {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    background: rgba(35, 28, 24, 0.95);
+    color: var(--gold-bright);
     padding: 8px 18px;
     border-radius: 999px;
     font-family: "Noto Serif JP", serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     display: flex;
     align-items: center;
     gap: 8px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    border: 1px solid #ff9d8f;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    border: 1px solid #E5B338;
     transition: all 0.3s cubic-bezier(0.2, 1.4, 0.4, 1);
     z-index: 10;
   }
@@ -215,7 +256,7 @@
     transform: translateX(-50%) translateY(0);
   }
 
-  /* 完了モーダル（清掃完了 / 結果発表） */
+  /* 完了モーダル */
   .result-modal {
     position: fixed;
     inset: 0;
@@ -244,14 +285,13 @@
     text-align: center;
     position: relative;
     box-shadow: 0 16px 40px rgba(0,0,0,0.8);
-    transform: scale(0.9);
+    transform: scale(0.92);
     transition: transform 0.3s cubic-bezier(0.2, 1.4, 0.4, 1);
   }
   .result-modal.active .result-card {
     transform: scale(1);
   }
 
-  /* 落款印風スタンプ */
   .stamp-badge {
     display: inline-block;
     padding: 6px 18px;
@@ -260,17 +300,12 @@
     color: #ff5b47;
     font-family: "Noto Serif JP", serif;
     font-weight: 900;
-    font-size: 26px;
+    font-size: 24px;
     letter-spacing: 0.15em;
     background: rgba(192, 57, 43, 0.12);
     box-shadow: inset 0 0 12px rgba(192, 57, 43, 0.3);
     transform: rotate(-3deg);
-    margin-bottom: 12px;
-    animation: stampIn 0.4s cubic-bezier(0.2, 1.4, 0.4, 1) forwards;
-  }
-  @keyframes stampIn {
-    0% { transform: scale(2) rotate(-15deg); opacity: 0; }
-    100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+    margin-bottom: 10px;
   }
 
   .rank-title {
@@ -278,26 +313,25 @@
     font-size: 22px;
     font-weight: 700;
     color: var(--gold-bright);
-    margin: 6px 0 2px;
+    margin: 4px 0 2px;
   }
   .rank-desc {
     font-size: 13px;
     color: #c4b5a6;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     line-height: 1.4;
   }
 
-  /* タイムとお宝のボックス */
   .result-stats {
     background: #181310;
     border: 1px solid #3e332c;
     border-radius: 16px;
     padding: 12px 14px;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    text-align: left;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    text-align: center;
   }
   .res-stat-label {
     font-size: 11px;
@@ -305,8 +339,23 @@
   }
   .res-stat-val {
     font-family: "Lilita One", "M PLUS Rounded 1c", sans-serif;
-    font-size: 20px;
+    font-size: 18px;
     color: #fff;
+    margin-top: 2px;
+  }
+
+  .cat-peace-box {
+    background: rgba(78, 135, 82, 0.12);
+    border: 1px solid #4E8752;
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 14px;
+    font-size: 12px;
+    color: #b5e0b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
 
   .item-found-box {
@@ -314,32 +363,31 @@
     border: 1px dashed #E5B338;
     border-radius: 14px;
     padding: 10px;
-    margin-bottom: 18px;
+    margin-bottom: 16px;
     display: flex;
     align-items: center;
     gap: 12px;
     text-align: left;
   }
   .item-found-icon {
-    font-size: 32px;
+    font-size: 30px;
     flex-shrink: 0;
   }
   .item-found-name {
     font-weight: 700;
-    font-size: 14px;
+    font-size: 13px;
     color: var(--gold-bright);
   }
   .item-found-note {
-    font-size: 12px;
+    font-size: 11px;
     color: #c4b5a6;
     line-height: 1.3;
   }
 
-  /* アクションボタン */
   .act-btns {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 9px;
   }
   .act-btn {
     display: flex;
@@ -347,7 +395,7 @@
     justify-content: center;
     gap: 8px;
     width: 100%;
-    padding: 12px;
+    padding: 11px;
     border-radius: 14px;
     font-weight: 700;
     font-size: 14px;
@@ -373,7 +421,6 @@
     border: 1px solid #4a3e36;
   }
 
-  /* 非表示の書き出し用Canvas */
   #shareCanvas {
     display: none;
   }
@@ -383,7 +430,7 @@
 
 <header class="clean-header">
   <a class="back-btn" href="../">← <span>ホーム</span></a>
-  <div class="header-title">🪷 那茶寺・作務録</div>
+  <div class="header-title">🪷 那茶寺 · 落ち葉はき作務</div>
   <div class="ctrl-btns">
     <button class="ctrl-btn" id="soundBtn" title="音のON/OFF" aria-label="音の切り替え">🔊</button>
     <button class="ctrl-btn" id="resetBtn" title="やり直す" aria-label="リセット">🔄</button>
@@ -399,56 +446,72 @@
     </div>
     <div class="gauge-wrap">
       <div style="display:flex; justify-content:space-between; font-size:11px; color:#a89a8c;">
-        <span>心の清浄度</span>
-        <b id="cleanPercent" style="color:var(--gold-bright);">0%</b>
+        <span>ちりとり回収度</span>
+        <span class="combo-badge" id="comboBadge">✨ ZEN ×0</span>
       </div>
       <div class="gauge-bar-bg">
         <div class="gauge-bar-fill" id="cleanGauge"></div>
       </div>
     </div>
     <div class="status-item" style="text-align:right;">
-      <span class="status-label">残る煩悩</span>
-      <span class="status-val" id="leavesLeft">35</span>
+      <span class="status-label">残る落ち葉</span>
+      <span class="status-val" id="leavesLeft">30</span>
     </div>
   </div>
 
-  <!-- メインCanvasステージ -->
+  <!-- 作務の心得 -->
+  <div class="zen-rules">
+    <span>🧺 <b>右下のちりとり</b>へ掃き集める</span>
+    <span>💨 <b>ゆっくり</b>掃くとZENコンボ</span>
+    <span>🐱 <b>猫</b>を起こさないよう注意</span>
+  </div>
+
+  <!-- Canvasステージ -->
   <div class="stage-container" id="stageWrap">
     <canvas id="gameCanvas"></canvas>
+    
+    <!-- 乱暴注意アラート -->
+    <div class="zen-warning" id="zenWarning">⚠️ 焦らずゆっくり！強くこすると散らばるよ</div>
+
+    <!-- お宝トースト -->
     <div class="treasure-toast" id="treasureToast">
-      <span id="toastIcon">🐱</span>
-      <span id="toastText">境内の猫を発見！</span>
+      <span id="toastIcon">🪙</span>
+      <span id="toastText">お宝を発見！</span>
     </div>
   </div>
-
-  <p class="hint-text">
-    <span>🧹 画面をなぞって（スワイプして）落ち葉を外へ掃き出そう！</span>
-  </p>
 </main>
 
 <!-- 結果モーダル -->
 <div class="result-modal" id="resultModal" role="dialog" aria-modal="true" aria-hidden="true">
   <div class="result-card">
     <div class="stamp-badge">心身清浄</div>
-    <div class="rank-title" id="resRankTitle">神仏級の箒さばき</div>
-    <p class="rank-desc" id="resRankDesc">風火輪に乗ったナチャ並みの神速。境内もあなたの心もチリひとつありません。</p>
+    <div class="rank-title" id="resRankTitle">無心の作務マスター</div>
+    <p class="rank-desc" id="resRankDesc">丁寧な箒さばきで、境内も心も見事に整いました。</p>
 
     <div class="result-stats">
       <div>
         <div class="res-stat-label">所要時間</div>
-        <div class="res-stat-val" id="resTime">12.4秒</div>
+        <div class="res-stat-val" id="resTime">24.5s</div>
       </div>
       <div>
-        <div class="res-stat-label">積んだ徳</div>
-        <div class="res-stat-val" style="color:var(--gold-bright);">＋108</div>
+        <div class="res-stat-label">最大ZEN連</div>
+        <div class="res-stat-val" id="resCombo" style="color:#ff9e42;">×8</div>
+      </div>
+      <div>
+        <div class="res-stat-label">獲得した徳</div>
+        <div class="res-stat-val" id="resVirtue" style="color:var(--gold-bright);">+680</div>
       </div>
     </div>
 
+    <div class="cat-peace-box" id="resCatBox">
+      <span>🐱 境内の猫：安眠を守り切った！（徳ボーナス +500）</span>
+    </div>
+
     <div class="item-found-box">
-      <div class="item-found-icon" id="resItemIcon">🐱</div>
+      <div class="item-found-icon" id="resItemIcon">🪙</div>
       <div>
-        <div class="item-found-name" id="resItemName">境内で爆睡する茶トラ猫</div>
-        <div class="item-found-note" id="resItemNote">掃き掃除の最中ですが微動だにしませんでした。</div>
+        <div class="item-found-name" id="resItemName">賽銭箱に届かなかった5円玉</div>
+        <div class="item-found-note" id="resItemNote">ちりとりに綺麗に納められました。</div>
       </div>
     </div>
 
@@ -467,7 +530,6 @@
   </div>
 </div>
 
-<!-- 画像書き出し用のオフスクリーンCanvas -->
 <canvas id="shareCanvas" width="1080" height="1080"></canvas>
 
 <nav class="tabs" aria-label="Main">
@@ -482,6 +544,7 @@
 (function() {
   'use strict';
 
+  // roundRect ポリフィル
   if (!CanvasRenderingContext2D.prototype.roundRect) {
     CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
       var rad = (typeof r === 'number') ? r : 12;
@@ -496,7 +559,7 @@
     };
   }
 
-  // --- サウンドエンジン（Web Audio API・外部ファイル不要） ---
+  // --- 音響エンジン（Web Audio API） ---
   var audioCtx = null;
   var soundEnabled = true;
 
@@ -510,25 +573,25 @@
     }
   }
 
-  function playBroomSound() {
+  function playSweepSound(isGentle) {
     if (!soundEnabled || !audioCtx) return;
     try {
       var t = audioCtx.currentTime;
-      var bufferSize = audioCtx.sampleRate * 0.08;
-      var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      var len = isGentle ? 0.12 : 0.08;
+      var buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * len, audioCtx.sampleRate);
       var data = buffer.getChannelData(0);
-      for (var i = 0; i < bufferSize; i++) {
-        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.3));
+      for (var i = 0; i < data.length; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (data.length * 0.4));
       }
       var noise = audioCtx.createBufferSource();
       noise.buffer = buffer;
       var filter = audioCtx.createBiquadFilter();
       filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(800 + Math.random() * 400, t);
-      filter.Q.setValueAtTime(2.5, t);
+      filter.frequency.setValueAtTime(isGentle ? 650 : 1200, t);
+      filter.Q.setValueAtTime(2.0, t);
       var gain = audioCtx.createGain();
-      gain.gain.setValueAtTime(0.18, t);
-      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
+      gain.gain.setValueAtTime(isGentle ? 0.14 : 0.28, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + len);
       noise.connect(filter);
       filter.connect(gain);
       gain.connect(audioCtx.destination);
@@ -536,116 +599,107 @@
     } catch(e) {}
   }
 
-  function playBellChime() {
-    if (!soundEnabled || !audioCtx) return;
-    try {
-      var t = audioCtx.currentTime;
-      var freqs = [528, 1056, 1584];
-      freqs.forEach(function(f, idx) {
-        var osc = audioCtx.createOscillator();
-        var gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(f, t);
-        var vol = (idx === 0) ? 0.35 : 0.12;
-        gain.gain.setValueAtTime(vol, t);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + 2.4);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start(t);
-        osc.stop(t + 2.5);
-      });
-    } catch(e) {}
-  }
-
-  function playDiscoverSound() {
+  function playCollectSound() {
     if (!soundEnabled || !audioCtx) return;
     try {
       var t = audioCtx.currentTime;
       var osc = audioCtx.createOscillator();
       var gain = audioCtx.createGain();
       osc.type = 'triangle';
-      osc.frequency.setValueAtTime(659.25, t); // E5
-      osc.frequency.setValueAtTime(880, t + 0.08); // A5
-      gain.gain.setValueAtTime(0.2, t);
-      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.35);
+      osc.frequency.setValueAtTime(440, t);
+      osc.frequency.exponentialRampToValueAtTime(880, t + 0.08);
+      gain.gain.setValueAtTime(0.18, t);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.12);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
       osc.start(t);
-      osc.stop(t + 0.4);
+      osc.stop(t + 0.14);
     } catch(e) {}
   }
 
-  // --- お宝・珍客リスト（お寺あるある） ---
+  function playCatMeowSound() {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      var t = audioCtx.currentTime;
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(700, t);
+      osc.frequency.exponentialRampToValueAtTime(520, t + 0.18);
+      gain.gain.setValueAtTime(0.25, t);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.22);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start(t);
+      osc.stop(t + 0.25);
+    } catch(e) {}
+  }
+
+  function playBellChime() {
+    if (!soundEnabled || !audioCtx) return;
+    try {
+      var t = audioCtx.currentTime;
+      [528, 1056, 1584].forEach(function(f, idx) {
+        var osc = audioCtx.createOscillator();
+        var gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, t);
+        var vol = (idx === 0) ? 0.35 : 0.12;
+        gain.gain.setValueAtTime(vol, t);
+        gain.gain.exponentialRampToValueAtTime(0.0001, t + 2.6);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(t);
+        osc.stop(t + 2.7);
+      });
+    } catch(e) {}
+  }
+
   var TREASURES = [
-    {
-      id: 'cat',
-      icon: '🐱',
-      name: '境内で爆睡する茶トラ猫',
-      desc: '作務中ですが微動だにしません。撫でると徳が上がります。',
-      tweet: '境内で爆睡する茶トラ猫🐱を発見！'
-    },
-    {
-      id: 'coin',
-      icon: '🪙',
-      name: '賽銭箱に届かなかった5円玉',
-      desc: '「ご縁がありますように」と投げられたが手前に落ちた小銭。徳+50。',
-      tweet: '賽銭箱に届かなかった5円玉🪙を発見！ご縁がありますように。'
-    },
-    {
-      id: 'airpods',
-      icon: '🎧',
-      name: '誰かのAirPods（右耳）',
-      desc: '座禅中にポロッと落とした現代人の煩悩。充電残り14%。',
-      tweet: '誰かの落としたAirPods🎧を発見！現代の煩悩を供養しました。'
-    },
-    {
-      id: 'monkey',
-      icon: '🐒',
-      name: '参道のイタズラ猿',
-      desc: '参拝者のバナナを狙っている。箒を向けると威嚇してきます。',
-      tweet: '参道のイタズラ猿🐒と遭遇！バナナを死守しました。'
-    },
-    {
-      id: 'crocs',
-      icon: '🩴',
-      name: '片方だけ置き去りのサンダル',
-      desc: 'なぜ片足だけで帰れたのか、お寺最大の七不思議。',
-      tweet: '片方だけ置き去りのサンダル🩴を発見！お寺の七不思議です。'
-    },
-    {
-      id: 'lotus',
-      icon: '🪷',
-      name: '奇跡の黄金蓮華',
-      desc: '千年に一度咲くといわれる伝説の蓮華。超大吉・大開運！',
-      tweet: '千年に一度の奇跡の黄金蓮華🪷を発見！超大吉です。'
-    }
+    { id: 'coin', icon: '🪙', name: '賽銭箱に届かなかった5円玉', desc: '「ご縁がありますように」と投げられた小銭。', tweet: '賽銭箱の5円玉🪙をちりとりに回収！ご縁がありますように。' },
+    { id: 'airpods', icon: '🎧', name: '誰かのAirPods（右耳）', desc: '座禅中に落とした現代人の煩悩。', tweet: '誰かの落としたAirPods🎧を供養しました。' },
+    { id: 'monkey', icon: '🐒', name: '参道のイタズラ猿の落とし物', desc: 'バナナの皮。滑る前に綺麗に掃きました。', tweet: '参道のバナナの皮を掃き清めました🐒' },
+    { id: 'lotus', icon: '🪷', name: '奇跡の黄金蓮華', desc: '千年に一度咲く伝説の蓮。大開運！', tweet: '奇跡の黄金蓮華🪷を発見！超大吉です。' }
   ];
 
-  // --- ゲームステート ---
   var canvas = document.getElementById('gameCanvas');
   var ctx = canvas.getContext('2d');
   var stageWrap = document.getElementById('stageWrap');
   
   var W = 0, H = 0, dpr = 1;
   var leaves = [];
-  var totalLeaves = 38;
-  var clearedCount = 0;
+  var totalLeaves = 30;
+  var collectedCount = 0;
   var isPlaying = false;
   var isCleared = false;
   var startTime = 0;
   var clearTime = 0;
   var timerInterval = null;
 
+  var zenCombo = 0;
+  var maxZenCombo = 0;
+
+  var dustpan = { x: 0, y: 0, r: 60 };
+
+  var cat = {
+    x: 0,
+    y: 0,
+    r: 38,
+    state: 'sleep',
+    startledUntil: 0,
+    disturbedCount: 0
+  };
+
   var currentTreasure = null;
   var treasureRevealed = false;
-  var treasurePos = { x: 0.5, y: 0.5 };
+  var treasureCollected = false;
+  var treasurePos = { x: 0, y: 0 };
 
-  // ポインター追従
   var pointer = { x: -999, y: -999, active: false, px: -999, py: -999, speed: 0 };
   var sweepTrail = [];
   var lastSoundTime = 0;
+  var warnTimeout = null;
 
-  // 葉っぱの種類（色と形状）
   var LEAF_TYPES = ['momiji', 'icho', 'lotus', 'temple'];
 
   function randomRange(min, max) { return min + Math.random() * (max - min); }
@@ -658,45 +712,58 @@
     canvas.width = W * dpr;
     canvas.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    dustpan.x = W - 70;
+    dustpan.y = H - 70;
+    dustpan.r = Math.min(W * 0.16, 68);
+
+    if (!isPlaying) {
+      cat.x = W * 0.32;
+      cat.y = H * 0.36;
+    }
   }
 
   function initGame() {
     resize();
     leaves = [];
-    clearedCount = 0;
+    collectedCount = 0;
     isPlaying = false;
     isCleared = false;
     startTime = 0;
     clearTime = 0;
+    zenCombo = 0;
+    maxZenCombo = 0;
     treasureRevealed = false;
+    treasureCollected = false;
     sweepTrail = [];
     clearInterval(timerInterval);
 
+    cat.state = 'sleep';
+    cat.startledUntil = 0;
+    cat.disturbedCount = 0;
+
     document.getElementById('timeDisplay').textContent = '0.0s';
-    document.getElementById('cleanPercent').textContent = '0%';
     document.getElementById('cleanGauge').style.width = '0%';
     document.getElementById('leavesLeft').textContent = totalLeaves;
+    document.getElementById('comboBadge').textContent = '✨ ZEN ×0';
     document.getElementById('resultModal').classList.remove('active');
     document.getElementById('treasureToast').classList.remove('show');
+    document.getElementById('zenWarning').classList.remove('show');
 
-    // ランダムなお宝を決定し、中央付近に配置
     currentTreasure = TREASURES[Math.floor(Math.random() * TREASURES.length)];
     treasurePos = {
-      x: W * randomRange(0.35, 0.65),
-      y: H * randomRange(0.35, 0.65)
+      x: W * randomRange(0.4, 0.7),
+      y: H * randomRange(0.25, 0.55)
     };
 
-    // 葉っぱを生成（全体に散らしつつ、お宝の上にも少し集める）
     for (var i = 0; i < totalLeaves; i++) {
-      var lx, ly;
-      if (i < 8) {
-        // お宝の近くに密集させる
-        lx = treasurePos.x + randomRange(-40, 40);
-        ly = treasurePos.y + randomRange(-40, 40);
-      } else {
-        lx = randomRange(W * 0.1, W * 0.9);
-        ly = randomRange(H * 0.1, H * 0.9);
-      }
+      var lx, ly, distCat;
+      do {
+        lx = randomRange(W * 0.12, W * 0.88);
+        ly = randomRange(H * 0.12, H * 0.82);
+        var dx = lx - cat.x, dy = ly - cat.y;
+        distCat = Math.sqrt(dx * dx + dy * dy);
+      } while (distCat < 55);
 
       leaves.push({
         x: lx,
@@ -705,68 +772,128 @@
         vy: 0,
         type: LEAF_TYPES[Math.floor(Math.random() * LEAF_TYPES.length)],
         angle: randomRange(0, Math.PI * 2),
-        vAngle: randomRange(-0.02, 0.02),
-        size: randomRange(26, 38),
-        cleared: false,
-        opacity: 1
+        vAngle: randomRange(-0.015, 0.015),
+        size: randomRange(26, 36),
+        collected: false,
+        scale: 1
       });
     }
   }
 
-  // --- 描画ルーチン ---
-  function drawTempleStoneBG() {
-    // 寺院の石畳（温かい敷石）
-    ctx.fillStyle = '#221c18';
+  function drawCourtyard() {
+    ctx.fillStyle = '#1c1714';
     ctx.fillRect(0, 0, W, H);
 
-    ctx.strokeStyle = '#322922';
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = '#2d241e';
+    ctx.lineWidth = 2.5;
 
-    // 石畳の目地グリッド
-    var tileSize = 70;
-    var cols = Math.ceil(W / tileSize);
-    var rows = Math.ceil(H / tileSize);
-
-    for (var r = 0; r <= rows; r++) {
-      var y = r * tileSize;
+    var tileSize = 68;
+    for (var y = 0; y <= H; y += tileSize) {
       ctx.beginPath();
       ctx.moveTo(0, y);
       ctx.lineTo(W, y);
       ctx.stroke();
     }
-    for (var c = 0; c <= cols; c++) {
-      var x = c * tileSize;
+    for (var x = 0; x <= W; x += tileSize) {
       ctx.beginPath();
       ctx.moveTo(x, 0);
       ctx.lineTo(x, H);
       ctx.stroke();
     }
 
-    // 中央にうっすら寺院の蓮華紋章
-    ctx.save();
-    ctx.translate(W / 2, H / 2);
-    ctx.strokeStyle = 'rgba(229, 179, 56, 0.06)';
-    ctx.lineWidth = 4;
+    ctx.fillStyle = 'rgba(78, 135, 82, 0.18)';
     ctx.beginPath();
-    ctx.arc(0, 0, Math.min(W, H) * 0.28, 0, Math.PI * 2);
+    ctx.ellipse(30, 30, 70, 50, 0.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(W - 20, 40, 60, 45, -0.3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function drawDustpan() {
+    ctx.save();
+    ctx.translate(dustpan.x, dustpan.y);
+
+    var grad = ctx.createRadialGradient(0, 0, 10, 0, 0, dustpan.r + 14);
+    grad.addColorStop(0, 'rgba(245, 197, 66, 0.25)');
+    grad.addColorStop(1, 'rgba(245, 197, 66, 0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(0, 0, dustpan.r + 14, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.fillStyle = '#2b211a';
+    ctx.strokeStyle = '#D4AC0D';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(0, 0, dustpan.r, -Math.PI * 0.8, Math.PI * 0.35);
     ctx.stroke();
+    ctx.fill();
+
+    ctx.strokeStyle = '#8E6E1A';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(dustpan.r * 0.6, dustpan.r * 0.6);
+    ctx.lineTo(dustpan.r * 0.95, dustpan.r * 0.95);
+    ctx.stroke();
+
+    ctx.font = '24px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('🧺', -6, -4);
+
+    ctx.font = '700 11px "Noto Serif JP", serif';
+    ctx.fillStyle = '#F5C542';
+    ctx.fillText('ちりとり', -6, 22);
+
+    ctx.restore();
+  }
+
+  function drawCat() {
+    ctx.save();
+    ctx.translate(cat.x, cat.y);
+
+    var now = performance.now();
+    var isAwake = (cat.state === 'startled' && now < cat.startledUntil);
+
+    ctx.fillStyle = 'rgba(192, 57, 43, 0.3)';
+    ctx.beginPath();
+    ctx.ellipse(0, 8, cat.r + 6, cat.r * 0.65, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.font = '42px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    if (isAwake) {
+      ctx.fillText('😾', 0, 0);
+      ctx.font = '700 13px "Noto Serif JP", serif';
+      ctx.fillStyle = '#ff6b57';
+      ctx.fillText('ニャッ！？', 0, -32);
+    } else {
+      ctx.fillText('🐱', 0, 0);
+      var floatY = Math.sin(now * 0.003) * 4;
+      ctx.font = '600 12px "Noto Serif JP", serif';
+      ctx.fillStyle = 'rgba(241, 233, 223, 0.75)';
+      ctx.fillText('Zzz...', 22, -18 + floatY);
+    }
+
     ctx.restore();
   }
 
   function drawTreasure() {
-    if (!currentTreasure) return;
+    if (treasureCollected || !currentTreasure) return;
     ctx.save();
     ctx.translate(treasurePos.x, treasurePos.y);
 
-    // 見つかったら後光エフェクト
     if (treasureRevealed) {
-      ctx.fillStyle = 'rgba(245, 197, 66, 0.25)';
+      ctx.fillStyle = 'rgba(245, 197, 66, 0.3)';
       ctx.beginPath();
-      ctx.arc(0, 0, 36, 0, Math.PI * 2);
+      ctx.arc(0, 0, 32, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    ctx.font = '36px "Segoe UI Emoji", "Apple Color Emoji", sans-serif';
+    ctx.font = '32px "Segoe UI Emoji", sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(currentTreasure.icon, 0, 0);
@@ -775,21 +902,18 @@
   }
 
   function drawLeaf(leaf) {
-    if (leaf.cleared) return;
+    if (leaf.collected) return;
     ctx.save();
     ctx.translate(leaf.x, leaf.y);
     ctx.rotate(leaf.angle);
-    ctx.globalAlpha = leaf.opacity;
+    ctx.scale(leaf.scale, leaf.scale);
 
-    // 影
-    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.fillStyle = 'rgba(0,0,0,0.2)';
     ctx.beginPath();
-    ctx.ellipse(3, 4, leaf.size * 0.5, leaf.size * 0.35, 0, 0, Math.PI * 2);
+    ctx.ellipse(2, 3, leaf.size * 0.45, leaf.size * 0.3, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // 葉の描画（種類別）
     if (leaf.type === 'momiji') {
-      // 紅葉（赤・深紅）
       ctx.fillStyle = '#C0392B';
       ctx.beginPath();
       ctx.moveTo(0, -leaf.size * 0.6);
@@ -805,14 +929,12 @@
       ctx.closePath();
       ctx.fill();
     } else if (leaf.type === 'icho') {
-      // イチョウ（鮮やかな黄金黄）
       ctx.fillStyle = '#E5B338';
       ctx.beginPath();
       ctx.moveTo(0, leaf.size * 0.4);
       ctx.arc(0, 0, leaf.size * 0.5, Math.PI * 1.1, Math.PI * 1.9, false);
       ctx.closePath();
       ctx.fill();
-      // 葉柄
       ctx.strokeStyle = '#8E6E1A';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
@@ -820,7 +942,6 @@
       ctx.lineTo(0, leaf.size * 0.55);
       ctx.stroke();
     } else if (leaf.type === 'lotus') {
-      // 蓮の花びら（淡い桃色〜白グラデーション）
       var grad = ctx.createLinearGradient(0, -leaf.size * 0.5, 0, leaf.size * 0.5);
       grad.addColorStop(0, '#FFA8C5');
       grad.addColorStop(1, '#FFF2F6');
@@ -829,36 +950,31 @@
       ctx.ellipse(0, 0, leaf.size * 0.3, leaf.size * 0.55, 0, 0, Math.PI * 2);
       ctx.fill();
     } else {
-      // 寺院の枯れ葉（琥珀色・茶）
       ctx.fillStyle = '#8B5A2B';
       ctx.beginPath();
       ctx.ellipse(0, 0, leaf.size * 0.35, leaf.size * 0.5, Math.PI / 4, 0, Math.PI * 2);
       ctx.fill();
-      ctx.strokeStyle = '#5A3716';
-      ctx.lineWidth = 1.2;
-      ctx.beginPath();
-      ctx.moveTo(0, -leaf.size * 0.4);
-      ctx.lineTo(0, leaf.size * 0.4);
-      ctx.stroke();
     }
 
     ctx.restore();
   }
 
   function drawSweepTrail() {
-    // 箒の軌跡と風エフェクト
     if (sweepTrail.length < 2) return;
     ctx.save();
-    ctx.strokeStyle = 'rgba(245, 197, 66, 0.4)';
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
+    var now = performance.now();
     for (var i = 1; i < sweepTrail.length; i++) {
       var p1 = sweepTrail[i - 1];
       var p2 = sweepTrail[i];
-      var age = (performance.now() - p2.t) / 300;
+      var age = (now - p2.t) / 320;
       if (age < 1) {
-        ctx.lineWidth = (1 - age) * 16;
-        ctx.strokeStyle = 'rgba(245, 197, 66, ' + ((1 - age) * 0.45) + ')';
+        ctx.lineWidth = (1 - age) * 18;
+        var alpha = (1 - age) * 0.5;
+        ctx.strokeStyle = (zenCombo > 2) 
+          ? 'rgba(245, 197, 66, ' + alpha + ')' 
+          : 'rgba(212, 172, 13, ' + (alpha * 0.7) + ')';
         ctx.beginPath();
         ctx.moveTo(p1.x, p1.y);
         ctx.lineTo(p2.x, p2.y);
@@ -868,86 +984,155 @@
     ctx.restore();
   }
 
-  // --- ゲームループ・物理計算 ---
   function update() {
     var now = performance.now();
+    sweepTrail = sweepTrail.filter(function(p) { return now - p.t < 320; });
 
-    // 軌跡の寿命管理
-    sweepTrail = sweepTrail.filter(function(p) { return now - p.t < 300; });
+    var sweepRadius = 56;
+    var speed = pointer.speed;
 
-    // 葉っぱの物理計算
-    var remainingNearTreasure = 0;
-    var sweepRadius = 52;
+    if (pointer.active && speed > 2.0) {
+      var cdx = pointer.x - cat.x;
+      var cdy = pointer.y - cat.y;
+      var cdist = Math.sqrt(cdx * cdx + cdy * cdy);
+
+      if (cdist < cat.r + 14) {
+        if (cat.state !== 'startled' || now > cat.startledUntil) {
+          cat.state = 'startled';
+          cat.startledUntil = now + 2000;
+          cat.disturbedCount++;
+          zenCombo = 0;
+          updateComboDisplay();
+          playCatMeowSound();
+
+          leaves.forEach(function(l) {
+            var ldx = l.x - cat.x, ldy = l.y - cat.y;
+            var ldist = Math.sqrt(ldx * ldx + ldy * ldy);
+            if (ldist < 110) {
+              l.vx = (ldx / (ldist || 1)) * 9;
+              l.vy = (ldy / (ldist || 1)) * 9;
+            }
+          });
+        }
+      }
+    }
+
+    if (pointer.active && speed > 24) {
+      showZenWarning();
+      zenCombo = 0;
+      updateComboDisplay();
+
+      leaves.forEach(function(l) {
+        if (l.collected) return;
+        var dx = l.x - pointer.x, dy = l.y - pointer.y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < sweepRadius * 1.5) {
+          l.vx = (Math.random() - 0.5) * 14;
+          l.vy = (Math.random() - 0.5) * 14;
+        }
+      });
+    }
+
+    var isGentleSweep = (pointer.active && speed >= 1.5 && speed <= 18);
+
+    if (isGentleSweep) {
+      if (now - lastSoundTime > 120) {
+        playSweepSound(true);
+        lastSoundTime = now;
+      }
+    }
+
+    var nearTreasureCount = 0;
 
     leaves.forEach(function(leaf) {
-      if (leaf.cleared) return;
+      if (leaf.collected) return;
 
-      // ポインター（箒）との衝突判定
-      if (pointer.active && pointer.speed > 1.2) {
+      if (pointer.active && speed >= 1.2 && speed <= 22) {
         var dx = leaf.x - pointer.x;
         var dy = leaf.y - pointer.y;
         var dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < sweepRadius) {
-          // スワイプの勢いに応じて吹き飛ばす
-          var force = Math.min(pointer.speed * 1.8, 32);
-          var nx = (dist === 0) ? 1 : dx / dist;
-          var ny = (dist === 0) ? 0 : dy / dist;
+          var pushFactor = 0.55;
+          leaf.vx = (pointer.vx * pushFactor) + (dx / (dist || 1)) * 2;
+          leaf.vy = (pointer.vy * pushFactor) + (dy / (dist || 1)) * 2;
+          leaf.vAngle = (Math.random() - 0.5) * 0.08;
 
-          leaf.vx = (pointer.vx * 0.7) + (nx * force);
-          leaf.vy = (pointer.vy * 0.7) + (ny * force);
-          leaf.vAngle = (Math.random() - 0.5) * 0.35;
-
-          // サウンド
-          if (now - lastSoundTime > 90) {
-            playBroomSound();
-            lastSoundTime = now;
+          if (speed <= 15) {
+            zenCombo = Math.min(zenCombo + 0.015, 20);
+            if (Math.floor(zenCombo) > maxZenCombo) {
+              maxZenCombo = Math.floor(zenCombo);
+            }
+            updateComboDisplay();
           }
         }
       }
 
-      // 速度の減衰と移動
       leaf.x += leaf.vx;
       leaf.y += leaf.vy;
       leaf.angle += leaf.vAngle;
-      leaf.vx *= 0.91;
-      leaf.vy *= 0.91;
-      leaf.vAngle *= 0.94;
+      leaf.vx *= 0.86;
+      leaf.vy *= 0.86;
+      leaf.vAngle *= 0.90;
 
-      // 画面端判定（外へ出たらクリア）
-      var pad = 30;
-      if (leaf.x < -pad || leaf.x > W + pad || leaf.y < -pad || leaf.y > H + pad) {
-        leaf.cleared = true;
-        clearedCount++;
-        onProgressUpdate();
+      var pad = 16;
+      if (leaf.x < pad) { leaf.x = pad; leaf.vx *= -0.5; }
+      if (leaf.x > W - pad) { leaf.x = W - pad; leaf.vx *= -0.5; }
+      if (leaf.y < pad) { leaf.y = pad; leaf.vy *= -0.5; }
+      if (leaf.y > H - pad) { leaf.y = H - pad; leaf.vy *= -0.5; }
+
+      var dpDist = Math.sqrt(Math.pow(leaf.x - dustpan.x, 2) + Math.pow(leaf.y - dustpan.y, 2));
+      if (dpDist < dustpan.r) {
+        leaf.scale -= 0.12;
+        leaf.vx += (dustpan.x - leaf.x) * 0.15;
+        leaf.vy += (dustpan.y - leaf.y) * 0.15;
+
+        if (leaf.scale <= 0.05) {
+          leaf.collected = true;
+          collectedCount++;
+          playCollectSound();
+          onProgressUpdate();
+        }
       }
 
-      // お宝の上に残っている葉のカウント
       if (!treasureRevealed && currentTreasure) {
-        var tdx = leaf.x - treasurePos.x;
-        var tdy = leaf.y - treasurePos.y;
-        if (Math.sqrt(tdx * tdx + tdy * tdy) < 46) {
-          remainingNearTreasure++;
+        var tdx = leaf.x - treasurePos.x, tdy = leaf.y - treasurePos.y;
+        if (Math.sqrt(tdx * tdx + tdy * tdy) < 42) {
+          nearTreasureCount++;
         }
       }
     });
 
-    // お宝の出現判定
-    if (!treasureRevealed && remainingNearTreasure === 0 && currentTreasure) {
+    if (!treasureRevealed && nearTreasureCount === 0 && currentTreasure) {
       treasureRevealed = true;
-      playDiscoverSound();
       showTreasureToast();
     }
+    if (treasureRevealed && !treasureCollected) {
+      if (pointer.active && speed >= 1.2 && speed <= 22) {
+        var tdx = treasurePos.x - pointer.x, tdy = treasurePos.y - pointer.y;
+        var tdist = Math.sqrt(tdx * tdx + tdy * tdy);
+        if (tdist < sweepRadius) {
+          treasurePos.x += pointer.vx * 0.4;
+          treasurePos.y += pointer.vy * 0.4;
+        }
+      }
+      var tDpDist = Math.sqrt(Math.pow(treasurePos.x - dustpan.x, 2) + Math.pow(treasurePos.y - dustpan.y, 2));
+      if (tDpDist < dustpan.r) {
+        treasureCollected = true;
+        playCollectSound();
+      }
+    }
 
-    // 100%完了判定
-    if (!isCleared && clearedCount >= totalLeaves) {
+    if (!isCleared && collectedCount >= totalLeaves) {
       onGameClear();
     }
   }
 
   function render() {
     ctx.clearRect(0, 0, W, H);
-    drawTempleStoneBG();
+    drawCourtyard();
+    drawDustpan();
+    drawCat();
     drawTreasure();
     leaves.forEach(drawLeaf);
     drawSweepTrail();
@@ -959,20 +1144,15 @@
     requestAnimationFrame(loop);
   }
 
-  // --- イベントリスナー（ポインター操作） ---
   function onPointerDown(e) {
     initAudio();
     pointer.active = true;
     var rect = canvas.getBoundingClientRect();
     var x = e.clientX - rect.left;
     var y = e.clientY - rect.top;
-    pointer.x = x;
-    pointer.y = y;
-    pointer.px = x;
-    pointer.py = y;
-    pointer.vx = 0;
-    pointer.vy = 0;
-    pointer.speed = 0;
+    pointer.x = x; pointer.y = y;
+    pointer.px = x; pointer.py = y;
+    pointer.vx = 0; pointer.vy = 0; pointer.speed = 0;
 
     sweepTrail.push({ x: x, y: y, t: performance.now() });
 
@@ -992,10 +1172,8 @@
     pointer.vx = vx;
     pointer.vy = vy;
     pointer.speed = Math.sqrt(vx * vx + vy * vy);
-    pointer.px = pointer.x;
-    pointer.py = pointer.y;
-    pointer.x = x;
-    pointer.y = y;
+    pointer.px = pointer.x; pointer.py = pointer.y;
+    pointer.x = x; pointer.y = y;
 
     sweepTrail.push({ x: x, y: y, t: performance.now() });
   }
@@ -1010,7 +1188,6 @@
   window.addEventListener('pointerup', onPointerUp);
   window.addEventListener('pointercancel', onPointerUp);
 
-  // --- 進行状況とタイマー ---
   function startGameTimer() {
     isPlaying = true;
     startTime = performance.now();
@@ -1020,11 +1197,21 @@
     }, 100);
   }
 
-  function onProgressUpdate() {
-    var pct = Math.floor((clearedCount / totalLeaves) * 100);
-    document.getElementById('cleanPercent').textContent = pct + '%';
-    document.getElementById('cleanGauge').style.width = pct + '%';
-    document.getElementById('leavesLeft').textContent = (totalLeaves - clearedCount);
+  function updateComboDisplay() {
+    var c = Math.floor(zenCombo);
+    var el = document.getElementById('comboBadge');
+    el.textContent = '✨ ZEN ×' + c;
+    if (c >= 3) el.classList.add('glow');
+    else el.classList.remove('glow');
+  }
+
+  function showZenWarning() {
+    var w = document.getElementById('zenWarning');
+    w.classList.add('show');
+    clearTimeout(warnTimeout);
+    warnTimeout = setTimeout(function() {
+      w.classList.remove('show');
+    }, 1800);
   }
 
   function showTreasureToast() {
@@ -1037,6 +1224,12 @@
     }, 3200);
   }
 
+  function onProgressUpdate() {
+    var pct = Math.floor((collectedCount / totalLeaves) * 100);
+    document.getElementById('cleanGauge').style.width = pct + '%';
+    document.getElementById('leavesLeft').textContent = (totalLeaves - collectedCount);
+  }
+
   function onGameClear() {
     isCleared = true;
     isPlaying = false;
@@ -1044,54 +1237,65 @@
     clearTime = ((performance.now() - startTime) / 1000).toFixed(1);
     playBellChime();
 
-    // ランク・評価決定
-    var t = parseFloat(clearTime);
+    var catBonus = (cat.disturbedCount === 0) ? 500 : Math.max(0, 300 - cat.disturbedCount * 150);
+    var comboBonus = maxZenCombo * 60;
+    var totalVirtue = 108 + comboBonus + catBonus;
+
     var rankTitle = '', rankDesc = '';
-    if (t < 11.0) {
-      rankTitle = '神仏級の箒さばき';
-      rankDesc = '風火輪に乗ったナチャ並みの神速。境内もあなたの心もチリひとつありません！';
-    } else if (t < 18.0) {
-      rankTitle = '歴戦の住職級';
-      rankDesc = '無駄のない流れるような作務。日頃の煩悩も綺麗さっぱり洗い流されました。';
-    } else if (t < 28.0) {
-      rankTitle = '精進の修行僧級';
-      rankDesc = '一枚一枚丁寧に掃き清めました。その真面目さに寺院の神々も微笑んでいます。';
+    if (cat.disturbedCount === 0 && maxZenCombo >= 6) {
+      rankTitle = '無心の作務マスター';
+      rankDesc = '一度も猫を起こさず、乱れぬリズムで境内を掃き清めた。まさに生ける仏の境地！';
+    } else if (cat.disturbedCount === 0) {
+      rankTitle = '猫に愛されし修行僧';
+      rankDesc = '猫の安眠を最優先に守り抜いた優しい作務。境内の猫もゴロゴロ喉を鳴らしています。';
+    } else if (maxZenCombo >= 8) {
+      rankTitle = '風を感じる掃き手';
+      rankDesc = '淀みのないZENリズムで落ち葉を操り、あっという間にちりとりに収めました。';
     } else {
-      rankTitle = '猫とまったり級';
-      rankDesc = 'お寺の長閑な空気に癒やされながら、マイペースに作務を完遂しました。';
+      rankTitle = 'マイペースな参拝者';
+      rankDesc = '猫にちょっと怒られつつも、最後まで諦めずに境内を綺麗にしました。';
     }
 
     document.getElementById('resRankTitle').textContent = rankTitle;
     document.getElementById('resRankDesc').textContent = rankDesc;
-    document.getElementById('resTime').textContent = clearTime + '秒';
+    document.getElementById('resTime').textContent = clearTime + 's';
+    document.getElementById('resCombo').textContent = '×' + maxZenCombo;
+    document.getElementById('resVirtue').textContent = '+' + totalVirtue;
+
+    var catBox = document.getElementById('resCatBox');
+    if (cat.disturbedCount === 0) {
+      catBox.innerHTML = '<span>🐱 境内の猫：安眠を守り切った！（徳ボーナス +500）</span>';
+      catBox.style.borderColor = '#4E8752';
+    } else {
+      catBox.innerHTML = '<span>😾 境内の猫：' + cat.disturbedCount + '回起こしてしまったニャ…</span>';
+      catBox.style.borderColor = '#C0392B';
+    }
+
     document.getElementById('resItemIcon').textContent = currentTreasure.icon;
     document.getElementById('resItemName').textContent = currentTreasure.name;
     document.getElementById('resItemNote').textContent = currentTreasure.desc;
 
-    // X共有リンクの設定
-    var tweetText = 'ナチャ寺で落ち葉を掃き清めました！🪷\n' +
-      '【作務タイム: ' + clearTime + '秒｜称号: ' + rankTitle + '】\n' +
-      currentTreasure.tweet + '\n' +
-      '心が整うお寺の作務ゲーム #ナチャ寺の落ち葉はき #お寺あるある\n';
+    var catTweet = (cat.disturbedCount === 0) ? '猫の安眠を守り切った！🐱' : '猫を怒らせちゃった😾';
+    var tweetText = 'ナチャ寺で落ち葉をちりとりに掃き集めました！🪷\n' +
+      '【称号: ' + rankTitle + '｜獲得した徳: +' + totalVirtue + '】\n' +
+      catTweet + '（' + currentTreasure.tweet + '）\n' +
+      '心を整えるお寺の作務ゲーム #ナチャ寺の落ち葉はき #お寺あるある\n';
     var tweetUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText) + '&url=' + encodeURIComponent('https://towananika.github.io/nacha/clean/');
     document.getElementById('btnShareX').href = tweetUrl;
 
     setTimeout(function() {
       document.getElementById('resultModal').classList.add('active');
-    }, 500);
+    }, 450);
   }
 
-  // --- 結果画像の生成・保存（Instagram / X 用 1:1 Canvas） ---
   function generateShareImage() {
     var sc = document.getElementById('shareCanvas');
     var sctx = sc.getContext('2d');
     var sW = 1080, sH = 1080;
 
-    // 背景：重厚な寺院トーン
     sctx.fillStyle = '#181310';
     sctx.fillRect(0, 0, sW, sH);
 
-    // 外枠（二重金枠）
     sctx.strokeStyle = '#D4AC0D';
     sctx.lineWidth = 8;
     sctx.strokeRect(36, 36, sW - 72, sH - 72);
@@ -1099,83 +1303,84 @@
     sctx.lineWidth = 2;
     sctx.strokeRect(48, 48, sW - 96, sH - 96);
 
-    // 四隅の飾り
-    var corn = 30;
-    sctx.fillStyle = '#D4AC0D';
-    [[48,48], [sW-48,48], [48,sH-48], [sW-48,sH-48]].forEach(function(p) {
-      sctx.fillRect(p[0] - corn/2, p[1] - corn/2, corn, corn);
-    });
-
-    // タイトル
-    sctx.font = '900 48px "Noto Serif JP", serif';
+    sctx.font = '900 46px "Noto Serif JP", serif';
     sctx.fillStyle = '#F5C542';
     sctx.textAlign = 'center';
-    sctx.fillText('那 茶 寺 · 作 務 録', sW / 2, 130);
+    sctx.fillText('那 茶 寺 · 作 務 録', sW / 2, 125);
 
-    // 落款印（心身清浄）
     sctx.save();
-    sctx.translate(sW / 2, 260);
-    sctx.rotate(-0.04);
+    sctx.translate(sW / 2, 245);
+    sctx.rotate(-0.03);
     sctx.fillStyle = 'rgba(192, 57, 43, 0.2)';
-    sctx.fillRect(-150, -55, 300, 110);
+    sctx.fillRect(-150, -50, 300, 100);
     sctx.strokeStyle = '#C0392B';
     sctx.lineWidth = 6;
-    sctx.strokeRect(-150, -55, 300, 110);
-    sctx.font = '900 58px "Noto Serif JP", serif';
+    sctx.strokeRect(-150, -50, 300, 100);
+    sctx.font = '900 54px "Noto Serif JP", serif';
     sctx.fillStyle = '#ff6b57';
     sctx.fillText('心 身 清 浄', 0, 18);
     sctx.restore();
 
-    // 称号
-    sctx.font = '700 40px "Noto Serif JP", serif';
+    sctx.font = '700 38px "Noto Serif JP", serif';
     sctx.fillStyle = '#FFFFFF';
-    sctx.fillText('【 ' + document.getElementById('resRankTitle').textContent + ' 】', sW / 2, 410);
+    sctx.fillText('【 ' + document.getElementById('resRankTitle').textContent + ' 】', sW / 2, 385);
 
-    // タイム ＆ 徳
-    sctx.fillStyle = '#261e19';
+    sctx.fillStyle = '#241c17';
     sctx.strokeStyle = '#4a3c33';
     sctx.lineWidth = 2;
     sctx.beginPath();
-    sctx.roundRect(160, 470, sW - 320, 140, 20);
+    sctx.roundRect(140, 440, sW - 280, 150, 20);
     sctx.fill();
     sctx.stroke();
 
-    sctx.font = '26px "Noto Serif JP", serif';
+    sctx.font = '24px "Noto Serif JP", serif';
     sctx.fillStyle = '#a89a8c';
-    sctx.fillText('清掃タイム: ' + clearTime + '秒   /   積んだ徳: ＋108', sW / 2, 535);
-    sctx.font = '22px "Noto Serif JP", serif';
-    sctx.fillStyle = '#E5B338';
-    sctx.fillText('煩悩100%消滅 · 境内完全清浄', sW / 2, 575);
+    sctx.fillText('所要時間: ' + clearTime + '秒   /   最大ZENコンボ: ×' + maxZenCombo, sW / 2, 500);
 
-    // 発見したお宝
+    sctx.font = '700 32px "Lilita One", sans-serif';
+    sctx.fillStyle = '#F5C542';
+    sctx.fillText('獲得した徳: ' + document.getElementById('resVirtue').textContent, sW / 2, 550);
+
+    sctx.fillStyle = (cat.disturbedCount === 0) ? 'rgba(78, 135, 82, 0.2)' : 'rgba(192, 57, 43, 0.18)';
+    sctx.strokeStyle = (cat.disturbedCount === 0) ? '#4E8752' : '#C0392B';
+    sctx.beginPath();
+    sctx.roundRect(140, 615, sW - 280, 75, 16);
+    sctx.fill();
+    sctx.stroke();
+
+    sctx.font = '700 24px "Noto Serif JP", serif';
+    sctx.fillStyle = (cat.disturbedCount === 0) ? '#b5e0b8' : '#ff9d8f';
+    var catText = (cat.disturbedCount === 0) 
+      ? '🐱 境内の猫：安眠を守り切った！（徳 +500）' 
+      : '😾 境内の猫：' + cat.disturbedCount + '回起こしてしまった…';
+    sctx.fillText(catText, sW / 2, 660);
+
     sctx.fillStyle = 'rgba(229, 179, 56, 0.12)';
     sctx.strokeStyle = '#E5B338';
     sctx.beginPath();
-    sctx.roundRect(160, 640, sW - 320, 180, 20);
+    sctx.roundRect(140, 715, sW - 280, 140, 18);
     sctx.fill();
     sctx.stroke();
 
-    sctx.font = '64px "Segoe UI Emoji", sans-serif';
-    sctx.fillText(currentTreasure.icon, 250, 745);
+    sctx.font = '54px "Segoe UI Emoji", sans-serif';
+    sctx.fillText(currentTreasure.icon, 230, 805);
 
-    sctx.font = '700 32px "Noto Serif JP", serif';
+    sctx.font = '700 28px "Noto Serif JP", serif';
     sctx.fillStyle = '#F5C542';
     sctx.textAlign = 'left';
-    sctx.fillText(currentTreasure.name, 320, 715);
+    sctx.fillText(currentTreasure.name, 300, 775);
 
-    sctx.font = '24px "Noto Serif JP", serif';
+    sctx.font = '22px "Noto Serif JP", serif';
     sctx.fillStyle = '#d5c7b9';
-    sctx.fillText(currentTreasure.desc.slice(0, 22), 320, 765);
+    sctx.fillText(currentTreasure.desc.slice(0, 24), 300, 820);
 
-    // フッタークレジット
     sctx.textAlign = 'center';
     sctx.font = '22px "Lilita One", sans-serif';
     sctx.fillStyle = '#8c7d71';
     sctx.fillText('NACHA TEMPLE SAMU PROJECT · towananika.github.io/nacha/clean/', sW / 2, 940);
-    sctx.font = '20px "Noto Serif JP", serif';
-    sctx.fillText('那茶（ナチャ）— カンボジア寺院の小さな神様', sW / 2, 980);
+    sctx.font = '19px "Noto Serif JP", serif';
+    sctx.fillText('那茶（ナチャ）— 実在のお寺から生まれた小さな神様', sW / 2, 980);
 
-    // ダウンロードトリガー
     try {
       var dataUrl = sc.toDataURL('image/png');
       var a = document.createElement('a');
@@ -1189,28 +1394,20 @@
     }
   }
 
-  // --- イベント登録 ---
   document.getElementById('btnSaveImg').addEventListener('click', generateShareImage);
-  document.getElementById('btnModalRetry').addEventListener('click', function() {
-    initGame();
-  });
-  document.getElementById('resetBtn').addEventListener('click', function() {
-    initGame();
-  });
+  document.getElementById('btnModalRetry').addEventListener('click', initGame);
+  document.getElementById('resetBtn').addEventListener('click', initGame);
 
-  // 音の切り替え
   document.getElementById('soundBtn').addEventListener('click', function() {
     soundEnabled = !soundEnabled;
     this.textContent = soundEnabled ? '🔊' : '🔇';
   });
 
-  // 画面リサイズ追従
   window.addEventListener('resize', function() {
     resize();
     render();
   });
 
-  // 初期化開始
   initGame();
   requestAnimationFrame(loop);
 
