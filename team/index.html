@@ -30,7 +30,7 @@
   <div class="seg"><span class="on" data-i="tm_login">ログイン</span><a href="../join/" data-i="jn_title">会員登録</a></div>
   <div class="gbox" id="gBox" hidden><div class="gbtn" id="gBtn"></div><button class="abtn" type="button" disabled aria-disabled="true"><span data-i="g_apple">Appleでログイン（準備中）</span></button><p class="or"><span data-i="g_or">または</span></p></div>
   <form id="authForm" autocomplete="on">
-    <label><span data-i="tm_id">ID</span><input id="aId" name="username" autocomplete="username" required minlength="3" maxlength="20" pattern="[A-Za-z0-9_.\-]{3,20}"></label>
+    <label><span data-i="tm_idmail">IDまたはメール</span><input id="aId" name="username" autocomplete="username" required minlength="3" maxlength="100"></label>
     <label><span data-i="tm_pw">パスワード</span><input id="aPw" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="64"></label>
     <button class="btn" type="submit" id="aSubmit"><span id="aSubmitL" data-i="tm_login">ログイン</span></button>
     <p class="amsg" id="aMsg" role="alert"></p>

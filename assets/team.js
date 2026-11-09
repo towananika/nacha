@@ -17,7 +17,7 @@
     return fetch(API+'/auth/'+op,{method:'POST',cache:'no-store',headers:Object.assign({'Content-Type':'application/json'},hdr()),body:JSON.stringify(body||{})})
       .then(function(r){return r.json().catch(function(){return {}}).then(function(j){j.status=r.status;return j})});
   }
-  var ERR={wrong:{ja:'IDかパスワードが違います',en:'Wrong ID or password',ko:'ID 또는 비밀번호가 달라요',zh:'ID 或密碼錯誤'},
+  var ERR={wrong:{ja:'ID・メールかパスワードが違います',en:'Wrong ID/email or password',ko:'ID·이메일 또는 비밀번호가 달라요',zh:'ID／電子郵件或密碼錯誤'},
     taken:{ja:'このIDは使われています',en:'This ID is taken',ko:'이미 사용 중인 ID예요',zh:'此 ID 已被使用'},
     id:{ja:'IDは英数字3〜20文字です',en:'ID: 3–20 letters/numbers',ko:'ID는 영문·숫자 3~20자예요',zh:'ID 須為 3–20 個英數字'},
     pw:{ja:'パスワードは8〜64文字です',en:'Password: 8–64 characters',ko:'비밀번호는 8~64자예요',zh:'密碼須為 8–64 個字元'},

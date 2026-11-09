@@ -7,6 +7,7 @@
     pw2:{ja:'確認用のパスワードが一致しません',en:'Passwords do not match',ko:'비밀번호가 일치하지 않아요',zh:'兩次密碼不一致'},
     'pw-id':{ja:'IDと同じパスワードは使えません',en:'Password must differ from ID',ko:'ID와 같은 비밀번호는 쓸 수 없어요',zh:'密碼不可與 ID 相同'},
     email:{ja:'メールアドレスの形が正しくありません',en:'Invalid email address',ko:'이메일 형식이 올바르지 않아요',zh:'電子郵件格式不正確'},
+    'email-taken':{ja:'このメールアドレスは登録済みです',en:'This email is already registered',ko:'이미 가입된 이메일이에요',zh:'此電子郵件已註冊'},
     taken:{ja:'このIDは使われています',en:'This ID is taken',ko:'이미 사용 중인 ID예요',zh:'此 ID 已被使用'},
     full:{ja:'登録できる人数の上限です',en:'Registration is full',ko:'가입 가능 인원이 가득 찼어요',zh:'註冊人數已滿'},
     'too-many':{ja:'試行が多すぎます。しばらく待ってください',en:'Too many tries. Please wait.',ko:'시도가 너무 많아요. 잠시 기다려 주세요',zh:'嘗試次數過多，請稍候'},
@@ -23,11 +24,11 @@
   function done(j){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}));localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}location.href='../team/'}
   $('joinForm').addEventListener('submit',function(ev){
     ev.preventDefault();
-    var id=$('jId').value.trim().toLowerCase(),em=$('jEmail').value.trim(),pw=$('jPw').value,pw2=$('jPw2').value;
-    var bad=!/^[a-z0-9_.-]{3,20}$/.test(id)?'id':pw.length<8||pw.length>64?'pw':pw!==pw2?'pw2':pw.toLowerCase()===id?'pw-id':em&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)?'email':'';
+    var em=$('jEmail').value.trim().toLowerCase(),pw=$('jPw').value,pw2=$('jPw2').value;
+    var bad=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)?'email':pw.length<8||pw.length>64?'pw':pw!==pw2?'pw2':pw.toLowerCase()===em?'pw-id':'';
     if(bad){$('jMsg').textContent=msg(bad);return}
     var b=$('jSubmit');b.disabled=true;$('jMsg').textContent='';
-    fetch(API+'/auth/register',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id,pw:pw,email:em})})
+    fetch(API+'/auth/register',{method:'POST',cache:'no-store',headers:{'Content-Type':'application/json'},body:JSON.stringify({pw:pw,email:em})})
       .then(function(r){return r.json().catch(function(){return {}})})
       .then(function(j){
         b.disabled=false;
