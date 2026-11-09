@@ -31,7 +31,7 @@
     <label><span data-i="tm_pw">パスワード</span><input id="aPw" name="password" type="password" autocomplete="current-password" required minlength="8" maxlength="64"></label>
     <button class="btn" type="submit" id="aSubmit"><span id="aSubmitL" data-i="tm_login">ログイン</span></button>
     <p class="amsg" id="aMsg" role="alert"></p>
-    <button class="linkbtn" type="button" id="aMode"><span data-i="tm_toreg">アカウントがない方はこちら</span></button>
+    <a class="linkbtn" href="../join/"><span data-i="tm_toreg">アカウントがない方はこちら</span></a>
   </form>
 </section>
 
@@ -40,6 +40,12 @@
   <button class="btn alt sm" type="button" id="logoutBtn"><span data-i="tm_out">ログアウト</span></button>
 </section>
 <p class="card note2" id="generalNote" hidden><span data-i="tm_general">一般ユーザーとしてログイン中です。関係者の資料は、管理者が権限を付けると見られます。</span></p>
+
+<section id="admBox" hidden>
+  <h2 class="sec" data-i="adm_h">会員の管理</h2>
+  <p class="note2" data-i="adm_note">管理者はオーナー以外の会員を管理者にできます。管理者を外せるのはオーナーだけです。</p>
+  <ul class="ulist" id="ulist"></ul>
+</section>
 
 <section id="docBox" hidden>
   <div class="dochead"><h2 class="sec" data-i="tm_docs">開発資料</h2><span class="secret" data-i="tm_secret">社外秘・転載禁止</span></div>

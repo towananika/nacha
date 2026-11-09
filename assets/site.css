@@ -124,3 +124,9 @@ footer{margin-top:36px;text-align:center;color:var(--sub);font-size:12px}
 .slide{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
 .slide h4{margin:0 0 6px;font-size:14px;color:var(--acc)}
 .slide p{margin:0 0 4px;font-size:13px;line-height:1.55;white-space:pre-wrap}
+.hint{margin:0;font-size:12px;color:var(--sub)}
+.ulist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.urow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.uinfo{min-width:0}.uinfo b{display:block;font-size:14px}.uinfo small{display:block;color:var(--sub);font-size:12px;overflow:hidden;text-overflow:ellipsis}
+.urow select{font:inherit;font-size:13px;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+a.linkbtn{text-align:center}
