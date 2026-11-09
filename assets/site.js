@@ -76,7 +76,9 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
 
 // 「メールで続ける」を押したときだけ入力欄を開く
 (function(){var b=document.getElementById('mailBtn');if(!b)return;var f=document.querySelector('.mform');
-b.addEventListener('click',function(){f.hidden=false;b.hidden=true;b.setAttribute('aria-expanded','true');var i=f.querySelector('input');if(i)i.focus()})})();
+var g=b.closest('[data-solo]'),m=document.getElementById('gMsg');   // 会員登録はメールを選んだら Google などを隠す
+b.addEventListener('click',function(){f.hidden=false;b.hidden=true;b.setAttribute('aria-expanded','true');if(g){g.hidden=true;if(m)m.textContent=''}var i=f.querySelector('input');if(i)i.focus()});
+var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',function(){f.hidden=true;b.hidden=false;b.setAttribute('aria-expanded','false');if(g)g.hidden=false})})();
 // ログイン・登録のエラー: 「何が起きたか」と「考えられる原因」を出す（2026-11-09）
 (function(){
   var W={

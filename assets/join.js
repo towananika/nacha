@@ -24,7 +24,7 @@
   function done(j){try{localStorage.setItem(KEY,JSON.stringify({token:j.token,exp:j.exp,user:j.user}));localStorage.setItem(HUBKEY,JSON.stringify({token:j.token,exp:j.exp,user:{id:j.user.id,member:false,admin:false}}))}catch(e){}location.href='../team/'}
   $('joinForm').addEventListener('submit',function(ev){
     ev.preventDefault();
-    var em=$('jEmail').value.trim().toLowerCase(),pw=$('jPw').value,pw2=pw;
+    var em=$('jEmail').value.trim().toLowerCase(),pw=$('jPw').value,pw2=$('jPw2').value;
     var bad=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)?'email':pw.length<8||pw.length>64?'pw':pw!==pw2?'pw2':pw.toLowerCase()===em?'pw-id':'';
     if(bad){$('jMsg').textContent=msg(bad);return}
     var b=$('jSubmit');b.disabled=true;$('jMsg').textContent='';
