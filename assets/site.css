@@ -216,3 +216,18 @@ body.authmode main{padding-bottom:24px}
 .gmsg{text-align:center;margin-top:8px}
 .amsg{white-space:pre-line;line-height:1.5}
 .amsg{color:var(--sub);font-size:12px}.amsg::first-line{color:var(--acc);font-size:14px;font-weight:700}
+/* ログイン画面の整え（2026-11-09 2回目）: 幅・高さ・角をそろえ、ナチャは丸いアイコンに */
+.authc{max-width:380px;padding:26px 20px 22px}
+.authc .gbox,.authc .mform,.authc .afoot,.authc .gmsg{width:100%;max-width:320px;margin-left:auto;margin-right:auto}
+.authc .gbox{gap:12px;margin-bottom:0}
+.authc .gbtn{width:100%;min-height:44px}
+.authc .mbtn{width:100%;height:44px;min-height:0;font-size:14px;font-weight:600;background:var(--card);display:flex;align-items:center;justify-content:center;gap:8px}
+.authc .mform{gap:10px;margin-top:12px}
+.authc input{height:46px}
+.authc .btn{height:46px;border-radius:999px;padding:0;display:flex;align-items:center;justify-content:center}
+.ahero{margin:0 0 18px}
+.ahero img{width:112px;height:112px;border-radius:50%;object-fit:cover;object-position:50% 0;background:radial-gradient(circle at 50% 40%,#fff,#F3E2D3);border:3px solid #fff;box-shadow:0 4px 14px #C0392B22;filter:none}
+.abub{padding:6px 14px;border-radius:999px;box-shadow:0 2px 8px #0001;margin-bottom:10px}
+.abub:after{bottom:-6px;margin-left:-6px;border-width:6px}
+.ah0{font:700 16px/1.3 system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;color:var(--ink)}
+.authc .afoot{margin-top:18px}

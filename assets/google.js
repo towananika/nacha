@@ -15,7 +15,7 @@
     return load().then(function(ok){
       if(!ok||!el)return false;
       el.textContent='';
-      google.accounts.id.renderButton(el,{theme:'outline',size:'large',shape:'pill',text:text||'continue_with',locale:document.documentElement.lang||'ja',width:280});
+      google.accounts.id.renderButton(el,{theme:'outline',size:'large',shape:'pill',text:text||'continue_with',locale:document.documentElement.lang||'ja',width:Math.min(320,el.parentNode.clientWidth||320)});
       handler=onCred;   // 画面に出るボタンは一度に1つ（ログイン前はログイン、ログイン後はつなぐ）
       return true;
     });
