@@ -1,4 +1,5 @@
 (function(){
+  window.nachaT=function(k){var l=document.documentElement.lang;l=l==='zh-Hant'?'zh':l;var D=window.NACHA_I18N||{};return (D[l]||D.ja||{})[k]||(D.ja||{})[k]||k};
   var D=window.NACHA_I18N||{},W=window.NACHA_WORDS||[];
   var els=[].slice.call(document.querySelectorAll('[data-i]'));
   els.forEach(function(e){e.dataset.ja=e.textContent});
@@ -6,6 +7,8 @@
     var d=D[l]||{};
     document.documentElement.lang=l==='zh'?'zh-Hant':l;
     els.forEach(function(e){e.textContent=l==='ja'?e.dataset.ja:(d[e.dataset.i]||e.dataset.ja)});
+    [].forEach.call(document.querySelectorAll('[data-i18n-ph]'),function(e){var k=e.dataset.i18nPh;if(!e.dataset.jaPh)e.dataset.jaPh=e.placeholder;e.placeholder=l==='ja'?e.dataset.jaPh:((D[l]||{})[k]||e.dataset.jaPh)});
+    document.dispatchEvent(new CustomEvent('nacha-lang',{detail:l}));
     [].forEach.call(document.querySelectorAll('#langMenu button'),function(b){b.setAttribute('aria-current',b.dataset.l===l)});
   }
   function pick(){

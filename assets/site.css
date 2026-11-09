@@ -104,3 +104,23 @@ footer{margin-top:36px;text-align:center;color:var(--sub);font-size:12px}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}.tile img{transition:none}}
 [hidden]{display:none!important}
 @media (max-width:420px){.hero h1{font-size:34px}.word q{font-size:22px}.gods{grid-template-columns:1fr}.god{display:grid;grid-template-columns:44px 1fr;column-gap:10px;text-align:left;align-items:center;border-top:1px solid var(--line);border-left:5px solid var(--g)}.gi{grid-row:span 2;text-align:center}.look{grid-template-columns:1fr}.icons{grid-template-columns:repeat(3,1fr)}}
+/* team */
+.authc form{display:grid;gap:12px}
+.authc label{display:grid;gap:4px;font-size:13px;color:var(--sub)}
+.authc input,.search{font:inherit;font-size:16px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);width:100%}
+.authc .btn{border:0;cursor:pointer;font:inherit;font-weight:700}
+.authc .btn:disabled{opacity:.6}
+.amsg{margin:0;color:var(--acc);font-size:13px;min-height:1em}
+.linkbtn{background:none;border:0;color:var(--acc);font:inherit;font-size:13px;cursor:pointer;text-decoration:underline}
+.mec{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.me{display:flex;align-items:center;gap:8px;min-width:0}.me b{overflow:hidden;text-overflow:ellipsis}
+.badge{font-size:11px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--line);color:var(--sub)}.badge.on{background:var(--gold);color:#fff}
+.btn.sm{padding:8px 14px;font-size:13px;border:1px solid var(--line);cursor:pointer;font-family:inherit}
+.note2{font-size:13px;color:var(--sub)}
+.dochead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.secret{font-size:11px;font-weight:700;color:#fff;background:var(--acc);padding:2px 10px;border-radius:999px}
+.doctitle{margin:0 4px 10px;font-size:17px}
+.slides{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:10px}
+.slide{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.slide h4{margin:0 0 6px;font-size:14px;color:var(--acc)}
+.slide p{margin:0 0 4px;font-size:13px;line-height:1.55;white-space:pre-wrap}
