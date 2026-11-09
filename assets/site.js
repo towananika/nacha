@@ -119,3 +119,26 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
 // ログイン中はヘッダーに自分のIDを出す
 (function(){try{var v=JSON.parse(localStorage.getItem('nacha-auth')||'null');if(!(v&&v.token&&v.exp>Date.now()&&v.user&&v.user.id))return;
 [].forEach.call(document.querySelectorAll('.barr .pill span'),function(s){s.removeAttribute('data-i');s.textContent=v.user.id})}catch(e){}})();
+
+// 煩悩やき: 1文字ずつ火になって飛んでいく。数だけ端末に残す（言葉は残さない・送らない）
+(function(){
+  var f=document.getElementById('burnForm');if(!f)return;
+  var inp=document.getElementById('burnIn'),res=document.getElementById('burnRes'),box=document.getElementById('burn'),t=window.nachaT||function(k){return k};
+  var n=0;try{n=+localStorage.getItem('nacha-burned')||0}catch(e){}
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    var v=inp.value.trim();if(!v){res.textContent=t('bn_empty');inp.focus();return}
+    var r=inp.getBoundingClientRect(),cs=getComputedStyle(inp),x=r.left+12,y=r.top+r.height/2-10;
+    var ctx=document.createElement('canvas').getContext('2d');ctx.font=cs.fontSize+' '+cs.fontFamily;
+    Array.from(v).forEach(function(ch,i){
+      var s=document.createElement('span');s.className='bfly';s.textContent=ch;s.style.left=x+'px';s.style.top=y+'px';s.style.fontSize=cs.fontSize;
+      s.style.setProperty('--dx',(Math.random()*40-20)+'px');s.style.setProperty('--r',(Math.random()*80-40)+'deg');s.style.animationDelay=(i*0.04)+'s';
+      document.body.appendChild(s);x+=ctx.measureText(ch).width;setTimeout(function(){s.remove()},1400+i*40);
+    });
+    for(var k=0;k<6;k++)(function(k){var e=document.createElement('span');e.className='bfire';e.textContent='🔥';e.style.left=(r.left+r.width*(0.1+k*0.16))+'px';e.style.top=(r.top)+'px';e.style.animationDelay=(0.15+k*0.05)+'s';document.body.appendChild(e);setTimeout(function(){e.remove()},1300)})(k);
+    inp.value='';box.classList.add('hit');setTimeout(function(){box.classList.remove('hit')},300);
+    n++;try{localStorage.setItem('nacha-burned',n)}catch(e){}
+    setTimeout(function(){res.textContent=t('bn_done')+'\n'+t('bn_count').replace('{n}',n)},700);
+    if(navigator.vibrate)try{navigator.vibrate(30)}catch(e){}
+  });
+})();
