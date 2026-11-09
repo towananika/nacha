@@ -2,22 +2,22 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0}
 body{background:#1d1020;color:var(--cream);font:16px/1.35 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:manipulation}
-.lil{font-family:"Lilita One",sans-serif;letter-spacing:.02em}
+.lil{font-family:"Lilita One","M PLUS Rounded 1c",sans-serif;letter-spacing:.02em}
 #app{position:relative;width:100%;height:100%;display:grid;place-items:center}
 #stage{position:relative}
 canvas{display:block;touch-action:none}
-.hud{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 14px;pointer-events:none;font-family:"Lilita One",sans-serif;text-shadow:0 2px 0 #0006}
+.hud{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;align-items:flex-start;padding:10px 14px;pointer-events:none;font-family:"Lilita One","M PLUS Rounded 1c",sans-serif;text-shadow:0 2px 0 #0006}
 .hud .big{font-size:34px;line-height:1;color:var(--gold)}
 .hud .sm{font-size:15px;opacity:.9}
 .hud .r{text-align:right}
 .ov{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:18px;text-align:center;background:linear-gradient(#150a1acc,#150a1aee)}
 .ov.on{display:flex}
-.brand{font:26px "Lilita One",sans-serif;color:var(--gold);text-shadow:0 3px 0 #d35400;letter-spacing:.05em}
-.title{font:38px/1.05 "Lilita One",sans-serif;margin:2px 0 6px}
-.score{font:92px/1 "Lilita One",sans-serif;color:var(--gold);text-shadow:0 5px 0 #d35400}
-.label{font:14px "Lilita One",sans-serif;letter-spacing:.2em;color:#e9c9a4;margin-top:-4px}
+.brand{font:26px "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--gold);text-shadow:0 3px 0 #d35400;letter-spacing:.05em}
+.title{font:38px/1.05 "Lilita One","M PLUS Rounded 1c",sans-serif;margin:2px 0 6px}
+.score{font:92px/1 "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--gold);text-shadow:0 5px 0 #d35400}
+.label{font:14px "Lilita One","M PLUS Rounded 1c",sans-serif;letter-spacing:.2em;color:#e9c9a4;margin-top:-4px}
 .best{font-size:14px;color:#e9c9a4}
-.btn{appearance:none;border:0;border-radius:999px;padding:13px 20px;font:18px "Lilita One",sans-serif;letter-spacing:.02em;color:#fff;background:#ffffff1c;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn{appearance:none;border:0;border-radius:999px;padding:13px 20px;font:18px "Lilita One","M PLUS Rounded 1c",sans-serif;letter-spacing:.02em;color:#fff;background:#ffffff1c;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px}
 .btn:active{transform:scale(.97)}
 .btn.main{background:var(--red);box-shadow:0 6px 0 var(--redD)}
 .btn.main:active{transform:translateY(3px);box-shadow:0 3px 0 var(--redD)}
@@ -25,7 +25,7 @@ canvas{display:block;touch-action:none}
 .btn.ig{background:linear-gradient(45deg,#f9a03f,#e1306c,#8a3ab9)}
 .row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;width:100%;max-width:340px}
 .row .btn{flex:1 1 140px}
-.follow{font:15px "Lilita One",sans-serif;color:#f6dfbf;margin-top:6px}
+.follow{font:15px "Lilita One","M PLUS Rounded 1c",sans-serif;color:#f6dfbf;margin-top:6px}
 .gods{display:flex;gap:8px;justify-content:center;margin:2px 0 4px}
 .god{width:62px;text-align:center;font-size:10px;line-height:1.15;color:#e9c9a4}
 .god i{display:block;width:62px;height:62px;border-radius:14px;background:#ffffff14;border:1px solid #ffffff26;margin-bottom:3px;overflow:hidden}
@@ -36,13 +36,13 @@ canvas{display:block;touch-action:none}
 .banner{position:absolute;left:10px;right:10px;top:64px;display:flex;align-items:center;gap:10px;background:#150a1acc;border:1px solid #f4c43066;border-radius:16px;padding:8px 12px;transform:translateY(-140%);transition:transform .3s;pointer-events:none}
 .banner.on{transform:none}
 .banner img{width:52px;height:52px;border-radius:12px}
-.banner b{display:block;font:15px "Lilita One",sans-serif;color:var(--gold)}
-.banner span{font:16px "Lilita One",sans-serif}
-.tap{position:absolute;left:0;right:0;bottom:46px;text-align:center;font:20px "Lilita One",sans-serif;letter-spacing:.3em;color:var(--gold);animation:pl 1.2s ease-in-out infinite;pointer-events:none;text-shadow:0 2px 0 #0008}
+.banner b{display:block;font:15px "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--gold)}
+.banner span{font:16px "Lilita One","M PLUS Rounded 1c",sans-serif}
+.tap{position:absolute;left:0;right:0;bottom:46px;text-align:center;font:20px "Lilita One","M PLUS Rounded 1c",sans-serif;letter-spacing:.3em;color:var(--gold);animation:pl 1.2s ease-in-out infinite;pointer-events:none;text-shadow:0 2px 0 #0008}
 @keyframes pl{50%{opacity:.35}}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000c;padding:8px 14px;border-radius:999px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none}
 .toast.on{opacity:1}
-.back{position:absolute;left:10px;bottom:10px;font:13px "Lilita One",sans-serif;color:#f6dfbf99;text-decoration:none}
+.back{position:absolute;left:10px;bottom:10px;font:13px "Lilita One","M PLUS Rounded 1c",sans-serif;color:#f6dfbf99;text-decoration:none}
 
 .scr,.ov{text-shadow:0 2px 0 #0005}
 .btn,.opt{text-shadow:none}
