@@ -1,10 +1,11 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>108 Steps · NACHA</title>
-<meta name="description" content="ナチャと一緒に108段の石段を登ろう。ルートを選びながら、頂上の絶景を目指せ。">
+<title>天空登詣 · 百八の石段 | NACHA</title>
+<meta name="description" content="煩悩百八を踏みしめ雲海の天空寺院へ。山頂で鐘を鳴らし大吉兆を拝すNACHAの登詣ミニゲーム。">
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../common.css">
+<link rel="stylesheet" href="../../assets/site.css">
 <style>
 @media (pointer:coarse){#lrb{display:none!important}}
 #cv{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -34,16 +35,17 @@ body{overflow:hidden;background:#1d1020;touch-action:manipulation;-webkit-user-s
 </style></head><body><div id="app"><div id="stage">
 
 <section class="scr ctr on" id="s0">
-  <div class="brand">NACHA</div><div class="h1">108 Steps</div>
-  <div class="lore">Walk the path at your own pace. Pick a lane to dodge trees and rocks.</div>
-  <button class="btn main" id="go">Start walking</button>
-  <a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a>
+  <div class="brand">NACHA</div>
+  <div class="h1" style="font-family:'Noto Serif JP',serif;font-size:26px;">⛩️ 天空登詣 · 百八の石段</div>
+  <div class="lore" style="margin:8px 0 16px;">一歩ずつ、煩悩を祓いながら山頂の天空寺院へ。<br>左右をタップして岩や木をよけ、雲海を見晴らす頂を目指そう。</div>
+  <button class="btn main" id="go" style="font-size:20px;padding:16px 28px">登詣を始める</button>
+  <a class="btn" href="../" style="padding:9px 16px;font-size:15px;margin-top:6px">← ミニゲーム一覧へ</a>
 </section>
 
 <section class="scr" id="sp">
   <div class="top"><span id="st">0 / 108</span><span id="wo">108 worries</span></div>
   <div class="bar"><i id="sb"></i></div>
-  <div class="view" id="vw"><div class="pano" id="pano"><img id="pimg" alt="" onerror="this.style.display='none'"><span id="plab"></span></div><canvas id="cv"></canvas><div id="hint" style="position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:space-between;padding:0 16px;font:18px 'Lilita One',sans-serif;color:#fff;text-shadow:0 2px 4px #000a;pointer-events:none;transition:opacity .6s"><span>◀ tap left</span><span>tap right ▶</span></div></div>
+  <div class="view" id="vw"><div class="pano" id="pano"><img id="pimg" alt="" onerror="this.style.display='none'"><span id="plab"></span></div><canvas id="cv"></canvas><div id="hint" style="position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:space-between;padding:0 16px;font:18px 'Lilita One',sans-serif;color:#fff;text-shadow:0 2px 4px #000a;pointer-events:none;transition:opacity .6s"><span>◀ 左の段</span><span>右の段 ▶</span></div></div>
   <div class="bubble" id="say">Take it step by step.</div>
   <div class="views" id="vs"></div>
   <div id="lrb" style="display:flex;gap:12px"><button class="btn" id="bl" style="flex:1;font-size:22px;padding:16px 0">◀ A</button><button class="btn main" id="br" style="flex:1;font-size:22px;padding:16px 0">E ▶</button></div>
@@ -51,23 +53,23 @@ body{overflow:hidden;background:#1d1020;touch-action:manipulation;-webkit-user-s
 
 <section class="scr ctr" id="se">
   <div class="brand">NACHA</div>
-  <div class="h1">The summit!</div>
+  <div class="h1" style="font-family:'Noto Serif JP',serif;font-size:24px;">📿 天空の山頂境内 · 満願成就！</div>
   <div class="view" style="width:100%;flex:0 0 34%"><div class="pano" style="background:linear-gradient(#f4c43055,#c0392b44)"><img src="assets/view4.webp" alt="" style="object-position:50% 20%" onerror="this.style.display='none'"></div></div>
-  <div class="lore" id="el"></div>
+  <div class="lore" id="el" style="font-size:14px;margin:6px 0"></div>
   <div id="ef"></div>
-  <button class="btn main" id="tol" style="font-size:20px">🌟 Jump to heaven</button>
-  <div class="row"><button class="btn" id="again">Again</button><button class="btn" id="sh">Share</button></div>
-  <a class="btn" href="../" style="padding:9px 16px;font-size:15px">More games</a>
+  <button class="btn main" id="tol" style="font-size:18px">🌟 天空の大跳躍（ボーナス）</button>
+  <div class="row"><button class="btn" id="again">もう一度登る</button><button class="btn" id="sh">登詣をシェア</button></div>
+  <a class="btn" href="../" style="padding:9px 16px;font-size:14px">境内・ゲームへ戻る</a>
 </section>
 
 <section class="scr" id="sl">
-  <div class="top"><span>Jump to heaven</span><span id="lh">&nbsp;</span></div>
-  <div class="view" id="lv"><div class="pano" id="lp"><span>SKY (GPT: sunrise → clouds → stars)</span></div>
+  <div class="top"><span>🌟 天空の大跳躍</span><span id="lh">&nbsp;</span></div>
+  <div class="view" id="lv"><div class="pano" id="lp"><span>SKY (雲海 → 星空)</span></div>
     <div class="hiker" id="car" style="width:90px;height:100px;bottom:6%;border:0;background:none"><img src="assets/nacha-climb.webp" alt="NACHA" style="width:100%;height:100%;object-fit:contain" onerror="this.parentNode.textContent='NACHA'"></div></div>
   <div class="bar"><i id="lb" style="width:0"></i></div>
-  <div class="bubble" id="lsay">Hold to charge. Let go to jump!</div>
-  <button class="btn main" id="lgo" style="font-size:22px;padding:18px">Hold to charge</button>
-  <div class="row" id="lr" style="display:none"><button class="btn" id="la">Jump again</button><button class="btn main" id="ls">Share</button></div>
+  <div class="bubble" id="lsay">長押しでパワーをためて、指を離して大ジャンプ！</div>
+  <button class="btn main" id="lgo" style="font-size:20px;padding:16px">長押しでパワーチャージ</button>
+  <div class="row" id="lr" style="display:none"><button class="btn" id="la">もう一度飛ぶ</button><button class="btn main" id="ls">結果をシェア</button></div>
   <div id="lf"></div>
 </section>
 
@@ -81,16 +83,26 @@ var TIERS=[
  {to:54,n:"Hillside",bg:"linear-gradient(#6aa0b8,#3a5a40)",sc:1.4},
  {to:81,n:"Ridge",bg:"linear-gradient(#e8895a,#6a4a78)",sc:1.15},
  {to:108,n:"Summit sky",bg:"linear-gradient(#f4c430,#c0392b)",sc:1.0}];
-var SIGHTS=[["🐒","A monkey waves hello."],["🦋","A butterfly lands near you."],["🐦","A bird sings above."],["🪨","A mossy stone Buddha. You bow."],["⛲","Cool water. Refreshing!"],["🛖","A tiny rest hut."],["🌫️","Mist drifts past."],["🔔","A distant bell rings."]];
-var TS=[[["🐒","A monkey waves hello."],["🦋","A butterfly lands near you."],["🍄","A little mushroom ring."]],
- [["🦌","A deer watches, then leaves."],["🌧️","A quick shower. It passes."],["🪷","A pond of lotus below."]],
- [["🦅","An eagle circles high."],["🌬️","A cool wind lifts your sleeves."],["🏮","A lantern left on a rock."]],
- [["⭐","A star in the daytime?"],["☁️","Clouds at your feet."],["🕊️","A white bird glides by."]]];
+var SIGHTS=[
+ ["🐒","小猿が手を振っています。"],
+ ["🦋","色鮮やかなアゲハ蝶が舞いました。"],
+ ["🐦","小鳥の清らかな鳴き声が響きます。"],
+ ["🪨","苔むした石仏。そっと手を合わせます。"],
+ ["⛲","山の清らかな湧き水。心が洗われます。"],
+ ["🛖","小さな峠の茶屋・休憩所。"],
+ ["🌫️","山霧が静かに流れていきます。"],
+ ["🔔","遠くから澄んだ鐘の音が響きます。"]];
+var TS=[
+ [["🐒","小猿が手を振って応援しています。"],["🦋","アゲハ蝶が導くように飛びました。"],["🍄","小さな可愛いキノコが生えています。"]],
+ [["🦌","鹿が静かに見つめて森へ戻っていきました。"],["🌧️","恵みの山雨。すぐに晴れ上がりました。"],["🪷","麓の蓮池がはるか眼下に見えます。"]],
+ [["🦅","大空を悠々と鷲が旋回しています。"],["🌬️","清々しい山風が袖を揺らします。"],["🏮","石段脇の灯籠が優しく灯っています。"]],
+ [["⭐","天空に近い光が差し込んできました。"],["☁️","足元に広がる幻想的な雲海。"],["🕊️","白鳥が空を優雅に横切りました。"]]
+];
 var step,stam,vistas,badges,resting,lastSight,nextFork,rt;
 function show(id){["s0","sp","se","sl"].forEach(function(s){$(s).classList.toggle("on",s===id)})}
 function tier(){for(var i=0;i<TIERS.length;i++)if(step<=TIERS[i].to)return TIERS[i];return TIERS[3]}
 function paint(){var hn=$("hint");if(hn)hn.style.opacity=step<6?1:0;var t=tier();$("st").textContent=step+" / 108";$("wo").textContent=(108-step)+" worries left";$("sb").style.width=(step/108*100)+"%";
-  $("pano").style.backgroundImage=t.bg;$("pano").style.backgroundSize="100% 260%";$("pano").style.backgroundPosition="50% "+(100-step/108*100)+"%";var im=$("pimg"),n=TIERS.indexOf(t)+1;if(im.dataset.n!=n){im.dataset.n=n;im.style.display="";im.src="assets/view"+n+".png"}$("pano").style.transform="none";$("plab").textContent="";var ti=TIERS.indexOf(t),p0=Math.min(1,Math.max(0,(step-ti*27)/27));im.style.height="128%";im.style.transition="transform .5s";im.style.transform="translateY("+(-21.9*(1-p0)).toFixed(1)+"%)";
+  $("pano").style.backgroundImage=t.bg;$("pano").style.backgroundSize="100% 260%";$("pano").style.backgroundPosition="50% "+(100-step/108*100)+"%";var im=$("pimg"),n=TIERS.indexOf(t)+1;if(im.dataset.n!=n){im.dataset.n=n;im.style.display="";im.src="assets/view"+n+".webp"}$("pano").style.transform="none";$("plab").textContent="";var ti=TIERS.indexOf(t),p0=Math.min(1,Math.max(0,(step-ti*27)/27));im.style.height="128%";im.style.transition="transform .5s";im.style.transform="translateY("+(-21.9*(1-p0)).toFixed(1)+"%)";
   var g="";for(var k=0;k<9;k++)g+='<span class="vc'+(k<gauge?" on":"")+'">&nbsp;</span>';$("vs").innerHTML=g+'<span class="vc'+(gauge>=9?" on":"")+'">FLIP</span>'}
 function say(t){$("say").textContent=t}
 function newSight(){[].slice.call($("vw").querySelectorAll(".sight")).forEach(function(e){e.remove()});
@@ -146,12 +158,12 @@ function draw(now){requestAnimationFrame(draw);if(!$("sp").classList.contains("o
 function go(side){if(!$("sp").classList.contains("on"))return;
   var o=obs[step+1];
   if(o===side){ // obstacle in that lane
-    if(gauge>=9){gauge=0;ready=false;pl=side;step++;hop=1;glow=1;flipA=1;say("NACHA Flip! Hop over the obstacle.");paint();if(step>=108)summit();return}
-    gauge=0;shake=1;try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}step=Math.max(0,step-FALL);say("Bumped into it! Back "+FALL+" steps. Fill the gauge to hop over.");paint();return}
+    if(gauge>=9){gauge=0;ready=false;pl=side;step++;hop=1;glow=1;flipA=1;say("ナチャジャンプ！障害を軽やかに飛び越えた！");paint();if(step>=108)summit();return}
+    gauge=0;shake=1;try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}step=Math.max(0,step-FALL);say("おっと！岩に足を取られた。慌てず深呼吸しよう。");paint();return}
   pl=side;step++;hop=.4;glow=1;gauge=Math.min(9,gauge+1);
   if(step-lastSight>=12){lastSight=step;newSight()}
-  if(gauge===9&&!ready){ready=true;say("Flip is ready! You can hop over the next obstacle.")}
-  else if(step%10===0)say("One more worry gone. ("+(108-step)+" left)");
+  if(gauge===9&&!ready){ready=true;say("跳躍の気が満ちた！次の障害を飛び越えられるよ。")}
+  else if(step%10===0)say("また一つ煩悩が消えた（残り "+(108-step)+" 段）");
   paint();if(step>=108)summit()}
 $("bl").onclick=function(){go(0)};$("br").onclick=function(){go(1)};
 document.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse"||e.target.closest("button,.sight,a"))return;
@@ -159,21 +171,40 @@ document.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse"||
 document.addEventListener("keydown",function(e){var k=e.key.toLowerCase(),L=k==="a"||k==="arrowleft",R=k==="e"||k==="arrowright";if(!L&&!R||e.repeat)return;e.preventDefault();
   if($("sp").classList.contains("on"))go(R?1:0);});
 requestAnimationFrame(draw);addEventListener("resize",size);
-function summit(){show("se");var tr=NA.train(10);$("el").textContent="108 worries gone. "+tr.line;
-  $("ef").innerHTML=NA.followRow()}
+function summit(){
+  show("se");
+  if(window.NachaCoins){
+    NachaCoins.award('steps_summit', 10, '天空登詣 満願成就');
+  }
+  if(window.playTempleBell){
+    try { window.playTempleBell(); } catch(e){}
+  }
+  $("el").innerHTML="<b>百八の煩悩、ことごとく浄化せり。</b><br>天空の山頂境内にてナチャの祝福を受けました。（+10コイン）";
+  $("ef").innerHTML=NA.followRow();
+}
 var pw=0,chg=null,flew=false,LV=[[30,"Treetops","linear-gradient(#6aa0b8,#3a5a40)"],[60,"Clouds","linear-gradient(#bcd8f0,#6aa0b8)"],[90,"The Moon","linear-gradient(#1b1f4a,#6a5a9a)"],[101,"The Stars — Heaven!","linear-gradient(#05051a,#2b1a5a)"]],lres="";
 function lvl(p){for(var i=0;i<LV.length;i++)if(p<LV[i][0])return LV[i]}
-function lreset(){pw=0;flew=false;$("lb").style.width="0";$("lp").style.background="linear-gradient(#f4c43055,#2b2433)";$("car").style.transition="none";$("car").style.bottom="6%";$("lr").style.display="none";$("lgo").style.display="";$("lsay").textContent="Hold to charge. Let go to jump!";$("lh").innerHTML="&nbsp;"}
+function lreset(){pw=0;flew=false;$("lb").style.width="0";$("lp").style.background="linear-gradient(#f4c43055,#2b2433)";$("car").style.transition="none";$("car").style.bottom="6%";$("lr").style.display="none";$("lgo").style.display="";$("lsay").textContent="長押しでパワーをためて、指を離して大ジャンプ！";$("lh").innerHTML="&nbsp;"}
 function launch(){if(flew||pw<=0)return;flew=true;clearInterval(chg);var L=lvl(pw);$("lgo").style.display="none";
   $("car").style.transition="bottom 1.6s ease-in";$("car").style.bottom=(6+pw*0.8)+"%";$("lp").style.background=L[2];
-  setTimeout(function(){lres=L[1];$("lh").textContent=L[1];$("lsay").textContent=pw>=90?"NACHA touches heaven. Starlight!":"Nice jump! Try for more power.";$("lr").style.display="flex";$("lf").innerHTML=NA.followRow()},1700)}
+  setTimeout(function(){lres=L[1];$("lh").textContent=L[1];$("lsay").textContent=pw>=90?"✨ ナチャが天界の星空に届いた！星の祝福！":"ナイスジャンプ！次はもっと高く飛べるかも。";$("lr").style.display="flex";$("lf").innerHTML=NA.followRow()},1700)}
 $("tol").onclick=function(){show("sl");lreset()};
 $("lgo").addEventListener("pointerdown",function(e){e.preventDefault();if(flew)return;clearInterval(chg);chg=setInterval(function(){pw=Math.min(100,pw+2.2);$("lb").style.width=pw+"%";if(pw>=100)launch()},30)});
 ["pointerup","pointercancel"].forEach(function(ev){$("lgo").addEventListener(ev,launch)});
 $("la").onclick=lreset;
-$("ls").onclick=function(){var t="NACHA jumped to: "+lres+"! "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
-function start(){step=0;stam=100;lastSight=0;gauge=0;ready=false;flipT=null;build();show("sp");size();say("Pick a lane. Trees and rocks block the way.");paint()}
+$("ls").onclick=function(){var t="ナチャが天空の大跳躍で【"+lres+"】まで飛翔しました！ 🪷 "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
+function start(){step=0;stam=100;lastSight=0;gauge=0;ready=false;flipT=null;build();show("sp");size();say("左右をタップして段を選ぼう。木や岩を避けて進むよ。");paint()}
 $("go").onclick=start;$("again").onclick=start;
-$("sh").onclick=function(){var t="I climbed all 108 steps with NACHA! "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
+$("sh").onclick=function(){var t="ナチャと一緒に百八の石段を踏み越え、天空寺院へ登詣しました！ ⛩️ "+NA.HANDLE+" #NACHA",u=location.href.split("?")[0];if(navigator.share)navigator.share({text:t,url:u}).catch(function(){});else if(navigator.clipboard)navigator.clipboard.writeText(t+" "+u).then(function(){NA.toast("Copied")})};
 })();
-</script></body></html>
+</script>
+<nav class="tabs" aria-label="Main">
+  <a href="../../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
+  <a href="../../amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
+  <a href="../../rest/"><span aria-hidden="true">🪷</span><b>休憩所</b></a>
+  <a href="../../arcade/fukuiki/"><span aria-hidden="true">🎴</span><b>福引き</b></a>
+  <a href="../../characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">キャラ</b></a>
+</nav>
+<script src="../../assets/coins.js"></script>
+<script src="../../assets/site.js"></script>
+</body></html>

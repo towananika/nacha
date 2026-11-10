@@ -884,11 +884,27 @@ body.authmode main{padding-bottom:24px}
    公開版トップ：極限シンプル＆イメージ主役ファーストビュー
    ==================================================== */
 .zen-first-view {
+  position: relative;
   text-align: center;
   padding: 14px 0 28px;
 }
+.zen-first-view::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140%;
+  max-width: 720px;
+  height: 240px;
+  background: radial-gradient(ellipse at 50% 35%, rgba(244, 208, 63, 0.09) 0%, rgba(212, 172, 13, 0.03) 45%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
 .zen-avatar-stage {
+  position: relative;
+  z-index: 1;
   margin-bottom: 22px;
 }
 
