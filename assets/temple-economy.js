@@ -73,6 +73,43 @@
     return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
   }
 
+  // ── お寺の聖樹エリアマスタ ──
+  var FORESTS = [
+    {
+      id: 'backyard',
+      name: '境内・裏庭の木立',
+      distance: '近場（歩いてすぐ）',
+      icon: '🏡',
+      treesCount: 3,         // 植えられている木の本数
+      tripDurationMs: 15000, // 持ってくるのに15秒
+      branchRatePerMin: 1.2, // 1分あたり1.2本
+      maxAccumulate: 15,     // 近くはすぐ拾うので上限控えめ
+      woodType: '境内の小枝'
+    },
+    {
+      id: 'ancient_path',
+      name: '参道古道・白檀林',
+      distance: '中距離（山道散策）',
+      icon: '🌲',
+      treesCount: 5,
+      tripDurationMs: 60000, // 持ってくるのに1分
+      branchRatePerMin: 3.5, // 1分あたり3.5本
+      maxAccumulate: 50,     // 中程度に溜まる
+      woodType: '上質な白檀枝'
+    },
+    {
+      id: 'sacred_summit',
+      name: '奥山・霊峰の神木林',
+      distance: '遠方（険しい霊山奥地）',
+      icon: '🏔️',
+      treesCount: 8,
+      tripDurationMs: 180000, // 遠いので持ってくるのに3分かかる！
+      branchRatePerMin: 8.0,  // 人が来ないためドッサリ大量に枝が溜まりやすい！
+      maxAccumulate: 150,     // 非常に溜まりやすい！
+      woodType: '霊峰の神木霊枝'
+    }
+  ];
+
   // --- お寺全体の初期状態 ---
   function createFreshTemple() {
     var now = Date.now();
@@ -84,6 +121,16 @@
       totalOfferingsReceived: 12400,
       lastResetDate: getTodayStr(),
       dailyCraftCounts: {}, // 今日のアイテム別制作数
+
+      // お寺の聖樹・枝溜まり状態
+      forestState: {
+        lastHarvest: {
+          backyard: now - 300000,     // 5分前
+          ancient_path: now - 900000, // 15分前
+          sacred_summit: now - 3600000 // 1時間前（遠いので枝が山盛りに溜まっている！）
+        },
+        activeDispatches: {} // 進行中の遠征 { forestId: { startedAt, finishAt, branchesPicked } }
+      },
 
       // 授与所の陳列棚（最大6スロット）
       // 初期状態として、1ヶ月前に制作され熟成完了した希少な手作り品が少数並んでいる
@@ -593,6 +640,157 @@
         remainingTickets: user.inventory.filter(function(it) {
           return it.catalogId === 'fukubiki_ticket' || it.name.indexOf('福引') >= 0;
         }).length
+      };
+    },
+
+    // ==========================================
+    // 🍂 枝拾い（遠征・放置収穫）システム
+    // ==========================================
+    FORESTS: FORESTS,
+
+    getForestStatus: function() {
+      var temple = loadTemple();
+      if (!temple.forestState) {
+        temple.forestState = { lastHarvest: {}, activeDispatches: {} };
+      }
+      var now = Date.now();
+
+      return FORESTS.map(function(f) {
+        var lastTime = temple.forestState.lastHarvest[f.id] || (now - 600000);
+        var elapsedMin = Math.max(0, (now - lastTime) / 60000);
+
+        // 溜まっている枝数（木の本数 × レート × 経過時間、上限あり）
+        // 遠いところは上限が高く、枝がドッサリ溜まりやすい！
+        var accumulated = Math.min(f.maxAccumulate, Math.floor(elapsedMin * f.branchRatePerMin));
+
+        var dispatch = temple.forestState.activeDispatches[f.id] || null;
+        var isDispatched = !!dispatch;
+        var isReady = false;
+        var secondsLeft = 0;
+
+        if (dispatch) {
+          if (now >= dispatch.finishAt) {
+            isReady = true;
+          } else {
+            secondsLeft = Math.ceil((dispatch.finishAt - now) / 1000);
+          }
+        }
+
+        return {
+          id: f.id,
+          name: f.name,
+          distance: f.distance,
+          icon: f.icon,
+          treesCount: f.treesCount,
+          woodType: f.woodType,
+          tripDurationMs: f.tripDurationMs,
+          tripDurationSec: Math.round(f.tripDurationMs / 1000),
+          maxAccumulate: f.maxAccumulate,
+          currentBranches: accumulated,
+          isDispatched: isDispatched,
+          isReady: isReady,
+          secondsLeft: secondsLeft,
+          carryingBranches: dispatch ? dispatch.branchesPicked : 0
+        };
+      });
+    },
+
+    // お寺から出かけて枝拾いへ出発！
+    startBranchGathering: function(forestId) {
+      var f = FORESTS.find(function(item) { return item.id === forestId; });
+      if (!f) return { success: false, reason: 'unknown_forest' };
+
+      var temple = loadTemple();
+      temple.forestState = temple.forestState || { lastHarvest: {}, activeDispatches: {} };
+
+      if (temple.forestState.activeDispatches[forestId]) {
+        return { success: false, reason: 'already_dispatched' };
+      }
+
+      var now = Date.now();
+      var lastTime = temple.forestState.lastHarvest[f.id] || (now - 600000);
+      var elapsedMin = Math.max(0, (now - lastTime) / 60000);
+      var pickedCount = Math.max(1, Math.min(f.maxAccumulate, Math.floor(elapsedMin * f.branchRatePerMin)));
+
+      // 枝を拾ったのでエリアの溜まり時間はリセット
+      temple.forestState.lastHarvest[f.id] = now;
+
+      // 遠いほど戻ってくるのに時間がかかる！
+      temple.forestState.activeDispatches[f.id] = {
+        startedAt: now,
+        finishAt: now + f.tripDurationMs,
+        branchesPicked: pickedCount
+      };
+      saveTemple(temple);
+
+      return {
+        success: true,
+        forest: f,
+        branchesPicked: pickedCount,
+        durationSec: Math.round(f.tripDurationMs / 1000)
+      };
+    },
+
+    // 戻ってきた枝を収穫！
+    claimBranchHarvest: function(forestId) {
+      var temple = loadTemple();
+      if (!temple.forestState || !temple.forestState.activeDispatches[forestId]) {
+        return { success: false, reason: 'not_dispatched' };
+      }
+
+      var dispatch = temple.forestState.activeDispatches[forestId];
+      var now = Date.now();
+      if (now < dispatch.finishAt) {
+        return { success: false, reason: 'still_on_the_way', secondsLeft: Math.ceil((dispatch.finishAt - now) / 1000) };
+      }
+
+      var branchesGained = dispatch.branchesPicked;
+      delete temple.forestState.activeDispatches[forestId];
+      saveTemple(temple);
+
+      var user = loadUser();
+      user.branches = (user.branches || 0) + branchesGained;
+      user.toku = (user.toku || 0) + Math.max(1, Math.floor(branchesGained * 0.5)); // 掃除作務の徳
+      saveUser(user);
+
+      return {
+        success: true,
+        branchesGained: branchesGained,
+        totalBranches: user.branches,
+        totalToku: user.toku
+      };
+    },
+
+    // ナチャ工房へ枝を納品（買い取り＆ローン返済充当）
+    sellBranchesToWorkshop: function(count) {
+      count = parseInt(count, 10);
+      if (isNaN(count) || count <= 0) return { success: false, reason: 'invalid_count' };
+
+      var user = loadUser();
+      if ((user.branches || 0) < count) {
+        return { success: false, reason: 'not_enough_branches' };
+      }
+
+      user.branches -= count;
+      var coinsEarned = count * 2; // 1本 = 2コイン
+      var tokuEarned = count * 1;  // 1本 = 1徳
+      user.coins += coinsEarned;
+      user.toku += tokuEarned;
+      saveUser(user);
+
+      // ナチャたちの資材調達ローン返済へ還元！
+      var loanRepay = count * 1; // 1本につき1コインのローン返済
+      if (w.TempleBank) {
+        w.TempleBank.repayDeityLoan(loanRepay, '木製資材（枝）の調達充当');
+      }
+
+      return {
+        success: true,
+        soldCount: count,
+        coinsEarned: coinsEarned,
+        tokuEarned: tokuEarned,
+        totalCoins: user.coins,
+        remainingBranches: user.branches
       };
     }
   };

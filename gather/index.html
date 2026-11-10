@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>境内・奥山の枝拾い作務 | NACHA</title>
+<meta name="description" content="お寺の聖樹から落ちた枝を拾う作務。遠くの霊山ほど持ち帰りに時間がかかりますが、放置された大量の枝が溜まります。ナチャの木製クラフト資材に！">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+:root {
+  --washi-base: #f5f0e6;
+  --washi-subtle: #eae3d2;
+  --ink: #2b241e;
+  --ink-light: #6e6259;
+  --vermilion: #b83823;
+  --gold: #bfa15f;
+  --line-gold: rgba(191, 161, 95, 0.45);
+  --line-fine: rgba(43, 36, 30, 0.12);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--washi-base);
+  color: var(--ink);
+  font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
+  min-height: 100vh;
+  padding-bottom: calc(88px + env(safe-area-inset-bottom));
+}
+
+.sheet-canvas {
+  width: min(100% - 24px, 580px);
+  margin: 16px auto 32px;
+  background: #fbf9f4;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  padding: 24px 18px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.04);
+}
+.sheet-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  pointer-events: none;
+}
+
+/* ヘッダー */
+.gather-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.gather-emblem {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 8px;
+  color: var(--gold);
+}
+.gather-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  margin: 0 0 4px;
+}
+.gather-sub {
+  font-size: 11px;
+  letter-spacing: .16em;
+  color: var(--ink-light);
+}
+
+/* ユーザー資材バー */
+.user-material-bar {
+  display: flex;
+  justify-content: space-around;
+  background: #fff;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(43, 36, 30, 0.02);
+}
+.mat-col { text-align: center; }
+.mat-label { font-size: 11px; color: var(--ink-light); display: block; margin-bottom: 2px; }
+.mat-val { font-size: 20px; font-weight: 700; color: var(--ink); }
+.mat-val.branches { color: #8e623c; }
+.mat-val.coins { color: var(--gold); }
+
+/* ルール案内 */
+.gather-rule-box {
+  background: #fffdf9;
+  border: 1px dashed var(--gold);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--ink-light);
+  margin-bottom: 22px;
+}
+
+/* エリアカード一覧 */
+.forest-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.forest-card {
+  background: #fff;
+  border: 1px solid var(--line-fine);
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 2px 6px rgba(43, 36, 30, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.forest-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.forest-name-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.forest-icon { font-size: 26px; }
+.forest-name { font-size: 15px; font-weight: 700; }
+.forest-dist {
+  font-size: 11px;
+  color: var(--gold);
+  border: 1px solid var(--line-gold);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+.forest-stats-row {
+  display: flex;
+  justify-content: space-between;
+  background: var(--washi-subtle);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11.5px;
+}
+.forest-stats-item b { font-size: 13px; color: #8e623c; }
+
+/* アクションボタン */
+.gather-action-btn {
+  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
+  color: #fff;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  letter-spacing: .06em;
+  box-shadow: 0 4px 12px rgba(191, 161, 95, 0.25);
+  transition: transform .1s;
+}
+.gather-action-btn:active { transform: scale(0.97); }
+.gather-action-btn.dispatched {
+  background: #bbb;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+.gather-action-btn.ready {
+  background: linear-gradient(135deg, var(--vermilion) 0%, #9e2a1e 100%);
+  box-shadow: 0 4px 14px rgba(184, 56, 35, 0.45);
+  border: 1.5px solid #fff;
+}
+
+/* 🪵 ナチャ工房へ納品セクション */
+.workshop-delivery {
+  background: #fff;
+  border: 1.5px solid var(--gold);
+  border-radius: 14px;
+  padding: 18px 16px;
+  text-align: center;
+}
+.delivery-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+.delivery-sub { font-size: 11.5px; color: var(--ink-light); margin-bottom: 14px; line-height: 1.6; }
+.deliver-btn {
+  background: linear-gradient(135deg, #8e623c 0%, #6e4a2c 100%);
+  color: #fff;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  padding: 11px 24px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(142, 98, 60, 0.3);
+}
+.deliver-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* トースト通知 */
+.toast-notice {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(43, 36, 30, 0.95);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 13px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+.toast-notice.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="sheet-canvas">
+
+  <header class="gather-header">
+    <svg class="gather-emblem" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+      <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+      <circle cx="12" cy="20.5" r="1.5"/>
+    </svg>
+    <h1 class="gather-title">境内・奥山の枝拾い作務</h1>
+    <div class="gather-sub">BRANCH GATHERING & EXPEDITION</div>
+  </header>
+
+  <!-- 資材・お財布バー -->
+  <div class="user-material-bar">
+    <div class="mat-col">
+      <span class="mat-label">集めた枝</span>
+      <span class="mat-val branches" id="valBranches">0 本</span>
+    </div>
+    <div class="mat-col">
+      <span class="mat-label">所持コイン</span>
+      <span class="mat-val coins" id="valCoins">0</span>
+    </div>
+    <div class="mat-col">
+      <span class="mat-label">蓄積した徳</span>
+      <span class="mat-val" id="valToku" style="color:var(--vermilion);">0</span>
+    </div>
+  </div>
+
+  <!-- ルール説明 -->
+  <div class="gather-rule-box">
+    🌿 <b>枝拾いの心得:</b><br>
+    ・枝拾いにはお寺から出かける必要があります。<br>
+    ・<b>遠い場所ほど持ち帰るのに時間がかかりますが、放置されているため枝が大量に溜まりやすくなります。</b><br>
+    ・拾った枝はナチャの工房へ納品してコインを獲得し、木製記念品の資材（ローン返済）に役立てましょう！
+  </div>
+
+  <!-- エリア一覧 -->
+  <div class="forest-list" id="forestList">
+    <!-- JSで動的生成 -->
+  </div>
+
+  <!-- 🪵 ナチャ工房へ納品セクション -->
+  <section class="workshop-delivery">
+    <div class="delivery-title">🔨 ナチャの工房へ枝を納品</div>
+    <div class="delivery-sub">
+      集めた枝を工房に納めると、<b>1本につき 2コイン＋徳1</b> で買い取ってもらえます。<br>
+      ナチャたちの木製記念品資材となり、ローン返済にも直結します！
+    </div>
+    <button type="button" class="deliver-btn" id="deliverAllBtn">所持している枝をすべて納品する</button>
+  </section>
+
+</div>
+
+<!-- トースト -->
+<div class="toast-notice" id="toastNotice"></div>
+
+<!-- 共通ボトムタブバー -->
+<nav class="tabs" aria-label="Main">
+  <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
+  <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
+  <a href="../gather/" aria-current="page"><span aria-hidden="true">🌿</span><b>枝拾い</b></a>
+  <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
+  <a href="../shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
+</nav>
+
+<script src="../assets/coins.js"></script>
+<script src="../assets/temple-bank.js"></script>
+<script src="../assets/temple-economy.js"></script>
+<script src="../assets/temple-multiplayer.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  var valBranches = document.getElementById('valBranches');
+  var valCoins = document.getElementById('valCoins');
+  var valToku = document.getElementById('valToku');
+  var forestList = document.getElementById('forestList');
+  var deliverAllBtn = document.getElementById('deliverAllBtn');
+  var toastNotice = document.getElementById('toastNotice');
+
+  function showToast(msg) {
+    toastNotice.textContent = msg;
+    toastNotice.classList.add('show');
+    setTimeout(function() { toastNotice.classList.remove('show'); }, 2200);
+  }
+
+  function updateUI() {
+    var user = TempleEconomy.getUser();
+    var forests = TempleEconomy.getForestStatus();
+
+    valBranches.textContent = (user.branches || 0) + ' 本';
+    valCoins.textContent = user.coins || 0;
+    valToku.textContent = user.toku || 0;
+
+    deliverAllBtn.disabled = !user.branches || user.branches <= 0;
+    deliverAllBtn.textContent = (user.branches > 0) ? `枝を ${user.branches}本 すべて納品（+${user.branches * 2}🪙）` : '納品できる枝がありません';
+
+    renderForests(forests);
+  }
+
+  function renderForests(forests) {
+    forests.forEach(function(f) {
+      var card = document.getElementById('forest-card-' + f.id);
+      if (!card) {
+        card = document.createElement('div');
+        card.className = 'forest-card';
+        card.id = 'forest-card-' + f.id;
+        card.innerHTML = `
+          <div class="forest-head">
+            <div class="forest-name-wrap">
+              <span class="forest-icon">${f.icon}</span>
+              <div>
+                <div class="forest-name">${f.name}</div>
+                <small style="font-size:10.5px;color:var(--ink-light);">${f.woodType} · 木 ${f.treesCount}本</small>
+              </div>
+            </div>
+            <span class="forest-dist">${f.distance}</span>
+          </div>
+
+          <div class="forest-stats-row">
+            <div class="forest-stats-item">溜まり上限: <b>${f.maxAccumulate} 本</b></div>
+            <div class="forest-stats-item">現在溜まり: <b class="curr-val">${f.currentBranches} 本</b></div>
+          </div>
+
+          <div class="btn-wrap"></div>
+        `;
+        forestList.appendChild(card);
+      }
+
+      var currEl = card.querySelector('.curr-val');
+      if (currEl) currEl.textContent = f.currentBranches + ' 本';
+
+      var btnWrap = card.querySelector('.btn-wrap');
+      var stateKey = f.isReady ? 'ready' : (f.isDispatched ? ('dispatched_' + f.secondsLeft) : ('go_' + f.currentBranches));
+      if (btnWrap.getAttribute('data-state') !== stateKey) {
+        btnWrap.setAttribute('data-state', stateKey);
+        if (f.isReady) {
+          btnWrap.innerHTML = `<button type="button" class="gather-action-btn ready" data-claim="${f.id}">🪵 枝 ${f.carryingBranches}本 を持ち帰る！（収穫）</button>`;
+          btnWrap.querySelector('button').onclick = function() {
+            var res = TempleEconomy.claimBranchHarvest(f.id);
+            if (res.success) {
+              showToast(`🪵 枝を ${res.branchesGained}本 持ち帰りました！（徳 +${Math.max(1, Math.floor(res.branchesGained * 0.5))}）`);
+              if (window.TempleMultiplayer) {
+                TempleMultiplayer.broadcast('BRANCH_GATHERED', {
+                  branches: res.branchesGained,
+                  text: `🪵 参拝者が奥山より枝を ${res.branchesGained}本 持ち帰りました！`
+                });
+              }
+              updateUI();
+            }
+          };
+        } else if (f.isDispatched) {
+          btnWrap.innerHTML = `<button type="button" class="gather-action-btn dispatched" disabled>🚶 枝拾い中… （あと ${f.secondsLeft} 秒で帰還）</button>`;
+        } else {
+          btnWrap.innerHTML = `<button type="button" class="gather-action-btn" data-go="${f.id}">🚶 枝拾いに出かける（現在 ${f.currentBranches}本 / 帰還: 約${f.tripDurationSec}秒）</button>`;
+          btnWrap.querySelector('button').onclick = function() {
+            var res = TempleEconomy.startBranchGathering(f.id);
+            if (res.success) {
+              showToast(`🚶 ${res.forest.name} へ枝拾いに出発しました！（帰還まで約${res.durationSec}秒）`);
+              updateUI();
+            }
+          };
+        }
+      }
+    });
+  }
+
+  // 納品イベント
+  deliverAllBtn.onclick = function() {
+    var user = TempleEconomy.getUser();
+    if (!user.branches || user.branches <= 0) return;
+
+    var count = user.branches;
+    var res = TempleEconomy.sellBranchesToWorkshop(count);
+    if (res.success) {
+      showToast(`🔨 枝 ${count}本 を工房へ納品！ +${res.coinsEarned}🪙 獲得！（ローンへ充当）`);
+      if (window.TempleMultiplayer) {
+        TempleMultiplayer.broadcast('BRANCH_DELIVERED', {
+          count: count,
+          text: `🔨 ナチャ工房へ木製資材（枝 ${count}本）が納品されました！`
+        });
+      }
+      updateUI();
+    }
+  };
+
+  // 毎秒タイマー（遠征カウントダウン用）
+  setInterval(function() {
+    var temple = TempleEconomy.getTempleState();
+    if (temple && temple.forestState && Object.keys(temple.forestState.activeDispatches || {}).length > 0) {
+      updateUI();
+    }
+  }, 1000);
+
+  // 初期描画
+  updateUI();
+
+})();
+</script>
+
+</body>
+</html>

@@ -333,14 +333,14 @@ html[lang="id"] .tanzaku-content {
   background: var(--line-gold);
 }
 
-/* ── 境内のご案内（3大体験カード） ── */
+/* ── 境内のご案内（体験カード） ── */
 .shrine-doors-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
   margin-bottom: 26px;
 }
-@media (max-width: 580px) {
+@media (max-width: 480px) {
   .shrine-doors-grid {
     grid-template-columns: 1fr;
     gap: 10px;
@@ -572,34 +572,43 @@ html[lang="id"] .tanzaku-content {
 
   </section>
 
-  <!-- ⛩️ 境内のご案内（3大体験カード） -->
+  <!-- ⛩️ 境内のご案内（体験カード） -->
   <div class="fine-heading" data-i="sec_guidance">境内のご案内</div>
   <div class="shrine-doors-grid">
 
-    <!-- ① 108段 -->
-    <a href="arcade/steps/" class="shrine-door-card">
+    <!-- ① 神様名鑑 -->
+    <a href="characters/" class="shrine-door-card">
       <div>
-        <div class="door-badge" data-i="door1_badge">壱 · 登詣</div>
-        <h3 class="door-title" data-i="door1_title">百八の石段</h3>
-        <p class="door-desc" data-i="door1_desc">天空の雲海を見晴らす石段。心を調え頂を目指す修行の道。</p>
+        <div class="door-badge" data-i="door1_badge">壱 · 名鑑</div>
+        <h3 class="door-title" data-i="door1_title">神様名鑑</h3>
+        <p class="door-desc" data-i="door1_desc">小さな守護神ナチャと三柱の仲間たち（白衣観音・不動明王・南極老人）の由来と物語。</p>
       </div>
     </a>
 
-    <!-- ② 心願お守り -->
+    <!-- ② 枝拾い作務 -->
+    <a href="gather/" class="shrine-door-card">
+      <div>
+        <div class="door-badge" style="color:var(--vermilion);">弐 · 作務</div>
+        <h3 class="door-title">奥山・枝拾い</h3>
+        <p class="door-desc">お寺から遠征し、聖樹の落ちた枝を収集。遠い霊峰ほど時間がかかりますが枝が大量に溜まります！</p>
+      </div>
+    </a>
+
+    <!-- ③ 心願お守り -->
     <a href="amulet/" class="shrine-door-card">
       <div>
-        <div class="door-badge" data-i="door2_badge">弐 · 祈願</div>
+        <div class="door-badge" data-i="door2_badge">参 · 祈願</div>
         <h3 class="door-title" data-i="door2_title">心願お守り</h3>
         <p class="door-desc" data-i="door2_desc">あなたの願いと推し色を選び、世界でひとつだけの護符を謹製。</p>
       </div>
     </a>
 
-    <!-- ③ 授与所 -->
+    <!-- ④ 授与所・寺院銀行 -->
     <a href="shop/" class="shrine-door-card">
       <div>
-        <div class="door-badge" data-i="door3_badge">参 · 授与</div>
-        <h3 class="door-title" data-i="door3_title">境内授与所</h3>
-        <p class="door-desc" data-i="door3_desc">集めた徳（コイン）でお供えを捧げ、アバター衣装を整える。</p>
+        <div class="door-badge" data-i="door3_badge">肆 · 授与</div>
+        <h3 class="door-title" data-i="door3_title">授与所 · 寺院銀行</h3>
+        <p class="door-desc" data-i="door3_desc">物価目標+2%の寺院銀行、お賽銭投げ、リアルタイム共有在庫と開運ガラポン福引。</p>
       </div>
     </a>
 
@@ -648,10 +657,10 @@ html[lang="id"] .tanzaku-content {
 <!-- 5大ナビゲーションバー -->
 <nav class="tabs" aria-label="Main">
   <a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
-  <a href="arcade/steps/"><span aria-hidden="true">⛩️</span><b data-i="g_steps">108段</b></a>
+  <a href="characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">神様名鑑</b></a>
+  <a href="gather/"><span aria-hidden="true">🌿</span><b>枝拾い</b></a>
   <a href="amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
   <a href="shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
-  <a href="characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">キャラ</b></a>
 </nav>
 
 <script src="assets/i18n.js"></script>

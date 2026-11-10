@@ -584,6 +584,10 @@ body {
       <span class="wallet-label">蓄積した徳</span>
       <span class="wallet-val toku" id="userTokuVal">10</span>
     </div>
+    <a href="../gather/" class="wallet-col" style="text-decoration:none;" title="奥山へ枝拾いに行く">
+      <span class="wallet-label">所持した枝 ↗</span>
+      <span class="wallet-val" id="userBranchesVal" style="color:#8e623c;">0 本</span>
+    </a>
     <div class="wallet-col" id="openInvBtn" style="cursor:pointer;" title="所持品袋を開く">
       <span class="wallet-label">所持品（袋） ↗</span>
       <span class="wallet-val" id="userInventoryCount" style="color:var(--gold);text-decoration:underline;">1 点</span>
@@ -677,6 +681,15 @@ body {
     </div>
   </section>
 
+  <!-- 🌿 枝拾い作務へのリンク案内 -->
+  <div style="margin-top:14px;background:#fff;border:1px dashed var(--gold);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
+    <div>
+      <div style="font-size:12.5px;font-weight:700;color:var(--ink);">🌿 ナチャ工房の木製資材（枝）を集める</div>
+      <div style="font-size:10.5px;color:var(--ink-light);margin-top:2px;">境内や奥山の聖樹から落ちた枝を拾って納品すると、コインと徳がもらえます！</div>
+    </div>
+    <a href="../gather/" style="white-space:nowrap;background:linear-gradient(135deg,var(--gold) 0%,#a88a48 100%);color:#fff;text-decoration:none;font-size:11.5px;font-weight:700;padding:8px 14px;border-radius:999px;box-shadow:0 2px 6px rgba(191,161,95,0.3);">枝拾いへ ↗</a>
+  </div>
+
 </div>
 
 <!-- 🎒 インベントリモーダル -->
@@ -702,6 +715,7 @@ body {
 <nav class="tabs" aria-label="Main">
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
   <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
+  <a href="../gather/"><span aria-hidden="true">🌿</span><b>枝拾い</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
   <a href="../shop/" aria-current="page"><span aria-hidden="true">🎁</span><b>授与所</b></a>
 </nav>
@@ -717,6 +731,7 @@ body {
 
   var userCoinsVal = document.getElementById('userCoinsVal');
   var userTokuVal = document.getElementById('userTokuVal');
+  var userBranchesVal = document.getElementById('userBranchesVal');
   var userInventoryCount = document.getElementById('userInventoryCount');
   var openInvBtn = document.getElementById('openInvBtn');
   var closeInvBtn = document.getElementById('closeInvBtn');
@@ -753,6 +768,7 @@ body {
     // ユーザー
     userCoinsVal.textContent = user.coins;
     userTokuVal.textContent = user.toku;
+    if (userBranchesVal) userBranchesVal.textContent = (user.branches || 0) + ' 本';
     userInventoryCount.textContent = (user.inventory ? user.inventory.length : 0) + ' 点';
 
     // 銀行
