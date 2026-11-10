@@ -60,279 +60,124 @@
 
 <main id="main">
 
-<section class="zen-first-view">
-  <!-- ナチャの美しいポートレート（吹き出し被りなし） -->
-  <div class="zen-avatar-stage">
-    <div class="zen-avatar-wrap" id="nachaBtn" title="タップしてね">
-      <img id="nachaImg" class="zen-avatar-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
+  <!-- 【第1段】ファーストビュー：主役ナチャ ＋ 2大美麗カード -->
+  <section class="zen-first-view">
+    <div class="zen-avatar-stage">
+      <div class="zen-avatar-wrap" id="nachaBtn" title="タップしてね">
+        <img id="nachaImg" class="zen-avatar-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
+      </div>
+      <div class="zen-word-pill" id="bubble">
+        生きてるだけで、今日のはなまる満点！
+      </div>
     </div>
-    <div class="zen-word-pill" id="bubble">
-      生きてるだけで、今日のはなまる満点！
+
+    <!-- 2大美麗ビジュアルカード -->
+    <div class="zen-main-doors">
+      <!-- ① 推し活・心願お守り -->
+      <a href="amulet/" class="zen-visual-card">
+        <img class="zen-card-bg" src="assets/poster.jpg" alt="蓮華護身符" style="object-position: 50% 20%;">
+        <div class="zen-card-scrim"></div>
+        <div class="zen-card-content">
+          <div>
+            <span class="zen-card-sub">OSHI PRAYER</span>
+            <h2 class="zen-card-title">推し活・心願お守り</h2>
+          </div>
+          <span class="zen-card-icon">🧧</span>
+        </div>
+      </a>
+
+      <!-- ② こころの休憩所 -->
+      <a href="rest/" class="zen-visual-card">
+        <img class="zen-card-bg" src="assets/waiting.jpg" alt="こころの休憩所" style="object-position: 50% 40%;">
+        <div class="zen-card-scrim"></div>
+        <div class="zen-card-content">
+          <div>
+            <span class="zen-card-sub">MINDFUL REST</span>
+            <h2 class="zen-card-title">こころの休憩所</h2>
+          </div>
+          <span class="zen-card-icon">🪷</span>
+        </div>
+      </a>
     </div>
-  </div>
+  </section>
 
-  <!-- 最初にみえる2大アクション（イメージ主役・文字最小限） -->
-  <div class="zen-main-doors">
-    <!-- ① お守り -->
-    <a href="amulet/" class="zen-visual-card">
-      <img class="zen-card-bg" src="assets/poster.jpg" alt="蓮華護身符" style="object-position: 50% 20%;">
-      <div class="zen-card-scrim"></div>
-      <div class="zen-card-content">
-        <div>
-          <span class="zen-card-sub">OSHI PRAYER</span>
-          <h2 class="zen-card-title">推し活・心願お守り</h2>
+  <!-- 【第2段】境内のご案内：重複のない4つの社 ＋ 御朱印 -->
+  <section class="reveal" style="margin-top:20px">
+    <h2 class="sec" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <span>⛩️ 境内の各堂をめぐる</span>
+      <a href="goshuin/" style="font-size:12px;color:var(--sub);text-decoration:none;display:flex;align-items:center;gap:4px">
+        <span>📿 御朱印帳</span> ↗
+      </a>
+    </h2>
+
+    <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:12px;">
+      <!-- 絵馬掛け所 -->
+      <a class="tile" href="ema/" style="border:1px solid var(--line);box-shadow:var(--shadow)">
+        <div style="background:linear-gradient(135deg,#c79c65,#8e6538);color:#fff;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+          <span style="font-size:32px">🪵</span>
+          <span style="font-weight:900;font-size:13.5px">絵馬掛け所</span>
         </div>
-        <span class="zen-card-icon">🧧</span>
-      </div>
-    </a>
+        <b style="font-size:11.5px;padding:8px">想いを刻み、みんなで合掌</b>
+      </a>
 
-    <!-- ② 休憩所 -->
-    <a href="rest/" class="zen-visual-card">
-      <img class="zen-card-bg" src="assets/waiting.jpg" alt="こころの休憩所" style="object-position: 50% 40%;">
-      <div class="zen-card-scrim"></div>
-      <div class="zen-card-content">
-        <div>
-          <span class="zen-card-sub">MINDFUL REST</span>
-          <h2 class="zen-card-title">こころの休憩所</h2>
+      <!-- 護摩堂 -->
+      <a class="tile" href="goma/" style="border:1px solid rgba(212,172,13,0.3);box-shadow:var(--shadow)">
+        <div style="background:linear-gradient(135deg,#3d0c07,#1a0402);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+          <span style="font-size:32px">🔥</span>
+          <span style="font-weight:900;font-size:13.5px">境内 護摩堂</span>
         </div>
-        <span class="zen-card-icon">🪷</span>
+        <b style="font-size:11.5px;padding:8px">当落の胃痛・不安を神火で浄化</b>
+      </a>
+
+      <!-- 電子木魚堂 -->
+      <a class="tile" href="arcade/mokugyo/" style="border:1px solid rgba(212,172,13,0.3);box-shadow:var(--shadow)">
+        <div style="background:linear-gradient(135deg,#4a220d,#241005);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+          <span style="font-size:32px">🪵</span>
+          <span style="font-weight:900;font-size:13.5px">電子木魚堂</span>
+        </div>
+        <b style="font-size:11.5px;padding:8px">ポクポク叩いて徳積み・ASMR</b>
+      </a>
+
+      <!-- 大福引き所 -->
+      <a class="tile" href="arcade/fukuiki/" style="border:1.5px solid #D4AC0D;box-shadow:0 0 16px rgba(212,172,13,0.2)">
+        <div style="background:linear-gradient(135deg,#251429,#130816);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
+          <span style="font-size:32px">🎴</span>
+          <span style="font-weight:900;font-size:13.5px">大福引き所</span>
+        </div>
+        <b style="font-size:11.5px;padding:8px">10連福引き・神吉カード授与</b>
+      </a>
+    </div>
+  </section>
+
+  <!-- 【第3段】ナチャとお寺の物語 ＆ 公式リンク -->
+  <section class="reveal" style="margin-top:36px;padding-top:24px;border-top:1px dashed var(--line)">
+    <h2 class="sec" style="display:flex;align-items:center;justify-content:space-between">
+      <span>🏮 カンボジアの実在のお寺とナチャ</span>
+      <a href="characters/" style="font-size:12px;color:var(--sub);text-decoration:none">キャラ紹介 ↗</a>
+    </h2>
+
+    <div class="real" id="real" style="margin:12px 0 20px">
+      <span class="flag" aria-hidden="true">🇰🇭</span>
+      <div>
+        <p><b data-i="real_1">カンボジア・プノンペン</b><br>
+        <span data-i="real_2">悠遊観音堂。創設者が1年かけて、風・水・大地の調和した土地を探して建てた実在の寺院。</span></p>
+        <p data-i="real_3" style="margin:4px 0 0;font-weight:700;color:var(--acc)">ナチャは、そのお寺で暮らす小さな神様です。</p>
       </div>
-    </a>
-  </div>
-</section>
-
-
-
-<section class="reveal">
-
-  <h2 class="sec" data-i="games_h">ミニゲーム</h2>
-
-  <a class="game" href="arcade/fukuiki/" style="border: 2px solid var(--gold); box-shadow: 0 4px 14px rgba(212, 172, 13, 0.25);">
-
-    <span class="gemo" aria-hidden="true">🎴</span>
-
-    <span class="gtxt"><b>大福引き</b><span data-i="g_fukuiki">コインを稼いで10連！最高位「神吉」降臨</span></span>
-
-    <span class="gplay" aria-hidden="true" style="background:var(--gold);color:#1A1A1A">▶</span>
-
-  </a>
-
-  <a class="game" href="arcade/spear/">
-
-    <span class="gemo" aria-hidden="true">🔥</span>
-
-    <span class="gtxt"><b>Fire Spear</b><span data-i="g_spear">悪気をタップで焼きはらえ！</span></span>
-
-    <span class="gplay" aria-hidden="true">▶</span>
-
-  </a>
-
-  <a class="game" href="arcade/steps/">
-
-    <span class="gemo" aria-hidden="true">🪷</span>
-
-    <span class="gtxt"><b>108 Steps</b><span data-i="g_steps">煩悩108を踏みこえろ</span></span>
-
-    <span class="gplay" aria-hidden="true">▶</span>
-
-  </a>
-
-  <a class="game" href="arcade/tour/">
-
-    <span class="gemo" aria-hidden="true">🏮</span>
-
-    <span class="gtxt"><b>Temple Tour</b><span data-i="g_tour">ナチャのお寺をめぐろう</span></span>
-
-    <span class="gplay" aria-hidden="true">▶</span>
-
-  </a>
-
-</section>
-
-
-
-
-<!-- 境内のご案内（由緒ある悠遊観音堂めぐり） -->
-<section class="reveal" style="margin-top:28px">
-  <h2 class="sec" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-    <span>⛩️ 境内のご案内</span>
-    <small style="font-size:11px;color:var(--sub)">カンボジア・悠遊観音堂</small>
-  </h2>
-
-  <!-- 1. 祈願・推し活の社 -->
-  <div class="tile-section-label">祈願・推し活の社</div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:10px;">
-    <a class="tile" href="amulet/" style="border:2px solid var(--acc);box-shadow:var(--shadow)">
-      <div style="background:linear-gradient(135deg,#c0392b,#8e1a10);color:#fff;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-        <span style="font-size:30px">🧧</span>
-        <span style="font-weight:900;font-size:13.5px">推し活お守り授与所</span>
-      </div>
-      <b style="font-size:11.5px;padding:6px">推し色8色・名前刻印・カウントダウン</b>
-    </a>
-
-    <a class="tile" href="goma/" style="border:1.5px solid rgba(212,172,13,0.4);box-shadow:var(--shadow)">
-      <div style="background:linear-gradient(135deg,#3d0c07,#1a0402);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-        <span style="font-size:30px">🔥</span>
-        <span style="font-weight:900;font-size:13.5px">境内 護摩堂</span>
-      </div>
-      <b style="font-size:11.5px;padding:6px">当落の胃痛・不安を神火で焼き払う</b>
-    </a>
-
-    <a class="tile" href="ema/" style="border:1.5px solid var(--line);box-shadow:var(--shadow)">
-      <div style="background:linear-gradient(135deg,#e5be8a,#c79c65);color:#3b1e08;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-        <span style="font-size:30px">🪵</span>
-        <span style="font-weight:900;font-size:13.5px">絵馬掛け所</span>
-      </div>
-      <b style="font-size:11.5px;padding:6px">木札に願いを刻み、みんなで合掌</b>
-    </a>
-  </div>
-
-  <!-- 2. 心と体の安らぎ処 -->
-  <div class="tile-section-label">心と体の安らぎ処</div>
-  <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;">
-    <a class="tile" href="rest/" style="border:2px solid #F8BBD0;box-shadow:0 0 16px rgba(248,187,208,0.25)">
-      <div style="background:linear-gradient(135deg,#241029,#0f0714);color:#F8BBD0;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-        <span style="font-size:30px">🪷</span>
-        <span style="font-weight:900;font-size:13.5px">こころの休憩所</span>
-      </div>
-      <b style="font-size:11.5px;padding:6px">深呼吸と弱音の預かり所・何もしなくていい場所</b>
-    </a>
-
-    <a class="tile" href="arcade/mokugyo/" style="border:1.5px solid rgba(212,172,13,0.4);box-shadow:var(--shadow)">
-      <div style="background:linear-gradient(135deg,#5c2c10,#2e1405);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-        <span style="font-size:30px">🪵</span>
-        <span style="font-weight:900;font-size:13.5px">電子木魚堂</span>
-      </div>
-      <b style="font-size:11.5px;padding:6px">ポクポク叩いて徳積み・百八煩悩滅却</b>
-    </a>
-  </div>
-
-  <!-- 3. 参拝の功徳とお楽しみ -->
-  <div class="tile-section-label">参拝の功徳とお楽しみ</div>
-  <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;">
-    <a class="tile" href="arcade/fukuiki/" style="border:2px solid #D4AC0D;box-shadow:0 0 16px rgba(212,172,13,0.25)">
-      <div style="background:linear-gradient(135deg,#251429,#130816);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-        <span style="font-size:30px">🎴</span>
-        <span style="font-weight:900;font-size:13.5px">大福引き所</span>
-      </div>
-      <b style="font-size:11.5px;padding:6px">10連福引き・神吉カード授与</b>
-    </a>
-
-    <a class="tile" href="goshuin/" style="border:1.5px solid var(--line);box-shadow:var(--shadow)">
-      <div style="background:linear-gradient(135deg,#8C241B,#50130E);color:#fff;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-        <span style="font-size:30px">📿</span>
-        <span style="font-weight:900;font-size:13.5px">デジタル御朱印帳</span>
-      </div>
-      <b style="font-size:11.5px;padding:6px">参拝の証・スタンプコレクション</b>
-    </a>
-  </div>
-</section>
-
-<section class="omikuji reveal" id="omikuji">
-
-  <img src="assets/nacha-pray.webp" alt="" width="429" height="686" loading="lazy">
-
-  <div>
-
-    <small data-i="mk_h">ナチャみくじ</small>
-
-    <q id="wordText" data-i="mk_tap">ボタンを押して、今日のことばを引こう</q>
-
-    <p class="luck" id="luck" hidden></p>
-
-    <button class="btn" type="button" id="drawBtn"><span data-i="mk_btn">ひく</span></button>
-
-  </div>
-
-</section>
-
-
-
-<section class="burn reveal" id="burn">
-
-  <img class="bnacha" src="assets/nacha-spear.webp" alt="" loading="lazy">
-
-  <small data-i="bn_h">煩悩やき</small>
-
-  <p class="bsub" data-i="bn_sub">当落の不安も遠征の緊張も、ナチャが神火で全部焼き払ってスッキリさせるよ！</p>
-
-  <form id="burnForm" class="bform" autocomplete="off">
-
-    <div class="bpaper" id="bPaper"><input id="burnIn" maxlength="40" data-i18n-ph="bn_ph" placeholder="例: 当落が怖くて胃が痛い、全落ち恐怖、遠征費…" aria-label="worry"></div>
-
-    <button class="btn bbtn" type="submit">🔥 <span data-i="bn_btn">焼く</span></button>
-
-  </form>
-
-  <p class="bres" id="burnRes" aria-live="polite"></p>
-
-  <button class="btn" type="button" id="burnShareBtn" style="margin-top:4px;font-size:15px">
-
-    🔥 <span data-i="bn_share">Xでシェア</span>
-
-  </button>
-
-  <p class="bnote" data-i="bn_note">書いた言葉はどこにも送られません</p>
-
-</section>
-
-
-
-<section class="reveal">
-
-  <h2 class="sec" data-i="about_h">ナチャのこと</h2>
-
-  <p class="what" data-i="what">NACHAは、実在の仏教寺院と神様キャラクター「ナチャ」から生まれたミームコインのプロジェクト。お寺の活動を透明に支える方法を探りながら、お寺の物語を世界のクリプトコミュニティに届けます。</p>
-
-  <div class="tiles">
-
-    <a class="tile" href="characters/"><img src="assets/poster.jpg" alt="" loading="lazy" style="object-position:50% 38%"><b data-i="t_chars">ナチャってだれ？</b></a>
-
-    <a class="tile" href="ema/"><img src="assets/waiting.jpg" alt="" loading="lazy" style="object-position:50% 40%"><b>境内の絵馬掛け</b></a>
-    <a class="tile" href="goshuin/"><img src="assets/grow.jpg" alt="" loading="lazy" style="object-position:50% 50%"><b>巡礼御朱印帳</b></a>
-    <a class="tile" href="amulet/"><img src="assets/outfit.jpg" alt="" loading="lazy" style="object-position:15% 58%"><b data-i="t_amulet">毎日のお守り</b></a>
-
-    <a class="tile" href="roadmap/"><img src="assets/app.jpg" alt="" loading="lazy" style="object-position:82% 50%"><b data-i="t_road">これからの歩み</b></a>
-
-    <a class="tile" href="#real"><img src="assets/cast.jpg" alt="" loading="lazy" style="object-position:30% 50%"><b data-i="real_h">カンボジアのお寺</b></a>
-
-  </div>
-
-  <div class="real" id="real">
-
-    <span class="flag" aria-hidden="true">🇰🇭</span>
-
-    <div><p><b data-i="real_1">カンボジア・プノンペン</b><br><span data-i="real_2">悠遊観音堂。創設者が1年かけて、風・水・大地の調和した土地を探して建てた。</span></p><p data-i="real_3">ナチャは、そのお寺で暮らす小さな神様。</p></div>
-
-  </div>
-
-</section>
-
-
-
-<section class="reveal">
-
-  <h2 class="sec" data-i="links">リンク</h2>
-
-  <div class="icons">
-
-    <a href="https://x.com/nacha_project" target="_blank" rel="noopener"><i class="b-x"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></i><span>X</span></a>
-
-    <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener"><i class="b-ig"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg></i><span>Instagram</span></a>
-
-    <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener"><i class="b-tt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></i><span>TikTok</span></a>
-
-    <a href="https://www.youtube.com/channel/UCSL-AKI-8_qfWnOJYKSf26Q" target="_blank" rel="noopener"><i class="b-yt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></i><span>YouTube</span></a>
-
-    <a href="https://nacha.club/" target="_blank" rel="noopener"><i class="b-hp"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></i><span data-i="site">公式サイト</span></a>
-
-    <a href="https://linktr.ee/Nacha_Project" target="_blank" rel="noopener"><i class="b-lt"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="m13.73635 5.85251 4.00467-4.11665 2.3248 2.3808-4.20064 4.00466h5.9085v3.30473h-5.9365l4.22865 4.10766-2.3248 2.3338L12.0005 12.099l-5.74052 5.76852-2.3248-2.3248 4.22864-4.10766h-5.9375V8.12132h5.9085L3.93417 4.11666l2.3248-2.3808 4.00468 4.11665V0h3.4727zm-3.4727 10.30614h3.4727V24h-3.4727z"/></svg></i><span>Linktree</span></a>
-
-  </div>
-
-</section>
-
-<footer>NACHA Fan Page · Unofficial</footer>
+    </div>
+
+    <!-- 公式リンク -->
+    <div class="icons" style="margin-top:16px">
+      <a href="https://x.com/nacha_project" target="_blank" rel="noopener"><i class="b-x"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></i><span>X</span></a>
+      <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener"><i class="b-ig"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></i><span>Instagram</span></a>
+      <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener"><i class="b-tt"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></i><span>TikTok</span></a>
+      <a href="https://nacha.club/" target="_blank" rel="noopener"><i class="b-hp"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></i><span data-i="site">公式サイト</span></a>
+    </div>
+  </section>
+
+  <footer class="ufoot" style="margin-top:32px">
+    <span>このページは非公式のファンページです。公式情報は</span>
+    <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a>
+  </footer>
 
 </main>
 
