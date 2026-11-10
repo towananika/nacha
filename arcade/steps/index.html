@@ -385,7 +385,7 @@ canvas#stage {
 
   <!-- タイトル画面 -->
   <div class="title-overlay" id="titleOverlay">
-    <div style="font-size:52px;line-height:1;margin-bottom:6px">⛩️</div>
+    <img src="assets/nacha-climb.png" alt="Nacha" style="width:78px;height:auto;margin-bottom:6px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5))">
     <h1 class="title-h1">天空登詣 · 無限の石段</h1>
     <p class="title-desc">
       斜め上へ伸びる石段をリズミカルに駆け上がろう！<br>
@@ -571,13 +571,17 @@ canvas#stage {
 
   // ナチャ スプライト
   var nachaImg = new Image();
-  nachaImg.src = 'assets/nacha-climb.webp';
+  nachaImg.src = 'assets/nacha-climb.png';
+
+  // 寺院の彫刻石段スプライト
+  var stepImg = new Image();
+  stepImg.src = 'assets/step-stone.png';
   function loadEquippedSkin() {
     if (window.NachaCoins) {
       var eq = NachaCoins.getEquipped('avatar');
       if (eq === 'pray') nachaImg.src = '../../assets/nacha-pray.webp';
       else if (eq === 'wheels') nachaImg.src = '../../assets/nacha-wheels.webp';
-      else nachaImg.src = 'assets/nacha-climb.webp';
+      else nachaImg.src = 'assets/nacha-climb.png';
     }
   }
   loadEquippedSkin();
@@ -642,82 +646,75 @@ canvas#stage {
   // 原作ライクな石段ブロック描画
   function drawStair(s, idx) {
     var p = toScreen(s.gx, s.gy);
-    if (p.y < -100 || p.y > CH + 100) return;
+    if (p.y < -120 || p.y > CH + 120) return;
 
-    var w = 54; // 石段の幅
-    var h = 18; // 石段の厚み
+    var sw = 64;
+    var sh = sw * 0.94; // 808 / 857
 
     ctx.save();
     ctx.translate(p.x, p.y);
-
-    // 影
-    ctx.fillStyle = "rgba(0,0,0,0.22)";
-    ctx.beginPath();
-    ctx.ellipse(0, h + 8, w * 0.52, 10, 0, 0, Math.PI * 2);
-    ctx.fill();
 
     // 108段目・天空寺院門
     if (s.isSummit) {
       ctx.fillStyle = "#F4D03F";
       ctx.font = "900 13px 'Noto Serif JP', serif";
       ctx.textAlign = "center";
-      ctx.fillText("⛩️ 天空悠遊堂 山頂門", 0, -38);
+      ctx.shadowColor = "#F4D03F";
+      ctx.shadowBlur = 12;
+      ctx.fillText("⛩️ 天空悠遊堂 山頂門", 0, -36);
+      ctx.shadowBlur = 0;
     }
 
-    // 階段上面（斜めアイソメトリック上面）
-    ctx.beginPath();
-    ctx.moveTo(0, -11);
-    ctx.lineTo(w/2, 0);
-    ctx.lineTo(0, 11);
-    ctx.lineTo(-w/2, 0);
-    ctx.closePath();
+    // 階段ブロック描画
+    if (stepImg.complete && stepImg.naturalWidth) {
+      // 影
+      ctx.fillStyle = "rgba(0,0,0,0.28)";
+      ctx.beginPath();
+      ctx.ellipse(0, sh * 0.44, sw * 0.46, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
 
-    if (s.isSummit) {
-      ctx.fillStyle = "#F4D03F";
-    } else if (idx % 2 === 0) {
-      ctx.fillStyle = "#f3ebde";
+      // 石段スプライト
+      ctx.drawImage(stepImg, -sw / 2, -sh * 0.45, sw, sh);
+
+      // 108段目は黄金の光を乗せる
+      if (s.isSummit) {
+        ctx.fillStyle = "rgba(244, 208, 63, 0.28)";
+        ctx.beginPath();
+        ctx.moveTo(0, -sh*0.35);
+        ctx.lineTo(sw*0.4, -sh*0.15);
+        ctx.lineTo(0, sh*0.05);
+        ctx.lineTo(-sw*0.4, -sh*0.15);
+        ctx.closePath();
+        ctx.fill();
+      }
     } else {
-      ctx.fillStyle = "#e8dcce";
+      // フォールバック上面
+      ctx.beginPath();
+      ctx.moveTo(0, -11); ctx.lineTo(sw/2, 0); ctx.lineTo(0, 11); ctx.lineTo(-sw/2, 0); ctx.closePath();
+      ctx.fillStyle = s.isSummit ? "#F4D03F" : (idx % 2 === 0 ? "#f3ebde" : "#e8dcce");
+      ctx.fill();
     }
-    ctx.fill();
-    ctx.strokeStyle = s.isSummit ? "#d4ac0d" : "rgba(255,255,255,0.45)";
-    ctx.lineWidth = 1.2;
-    ctx.stroke();
-
-    // 正面・左側面
-    ctx.fillStyle = "#9c8b7d";
-    ctx.beginPath();
-    ctx.moveTo(-w/2, 0);
-    ctx.lineTo(0, 11);
-    ctx.lineTo(0, 11 + h);
-    ctx.lineTo(-w/2, h);
-    ctx.closePath();
-    ctx.fill();
-
-    // 正面・右側面
-    ctx.fillStyle = "#baa899";
-    ctx.beginPath();
-    ctx.moveTo(0, 11);
-    ctx.lineTo(w/2, 0);
-    ctx.lineTo(w/2, h);
-    ctx.lineTo(0, 11 + h);
-    ctx.closePath();
-    ctx.fill();
 
     // コイン浮遊
     if (s.hasCoin) {
       var bob = Math.sin(Date.now() / 150) * 4;
       ctx.font = "20px sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("🪙", 0, -16 + bob);
+      ctx.shadowColor = "#f4d03f";
+      ctx.shadowBlur = 8;
+      ctx.fillText("🪙", 0, -22 + bob);
+      ctx.shadowBlur = 0;
     }
 
     // 段数表示 (10段ごと)
     if (idx > 0 && idx % 10 === 0) {
-      ctx.fillStyle = "#6e5d50";
+      ctx.fillStyle = "#ffffffcc";
       ctx.font = "900 11px 'Lilita One', sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText(idx + "F", 0, 4);
+      ctx.shadowColor = "#000";
+      ctx.shadowBlur = 4;
+      ctx.fillText(idx + "F", 0, 8);
+      ctx.shadowBlur = 0;
     }
 
     ctx.restore();
@@ -729,7 +726,7 @@ canvas#stage {
 
     var jumpOffset = 0;
     if (isJumping) {
-      jumpOffset = -Math.sin(jumpProgress * Math.PI) * 22;
+      jumpOffset = -Math.sin(jumpProgress * Math.PI) * 24;
     }
 
     var wobbleX = Math.sin(missWobble) * 6;
@@ -740,11 +737,11 @@ canvas#stage {
     // キャラクターの向き（1 = 右上向き、-1 = 左上向きで水平反転）
     ctx.scale(playerDir, 1);
 
-    var spriteW = 54;
-    var spriteH = 64;
+    var spriteH = 78;
+    var spriteW = nachaImg.naturalWidth ? (spriteH * (nachaImg.naturalWidth / nachaImg.naturalHeight)) : 36;
 
     if (nachaImg.complete && nachaImg.naturalWidth) {
-      ctx.drawImage(nachaImg, -spriteW / 2, -spriteH + 10, spriteW, spriteH);
+      ctx.drawImage(nachaImg, -spriteW / 2, -spriteH + 4, spriteW, spriteH);
     } else {
       ctx.font = "36px sans-serif";
       ctx.textAlign = "center";
