@@ -1,326 +1,183 @@
 <!doctype html>
-
-
-
 <html lang="ja">
-
-
-
 <head>
-
-
-
 <meta charset="utf-8">
-
-
-
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-
-
-<title>NACHA Mini Games</title>
-
-
-
-<meta name="description" content="Quick mini games with NACHA. Play, share, and meet the Khmer Savior gods.">
-
-
-
-<meta property="og:title" content="NACHA Mini Games">
-
-
-
-<meta property="og:description" content="Quick mini games with NACHA and the Khmer Savior gods.">
-
-
-
-<meta name="theme-color" content="#1d1020">
-
-
-
+<title>新企画 奉納準備中 | 小さな守護神 ナチャ</title>
+<meta name="description" content="悠遊観音堂と小さな守護神ナチャの新しい体験を企画準備中です。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
-
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
-
-
-
-<link rel="stylesheet" href="common.css">
-
-
-
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
 <style>
-
-
-
-  body{overflow:auto}
-
-
-
-  #app{display:block;height:auto;min-height:100%}
-
-
-
-  #stage{width:min(100vw,540px);margin:0 auto;min-height:100dvh;position:relative;padding:calc(env(safe-area-inset-top) + 22px) 16px calc(env(safe-area-inset-bottom) + 28px);text-align:center;text-shadow:0 2px 0 #0005}
-
-
-
-  #bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
-
-
-
-  h1{font:42px/1 "Lilita One","M PLUS Rounded 1c",sans-serif;margin:6px 0 4px}
-
-
-
-  .sub{color:#f6dfbf;margin:0 0 16px}
-
-
-
-  .cards{display:grid;gap:12px;margin-bottom:18px}
-
-
-
-  /* PC: 2列グリッド */
-
-
-
-  @media(min-width:600px){.cards{grid-template-columns:1fr 1fr}}
-
-
-
-  a.card{display:flex;align-items:center;gap:14px;text-align:left;background:#150a1acc;border:2px solid #ffffff2a;border-radius:22px;padding:12px;color:#fff;text-decoration:none;text-shadow:none;transition:transform .1s,border-color .15s}
-
-
-
-  a.card:hover{border-color:var(--gold);transform:translateY(-2px)}
-
-
-
-  a.card:active{transform:scale(.98)}
-
-
-
-  a.card .ic{flex:none;width:84px;height:84px;border-radius:18px;overflow:hidden;background:#3a2048;display:grid;place-items:center;font-size:44px}
-
-
-
-  a.card b{display:block;font:22px/1.05 "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--gold)}
-
-
-
-  a.card span{font-size:14px;color:#f6dfbf}
-
-
-
-  a.card .stars{font-size:13px;color:var(--gold);letter-spacing:2px}
-
-
-
-  a.card.soon{opacity:.55;pointer-events:none}
-
-
-
-  .home{position:absolute;left:12px;top:calc(env(safe-area-inset-top) + 12px);color:#fff;text-decoration:none;font-weight:700;font-size:14px;background:#0005;border:1px solid #ffffff33;border-radius:999px;padding:6px 12px;text-shadow:none}
-
-
-
-  .unoff{font-size:11px;color:#f6dfbfcc;margin-top:18px;text-shadow:none}.unoff a{color:#fff}
-
-
-
-  h3{font:14px "Lilita One","M PLUS Rounded 1c",sans-serif;letter-spacing:.2em;color:#f6dfbf;margin:8px 0 2px}
-
-
-
-  /* キーボードヒント（PC向け） */
-
-
-
-  .kbd-hint{display:none;font-size:12px;color:#f6dfbf88;margin:-8px 0 10px;text-shadow:none}
-
-
-
-  @media(pointer:fine){.kbd-hint{display:block}}
-
-
-
+:root {
+  --washi-base: #f5f0e6;
+  --washi-subtle: #eae3d2;
+  --ink: #2b241e;
+  --ink-light: #6e6259;
+  --vermilion: #b83823;
+  --gold: #bfa15f;
+  --line-gold: rgba(191, 161, 95, 0.45);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--washi-base);
+  color: var(--ink);
+  font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 80px;
+}
+.sheet-canvas {
+  width: 100%;
+  max-width: 520px;
+  background: #fbf9f4;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  padding: 40px 24px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.05);
+}
+.sheet-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.emblem-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px;
+  color: var(--gold);
+}
+.tag-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--vermilion);
+  border: 1px solid var(--vermilion);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  margin: 0 0 16px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.desc {
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--ink-light);
+  letter-spacing: .06em;
+  margin: 0 auto 28px;
+  max-width: 380px;
+}
+.action-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 20px;
+  border-radius: 999px;
+  letter-spacing: .08em;
+  box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s;
+}
+.btn-gold:active { transform: scale(0.97); }
+.btn-outline {
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 999px;
+  letter-spacing: .06em;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(251, 249, 244, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line-gold);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.tabs a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink-light);
+  font-size: 11px;
+  gap: 2px;
+}
+.tabs a span { font-size: 18px; }
+.tabs a b { font-weight: 600; }
 </style>
-
-
-
 </head>
-
-
-
 <body>
 
-
-
-<canvas id="bg"></canvas>
-
-
-
-<div id="app"><div id="stage">
-
-
-
-  <a class="home" href="../">← <span data-t="nav_home">ホーム</span></a>
-
-
-
-  <div class="brand">NACHA</div>
-
-
-
-  <h1 data-t="games_h">ミニゲーム</h1>
-
-
-
-  <p class="sub" data-t="ph_lead">小さな神様ナチャと、30秒であそぼう</p>
-
-
-
-  <p class="kbd-hint">💻 Click to play · Keyboard shortcuts shown in each game</p>
-
-
-
-  <div class="cards" id="cards"></div>
-
-
-
-  <div id="follow"></div>
-
-
-
-  <p class="unoff"><span data-t="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
-
-
-
-</div></div>
-
-
-
-<script src="../assets/i18n.js"></script>
-
-
-
-<script src="common.js"></script>
-
-
-
-<script>
-
-
-
-(function () {
-
-
-
-  var GAMES = [
-
-
-
-
-
-    { href: "mokugyo/", t: "電子木魚", k: "g_mokugyo", d: "ポクポク叩いて徳積み！澄んだ音と触感で大功徳成就", diff: 1, emo: "🪵" },
-
-    { href: "fukuiki/", t: "大福引き", k: "g_fukuiki", d: "コインを稼いで10連を引こう！最高位「神吉」降臨", diff: 1, emo: "🎴" },
-
-    { href: "spear/", t: "Fire Spear", k: "g_spear", d: "悪気をタップで焼きはらえ！", diff: 3, emo: "🔥" },
-
-
-
-    { href: "tour/",  t: "Temple Tour", k: "g_tour",  d: "ナチャのお寺をめぐろう",       diff: 1, emo: "🏮" },
-
-
-
-    { href: "steps/", t: "天空登詣 (百八の石段)", k: "g_steps", d: "煩悩百八を踏みしめ雲海の天空寺院へ。山頂で鐘を鳴らし大吉兆を拝す", diff: 2, emo: "⛩️" },
-
-
-
-  ];
-
-
-
-  // i18n（サイトと同じ言語で表示）
-
-
-
-  var D = window.NACHA_I18N || {}, L = "ja";
-
-
-
-  try { L = localStorage.getItem("nacha-lang") || ""; } catch (e) {}
-
-
-
-  if (!D[L]) { var nl = (navigator.language || "en").toLowerCase(); L = nl.indexOf("zh") === 0 ? (/tw|hk|hant/.test(nl) ? "zh" : "zhs") : nl.slice(0, 2) === "ms" ? "id" : nl.slice(0, 2); if (!D[L]) L = "en"; }
-
-
-
-  function T(k, f) { return (D[L] || {})[k] || (D.en || {})[k] || f; }
-
-
-
-  document.documentElement.lang = L === "zh" ? "zh-Hant" : L === "zhs" ? "zh-Hans" : L;
-
-
-
-  [].forEach.call(document.querySelectorAll("[data-t]"), function (e) { e.textContent = T(e.dataset.t, e.textContent); });
-
-
-
-  GAMES.forEach(function (g) { if (g.k) g.d = T(g.k, g.d); });
-
-
-
-  document.getElementById("cards").innerHTML = GAMES.map(function (g) {
-
-
-
-    return '<a class="card' + (g.soon ? " soon" : "") + '"' + (g.href ? ' href="' + g.href + '"' : "") + '><div class="ic">' + g.emo + '</div><div><b>' + g.t + "</b><span>" + g.d + (g.diff ? '<br><span class="stars">' + NA.starsText(g.diff) + "</span>" : "") + "</span></div></a>";
-
-
-
-  }).join("");
-
-
-
-  document.getElementById("follow").innerHTML = NA.followRow();
-
-
-
-  var bg = document.getElementById("bg"), bx = bg.getContext("2d"), t0 = performance.now(), last = t0, leaves;
-
-
-
-  function fit() { var w = innerWidth, h = innerHeight, d = Math.min(2, devicePixelRatio || 1); bg.width = w * d; bg.height = h * d; bx.setTransform(d, 0, 0, d, 0, 0); leaves = NA.leaves(12, w, h); }
-
-
-
-  function frame(now) { var dt = Math.min(0.05, (now - last) / 1000); last = now; NA.drawBG(bx, innerWidth, innerHeight, (now - t0) * 0.012, (now - t0) / 1000); NA.drawLeaves(bx, leaves, innerWidth, innerHeight, dt); requestAnimationFrame(frame); }
-
-
-
-  addEventListener("resize", fit); NA.fontReady().then(function () { fit(); requestAnimationFrame(frame); });
-
-
-
-})();
-
-
-
-</script>
-
-
+<div class="sheet-canvas">
+  <svg class="emblem-icon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+    <circle cx="12" cy="20.5" r="1.5"/>
+  </svg>
+
+  <div class="tag-badge">奉納準備中</div>
+
+  <h1>新たな境内体験を<br>ただいま企画中です</h1>
+
+  <p class="desc">
+    小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
+    完成までどうぞ楽しみにお待ちください。
+  </p>
+
+  <div class="action-grid">
+    <a href="../" class="btn-gold">🏮 境内（ホーム）へ戻る</a>
+    <a href="../characters/" class="btn-outline">🗺️ 神様名鑑を見る</a>
+    <a href="../amulet/" class="btn-outline">🧧 心願お守りを作る</a>
+  </div>
+</div>
+
+<nav class="tabs" aria-label="Main">
+  <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
+  <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
+  <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
+  <a href="../shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
+</nav>
 
 </body>
-
-
-
 </html>
-
-
-
