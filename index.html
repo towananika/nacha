@@ -1,33 +1,241 @@
 <!doctype html>
-
 <html lang="ja">
-
 <head>
-
 <meta charset="utf-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-<title>NACHA 推し活・当選祈願所 · 小さな神様ナチャの非公式ファンページ</title>
-
-<meta name="description" content="推しを愛するあなたのための祈願所。推し色お守りジェネレーター・境内絵馬掛け・当落の胃痛を和らげる小さな神様ナチャのファンページ。">
-
+<title>NACHA — 天空の悠遊観音堂（非公式ファンページ）</title>
+<meta name="description" content="小さな神様ナチャと過ごす、天空の癒やしと祈りの境内。108段の石段登りや推し活お守りを楽しもう。">
 <meta name="theme-color" content="#C0392B">
-
-<meta property="og:type" content="website"><meta property="og:title" content="NACHA Fan Page (Unofficial)"><meta property="og:description" content="推しを愛するあなたのための祈願所。推し色お守りジェネレーター・境内絵馬掛け・当落の胃痛を和らげる小さな神様ナチャのファンページ。"><meta property="og:image" content="https://towananika.github.io/nacha/assets/cast.jpg">
-
+<meta property="og:type" content="website"><meta property="og:title" content="NACHA Fan Page (Unofficial)"><meta property="og:description" content="小さな神様ナチャと過ごす、天空の癒やしと祈りの境内。"><meta property="og:image" content="https://towananika.github.io/nacha/assets/cast.jpg">
 <meta name="twitter:card" content="summary_large_image">
-
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%AE%3C/text%3E%3C/svg%3E">
-
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="assets/site.css">
 
-</head>
+<style>
+/* ══════════════════════════════════════════════════
+   ZEN MINIMAL HERO & CLEAN NAVIGATION
+   UI/UX: 余白を多めに、選択肢を明快に
+══════════════════════════════════════════════════ */
+.simple-hero {
+  text-align: center;
+  padding: 24px 16px 28px;
+}
+.simple-shrine-tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--sub);
+  background: var(--card);
+  border: 1px solid var(--line);
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+.simple-avatar-wrap {
+  width: 170px;
+  height: 170px;
+  margin: 0 auto 16px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--accSoft) 0%, transparent 70%);
+  display: grid;
+  place-items: center;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.simple-avatar-wrap:active {
+  transform: scale(0.92);
+}
+.simple-avatar-img {
+  width: 140px;
+  height: auto;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12));
+}
+.simple-speech-bubble {
+  display: inline-block;
+  max-width: 320px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  margin-bottom: 24px;
+  position: relative;
+}
+.simple-speech-bubble::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
 
+/* ── 3大メインカード（選びやすい大きな選択肢） ── */
+.main-choices-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin: 8px 0 32px;
+}
+@media (min-width: 600px) {
+  .main-choices-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+.main-choice-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: var(--shadow);
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+@media (min-width: 600px) {
+  .main-choice-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 16px;
+    gap: 12px;
+  }
+}
+.main-choice-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+}
+.main-choice-card.card-climb {
+  border-color: rgba(192,57,43,0.35);
+  background: linear-gradient(135deg, rgba(192,57,43,0.06), var(--card));
+}
+.main-choice-card.card-climb:hover {
+  border-color: var(--acc);
+}
+.main-choice-card.card-shop {
+  border-color: rgba(212,172,13,0.4);
+  background: linear-gradient(135deg, rgba(212,172,13,0.08), var(--card));
+}
+.main-choice-card.card-shop:hover {
+  border-color: var(--gold);
+}
+.main-choice-card.card-amulet {
+  border-color: rgba(155,89,182,0.3);
+  background: linear-gradient(135deg, rgba(155,89,182,0.05), var(--card));
+}
+.main-choice-card.card-amulet:hover {
+  border-color: #9B59B6;
+}
+
+.choice-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+.choice-info {
+  flex: 1;
+  min-width: 0;
+}
+.choice-title {
+  display: block;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1.25;
+  margin-bottom: 4px;
+}
+.card-climb .choice-title { color: var(--acc); }
+.card-shop .choice-title { color: var(--gold); }
+.card-amulet .choice-title { color: #8E44AD; }
+
+.choice-desc {
+  display: block;
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.4;
+}
+
+/* ── サブ巡礼ナビ（すっきりリスト型） ── */
+.sub-services-sec {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 32px;
+}
+.sub-services-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.sub-services-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--sub);
+  letter-spacing: .05em;
+  margin: 0;
+}
+.sub-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media (min-width: 600px) {
+  .sub-services-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+.sub-service-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  transition: all .2s;
+}
+.sub-service-pill:hover {
+  border-color: var(--acc);
+  color: var(--acc);
+  transform: translateY(-1px);
+}
+
+/* ── お寺とナチャの物語（清潔感のあるカード） ── */
+.temple-story-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 24px;
+}
+</style>
+</head>
 <body>
 
 <a class="skip" href="#main" data-i="skip">メインへ</a>
@@ -38,9 +246,9 @@
     <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
   </div>
   <div class="barr">
-    <a class="header-coin-badge" href="shop/" title="所持コイン・境内授与所（ショップ）へ"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
-    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
-    <a class="pill" href="dev/" style="border:1.5px solid #D4AC0D;color:#D4AC0D;background:rgba(212,172,13,0.1);font-weight:700">🛠️ 開発版</a>
+    <a class="header-coin-badge" href="shop/" title="現在の所持コイン（授与所で使えます）"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
+    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="境内の鈴を鳴らす" aria-label="境内の鈴">🔔</button>
+    <a class="pill" href="dev/" style="border:1.5px solid #D4AC0D;color:#D4AC0D;background:rgba(212,172,13,0.1);font-weight:700">開発室</a>
     <div class="lang">
       <button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
@@ -65,143 +273,81 @@
 
 <main id="main">
 
-  <!-- 【第1段】ファーストビュー：主役ナチャ ＋ 2大美麗カード -->
-  <section class="zen-first-view">
-    <div class="temple-shrine-marker" data-i="temple_marker">⛩️ カンボジア・雲海を見晴らす天空の悠遊観音堂 仮想境内</div>
-    <div class="zen-avatar-stage">
-      <div class="zen-avatar-wrap" id="nachaBtn" title="タップしてね">
-        <img id="nachaImg" class="zen-avatar-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
-      </div>
-      <div class="zen-word-pill" id="bubble">
+  <!-- ══ シンプル・ファーストビュー（広い余白と主役ナチャ） ══ -->
+  <section class="simple-hero">
+    <div class="simple-shrine-tag" data-i="temple_marker">⛩️ カンボジア・悠遊観音堂 仮想境内</div>
+    
+    <div class="simple-avatar-wrap" id="nachaBtn" title="ナチャをタップしてみてね">
+      <img id="nachaImg" class="simple-avatar-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
+    </div>
+
+    <div>
+      <div class="simple-speech-bubble" id="bubble">
         生きてるだけで、今日のはなまる満点！
       </div>
     </div>
-
-    <!-- 本日の参拝めぐり（デイリーミニ巡礼） -->
-    <div class="zen-pilgrimage-card" id="pilgrimCard">
-      <div class="zen-pilgrim-head">
-        <span class="zen-pilgrim-title">📿 本日の参拝めぐり</span>
-        <span class="zen-pilgrim-badge" id="pilgrimBadge">0 / 3</span>
-      </div>
-      <div class="zen-pilgrim-steps">
-        <button type="button" class="zen-p-chip" id="pChipBell" title="上の鈴をタップして鳴らそう">
-          <span class="p-icon">🔔</span> 鈴を鳴らす
-        </button>
-        <button type="button" class="zen-p-chip" id="pChipNacha" title="ナチャをタップして挨拶しよう">
-          <span class="p-icon">🪷</span> ナチャにご挨拶
-        </button>
-        <a href="amulet/" class="zen-p-chip" id="pChipVisit" title="お守りや休憩所へお参りしよう">
-          <span class="p-icon">⛩️</span> お堂を巡る
-        </a>
-      </div>
-      <div class="zen-pilgrim-blessing" id="pilgrimBlessing" hidden>
-        ✨ 満願成就！小さな神様が君の願いをしっかり見守っています (+5コイン)
-      </div>
-    </div>
-
-    <!-- 境内直行ナビ（108段ゲーム＆授与所への直行便） -->
-    <div class="zen-quick-dock" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 16px;">
-      <a href="arcade/steps/" class="zen-quick-card" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(192,57,43,0.14),rgba(192,57,43,0.04));border:1.5px solid rgba(192,57,43,0.45);border-radius:16px;padding:12px;text-decoration:none;color:var(--ink);box-shadow:0 3px 10px rgba(0,0,0,0.03);transition:transform .2s,box-shadow .2s">
-        <span style="font-size:32px;line-height:1;flex-shrink:0">⛩️</span>
-        <div style="min-width:0;flex:1">
-          <strong style="display:block;font-size:14px;color:var(--acc);line-height:1.2">108の石段登詣</strong>
-          <small style="font-size:11px;color:var(--sub);display:block;margin-top:2px">階段ゲーム · +10コイン ↗</small>
-        </div>
-      </a>
-      <a href="shop/" class="zen-quick-card" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(212,172,13,0.16),rgba(212,172,13,0.04));border:1.5px solid rgba(212,172,13,0.45);border-radius:16px;padding:12px;text-decoration:none;color:var(--ink);box-shadow:0 3px 10px rgba(0,0,0,0.03);transition:transform .2s,box-shadow .2s">
-        <span style="font-size:32px;line-height:1;flex-shrink:0">🎁</span>
-        <div style="min-width:0;flex:1">
-          <strong style="display:block;font-size:14px;color:var(--gold);line-height:1.2">境内授与所</strong>
-          <small style="font-size:11px;color:var(--sub);display:block;margin-top:2px">壁紙·着せ替え·ショップ ↗</small>
-        </div>
-      </a>
-    </div>
-
-    <!-- 【境内の3大とびら】今の気分・目的で選ぶ -->
-    <div class="zen-trio-doors" style="margin-top: 14px;">
-
-      <!-- ① 祈る（推し活・当選祈願） -->
-      <div class="zen-door-unit">
-        <a href="amulet/" class="zen-visual-card door-pray">
-          <img class="zen-card-bg" src="assets/poster.jpg" alt="蓮華護身符" width="512" height="640" loading="lazy" style="object-position: 50% 20%;">
-          <div class="zen-card-scrim"></div>
-          <div class="zen-card-content">
-            <div>
-              <span class="zen-card-sub">① 祈る · PRAY FOR OSHI</span>
-              <h2 class="zen-card-title">推し活・心願お守り</h2>
-              <span class="zen-card-desc">推し色を選んで、自分だけの当選祈願お守りを謹製</span>
-            </div>
-            <span class="zen-card-icon">🧧</span>
-          </div>
-        </a>
-        <div class="zen-door-subs">
-          <span class="zen-door-sub-label">あわせて参拝：</span>
-          <a href="ema/" class="zen-sub-pill">🪵 絵馬掛け所（想いを刻む）↗</a>
-        </div>
-      </div>
-
-      <!-- ② 癒やす（こころの避難所） -->
-      <div class="zen-door-unit">
-        <a href="rest/" class="zen-visual-card door-rest">
-          <img class="zen-card-bg" src="assets/waiting.jpg" alt="こころの休憩所" width="512" height="640" loading="lazy" style="object-position: 50% 40%;">
-          <div class="zen-card-scrim" style="background: linear-gradient(to top, rgba(16,7,24,0.94) 0%, rgba(16,7,24,0.42) 60%, transparent 100%);"></div>
-          <div class="zen-card-content">
-            <div>
-              <span class="zen-card-sub" style="color: #F8BBD0;">② 癒やす · MINDFUL REST</span>
-              <h2 class="zen-card-title">こころの休憩所</h2>
-              <span class="zen-card-desc">深呼吸ASMRと弱音の預かり所。何もしなくていい場所</span>
-            </div>
-            <span class="zen-card-icon" style="border-color: rgba(248,187,208,0.5);">🪷</span>
-          </div>
-        </a>
-        <div class="zen-door-subs">
-          <span class="zen-door-sub-label">あわせて参拝：</span>
-          <a href="goma/" class="zen-sub-pill">🔥 護摩堂（当落の胃痛・不安を神火で浄化）↗</a>
-        </div>
-      </div>
-
-      <!-- ③ 楽しむ（福引き・徳積み） -->
-      <div class="zen-door-unit">
-        <a href="arcade/fukuiki/" class="zen-visual-card door-fuku">
-          <img class="zen-card-bg" src="assets/app.jpg" alt="大福引き所" width="512" height="640" loading="lazy" style="object-position: 70% 35%;">
-          <div class="zen-card-scrim" style="background: linear-gradient(to top, rgba(22,12,6,0.94) 0%, rgba(22,12,6,0.42) 60%, transparent 100%);"></div>
-          <div class="zen-card-content">
-            <div>
-              <span class="zen-card-sub" style="color: #F4D03F;">③ 楽しむ · DIVINE GACHA</span>
-              <h2 class="zen-card-title">大福引き所</h2>
-              <span class="zen-card-desc">コインを稼いで10連福引き！最高位「神吉」カード降臨</span>
-            </div>
-            <span class="zen-card-icon" style="border-color: rgba(212,172,13,0.5); background: rgba(212,172,13,0.22);">🎴</span>
-          </div>
-        </a>
-        <div class="zen-door-subs">
-          <span class="zen-door-sub-label">あわせて楽しむ：</span>
-          <a href="arcade/steps/" class="zen-sub-pill" style="border-color:rgba(192,57,43,0.55);background:rgba(192,57,43,0.08);color:var(--acc);font-weight:800">⛩️ 天空登詣（百八の石段）↗</a>
-          <a href="shop/" class="zen-sub-pill" style="border-color:rgba(212,172,13,0.55);color:#F4D03F">🏮 授与所（ショップ）↗</a>
-          <a href="arcade/mokugyo/" class="zen-sub-pill">🪵 電子木魚（ポクポクASMR）↗</a>
-          <a href="goshuin/" class="zen-sub-pill">📿 御朱印帳 ↗</a>
-        </div>
-      </div>
-
-    </div>
-
   </section>
 
-  <!-- 【第3段】ナチャとお寺の物語 ＆ 公式リンク -->
-  <section class="reveal" style="margin-top:36px;padding-top:24px;border-top:1px dashed var(--line)">
-    <h2 class="sec" style="display:flex;align-items:center;justify-content:space-between">
-      <span>🏮 カンボジアの実在のお寺とナチャ</span>
-      <a href="characters/" style="font-size:12px;color:var(--sub);text-decoration:none">キャラ紹介 ↗</a>
-    </h2>
+  <!-- ══ 3大メイン導線（余白広め・一目で選べるビッグカード） ══ -->
+  <section>
+    <div class="main-choices-grid">
 
-    <div class="real" id="real" style="margin:12px 0 20px">
-      <span class="flag" aria-hidden="true">🇰🇭</span>
-      <div>
-        <p><b data-i="real_1">カンボジア・プノンペン</b><br>
-        <span data-i="real_2">悠遊観音堂。創設者が1年かけて、風・水・大地の調和した土地を探して建てた実在の寺院。</span></p>
-        <p data-i="real_3" style="margin:4px 0 0;font-weight:700;color:var(--acc)">ナチャは、そのお寺で暮らす小さな神様です。</p>
-      </div>
+      <!-- ① 108段ゲーム -->
+      <a href="arcade/steps/" class="main-choice-card card-climb">
+        <div class="choice-icon">⛩️</div>
+        <div class="choice-info">
+          <strong class="choice-title">百八の石段登詣</strong>
+          <span class="choice-desc">リズムよく頂上を目指す階段アクション。登頂でコインGET！</span>
+        </div>
+      </a>
+
+      <!-- ② 授与所（ショップ） -->
+      <a href="shop/" class="main-choice-card card-shop">
+        <div class="choice-icon">🎁</div>
+        <div class="choice-info">
+          <strong class="choice-title">境内授与所</strong>
+          <span class="choice-desc">集めたコインでアバター衣装や限定壁紙・オーラを交換。</span>
+        </div>
+      </a>
+
+      <!-- ③ 推し活・心願お守り -->
+      <a href="amulet/" class="main-choice-card card-amulet">
+        <div class="choice-icon">🧧</div>
+        <div class="choice-info">
+          <strong class="choice-title">推し活・心願お守り</strong>
+          <span class="choice-desc">推し色を選んで、自分だけの祈願お守りを謹製して持ち歩こう。</span>
+        </div>
+      </a>
+
     </div>
+  </section>
+
+  <!-- ══ 境内のその他のよりみち（整然としたピルグリッド） ══ -->
+  <section class="sub-services-sec">
+    <div class="sub-services-head">
+      <h3 class="sub-services-title">📿 境内のよりみち</h3>
+      <a href="characters/" style="font-size:12px;color:var(--acc);font-weight:700;text-decoration:none">キャラ紹介を見る ↗</a>
+    </div>
+    <div class="sub-services-grid">
+      <a href="arcade/fukuiki/" class="sub-service-pill"><span>🎴</span><span>大福引き所</span></a>
+      <a href="rest/" class="sub-service-pill"><span>🪷</span><span>こころの休憩所</span></a>
+      <a href="ema/" class="sub-service-pill"><span>🪵</span><span>絵馬掛け所</span></a>
+      <a href="goma/" class="sub-service-pill"><span>🔥</span><span>護摩堂（浄化）</span></a>
+      <a href="arcade/mokugyo/" class="sub-service-pill"><span>🔔</span><span>電子木魚</span></a>
+      <a href="goshuin/" class="sub-service-pill"><span>📜</span><span>御朱印帳</span></a>
+      <a href="pagoda/" class="sub-service-pill"><span>🏯</span><span>五重塔</span></a>
+      <a href="characters/" class="sub-service-pill"><span>🗺️</span><span>神様名鑑</span></a>
+    </div>
+  </section>
+
+  <!-- ══ カンボジアのお寺とナチャの物語 ══ -->
+  <section class="temple-story-card">
+    <h3 style="margin:0 0 10px;font-size:16px;color:var(--acc);display:flex;align-items:center;gap:6px">
+      <span>🏮</span><span>実在の寺院とナチャについて</span>
+    </h3>
+    <p style="margin:0;font-size:13px;color:var(--sub);line-height:1.7">
+      カンボジア・プノンペンに実在する「悠遊観音堂」。風・水・大地の調和した美しい土地に建てられたこのお寺で、小さな守護神ナチャは暮らしています。本サイトは、日々の暮らしに小さな癒やしと笑顔を届ける非公式ファンページです。
+    </p>
 
     <!-- 公式リンク -->
     <div class="icons" style="margin-top:16px">
@@ -226,13 +372,11 @@
   <a href="amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
   <a href="arcade/fukuiki/"><span aria-hidden="true">🎴</span><b>福引き</b></a>
   <a href="characters/"><span aria-hidden="true">🗺️</span><b>キャラ</b></a>
-</nav><script src="assets/i18n.js"></script>
+</nav>
 
+<script src="assets/i18n.js"></script>
 <script src="assets/coins.js"></script>
-
 <script src="assets/site.js"></script>
-
-
 <script>
 (function(){
   if (window.NachaCoins) {
@@ -242,6 +386,4 @@
 })();
 </script>
 </body>
-
 </html>
-
