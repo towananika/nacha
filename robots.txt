@@ -1,3 +1,10 @@
-User-agent: *
+﻿User-agent: *
+Disallow: /admin/
+Disallow: /team/
+Disallow: /dev/
+Disallow: /notes/
+Disallow: /docs/
+Disallow: /join/
 Allow: /
+
 Sitemap: https://towananika.github.io/nacha/sitemap.xml
