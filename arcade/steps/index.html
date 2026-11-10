@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>天空登詣 · 百八の石段 | NACHA</title>
-<meta name="description" content="子どもも大人もかんたん！「左」と「右」をポンポン押して石段を駆け上がろう。コインを集めて授与所でお買い物！">
+<title>天空登詣 · 無限の石段 | NACHA</title>
+<meta name="description" content="元祖『無限の階段』スタイル！「上がる」と「方向転換」の2ボタンで、斜め上へ伸びる石段をテンポよく駆け上がろう！">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/site.css">
@@ -16,7 +16,7 @@ html, body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  background: #190a16;
+  background: #140812;
   color: #fff;
   font-family: "M PLUS Rounded 1c", -apple-system, sans-serif;
   touch-action: manipulation;
@@ -42,7 +42,7 @@ canvas#stage {
   z-index: 1;
 }
 
-/* 上部ステータスバー (スコア・体力ハート・コイン) */
+/* 上部ステータスバー (スコア・ライフ・コイン) */
 .hud-top {
   position: absolute;
   top: calc(env(safe-area-inset-top) + 12px);
@@ -62,7 +62,7 @@ canvas#stage {
 .hud-step-box {
   display: flex;
   align-items: baseline;
-  background: rgba(20, 8, 16, 0.7);
+  background: rgba(20, 8, 16, 0.75);
   border: 1.5px solid rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -83,7 +83,7 @@ canvas#stage {
   margin-left: 4px;
 }
 
-/* 体力ハート (子どもも安心の3機ライフ制) */
+/* 体力ハート (3機ライフ制) */
 .hud-hearts {
   font-size: 20px;
   letter-spacing: 2px;
@@ -95,7 +95,7 @@ canvas#stage {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(22, 10, 16, 0.8);
+  background: rgba(22, 10, 16, 0.85);
   border: 1.5px solid #D4AC0D;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -109,27 +109,7 @@ canvas#stage {
 }
 .hud-coin-badge:active { transform: scale(0.95); }
 
-/* ナチャの応援ふきだし */
-.cheer-bubble {
-  align-self: center;
-  background: #fff;
-  color: #241518;
-  font-size: 13px;
-  font-weight: 800;
-  padding: 6px 16px;
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: opacity 0.2s, transform 0.2s;
-  pointer-events: none;
-}
-.cheer-bubble.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* 下部操作ボタン：誰でもわかる「👈 ひだり」「みぎ 👉」 */
+/* 下部操作ボタン：元祖『無限の階段』スタイル (左: 方向転換 / 右: 上がる) */
 .control-dock {
   position: absolute;
   left: 14px;
@@ -145,7 +125,7 @@ canvas#stage {
   border: none;
   outline: none;
   border-radius: 26px;
-  padding: 20px 12px;
+  padding: 18px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -162,32 +142,45 @@ canvas#stage {
   filter: brightness(0.92);
 }
 
-/* 左ボタン（青緑・清涼） */
-.ctrl-btn-left {
-  background: linear-gradient(135deg, #16a085 0%, #0e6655 100%);
-  border: 2.5px solid #a3e4d7;
+/* 左：方向転換ボタン (TURN) */
+.ctrl-btn-turn {
+  background: linear-gradient(135deg, #8e44ad 0%, #5b2c6f 100%);
+  border: 2.5px solid #bb8fce;
   color: #fff;
 }
-/* 右ボタン（温かい朱赤・神聖） */
-.ctrl-btn-right {
-  background: linear-gradient(135deg, #e67e22 0%, #b95d12 100%);
-  border: 2.5px solid #f8c471;
+/* 右：上がるボタン (CLIMB) */
+.ctrl-btn-climb {
+  background: linear-gradient(135deg, #c0392b 0%, #8e2b20 100%);
+  border: 2.5px solid #f1948a;
   color: #fff;
 }
 
-.ctrl-arrow {
-  font-size: 34px;
+.ctrl-icon {
+  font-size: 30px;
   line-height: 1;
   filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
 }
 .ctrl-text {
-  font: 900 20px "M PLUS Rounded 1c", sans-serif;
-  letter-spacing: 1px;
+  font: 900 18px "M PLUS Rounded 1c", sans-serif;
+  letter-spacing: 0.5px;
 }
 .ctrl-sub {
   font-size: 11px;
   opacity: 0.85;
   font-weight: 700;
+}
+
+.kbd-help {
+  position: absolute;
+  bottom: calc(148px + env(safe-area-inset-bottom));
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.65);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  pointer-events: none;
+  z-index: 10;
 }
 
 /* モーダル共通 */
@@ -287,7 +280,7 @@ canvas#stage {
   box-shadow: 0 4px 14px rgba(212,172,13,0.35);
 }
 
-/* タイトルスタート画面 */
+/* タイトル画面 */
 .title-overlay {
   position: absolute;
   inset: 0;
@@ -334,7 +327,6 @@ canvas#stage {
   50% { transform: scale(1.04); }
 }
 
-/* コイン獲得演出 */
 .coin-popup {
   position: absolute;
   color: #F4D03F;
@@ -373,33 +365,32 @@ canvas#stage {
         <span style="font-size:11px;color:#fff;margin-left:2px">授与所 ↗</span>
       </a>
     </div>
-
-    <!-- ナチャの応援メッセージふきだし -->
-    <div class="cheer-bubble" id="cheerBubble">階段がある方をポチッと押してね！</div>
   </div>
 
-  <!-- 下部操作ボタン (超直感的：左・右) -->
+  <!-- 下部操作ボタン (元祖『無限の階段』スタイル：方向転換 ＆ 上がる) -->
   <div class="control-dock">
-    <button type="button" class="ctrl-btn ctrl-btn-left" id="btnLeft" aria-label="左の段へジャンプ">
-      <span class="ctrl-arrow">👈</span>
-      <span class="ctrl-text">左の段</span>
+    <button type="button" class="ctrl-btn ctrl-btn-turn" id="btnTurn" aria-label="方向転換して上がる">
+      <span class="ctrl-icon">🔄</span>
+      <span class="ctrl-text">方向転換</span>
       <span class="ctrl-sub">[A / ← キー]</span>
     </button>
-    <button type="button" class="ctrl-btn ctrl-btn-right" id="btnRight" aria-label="右の段へジャンプ">
-      <span class="ctrl-arrow">👉</span>
-      <span class="ctrl-text">右の段</span>
-      <span class="ctrl-sub">[D / → キー]</span>
+    <button type="button" class="ctrl-btn ctrl-btn-climb" id="btnClimb" aria-label="そのまま上がる">
+      <span class="ctrl-icon">🐾</span>
+      <span class="ctrl-text">上がる</span>
+      <span class="ctrl-sub">[D / → / Space]</span>
     </button>
   </div>
+
+  <div class="kbd-help">💻 画面タップでも遊べます（左半分: 向き変更 / 右半分: 上がる）</div>
 
   <!-- タイトル画面 -->
   <div class="title-overlay" id="titleOverlay">
     <div style="font-size:52px;line-height:1;margin-bottom:6px">⛩️</div>
-    <h1 class="title-h1">天空登詣 · 百八の石段</h1>
+    <h1 class="title-h1">天空登詣 · 無限の石段</h1>
     <p class="title-desc">
-      階段がある方を <b>「👈 ひだり」「みぎ 👉」</b> でポンポン押すだけ！<br>
-      コインを拾いながら、雲海の天空寺院を目指そう！<br>
-      集めたコインは授与所でご褒美に使えます。
+      斜め上へ伸びる石段をリズミカルに駆け上がろう！<br>
+      <b>「上がる」</b> と <b>「方向転換」</b> で雲海の天空寺院へ！<br>
+      集めたコインは授与所でお買い物に使えます。
     </p>
     <button type="button" class="title-start-btn" id="btnStart">登詣スタート！</button>
   </div>
@@ -452,7 +443,7 @@ canvas#stage {
   'use strict';
 
   // ==========================================
-  // Web Audio サウンドエンジン (心地よい打撃音)
+  // Web Audio サウンドエンジン (低遅延シンセ)
   // ==========================================
   var audioCtx = null;
   function getAudio() {
@@ -466,19 +457,17 @@ canvas#stage {
     return audioCtx;
   }
 
-  // ポクッ！と小気味良い木魚風のステップ音
-  function playHopSound(pitch) {
+  function playHopSound(freq) {
     var ctx = getAudio();
     if (!ctx) return;
     try {
       var osc = ctx.createOscillator();
       var gain = ctx.createGain();
       osc.type = 'triangle';
-      var f = pitch || 320;
-      osc.frequency.setValueAtTime(f, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.05);
+      osc.frequency.setValueAtTime(freq || 300, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(120, ctx.currentTime + 0.05);
 
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.setValueAtTime(0.28, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
 
       osc.connect(gain);
@@ -488,7 +477,26 @@ canvas#stage {
     } catch(e) {}
   }
 
-  // キラリと光るコイン獲得音
+  function playTurnSound() {
+    var ctx = getAudio();
+    if (!ctx) return;
+    try {
+      var osc = ctx.createOscillator();
+      var gain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(160, ctx.currentTime + 0.06);
+
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.06);
+
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.06);
+    } catch(e) {}
+  }
+
   function playCoinSound() {
     var ctx = getAudio();
     if (!ctx) return;
@@ -508,7 +516,6 @@ canvas#stage {
     } catch(e) {}
   }
 
-  // ミス時のポヨン音
   function playMissSound() {
     var ctx = getAudio();
     if (!ctx) return;
@@ -516,32 +523,39 @@ canvas#stage {
       var osc = ctx.createOscillator();
       var gain = ctx.createGain();
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(220, ctx.currentTime);
-      osc.frequency.linearRampToValueAtTime(120, ctx.currentTime + 0.15);
-      gain.gain.setValueAtTime(0.22, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.16);
+      osc.frequency.setValueAtTime(240, ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(100, ctx.currentTime + 0.16);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.17);
       osc.connect(gain);
       gain.connect(ctx.destination);
       osc.start();
-      osc.stop(ctx.currentTime + 0.16);
+      osc.stop(ctx.currentTime + 0.17);
     } catch(e) {}
   }
 
   // ==========================================
-  // ゲームパラメータ
+  // ゲームパラメータ & 幾何構造 (原作・無限の階段)
   // ==========================================
   var canvas = document.getElementById('stage');
   var ctx = canvas.getContext('2d');
   var CW = 0, CH = 0;
 
+  // 原作仕様の斜め階段座標系:
+  // 右へ登る(dir=1):  X += dX, Y -= dY (右上 ↗)
+  // 左へ登る(dir=-1): X -= dX, Y -= dY (左上 ↖)
+  var DX = 40; // 階段1段あたりの水平移動幅
+  var DY = 26; // 階段1段あたりの垂直上昇幅
+
   var stairs = [];
   var playerStep = 0;
-  var playerDir = 1; // 1 = 右向き, -1 = 左向き
-  var hearts = 3; // 3回までミスOKの親切設計！
+  var playerDir = 1; // 1 = 右上向き ↗, -1 = 左上向き ↖
+  var hearts = 3;
   var sessionCoins = 0;
   var bestSteps = parseInt(localStorage.getItem('nacha_stairs_best') || '0', 10);
-  var gameState = 'TITLE'; // 'TITLE', 'PLAYING', 'OVER'
+  var gameState = 'TITLE';
 
+  // カメラ追従
   var camX = 0, camY = 0;
   var curDrawX = 0, curDrawY = 0;
   var isJumping = false;
@@ -555,7 +569,7 @@ canvas#stage {
   bgImages[2].src = 'assets/view3.webp';
   bgImages[3].src = 'assets/view4.webp';
 
-  // ナチャ画像 (ショップの装備反映)
+  // ナチャ スプライト
   var nachaImg = new Image();
   nachaImg.src = 'assets/nacha-climb.webp';
   function loadEquippedSkin() {
@@ -568,34 +582,35 @@ canvas#stage {
   }
   loadEquippedSkin();
 
-  // 階段の寸法
-  var STEP_W = 66; // 階段の横幅
-  var STEP_H = 38; // 階段の縦高さ
-
+  // 原作ライクなジグザグ斜め階段生成
   function initStairs() {
     stairs = [];
-    stairs.push({ x: 0, y: 0, hasCoin: false, isSummit: false });
+    // 0段目（スタート足場）
+    stairs.push({ gx: 0, gy: 0, dir: 1, hasCoin: false, isSummit: false });
 
-    var curX = 0;
-    var curDir = 1;
-    var run = 2; // 連続段数
+    var curGx = 0;
+    var curGy = 0;
+    var curDir = 1; // 最初は右上 ↗
+    var run = 3;    // 同じ方向に登る段数 (1〜4段)
 
     for (var i = 1; i <= 600; i++) {
       if (run <= 0) {
-        curDir = -curDir;
-        if (curX > 2) curDir = -1;
-        if (curX < -2) curDir = 1;
+        curDir = -curDir; // 向き反転！
+        // 画面中央から離れすぎないように制御
+        if (curGx > 3) curDir = -1;
+        if (curGx < -3) curDir = 1;
         run = Math.floor(Math.random() * 3) + 1;
       }
-      curX += curDir;
+
+      curGx += curDir;
+      curGy += 1;
       run--;
 
-      // コイン配置：5〜10段おきにポコポコ出現して拾うのが楽しい！
-      var hasCoin = (i > 3 && (i % 8 === 0 || i % 15 === 0));
+      var hasCoin = (i > 3 && (i % 8 === 0 || i % 14 === 0));
       stairs.push({
-        x: curX,
-        y: i,
-        dirToHere: curDir, // この段に来るための方向 (-1: 左から, 1: 右から)
+        gx: curGx,
+        gy: curGy,
+        dir: curDir, // この段に来る方向 (1 = 右上から, -1 = 左上から)
         hasCoin: hasCoin,
         isSummit: (i === 108)
       });
@@ -614,33 +629,34 @@ canvas#stage {
   window.addEventListener('resize', resize);
   resize();
 
+  // 原作の斜め2Dアイソメトリック座標変換
   function toScreen(gx, gy) {
     var cx = CW / 2;
-    var cy = CH * 0.60;
+    var cy = CH * 0.65;
     return {
-      x: cx + gx * STEP_W - camX,
-      y: cy - gy * STEP_H - camY
+      x: cx + gx * DX - camX,
+      y: cy - gy * DY - camY
     };
   }
 
-  // 階段の描画
+  // 原作ライクな石段ブロック描画
   function drawStair(s, idx) {
-    var p = toScreen(s.x, s.y);
-    if (p.y < -90 || p.y > CH + 100) return;
+    var p = toScreen(s.gx, s.gy);
+    if (p.y < -100 || p.y > CH + 100) return;
 
-    var w = STEP_W * 1.08;
-    var h = 16;
+    var w = 54; // 石段の幅
+    var h = 18; // 石段の厚み
 
     ctx.save();
     ctx.translate(p.x, p.y);
 
-    // 階段の影
-    ctx.fillStyle = "rgba(0,0,0,0.2)";
+    // 影
+    ctx.fillStyle = "rgba(0,0,0,0.22)";
     ctx.beginPath();
-    ctx.ellipse(0, h + 8, w * 0.5, 9, 0, 0, Math.PI * 2);
+    ctx.ellipse(0, h + 8, w * 0.52, 10, 0, 0, Math.PI * 2);
     ctx.fill();
 
-    // 108段目の大鳥居門
+    // 108段目・天空寺院門
     if (s.isSummit) {
       ctx.fillStyle = "#F4D03F";
       ctx.font = "900 13px 'Noto Serif JP', serif";
@@ -648,7 +664,7 @@ canvas#stage {
       ctx.fillText("⛩️ 天空悠遊堂 山頂門", 0, -38);
     }
 
-    // 階段上面（ひし形）
+    // 階段上面（斜めアイソメトリック上面）
     ctx.beginPath();
     ctx.moveTo(0, -11);
     ctx.lineTo(w/2, 0);
@@ -668,7 +684,7 @@ canvas#stage {
     ctx.lineWidth = 1.2;
     ctx.stroke();
 
-    // 側面
+    // 正面・左側面
     ctx.fillStyle = "#9c8b7d";
     ctx.beginPath();
     ctx.moveTo(-w/2, 0);
@@ -678,6 +694,7 @@ canvas#stage {
     ctx.closePath();
     ctx.fill();
 
+    // 正面・右側面
     ctx.fillStyle = "#baa899";
     ctx.beginPath();
     ctx.moveTo(0, 11);
@@ -687,27 +704,26 @@ canvas#stage {
     ctx.closePath();
     ctx.fill();
 
-    // コイン（ぷかぷか浮遊）
+    // コイン浮遊
     if (s.hasCoin) {
-      var bob = Math.sin(Date.now() / 160) * 4;
+      var bob = Math.sin(Date.now() / 150) * 4;
       ctx.font = "20px sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText("🪙", 0, -14 + bob);
+      ctx.fillText("🪙", 0, -16 + bob);
     }
 
-    // 次の段へのガイド矢印（子どもでも迷わないやさしいガイド！）
-    if (idx === playerStep + 1 && gameState === 'PLAYING') {
-      var guideDir = stairs[playerStep + 1].x - stairs[playerStep].x;
-      ctx.font = "900 13px 'M PLUS Rounded 1c', sans-serif";
-      ctx.fillStyle = guideDir < 0 ? "#16a085" : "#e67e22";
+    // 段数表示 (10段ごと)
+    if (idx > 0 && idx % 10 === 0) {
+      ctx.fillStyle = "#6e5d50";
+      ctx.font = "900 11px 'Lilita One', sans-serif";
       ctx.textAlign = "center";
-      ctx.fillText(guideDir < 0 ? "👈 ひだり" : "みぎ 👉", 0, -26);
+      ctx.fillText(idx + "F", 0, 4);
     }
 
     ctx.restore();
   }
 
-  // ナチャの描画
+  // ナチャの斜めジャンプ描画
   function drawPlayer() {
     var p = toScreen(curDrawX, curDrawY);
 
@@ -721,14 +737,14 @@ canvas#stage {
     ctx.save();
     ctx.translate(p.x + wobbleX, p.y + jumpOffset);
 
-    // 向きで左右反転 (1 = 右, -1 = 左)
+    // キャラクターの向き（1 = 右上向き、-1 = 左上向きで水平反転）
     ctx.scale(playerDir, 1);
 
     var spriteW = 54;
     var spriteH = 64;
 
     if (nachaImg.complete && nachaImg.naturalWidth) {
-      ctx.drawImage(nachaImg, -spriteW / 2, -spriteH + 8, spriteW, spriteH);
+      ctx.drawImage(nachaImg, -spriteW / 2, -spriteH + 10, spriteW, spriteH);
     } else {
       ctx.font = "36px sans-serif";
       ctx.textAlign = "center";
@@ -741,7 +757,7 @@ canvas#stage {
   function render() {
     ctx.clearRect(0, 0, CW, CH);
 
-    // 背景描画
+    // 背景描画（登るにつれて山麓→中腹霧→夕暮れ尾根→雲海山頂）
     var tierIdx = Math.min(3, Math.floor(playerStep / 27));
     var bg = bgImages[tierIdx];
     if (bg && bg.complete && bg.naturalWidth) {
@@ -753,27 +769,27 @@ canvas#stage {
       ctx.fillRect(0, 0, CW, CH);
     }
 
-    // カメラの追従
+    // カメラのスムーズ追従
     var targetS = stairs[playerStep] || stairs[0];
-    camX += (targetS.x * STEP_W - camX) * 0.2;
-    camY += (targetS.y * STEP_H - camY) * 0.2;
+    camX += (targetS.gx * DX - camX) * 0.22;
+    camY += (targetS.gy * DY - camY) * 0.22;
 
     // ジャンプ補間
     if (isJumping) {
-      jumpProgress += 0.24;
+      jumpProgress += 0.25;
       if (jumpProgress >= 1) {
         jumpProgress = 1;
         isJumping = false;
-        curDrawX = targetS.x;
-        curDrawY = targetS.y;
+        curDrawX = targetS.gx;
+        curDrawY = targetS.gy;
       } else {
         var prevS = stairs[Math.max(0, playerStep - 1)];
-        curDrawX = prevS.x + (targetS.x - prevS.x) * jumpProgress;
-        curDrawY = prevS.y + (targetS.y - prevS.y) * jumpProgress;
+        curDrawX = prevS.gx + (targetS.gx - prevS.gx) * jumpProgress;
+        curDrawY = prevS.gy + (targetS.gy - prevS.gy) * jumpProgress;
       }
     } else {
-      curDrawX = targetS.x;
-      curDrawY = targetS.y;
+      curDrawX = targetS.gx;
+      curDrawY = targetS.gy;
     }
 
     if (missWobble > 0) missWobble -= 0.3;
@@ -793,70 +809,94 @@ canvas#stage {
   requestAnimationFrame(render);
 
   // ==========================================
-  // 超直感的アクション：左を押したか、右を押したか
+  // 原作ロジック：上がる（CLIMB）＆ 方向転換（TURN）
   // ==========================================
-  function onStepClick(chosenDir) { // -1 = 左, 1 = 右
+  function onClimb() {
     if (gameState !== 'PLAYING') return;
 
     var nextStep = playerStep + 1;
     if (nextStep >= stairs.length) return;
 
-    var currentStair = stairs[playerStep];
-    var nextStair = stairs[nextStep];
+    var curS = stairs[playerStep];
+    var nextS = stairs[nextStep];
 
-    var requiredDir = (nextStair.x < currentStair.x) ? -1 : 1;
+    var actualDir = nextS.gx - curS.gx; // 次の段が右(1)か左(-1)か
 
-    if (chosenDir === requiredDir) {
-      // 【正解！ポンと登る】
-      playerDir = chosenDir;
-      playerStep = nextStep;
-      isJumping = true;
-      jumpProgress = 0;
-
-      playHopSound(300 + (playerStep % 7) * 20);
-
-      // コインゲット！
-      if (nextStair.hasCoin) {
-        nextStair.hasCoin = false;
-        sessionCoins += 1;
-        if (window.NachaCoins) NachaCoins.earnFromGame('stairs', 1);
-        playCoinSound();
-        showCoinEffect("+1 🪙 コイン獲得！");
-      }
-
-      // HUD更新
-      document.getElementById('stepCount').textContent = playerStep;
-      document.getElementById('sessionCoins').textContent = sessionCoins;
-
-      // 応援メッセージ（10段ごと・子どもも嬉しい！）
-      if (playerStep % 10 === 0) {
-        showCheer(playerStep + "段突破！いい調子！✨");
-      }
-
-      // 108段 山頂到達！
-      if (playerStep === 108) {
-        if (window.playTempleBell) {
-          try { window.playTempleBell(); } catch(e) {}
-        }
-        if (window.NachaCoins) {
-          NachaCoins.award('steps_summit', 10, '百八登詣 満願成就');
-          sessionCoins += 10;
-        }
-        showCoinEffect("🌟 満願成就！+10 🪙");
-        showCheer("💮 山頂到着！はなまる満点！");
-      }
-
+    if (playerDir === actualDir) {
+      // そのまま上がる成功！
+      successStep(nextStep);
     } else {
-      // 【間違い！やさしいハート減少＆やり直し】
-      hearts--;
-      missWobble = 2.5;
-      playMissSound();
-      updateHearts();
-      showCheer("おっとっと！そっちには階段がないよ〜");
+      // 向きが違うのにまっすぐ登ろうとした（ミス！）
+      failStep();
+    }
+  }
 
-      if (hearts <= 0) {
-        endGame();
+  function onTurn() {
+    if (gameState !== 'PLAYING') return;
+
+    var nextStep = playerStep + 1;
+    if (nextStep >= stairs.length) return;
+
+    var curS = stairs[playerStep];
+    var nextS = stairs[nextStep];
+
+    var newDir = -playerDir; // 向きを変える
+    var actualDir = nextS.gx - curS.gx;
+
+    if (newDir === actualDir) {
+      // 向きを変えて上がる成功！
+      playerDir = newDir;
+      successStep(nextStep, true);
+    } else {
+      // 階段はまっすぐだったのに方向転換してしまった（ミス！）
+      playerDir = newDir;
+      failStep();
+    }
+  }
+
+  function successStep(nextStep, isTurn) {
+    playerStep = nextStep;
+    isJumping = true;
+    jumpProgress = 0;
+
+    if (isTurn) playTurnSound();
+    else playHopSound(300 + (playerStep % 7) * 20);
+
+    // コイン獲得
+    var nextS = stairs[nextStep];
+    if (nextS.hasCoin) {
+      nextS.hasCoin = false;
+      sessionCoins += 1;
+      if (window.NachaCoins) NachaCoins.earnFromGame('stairs', 1);
+      playCoinSound();
+      showCoinEffect("+1 🪙 コイン獲得！");
+    }
+
+    // HUD更新
+    document.getElementById('stepCount').textContent = playerStep;
+    document.getElementById('sessionCoins').textContent = sessionCoins;
+
+    // 108段 山頂到達！
+    if (playerStep === 108) {
+      if (window.playTempleBell) {
+        try { window.playTempleBell(); } catch(e) {}
       }
+      if (window.NachaCoins) {
+        NachaCoins.award('steps_summit', 10, '百八登詣 満願成就');
+        sessionCoins += 10;
+      }
+      showCoinEffect("🌟 満願成就！+10 🪙");
+    }
+  }
+
+  function failStep() {
+    hearts--;
+    missWobble = 2.5;
+    playMissSound();
+    updateHearts();
+
+    if (hearts <= 0) {
+      endGame();
     }
   }
 
@@ -869,22 +909,12 @@ canvas#stage {
     box.textContent = h;
   }
 
-  function showCheer(text) {
-    var bubble = document.getElementById('cheerBubble');
-    bubble.textContent = text;
-    bubble.classList.add('show');
-    clearTimeout(bubble._t);
-    bubble._t = setTimeout(function() {
-      bubble.classList.remove('show');
-    }, 1800);
-  }
-
   function showCoinEffect(text) {
     var el = document.createElement('div');
     el.className = 'coin-popup';
     el.textContent = text;
     el.style.left = (CW / 2 - 40) + 'px';
-    el.style.top = (CH * 0.42) + 'px';
+    el.style.top = (CH * 0.40) + 'px';
     document.getElementById('gameWrap').appendChild(el);
     setTimeout(function() { el.remove(); }, 850);
   }
@@ -940,43 +970,42 @@ canvas#stage {
     updateHearts();
     document.getElementById('titleOverlay').classList.add('hidden');
     document.getElementById('resultModal').classList.remove('open');
-    showCheer('階段がある方のボタンを押してね！');
   }
 
   // ==========================================
-  // ボタン＆タッチ＆キーボード
+  // 操作イベント
   // ==========================================
-  document.getElementById('btnLeft').addEventListener('pointerdown', function(e) {
+  document.getElementById('btnTurn').addEventListener('pointerdown', function(e) {
     e.preventDefault();
-    onStepClick(-1); // 左
+    onTurn();
   });
 
-  document.getElementById('btnRight').addEventListener('pointerdown', function(e) {
+  document.getElementById('btnClimb').addEventListener('pointerdown', function(e) {
     e.preventDefault();
-    onStepClick(1); // 右
+    onClimb();
   });
 
-  // 画面タップ（左半分＝左、右半分＝右）
+  // 画面タップ操作（左半分: 方向転換 / 右半分: 上がる）
   document.getElementById('gameWrap').addEventListener('pointerdown', function(e) {
     if (e.target.closest('button, a, .hud-coin-badge')) return;
     if (gameState !== 'PLAYING') return;
     if (e.clientX < window.innerWidth / 2) {
-      onStepClick(-1);
+      onTurn();
     } else {
-      onStepClick(1);
+      onClimb();
     }
   });
 
-  // キーボード (← / A = 左, → / D = 右)
+  // PC キーボード (A / ← = 方向転換, D / → / Space = 上がる)
   window.addEventListener('keydown', function(e) {
     if (gameState !== 'PLAYING') return;
     var k = e.key.toLowerCase();
-    if (k === 'arrowleft' || k === 'a') {
+    if (k === 'arrowleft' || k === 'a' || k === 'z' || k === 'j') {
       e.preventDefault();
-      onStepClick(-1);
-    } else if (k === 'arrowright' || k === 'd') {
+      onTurn();
+    } else if (k === 'arrowright' || k === 'd' || k === 'x' || k === 'k' || k === ' ') {
       e.preventDefault();
-      onStepClick(1);
+      onClimb();
     }
   });
 
