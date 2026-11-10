@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<title>天空登詣 · 無限の石段 | NACHA</title>
+<title>悠遊観音堂 天空登詣 · 百八の石段 | NACHA</title>
 <meta name="description" content="元祖『無限の階段』スタイル！「上がる」と「方向転換」の2ボタンで、斜め上へ伸びる石段をテンポよく駆け上がろう！">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
@@ -341,10 +341,94 @@ canvas#stage {
   100% { transform: translateY(-46px) scale(1.2); opacity: 0; }
 }
 </style>
+
+<style>
+/* ── 和紙・寺院禅トーンの108段UI ── */
+:root {
+  --washi-bg: #1a1412;
+  --gold-temple: #c59b27;
+  --vermilion: #b83823;
+  --line-gold: rgba(197, 155, 39, 0.4);
+}
+.sheet-border-overlay {
+  position: absolute;
+  inset: 8px;
+  border: 1px solid var(--line-gold);
+  border-radius: 20px;
+  pointer-events: none;
+  z-index: 5;
+}
+.hud-step-box {
+  background: rgba(26, 20, 18, 0.88) !important;
+  border: 1.5px solid var(--gold-temple) !important;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4) !important;
+}
+.hud-step-count {
+  color: var(--gold-temple) !important;
+  font-family: "Shippori Mincho", "Zen Old Mincho", serif !important;
+  font-weight: 800 !important;
+}
+.hud-coin-badge {
+  background: rgba(26, 20, 18, 0.88) !important;
+  border: 1.5px solid var(--gold-temple) !important;
+}
+.title-overlay {
+  background: radial-gradient(circle at center, rgba(35,24,20,0.94) 0%, rgba(18,12,10,0.98) 100%) !important;
+  border: 1px solid var(--gold-temple);
+  border-radius: 24px;
+  margin: 16px;
+  height: calc(100% - 32px);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.7), inset 0 0 30px rgba(197,155,39,0.08);
+}
+.title-h1 {
+  font-family: "Shippori Mincho", "Zen Old Mincho", serif !important;
+  letter-spacing: .18em !important;
+  color: #fffdfa !important;
+}
+.title-start-btn {
+  background: linear-gradient(135deg, var(--vermilion) 0%, #8c2616 100%) !important;
+  border: 1.5px solid #f1948a !important;
+  font-family: "Shippori Mincho", serif !important;
+  letter-spacing: .12em !important;
+  border-radius: 999px !important;
+  padding: 16px 36px !important;
+  box-shadow: 0 8px 24px rgba(184, 56, 35, 0.4) !important;
+}
+/* 操作ボタンの上品な押し心地 */
+.ctrl-btn-turn {
+  background: linear-gradient(135deg, #3d322a 0%, #221a15 100%) !important;
+  border: 1.5px solid var(--gold-temple) !important;
+  color: #f7f3ec !important;
+  border-radius: 20px !important;
+}
+.ctrl-btn-climb {
+  background: linear-gradient(135deg, var(--vermilion) 0%, #802012 100%) !important;
+  border: 1.5px solid #f1948a !important;
+  color: #fff !important;
+  border-radius: 20px !important;
+}
+.ctrl-text {
+  font-family: "Shippori Mincho", "Zen Old Mincho", serif !important;
+  font-weight: 700 !important;
+  letter-spacing: .08em !important;
+}
+.result-box {
+  background: linear-gradient(145deg, #241a16 0%, #150f0c 100%) !important;
+  border: 1.5px solid var(--gold-temple) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 30px rgba(197,155,39,0.08) !important;
+}
+.result-title {
+  font-family: "Shippori Mincho", serif !important;
+  letter-spacing: .15em !important;
+}
+</style>
+
 </head>
 
 <body>
 <div id="gameWrap">
+  <div class="sheet-border-overlay"></div>
 
   <!-- ゲーム描画キャンバス -->
   <canvas id="stage"></canvas>
@@ -388,9 +472,7 @@ canvas#stage {
     <img src="assets/nacha-climb.png" alt="Nacha" style="width:78px;height:auto;margin-bottom:6px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5))">
     <h1 class="title-h1">天空登詣 · 無限の石段</h1>
     <p class="title-desc">
-      斜め上へ伸びる石段をリズミカルに駆け上がろう！<br>
-      <b>「上がる」</b> と <b>「方向転換」</b> で雲海の天空寺院へ！<br>
-      集めたコインは授与所でお買い物に使えます。
+      雲海を見晴らす天空の参道。<br><b>「上がる」</b>と<b>「方向転換」</b>で百八の煩悩を払い、頂の観音堂を目指しましょう。<br>小さな守護神ナチャがあなたを見守っています。
     </p>
     <button type="button" class="title-start-btn" id="btnStart">登詣スタート！</button>
   </div>
@@ -455,6 +537,27 @@ canvas#stage {
       audioCtx.resume();
     }
     return audioCtx;
+  }
+
+  
+  // 寺院の心地よい清らかな鐘・鈴の音 (Temple Bell & Mokugyo Synth)
+  function playTempleGong() {
+    var ctx = getAudio();
+    if (!ctx) return;
+    try {
+      [587.33, 880, 1174.66].forEach(function(freq, i) {
+        var osc = ctx.createOscillator();
+        var gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.18 / (i + 1), ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.6);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.6);
+      });
+    } catch(e) {}
   }
 
   function playHopSound(freq) {
