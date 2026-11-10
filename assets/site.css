@@ -1312,3 +1312,128 @@ body.authmode main{padding-bottom:24px}
 .zen-goshuin-wide-card:active {
   transform: scale(0.98);
 }
+
+
+/* ==========================================
+   本日の参拝めぐり (Daily Pilgrimage)
+   ========================================== */
+.zen-pilgrimage-card {
+  max-width: 480px;
+  margin: 0 auto 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 12px 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s ease;
+  text-align: left;
+}
+.zen-pilgrimage-card.completed {
+  border-color: rgba(212, 172, 13, 0.5);
+  background: linear-gradient(135deg, var(--card) 0%, rgba(212, 172, 13, 0.08) 100%);
+  box-shadow: 0 6px 20px rgba(212, 172, 13, 0.12);
+}
+
+.zen-pilgrim-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.zen-pilgrim-title {
+  font-family: "Noto Serif JP", serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  color: var(--ink);
+}
+.zen-pilgrim-badge {
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--sub);
+  background: var(--accSoft);
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.5px;
+}
+.zen-pilgrimage-card.completed .zen-pilgrim-badge {
+  color: #D4AC0D;
+  background: rgba(212, 172, 13, 0.15);
+  font-weight: 900;
+}
+
+.zen-pilgrim-steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.zen-p-chip {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--sub);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 1.4, 0.4, 1);
+  font-family: inherit;
+  position: relative;
+}
+.zen-p-chip:hover {
+  border-color: var(--acc);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+.zen-p-chip:active {
+  transform: scale(0.96);
+}
+.zen-p-chip .p-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+
+/* 達成済みチップ */
+.zen-p-chip.done {
+  background: rgba(212, 172, 13, 0.12);
+  border-color: #D4AC0D;
+  color: var(--ink);
+  font-weight: 800;
+}
+.zen-p-chip.done .p-icon {
+  filter: drop-shadow(0 0 3px rgba(212, 172, 13, 0.5));
+}
+.zen-p-chip.done::after {
+  content: '✓';
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  font-size: 10px;
+  color: #27ae60;
+  font-weight: 900;
+}
+
+.zen-pilgrim-blessing {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #C0392B;
+  background: rgba(192, 57, 43, 0.08);
+  border: 1px dashed rgba(192, 57, 43, 0.3);
+  padding: 6px 10px;
+  border-radius: 10px;
+  margin-top: 8px;
+  text-align: center;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .zen-pilgrim-blessing {
+    color: #F4D03F;
+    background: rgba(212, 172, 13, 0.12);
+    border-color: rgba(212, 172, 13, 0.35);
+  }
+}

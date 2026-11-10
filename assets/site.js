@@ -45,6 +45,7 @@
     var pi=0,li=0,img=document.getElementById('nachaImg'),bb=document.getElementById('bubble');
     P.forEach(function(u){var i=new Image();i.src=u});
     nb.addEventListener('click',function(ev){
+      if (window.markPilgrimStep) window.markPilgrimStep('nacha');
       if(navigator.vibrate)try{navigator.vibrate(18)}catch(e){}
       var hr=new Date().getHours();
       var pool=L;
@@ -222,6 +223,7 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
 
   // 528Hz 悠遊観音堂の参拝の鈴（おりん / シンギングボウル）
   window.playTempleBell = function(btn) {
+    if (window.markPilgrimStep) window.markPilgrimStep("bell");
     if (btn) {
       btn.classList.remove('ringing');
       void btn.offsetWidth;
@@ -345,5 +347,110 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
         NachaCoins.onChange(syncCoins);
       }
     });
+  }
+})();
+
+
+// ==========================================
+// 本日の参拝めぐり（デイリーミニ巡礼ロジック）
+// ==========================================
+(function(){
+  var STORAGE_KEY = 'nacha_daily_pilgrimage';
+  function getTodayStr() {
+    var d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+
+  function getPilgrimData() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        var data = JSON.parse(raw);
+        if (data.date === getTodayStr()) return data;
+      }
+    } catch(e){}
+    return { date: getTodayStr(), bell: false, nacha: false, visit: false, rewarded: false };
+  }
+
+  function savePilgrimData(data) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    } catch(e){}
+    renderPilgrimUI();
+  }
+
+  window.markPilgrimStep = function(stepKey) {
+    var data = getPilgrimData();
+    if (!data[stepKey]) {
+      data[stepKey] = true;
+      if (data.bell && data.nacha && data.visit && !data.rewarded) {
+        data.rewarded = true;
+        savePilgrimData(data);
+        if (window.NachaCoins) {
+          NachaCoins.earn('pilgrimage_complete', 5);
+          if (NachaCoins.showEarnToast) {
+            NachaCoins.showEarnToast(5, '参拝満願成就！神様のご加護');
+          }
+        }
+      } else {
+        savePilgrimData(data);
+      }
+    }
+  };
+
+  // サブページを開いていたら自動的に 'visit' を達成
+  var loc = window.location.href;
+  if (loc.indexOf('/amulet/') >= 0 || loc.indexOf('/rest/') >= 0 || loc.indexOf('/ema/') >= 0 ||
+      loc.indexOf('/goma/') >= 0 || loc.indexOf('/goshuin/') >= 0 || loc.indexOf('/arcade/') >= 0) {
+    window.markPilgrimStep('visit');
+  }
+
+  function renderPilgrimUI() {
+    var card = document.getElementById('pilgrimCard');
+    if (!card) return;
+    var data = getPilgrimData();
+    var count = (data.bell ? 1 : 0) + (data.nacha ? 1 : 0) + (data.visit ? 1 : 0);
+
+    var badge = document.getElementById('pilgrimBadge');
+    if (badge) {
+      badge.textContent = count === 3 ? '✨ 満願達成' : count + ' / 3';
+    }
+
+    var cBell = document.getElementById('pChipBell');
+    if (cBell) cBell.classList.toggle('done', !!data.bell);
+
+    var cNacha = document.getElementById('pChipNacha');
+    if (cNacha) cNacha.classList.toggle('done', !!data.nacha);
+
+    var cVisit = document.getElementById('pChipVisit');
+    if (cVisit) cVisit.classList.toggle('done', !!data.visit);
+
+    var blessing = document.getElementById('pilgrimBlessing');
+    if (blessing) {
+      blessing.hidden = (count < 3);
+    }
+    card.classList.toggle('completed', count === 3);
+  }
+
+  function initPilgrim() {
+    renderPilgrimUI();
+    var cBell = document.getElementById('pChipBell');
+    if (cBell) cBell.addEventListener('click', function(){
+      var bellBtn = document.getElementById('templeBellBtn');
+      if (bellBtn) {
+        window.playTempleBell(bellBtn);
+      }
+    });
+    var cNacha = document.getElementById('pChipNacha');
+    if (cNacha) cNacha.addEventListener('click', function(){
+      var nachaBtn = document.getElementById('nachaBtn');
+      if (nachaBtn) nachaBtn.click();
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initPilgrim);
+  } else {
+    initPilgrim();
   }
 })();
