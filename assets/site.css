@@ -1179,3 +1179,136 @@ body.authmode main{padding-bottom:24px}
   .ibtn { width: 34px; height: 34px; }
   .header-coin-badge { padding: 3px 9px; font-size: 11.5px; }
 }
+
+
+/* ==========================================
+   境内4大社・美麗ビジュアルカード (Precinct Visual Cards)
+   ========================================== */
+.zen-precinct-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (max-width: 380px) {
+  .zen-precinct-grid {
+    gap: 8px;
+  }
+}
+
+.zen-precinct-card {
+  position: relative;
+  height: 124px;
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  align-items: flex-end;
+  padding: 12px 14px;
+  box-sizing: border-box;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--line);
+  transition: transform 0.25s cubic-bezier(0.2, 1.4, 0.4, 1), box-shadow 0.25s, border-color 0.25s;
+}
+.zen-precinct-card:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+}
+.zen-precinct-card:active {
+  transform: scale(0.97);
+}
+
+.zen-precinct-card .zen-card-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+.zen-precinct-card:hover .zen-card-bg {
+  transform: scale(1.08);
+}
+
+.zen-precinct-card .zen-card-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(12, 6, 14, 0.95) 0%, rgba(12, 6, 14, 0.52) 60%, rgba(12, 6, 14, 0.2) 100%);
+}
+
+.zen-precinct-card .zen-card-content {
+  position: relative;
+  z-index: 2;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.zen-precinct-sub {
+  display: block;
+  font-size: 9.5px;
+  font-weight: 800;
+  color: #F4D03F;
+  letter-spacing: 0.8px;
+  margin-bottom: 2px;
+}
+
+.zen-precinct-title {
+  font-family: "Noto Serif JP", serif;
+  font-size: 15.5px;
+  font-weight: 900;
+  color: #FFFFFF;
+  margin: 0 0 2px;
+  letter-spacing: 0.3px;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.zen-precinct-desc {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.25;
+}
+
+.zen-precinct-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  display: grid;
+  place-items: center;
+  font-size: 17px;
+  flex-shrink: 0;
+  margin-left: 6px;
+}
+
+/* 御朱印帳ワイドカード */
+.zen-goshuin-wide-card {
+  position: relative;
+  height: 88px;
+  border-radius: 18px;
+  overflow: hidden;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 14px 18px;
+  box-sizing: border-box;
+  margin-top: 12px;
+  background: linear-gradient(135deg, #4A0E17 0%, #29060B 100%);
+  border: 1.5px solid rgba(212, 172, 13, 0.45);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.25s cubic-bezier(0.2, 1.4, 0.4, 1), box-shadow 0.25s;
+}
+.zen-goshuin-wide-card:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+  border-color: #D4AC0D;
+}
+.zen-goshuin-wide-card:active {
+  transform: scale(0.98);
+}

@@ -108,60 +108,80 @@
 
   </section>
 
-  <!-- 【第2段】境内のご案内：重複のない4つの社 ＋ 御朱印 -->
-  <section class="reveal" style="margin-top:20px">
+  <!-- 【第2段】境内のご案内：美麗ビジュアルカード ＋ 御朱印 -->
+  <section class="reveal" style="margin-top:24px">
     <h2 class="sec" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
       <span>⛩️ 境内の各堂をめぐる</span>
       <small style="font-size:11px;color:var(--sub)">悠遊観音堂</small>
     </h2>
 
-    <div style="display:grid;grid-template-columns:repeat(2, 1fr);gap:12px;">
-      <!-- 絵馬掛け所 -->
-      <a class="tile" href="ema/" style="border:1px solid var(--line);box-shadow:var(--shadow)">
-        <div style="background:linear-gradient(135deg,#c79c65,#8e6538);color:#fff;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-          <span style="font-size:32px">🪵</span>
-          <span style="font-weight:900;font-size:13.5px">絵馬掛け所</span>
+    <div class="zen-precinct-grid">
+      <!-- ① 絵馬掛け所 -->
+      <a href="ema/" class="zen-precinct-card" style="border-color: rgba(212,172,13,0.3);">
+        <img class="zen-card-bg" src="assets/community.jpg" alt="絵馬掛け所" width="512" height="288" loading="lazy" style="object-position: 70% 40%;">
+        <div class="zen-card-scrim"></div>
+        <div class="zen-card-content">
+          <div>
+            <span class="zen-precinct-sub">VOTIVE TABLETS</span>
+            <h3 class="zen-precinct-title">絵馬掛け所</h3>
+            <span class="zen-precinct-desc">想いを刻み、合掌</span>
+          </div>
+          <span class="zen-precinct-icon">🪵</span>
         </div>
-        <b style="font-size:11.5px;padding:8px">想いを刻み、みんなで合掌</b>
       </a>
 
-      <!-- 護摩堂 -->
-      <a class="tile" href="goma/" style="border:1px solid rgba(212,172,13,0.3);box-shadow:var(--shadow)">
-        <div style="background:linear-gradient(135deg,#3d0c07,#1a0402);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-          <span style="font-size:32px">🔥</span>
-          <span style="font-weight:900;font-size:13.5px">境内 護摩堂</span>
+      <!-- ② 護摩堂 -->
+      <a href="goma/" class="zen-precinct-card" style="border-color: rgba(192,57,43,0.45);">
+        <img class="zen-card-bg" src="assets/cast.jpg" alt="護摩堂" width="512" height="288" loading="lazy" style="object-position: 58% 40%;">
+        <div class="zen-card-scrim" style="background: linear-gradient(to top, rgba(20,5,4,0.95) 0%, rgba(20,5,4,0.55) 60%, rgba(20,5,4,0.2) 100%);"></div>
+        <div class="zen-card-content">
+          <div>
+            <span class="zen-precinct-sub" style="color:#FFA07A;">SACRED FIRE</span>
+            <h3 class="zen-precinct-title">境内 護摩堂</h3>
+            <span class="zen-precinct-desc">当落の不安を神火で浄化</span>
+          </div>
+          <span class="zen-precinct-icon">🔥</span>
         </div>
-        <b style="font-size:11.5px;padding:8px">当落の胃痛・不安を神火で浄化</b>
       </a>
 
-      <!-- 電子木魚堂 -->
-      <a class="tile" href="arcade/mokugyo/" style="border:1px solid rgba(212,172,13,0.3);box-shadow:var(--shadow)">
-        <div style="background:linear-gradient(135deg,#4a220d,#241005);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-          <span style="font-size:32px">🪵</span>
-          <span style="font-weight:900;font-size:13.5px">電子木魚堂</span>
+      <!-- ③ 電子木魚堂 -->
+      <a href="arcade/mokugyo/" class="zen-precinct-card" style="border-color: rgba(212,172,13,0.3);">
+        <img class="zen-card-bg" src="assets/grow.jpg" alt="電子木魚堂" width="512" height="288" loading="lazy" style="object-position: 50% 30%;">
+        <div class="zen-card-scrim"></div>
+        <div class="zen-card-content">
+          <div>
+            <span class="zen-precinct-sub">MINDFUL ASMR</span>
+            <h3 class="zen-precinct-title">電子木魚堂</h3>
+            <span class="zen-precinct-desc">ポクポク叩いて徳積み</span>
+          </div>
+          <span class="zen-precinct-icon">🪷</span>
         </div>
-        <b style="font-size:11.5px;padding:8px">ポクポク叩いて徳積み・ASMR</b>
       </a>
 
-      <!-- 大福引き所 -->
-      <a class="tile" href="arcade/fukuiki/" style="border:1.5px solid #D4AC0D;box-shadow:0 0 16px rgba(212,172,13,0.2)">
-        <div style="background:linear-gradient(135deg,#251429,#130816);color:#F4D03F;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px">
-          <span style="font-size:32px">🎴</span>
-          <span style="font-weight:900;font-size:13.5px">大福引き所</span>
+      <!-- ④ 大福引き所 -->
+      <a href="arcade/fukuiki/" class="zen-precinct-card" style="border: 1.5px solid #D4AC0D; box-shadow: 0 0 16px rgba(212,172,13,0.22);">
+        <img class="zen-card-bg" src="assets/app.jpg" alt="大福引き所" width="512" height="288" loading="lazy" style="object-position: 75% 35%;">
+        <div class="zen-card-scrim" style="background: linear-gradient(to top, rgba(22,12,28,0.95) 0%, rgba(22,12,28,0.52) 60%, rgba(22,12,28,0.18) 100%);"></div>
+        <div class="zen-card-content">
+          <div>
+            <span class="zen-precinct-sub">DIVINE GACHA</span>
+            <h3 class="zen-precinct-title">大福引き所</h3>
+            <span class="zen-precinct-desc">10連福引き・神吉カード</span>
+          </div>
+          <span class="zen-precinct-icon">🎴</span>
         </div>
-        <b style="font-size:11.5px;padding:8px">10連福引き・神吉カード授与</b>
       </a>
     </div>
 
     <!-- デジタル御朱印帳（参拝の証）ワイドカード -->
-    <a class="tile" href="goshuin/" style="margin-top:12px;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;align-items:center;padding:12px 16px;text-decoration:none;border-radius:18px;background:var(--card);gap:14px;">
-      <div style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,#8C241B,#50130E);color:#fff;display:grid;place-items:center;font-size:24px;flex-shrink:0;">📿</div>
-      <div style="flex:1;text-align:left;">
-        <div style="font-size:11px;font-weight:700;color:var(--sub);letter-spacing:0.5px;">PILGRIMAGE STAMP</div>
-        <div style="font-family:'Noto Serif JP',serif;font-size:15px;font-weight:900;color:var(--ink);">デジタル御朱印帳</div>
-        <div style="font-size:11.5px;color:var(--sub);">境内の参拝・祈願の証を朱印としてコレクション</div>
+    <a href="goshuin/" class="zen-goshuin-wide-card">
+      <div style="width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#8C241B,#50130E);border:1px solid rgba(255,255,255,0.25);color:#fff;display:grid;place-items:center;font-size:23px;flex-shrink:0;">📿</div>
+      <div style="flex:1;text-align:left;margin-left:14px;">
+        <span style="display:block;font-size:10px;font-weight:800;color:#F4D03F;letter-spacing:1px;margin-bottom:2px;">PILGRIMAGE STAMP</span>
+        <div style="font-family:'Noto Serif JP',serif;font-size:16px;font-weight:900;color:#fff;letter-spacing:0.5px;">デジタル御朱印帳</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.78);margin-top:1px;">境内の参拝・祈願の証を朱印としてコレクション</div>
       </div>
-      <span style="font-size:16px;color:var(--sub);opacity:0.6;">→</span>
+      <span style="font-size:18px;color:#F4D03F;margin-left:8px;transition:transform 0.2s;">→</span>
     </a>
   </section>
 
