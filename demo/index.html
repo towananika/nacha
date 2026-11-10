@@ -3,122 +3,164 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NACHA — 那茶 悠遊観音堂（お試しデザイン）</title>
-<meta name="description" content="やさしさと祈りが、そっと寄り添う場所。小さな守護神ナチャの仮想境内。">
+<title>那茶 悠遊観音堂 — NACHA TEMPLE</title>
+<meta name="description" content="やさしさと祈りが、そっと寄り添う場所。小さな守護神ナチャの天空境内。">
 <meta name="theme-color" content="#b83b26">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Zen+Kaku+Gothic+New:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/site.css">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700;800&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 /* ══════════════════════════════════════════════════
-   和紙のぬくもり・上品なアジアン禅トーン
-   参考画像のレイアウト美 × 本物のナチャ
+   NACHA RE-DESIGN PROTO-V2
+   「那茶神社」の上品なパンフレット・和紙美学を完全再現
 ══════════════════════════════════════════════════ */
 :root {
-  --washi: #f7f3ec;
-  --washi-card: #fffdfa;
-  --sumi: #2b2520;
-  --sumi-light: #6e645a;
-  --vermilion: #b83b26; /* 朱色 */
-  --vermilion-soft: rgba(184, 59, 38, 0.08);
-  --gold-accent: #c59b27;
-  --border-delicate: #e8dfd1;
-  --font-serif: "Shippori Mincho", "Hiragino Mincho ProN", serif;
-  --font-sans: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  --washi-base: #f5f0e6;
+  --washi-sheet: #fbf9f4;
+  --washi-subtle: #f0ebe0;
+  --ink: #2b241e;
+  --ink-light: #73675a;
+  --vermilion: #b83823;
+  --vermilion-light: rgba(184, 56, 35, 0.08);
+  --gold: #bfa15f;
+  --gold-soft: rgba(191, 161, 95, 0.15);
+  --line-gold: #e2d7c5;
+  --line-fine: #ebe3d5;
+  --font-serif: "Shippori Mincho", "Zen Old Mincho", "Hiragino Mincho ProN", serif;
 }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: var(--washi);
-  color: var(--sumi);
-  font-family: var(--font-sans);
+  background: var(--washi-base);
+  color: var(--ink);
+  font-family: var(--font-serif);
+  line-height: 1.7;
+  padding: 16px 12px 100px;
+  /* 上品な和紙・繊維テクスチャの再現 */
   background-image: 
-    radial-gradient(circle at 10% 10%, rgba(197, 155, 39, 0.03) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(184, 59, 38, 0.03) 0%, transparent 40%);
-  padding-bottom: 90px;
+    radial-gradient(circle at 50% 0%, #fffbf2 0%, var(--washi-base) 90%),
+    repeating-linear-gradient(45deg, rgba(191, 161, 95, 0.015) 0px, rgba(191, 161, 95, 0.015) 2px, transparent 2px, transparent 8px);
 }
 
-.zen-container {
+/* 1枚の額縁パンフレット風コンテナ */
+.sheet-canvas {
   max-width: 680px;
   margin: 0 auto;
-  padding: 16px 20px 40px;
+  background: var(--washi-sheet);
+  border: 1px solid var(--line-gold);
+  border-radius: 20px;
+  padding: 28px 24px 36px;
+  box-shadow: 
+    0 12px 36px rgba(43, 36, 30, 0.06),
+    inset 0 0 40px rgba(191, 161, 95, 0.04);
+  position: relative;
+  overflow: hidden;
 }
 
-/* ── 題字・ヘッダー ── */
-.shrine-header {
+/* 額縁の内枠（ダブルボーダー） */
+.sheet-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--line-gold);
+  border-radius: 14px;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+/* ── 表題部（HEADER） ── */
+.header-emblem {
   text-align: center;
-  padding: 24px 0 20px;
-  border-bottom: 1px solid var(--border-delicate);
-  margin-bottom: 24px;
+  margin-bottom: 2px;
 }
-.shrine-emblem {
-  font-size: 24px;
-  color: var(--vermilion);
-  margin-bottom: 4px;
-  display: inline-block;
+.header-emblem svg {
+  width: 36px;
+  height: 36px;
+  fill: var(--gold);
 }
-.shrine-title-main {
-  font-family: var(--font-serif);
+.site-title {
+  text-align: center;
   font-size: 32px;
   font-weight: 800;
-  letter-spacing: .18em;
-  color: var(--sumi);
-  margin: 2px 0 4px;
-  text-indent: .18em;
+  letter-spacing: .22em;
+  color: var(--ink);
+  text-indent: .22em;
+  margin-bottom: 2px;
 }
-.shrine-title-en {
+.site-subtitle {
+  text-align: center;
   font-size: 11px;
-  letter-spacing: .24em;
-  color: var(--gold-accent);
-  text-transform: uppercase;
+  letter-spacing: .32em;
+  color: var(--gold);
   font-weight: 700;
   margin-bottom: 12px;
 }
-.shrine-lead {
-  font-family: var(--font-serif);
+.mizuhiki-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 auto 16px;
+  max-width: 260px;
+}
+.mizuhiki-line::before, .mizuhiki-line::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line-gold);
+}
+.mizuhiki-icon {
+  width: 18px;
+  height: 18px;
+  fill: var(--gold);
+}
+.tagline-ribbon {
+  text-align: center;
   font-size: 13px;
-  letter-spacing: .12em;
-  color: var(--sumi-light);
-  margin: 0;
+  letter-spacing: .16em;
+  color: var(--ink-light);
+  margin-bottom: 28px;
 }
 
-/* ── 二段組メイン（祈りの短冊 ＆ ナチャの佇まい） ── */
-.top-stage {
+/* ── セクション1：短冊 ＆ ナチャ ＆ 背景（TOP ROW） ── */
+.shrine-hero-grid {
   display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 16px;
-  margin-bottom: 24px;
+  grid-template-columns: 110px 1fr;
+  gap: 18px;
+  margin-bottom: 28px;
+  align-items: stretch;
 }
-@media (max-width: 480px) {
-  .top-stage {
-    grid-template-columns: 100px 1fr;
+@media (max-width: 440px) {
+  .shrine-hero-grid {
+    grid-template-columns: 88px 1fr;
     gap: 12px;
   }
 }
 
-/* 縦書きの短冊（祈り札） */
-.tanzaku-card {
-  background: var(--washi-card);
-  border: 1px solid var(--border-delicate);
-  border-radius: 16px;
-  padding: 20px 12px;
+/* 祈りの短冊 */
+.tanzaku-frame {
+  background: #fff;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  padding: 20px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 4px 14px rgba(43, 37, 32, 0.03);
+  box-shadow: 0 4px 12px rgba(43, 36, 30, 0.03);
 }
-.tanzaku-text {
+.tanzaku-content {
   writing-mode: vertical-rl;
-  font-family: var(--font-serif);
-  font-size: 14px;
-  letter-spacing: .25em;
-  line-height: 2;
-  color: var(--sumi);
-  margin: 6px 0;
+  font-size: 13px;
+  letter-spacing: .24em;
+  line-height: 2.1;
+  color: var(--ink);
+  font-weight: 500;
+  margin: 8px 0;
 }
-.tanzaku-stamp {
+.vermilion-seal {
   width: 28px;
   height: 28px;
   border: 1.5px solid var(--vermilion);
@@ -126,291 +168,374 @@ body {
   border-radius: 4px;
   display: grid;
   place-items: center;
-  font-family: var(--font-serif);
   font-size: 11px;
   font-weight: 800;
   line-height: 1;
 }
 
-/* ナチャの佇まいカード */
-.nacha-stage-card {
-  background: var(--washi-card);
-  border: 1px solid var(--border-delicate);
-  border-radius: 20px;
-  padding: 18px;
+/* 主役ナチャと天空背景カード */
+.nacha-stage-frame {
+  background: #fff;
+  border: 1px solid var(--line-gold);
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(43, 37, 32, 0.03);
+  box-shadow: 0 4px 12px rgba(43, 36, 30, 0.03);
 }
-.nacha-stage-card::before {
-  content: "";
+.nacha-stage-bg {
   position: absolute;
-  right: -20px;
-  top: -20px;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(197, 155, 39, 0.1) 0%, transparent 70%);
+  right: -10px;
+  bottom: -20px;
+  width: 220px;
+  opacity: 0.18;
   pointer-events: none;
+  filter: sepia(0.6);
 }
-.stage-tag {
-  font-size: 11px;
-  color: var(--vermilion);
+.stage-label-en {
+  font-size: 10px;
+  letter-spacing: .18em;
+  color: var(--gold);
   font-weight: 700;
-  letter-spacing: .08em;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  text-transform: uppercase;
 }
-.stage-avatar-box {
+.stage-main-visual {
   text-align: center;
   margin: 10px 0;
+  position: relative;
+  z-index: 2;
 }
-.stage-avatar-box img {
+.stage-main-visual img {
   width: 140px;
   height: auto;
-  filter: drop-shadow(0 8px 16px rgba(0,0,0,0.1));
-  transition: transform .25s ease;
+  filter: drop-shadow(0 10px 18px rgba(43,36,30,0.14));
+  transition: transform .3s ease;
 }
-.stage-avatar-box img:hover {
+.stage-main-visual img:hover {
   transform: scale(1.05);
 }
-.stage-quote {
-  background: var(--washi);
-  border-left: 2px solid var(--gold-accent);
+.stage-words {
+  position: relative;
+  z-index: 2;
+  background: rgba(245, 240, 230, 0.85);
+  border-left: 2px solid var(--vermilion);
   padding: 8px 12px;
-  border-radius: 0 10px 10px 0;
-  font-family: var(--font-serif);
+  border-radius: 0 8px 8px 0;
   font-size: 12px;
-  color: var(--sumi);
+  color: var(--ink);
   line-height: 1.6;
 }
 
-/* ── 境内のご案内（上品なカード枠） ── */
-.sec-heading {
-  font-family: var(--font-serif);
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  color: var(--sumi);
-  margin: 28px 0 14px;
+/* ── セクション見出し ── */
+.fine-heading {
   display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 12px;
+  font-size: 14px;
+  letter-spacing: .2em;
+  color: var(--ink);
+  font-weight: 700;
+  margin: 32px 0 16px;
+  text-indent: .2em;
 }
-.sec-heading::after {
+.fine-heading::before, .fine-heading::after {
   content: "";
   flex: 1;
   height: 1px;
-  background: var(--border-delicate);
+  background: var(--line-gold);
 }
 
-.guidance-grid {
+/* ── 境内のご案内（3大体験カード） ── */
+.shrine-doors-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
+  margin-bottom: 28px;
 }
-@media (max-width: 560px) {
-  .guidance-grid {
+@media (max-width: 580px) {
+  .shrine-doors-grid {
     grid-template-columns: 1fr;
     gap: 10px;
   }
 }
-.guidance-card {
-  background: var(--washi-card);
-  border: 1px solid var(--border-delicate);
-  border-radius: 16px;
-  padding: 16px;
+.shrine-door-card {
+  background: #fff;
+  border: 1px solid var(--line-gold);
+  border-radius: 14px;
+  padding: 16px 14px;
   text-decoration: none;
-  color: var(--sumi);
+  color: var(--ink);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  box-shadow: 0 3px 10px rgba(43,36,30,0.02);
   transition: all .25s ease;
-  box-shadow: 0 3px 10px rgba(43, 37, 32, 0.02);
 }
-.guidance-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--gold-accent);
-  box-shadow: 0 8px 20px rgba(43, 37, 32, 0.06);
+.shrine-door-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--gold);
+  box-shadow: 0 8px 24px rgba(43,36,30,0.07);
 }
-.guidance-icon {
-  font-size: 26px;
-  margin-bottom: 8px;
-}
-.guidance-card h4 {
-  font-family: var(--font-serif);
-  font-size: 15px;
+.door-badge {
+  font-size: 10px;
+  letter-spacing: .12em;
+  color: var(--gold);
   font-weight: 700;
-  margin: 0 0 4px;
-  color: var(--sumi);
+  margin-bottom: 6px;
 }
-.guidance-card p {
+.door-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.door-desc {
   font-size: 11px;
-  color: var(--sumi-light);
-  margin: 0;
-  line-height: 1.5;
+  color: var(--ink-light);
+  line-height: 1.6;
 }
 
-/* ── NACHA ギャラリー小窓（3連） ── */
-.gallery-section {
-  background: var(--washi-card);
-  border: 1px solid var(--border-delicate);
-  border-radius: 20px;
-  padding: 18px;
-  margin-top: 24px;
+/* ── NACHA ギャラリー小窓（4スクエア） ── */
+.gallery-shelf {
+  background: #fff;
+  border: 1px solid var(--line-gold);
+  border-radius: 16px;
+  padding: 18px 16px;
+  margin-bottom: 28px;
 }
-.gallery-head {
+.gallery-shelf-head {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
 }
-.gallery-head h4 {
-  font-family: var(--font-serif);
-  font-size: 14px;
-  letter-spacing: .08em;
-  margin: 0;
+.gallery-shelf-title {
+  font-size: 12px;
+  letter-spacing: .16em;
+  color: var(--ink);
+  font-weight: 700;
 }
-.gallery-grid {
+.gallery-shelf-link {
+  font-size: 11px;
+  color: var(--vermilion);
+  text-decoration: none;
+  letter-spacing: .08em;
+}
+.gallery-quad {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  gap: 8px;
 }
 @media (max-width: 480px) {
-  .gallery-grid {
+  .gallery-quad {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-.gallery-item {
-  border-radius: 12px;
+.gallery-quad-box {
+  border-radius: 10px;
   overflow: hidden;
-  border: 1px solid var(--border-delicate);
-  background: var(--washi);
+  border: 1px solid var(--line-fine);
   aspect-ratio: 1;
+  background: var(--washi-subtle);
 }
-.gallery-item img {
+.gallery-quad-box img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform .3s ease;
 }
-.gallery-item:hover img {
+.gallery-quad-box:hover img {
   transform: scale(1.08);
 }
 
-/* ── お寺の由緒 ── */
-.temple-footnote {
+/* ── 実在の寺院と公式SNS（FOOTER） ── */
+.shrine-footer {
   text-align: center;
+  border-top: 1px solid var(--line-gold);
   padding-top: 24px;
-  margin-top: 30px;
-  border-top: 1px solid var(--border-delicate);
-  font-size: 12px;
-  color: var(--sumi-light);
-  line-height: 1.8;
 }
+.temple-record-note {
+  font-size: 12px;
+  letter-spacing: .08em;
+  color: var(--ink-light);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+.sns-row {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.sns-row a {
+  font-size: 12px;
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--gold);
+  padding-bottom: 1px;
+}
+.unoff-notice {
+  font-size: 11px;
+  color: var(--ink-light);
+  opacity: .8;
+}
+
+/* ── 5大タブバー（和風調和） ── */
+.tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 99;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom));
+  background: rgba(251, 249, 244, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line-gold);
+  box-shadow: 0 -4px 16px rgba(43,36,30,0.04);
+}
+.tabs a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 12px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: var(--ink-light);
+  font-size: 11px;
+  font-weight: 700;
+  transition: all .2s ease;
+}
+.tabs a[aria-current="page"] {
+  color: var(--vermilion);
+  background: var(--vermilion-light);
+}
+.tabs a span { font-size: 18px; }
 </style>
 </head>
 <body>
 
-<div class="zen-container">
+<div class="sheet-canvas">
 
-  <!-- ⛩️ 題字・ヘッダー -->
-  <header class="shrine-header">
-    <div class="shrine-emblem">🪷</div>
-    <h1 class="shrine-title-main">那茶 悠遊観音堂</h1>
-    <div class="shrine-title-en">NACHA TEMPLE 2.0</div>
-    <p class="shrine-lead">やさしさと祈りが、そっと寄り添う場所。</p>
+  <!-- ⛩️ 表題部 -->
+  <header>
+    <div class="header-emblem">
+      <!-- 蓮華紋章（ロータス） -->
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+        <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+        <circle cx="12" cy="20.5" r="1.5"/>
+      </svg>
+    </div>
+    <h1 class="site-title">那茶 悠遊観音堂</h1>
+    <div class="site-subtitle">NACHA TEMPLE 2.0</div>
+    <div class="mizuhiki-line">
+      <svg class="mizuhiki-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><circle cx="6" cy="12" r="2"/><circle cx="18" cy="12" r="2"/></svg>
+    </div>
+    <p class="tagline-ribbon">やさしさと祈りが、そっと寄り添う場所。</p>
   </header>
 
-  <!-- ⛩️ メイン二段組（祈りの短冊 ＆ ナチャ） -->
-  <section class="top-stage">
+  <!-- ⛩️ セクション1：短冊 ＆ ナチャ ＆ 背景 -->
+  <section class="shrine-hero-grid">
     
-    <!-- 縦書き短冊 -->
-    <div class="tanzaku-card">
-      <div style="font-size:12px;color:var(--vermilion)">✦</div>
-      <div class="tanzaku-text">
+    <!-- 祈りの短冊（左） -->
+    <div class="tanzaku-frame">
+      <div style="font-size:11px;color:var(--vermilion)">✦</div>
+      <div class="tanzaku-content">
         今日も、あなたの幸せを祈っています。
       </div>
-      <div class="tanzaku-stamp">那茶</div>
+      <div class="vermilion-seal">那茶</div>
     </div>
 
-    <!-- ナチャの佇まい -->
-    <div class="nacha-stage-card">
-      <div>
-        <div class="stage-tag"><span>🪷</span><span>小さな守護神</span></div>
-        <div class="stage-avatar-box">
-          <img src="../assets/nacha-wink.webp" alt="ナチャ" width="712" height="1072">
-        </div>
+    <!-- 主役ナチャと天空背景カード（右） -->
+    <div class="nacha-stage-frame">
+      <img class="nacha-stage-bg" src="../assets/community.jpg" alt="" aria-hidden="true">
+      <div class="stage-label-en">ABOUT NACHA</div>
+      <div class="stage-main-visual">
+        <img src="../assets/nacha-wink.webp" alt="小さな神様ナチャ" width="712" height="1072">
       </div>
-      <div class="stage-quote">
+      <div class="stage-words">
         「内緒だよ、僕がやったって。君が今日笑ってくれたら、それで満点！」
       </div>
     </div>
 
   </section>
 
-  <!-- ⛩️ 境内のご案内（3大体験） -->
-  <div class="sec-heading">境内のご案内</div>
-  <div class="guidance-grid">
-    <a href="../arcade/steps/" class="guidance-card">
+  <!-- ⛩️ 境内のご案内（3大体験カード） -->
+  <div class="fine-heading">境内のご案内</div>
+  <div class="shrine-doors-grid">
+
+    <!-- ① 108段 -->
+    <a href="../arcade/steps/" class="shrine-door-card">
       <div>
-        <div class="guidance-icon">⛩️</div>
-        <h4>百八の石段登詣</h4>
-        <p>天空の雲海を見晴らす石段。一段ずつ心を調えて頂へ。</p>
+        <div class="door-badge">壱 · 登詣</div>
+        <h3 class="door-title">百八の石段</h3>
+        <p class="door-desc">天空の雲海を見晴らす石段。心を調え頂を目指す修行の道。</p>
       </div>
     </a>
-    <a href="../amulet/" class="guidance-card">
+
+    <!-- ② 心願お守り -->
+    <a href="../amulet/" class="shrine-door-card">
       <div>
-        <div class="guidance-icon">🧧</div>
-        <h4>心願・推し活お守り</h4>
-        <p>あなたの願いと推し色を選び、世界でひとつのお守りを。</p>
+        <div class="door-badge">弐 · 祈願</div>
+        <h3 class="door-title">心願お守り</h3>
+        <p class="door-desc">あなたの願いと推し色を選び、世界でひとつだけの護符を謹製。</p>
       </div>
     </a>
-    <a href="../shop/" class="guidance-card">
+
+    <!-- ③ 授与所 -->
+    <a href="../shop/" class="shrine-door-card">
       <div>
-        <div class="guidance-icon">🎁</div>
-        <h4>境内授与所</h4>
-        <p>集めた徳（コイン）でお供えやアバター衣装を整える。</p>
+        <div class="door-badge">参 · 授与</div>
+        <h3 class="door-title">境内授与所</h3>
+        <p class="door-desc">集めた徳（コイン）でお供えを捧げ、アバター衣装を整える。</p>
       </div>
     </a>
+
   </div>
 
   <!-- ⛩️ NACHA ギャラリー小窓 -->
-  <section class="gallery-section">
-    <div class="gallery-head">
-      <h4>✦ 那茶の姿（ギャラリー）</h4>
-      <a href="../characters/" style="font-size:11px;color:var(--vermilion);font-weight:700;text-decoration:none">神様名鑑へ ↗</a>
+  <section class="gallery-shelf">
+    <div class="gallery-shelf-head">
+      <span class="gallery-shelf-title">✦ NACHA 姿絵（ギャラリー）</span>
+      <a href="../characters/" class="gallery-shelf-link">神様名鑑へ ↗</a>
     </div>
-    <div class="gallery-grid">
-      <div class="gallery-item" title="笑顔">
-        <img src="../assets/poster.jpg" alt="ナチャ" style="object-position:50% 15%">
+    <div class="gallery-quad">
+      <div class="gallery-quad-box" title="決意">
+        <img src="../assets/poster.jpg" alt="ナチャ" style="object-position:50% 12%">
       </div>
-      <div class="gallery-item" title="芽吹き">
-        <img src="../assets/grow.jpg" alt="芽吹き" style="object-position:50% 20%">
+      <div class="gallery-quad-box" title="芽吹き">
+        <img src="../assets/grow.jpg" alt="芽吹き" style="object-position:50% 18%">
       </div>
-      <div class="gallery-item" title="待つ">
-        <img src="../assets/waiting.jpg" alt="待つ" style="object-position:50% 25%">
+      <div class="gallery-quad-box" title="安らぎ">
+        <img src="../assets/waiting.jpg" alt="安らぎ" style="object-position:50% 22%">
       </div>
-      <div class="gallery-item" title="仲間たち">
-        <img src="../assets/cast.jpg" alt="仲間たち" style="object-position:50% 10%">
+      <div class="gallery-quad-box" title="四柱の守護神">
+        <img src="../assets/cast.jpg" alt="四柱の守護神" style="object-position:50% 10%">
       </div>
     </div>
   </section>
 
-  <!-- ⛩️ お寺と公式リンク -->
-  <footer class="temple-footnote">
-    <p>
-      カンボジア・プノンペン実在寺院「悠遊観音堂」より<br>
-      祈りをデジタルに記録し、リアルのお寺へ届けるTemple 2.0構想
+  <!-- ⛩️ 由緒と公式案内（FOOTER） -->
+  <footer class="shrine-footer">
+    <p class="temple-record-note">
+      カンボジア・プノンペン 実在寺院「悠遊観音堂」より<br>
+      祈りをデジタルに刻み、リアルのお寺へ届けるTemple 2.0
     </p>
-    <div style="margin-top:10px">
-      <a href="https://nacha.club/" target="_blank" rel="noopener" style="color:var(--vermilion);text-decoration:none;font-weight:700">公式 nacha.club ↗</a> · 
-      <a href="https://x.com/nacha_project" target="_blank" rel="noopener" style="color:var(--sumi);text-decoration:none">公式X ↗</a>
+    <div class="sns-row">
+      <a href="https://nacha.club/" target="_blank" rel="noopener">公式サイト nacha.club</a>
+      <a href="https://x.com/nacha_project" target="_blank" rel="noopener">公式 X</a>
+      <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <div class="unoff-notice">
+      このページは非公式のファンページです
     </div>
   </footer>
 
