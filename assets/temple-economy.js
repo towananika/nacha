@@ -644,7 +644,7 @@
     },
 
     // ==========================================
-    // 🍂 枝拾い（遠征・放置収穫）システム
+    // 🍂 枝拾い（人操作・作務アクション＆遠征）システム
     // ==========================================
     FORESTS: FORESTS,
 
@@ -665,12 +665,12 @@
 
         var dispatch = temple.forestState.activeDispatches[f.id] || null;
         var isDispatched = !!dispatch;
-        var isReady = false;
+        var isArrived = false;
         var secondsLeft = 0;
 
         if (dispatch) {
           if (now >= dispatch.finishAt) {
-            isReady = true;
+            isArrived = true;
           } else {
             secondsLeft = Math.ceil((dispatch.finishAt - now) / 1000);
           }
@@ -688,14 +688,14 @@
           maxAccumulate: f.maxAccumulate,
           currentBranches: accumulated,
           isDispatched: isDispatched,
-          isReady: isReady,
+          isArrived: isArrived,
           secondsLeft: secondsLeft,
           carryingBranches: dispatch ? dispatch.branchesPicked : 0
         };
       });
     },
 
-    // お寺から出かけて枝拾いへ出発！
+    // お寺から出かけて遠征へ出発！
     startBranchGathering: function(forestId) {
       var f = FORESTS.find(function(item) { return item.id === forestId; });
       if (!f) return { success: false, reason: 'unknown_forest' };
@@ -710,54 +710,149 @@
       var now = Date.now();
       var lastTime = temple.forestState.lastHarvest[f.id] || (now - 600000);
       var elapsedMin = Math.max(0, (now - lastTime) / 60000);
-      var pickedCount = Math.max(1, Math.min(f.maxAccumulate, Math.floor(elapsedMin * f.branchRatePerMin)));
+      var availableCount = Math.max(1, Math.min(f.maxAccumulate, Math.floor(elapsedMin * f.branchRatePerMin)));
 
-      // 枝を拾ったのでエリアの溜まり時間はリセット
-      temple.forestState.lastHarvest[f.id] = now;
-
-      // 遠いほど戻ってくるのに時間がかかる！
+      // 遠いほど現地到着・帰還に時間がかかる！
       temple.forestState.activeDispatches[f.id] = {
         startedAt: now,
         finishAt: now + f.tripDurationMs,
-        branchesPicked: pickedCount
+        branchesTarget: availableCount
       };
       saveTemple(temple);
 
       return {
         success: true,
         forest: f,
-        branchesPicked: pickedCount,
+        availableBranches: availableCount,
         durationSec: Math.round(f.tripDurationMs / 1000)
       };
     },
 
-    // 戻ってきた枝を収穫！
-    claimBranchHarvest: function(forestId) {
+    // ── 人操作・作務セッション管理（ボット自動化防止） ──
+    // メモリ内でセッションを保持し、外部からの不正APIコールを拒絶
+    _activeSamuSessions: {},
+
+    startSamuSession: function(forestId) {
+      var f = FORESTS.find(function(item) { return item.id === forestId; });
+      if (!f) return { success: false, reason: 'unknown_forest' };
+
       var temple = loadTemple();
-      if (!temple.forestState || !temple.forestState.activeDispatches[forestId]) {
-        return { success: false, reason: 'not_dispatched' };
-      }
-
+      temple.forestState = temple.forestState || { lastHarvest: {}, activeDispatches: {} };
       var dispatch = temple.forestState.activeDispatches[forestId];
+
       var now = Date.now();
-      if (now < dispatch.finishAt) {
-        return { success: false, reason: 'still_on_the_way', secondsLeft: Math.ceil((dispatch.finishAt - now) / 1000) };
+      // 裏庭はいつでも手動作務可能。遠征先は到着済みであること
+      if (forestId !== 'backyard' && (!dispatch || now < dispatch.finishAt)) {
+        return { success: false, reason: 'not_arrived_yet' };
       }
 
-      var branchesGained = dispatch.branchesPicked;
-      delete temple.forestState.activeDispatches[forestId];
+      var lastTime = temple.forestState.lastHarvest[f.id] || (now - 600000);
+      var elapsedMin = Math.max(0, (now - lastTime) / 60000);
+      var availableCount = Math.max(3, Math.min(f.maxAccumulate, Math.floor(elapsedMin * f.branchRatePerMin)));
+
+      var token = 'samu_' + Math.random().toString(36).substring(2, 10) + '_' + Date.now();
+      var session = {
+        token: token,
+        forestId: forestId,
+        startedAt: now,
+        availableBranches: availableCount,
+        maxCap: f.maxAccumulate,
+        taps: [],
+        lastTapAt: 0
+      };
+
+      this._activeSamuSessions[token] = session;
+
+      return {
+        success: true,
+        token: token,
+        forest: f,
+        availableBranches: availableCount,
+        durationSec: 15
+      };
+    },
+
+    // 人間による1タップの記録（検証）
+    recordSamuTap: function(token, tapEvent) {
+      var session = this._activeSamuSessions[token];
+      if (!session) return { valid: false, reason: 'invalid_session' };
+
+      var now = Date.now();
+      // 人間のタップ間隔判定（60ms未満の超高速連続クリックは自動ボットと判定して弾く）
+      if (session.lastTapAt && (now - session.lastTapAt) < 55) {
+        return { valid: false, reason: 'bot_too_fast' };
+      }
+
+      session.lastTapAt = now;
+      session.taps.push({
+        time: now,
+        type: tapEvent.type || 'normal',
+        value: tapEvent.value || 1,
+        trusted: !!tapEvent.isTrusted
+      });
+
+      return { valid: true, currentPicks: session.taps.length };
+    },
+
+    // 手動作務の完了＆収穫確定（ボット直接実行は拒絶）
+    finishSamuSession: function(token) {
+      var session = this._activeSamuSessions[token];
+      if (!session) return { success: false, reason: 'invalid_session' };
+
+      var now = Date.now();
+      var durationMs = now - session.startedAt;
+      if (durationMs < 3000) {
+        // 最低でも3秒以上の人操作が必要
+        return { success: false, reason: 'session_too_short' };
+      }
+
+      // 人間操作タップの集計
+      var validTaps = session.taps.filter(function(t) { return t && t.value > 0; });
+      if (validTaps.length === 0) {
+        return { success: false, reason: 'no_branches_picked', message: '時間内に枝が拾われませんでした。' };
+      }
+
+      var totalYield = 0;
+      validTaps.forEach(function(t) {
+        totalYield += (t.value || 1);
+      });
+
+      // エリアの溜まり上限を越えないよう安全弁
+      var harvested = Math.max(1, Math.min(session.availableBranches, totalYield));
+
+      // セッション破棄
+      delete this._activeSamuSessions[token];
+
+      // お寺と遠征状態を更新
+      var temple = loadTemple();
+      temple.forestState = temple.forestState || { lastHarvest: {}, activeDispatches: {} };
+      temple.forestState.lastHarvest[session.forestId] = now;
+      delete temple.forestState.activeDispatches[session.forestId];
       saveTemple(temple);
 
+      // ユーザーウォレットに枝と掃除作務の徳を付与
       var user = loadUser();
-      user.branches = (user.branches || 0) + branchesGained;
-      user.toku = (user.toku || 0) + Math.max(1, Math.floor(branchesGained * 0.5)); // 掃除作務の徳
+      user.branches = (user.branches || 0) + harvested;
+      var tokuGained = Math.max(1, Math.floor(harvested * 0.6));
+      user.toku = (user.toku || 0) + tokuGained;
       saveUser(user);
 
       return {
         success: true,
-        branchesGained: branchesGained,
+        branchesGained: harvested,
+        tokuGained: tokuGained,
         totalBranches: user.branches,
-        totalToku: user.toku
+        totalToku: user.toku,
+        tapsCount: validTaps.length
+      };
+    },
+
+    // 旧来の自動一括回収（ボット対策として手動作務を要求し無効化）
+    claimBranchHarvest: function(forestId) {
+      return {
+        success: false,
+        reason: 'human_operation_required',
+        message: '枝拾いは境内で手作業の作務（ミニゲーム）を行う必要があります。ボットによる自動回収はできません。'
       };
     },
 

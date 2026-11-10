@@ -173,6 +173,199 @@ body {
   border: 1.5px solid #fff;
 }
 
+/* ── 落ち枝拾い作務（人操作ミニゲーム）モーダル ── */
+.samu-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 24, 18, 0.75);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.samu-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.samu-modal-card {
+  background: #fdfbf7;
+  border: 1.5px solid var(--gold);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 460px;
+  padding: 20px 18px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.samu-modal-card::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--line-gold);
+  border-radius: 14px;
+  pointer-events: none;
+}
+.samu-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.samu-head-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--ink);
+}
+.samu-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: var(--ink-light);
+  cursor: pointer;
+  padding: 4px;
+}
+.samu-instructions {
+  font-size: 11.5px;
+  color: var(--ink-light);
+  line-height: 1.5;
+  background: rgba(191, 161, 95, 0.1);
+  border-left: 3px solid var(--gold);
+  padding: 6px 10px;
+  border-radius: 0 8px 8px 0;
+}
+.samu-hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border: 1px solid var(--line-fine);
+  border-radius: 12px;
+  padding: 8px 14px;
+  font-size: 12.5px;
+}
+.samu-hud b { color: var(--vermilion); font-size: 14px; }
+.samu-timer-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: var(--washi-subtle);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.samu-timer-bar-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--vermilion) 100%);
+  transition: width 0.1s linear;
+}
+.samu-field {
+  width: 100%;
+  height: 300px;
+  background: radial-gradient(circle at 50% 30%, #fefcf7 0%, #ebe2cd 100%);
+  border: 1.5px solid var(--gold);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  touch-action: manipulation;
+  cursor: crosshair;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
+}
+.samu-field-pattern {
+  position: absolute;
+  inset: 0;
+  opacity: 0.15;
+  background-image: radial-gradient(var(--gold) 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+  pointer-events: none;
+}
+.samu-item {
+  position: absolute;
+  font-size: 28px;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform .12s ease, opacity .15s ease;
+  user-select: none;
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+}
+.samu-item:active {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+.samu-item.picked {
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.5);
+  opacity: 0;
+}
+.samu-float-text {
+  position: absolute;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--vermilion);
+  text-shadow: 0 1px 3px rgba(255,255,255,0.9);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  animation: floatUp 0.7s forwards ease-out;
+}
+@keyframes floatUp {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
+  100% { transform: translate(-50%, -100%) scale(1.2); opacity: 0; }
+}
+.samu-result-view {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px 6px;
+  gap: 12px;
+}
+.samu-result-view.active { display: flex; }
+.samu-result-badge {
+  font-size: 32px;
+  animation: popBadge .3s ease;
+}
+.samu-result-title {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  color: var(--ink);
+}
+.samu-result-stats {
+  background: #fff;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  padding: 12px 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  font-size: 13px;
+}
+.samu-result-stats b { font-size: 18px; }
+.samu-finish-btn {
+  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 11px 32px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
+}
+
 /* 🪵 ナチャ工房へ納品セクション */
 .workshop-delivery {
   background: #fff;
@@ -251,10 +444,11 @@ body {
 
   <!-- ルール説明 -->
   <div class="gather-rule-box">
-    🌿 <b>枝拾いの心得:</b><br>
+    🌿 <b>枝拾い作務の心得（人操作・ボット対策）:</b><br>
     ・枝拾いにはお寺から出かける必要があります。<br>
-    ・<b>遠い場所ほど持ち帰るのに時間がかかりますが、放置されているため枝が大量に溜まりやすくなります。</b><br>
-    ・拾った枝はナチャの工房へ納品してコインを獲得し、木製記念品の資材（ローン返済）に役立てましょう！
+    ・<b>遠い場所（奥山）ほど時間はかかりますが、放置された大量の枝が山盛りに溜まります。</b><br>
+    ・<b>【人操作の作務】</b>: 到着後、地面に散らばる枝を手動でタップして素早く籠へ拾い集めます（ボットによる自動回収はできません）。<br>
+    ・拾った枝はナチャの工房へ納品してコイン＆徳を獲得し、木製記念品の資材（ローン返済）に役立てましょう！
   </div>
 
   <!-- エリア一覧 -->
@@ -272,6 +466,55 @@ body {
     <button type="button" class="deliver-btn" id="deliverAllBtn">所持している枝をすべて納品する</button>
   </section>
 
+</div>
+
+<!-- 🪵 落ち枝拾い作務（手動ミニゲーム）モーダル -->
+<div class="samu-modal-overlay" id="samuModalOverlay">
+  <div class="samu-modal-card">
+
+    <div class="samu-head">
+      <div class="samu-head-title" id="samuTitle">🪵 落ち枝拾い作務</div>
+      <button type="button" class="samu-close-btn" id="samuCloseBtn" title="閉じる">✕</button>
+    </div>
+
+    <!-- プレイ中ビュー -->
+    <div id="samuPlayView" style="display:flex;flex-direction:column;gap:10px;">
+      <div class="samu-instructions">
+        👉 <b>操作方法</b>: 画面に散らばる枝（🪵・🌲・✨）を手でタップして拾い集めよう！落ち葉（🍂）や石（🪨）を避けて素早く作務！
+      </div>
+
+      <div class="samu-hud">
+        <div>残り: <b id="samuTimerText">12 秒</b></div>
+        <div>拾った枝: <b id="samuBasketText" style="color:#8e623c;">0 本</b></div>
+        <div id="samuComboBadge" style="display:none;" class="samu-combo-badge">集中 2連</div>
+      </div>
+
+      <div class="samu-timer-bar-wrap">
+        <div class="samu-timer-bar-fill" id="samuTimerFill"></div>
+      </div>
+
+      <!-- インタラクティブフィールド -->
+      <div class="samu-field" id="samuField">
+        <div class="samu-field-pattern"></div>
+        <!-- 枝や落ち葉が動的に生成される -->
+      </div>
+    </div>
+
+    <!-- リザルトビュー -->
+    <div class="samu-result-view" id="samuResultView">
+      <div class="samu-result-badge">✨</div>
+      <div class="samu-result-title">作務満願！お疲れ様でした</div>
+      <p style="font-size:12px;color:var(--ink-light);margin:0;">
+        参拝者の手によって、清らかに落ち枝が拾い集められました。
+      </p>
+      <div class="samu-result-stats">
+        <div>拾った枝: <b id="resBranches" style="color:#8e623c;">0 本</b></div>
+        <div>獲得した徳: <b id="resToku" style="color:var(--vermilion);">+0</b></div>
+      </div>
+      <button type="button" class="samu-finish-btn" id="samuFinishBtn">お寺の荷物袋へ収める</button>
+    </div>
+
+  </div>
 </div>
 
 <!-- トースト -->
@@ -302,11 +545,308 @@ body {
   var deliverAllBtn = document.getElementById('deliverAllBtn');
   var toastNotice = document.getElementById('toastNotice');
 
+  // モーダル要素
+  var samuModalOverlay = document.getElementById('samuModalOverlay');
+  var samuTitle = document.getElementById('samuTitle');
+  var samuCloseBtn = document.getElementById('samuCloseBtn');
+  var samuPlayView = document.getElementById('samuPlayView');
+  var samuResultView = document.getElementById('samuResultView');
+  var samuTimerText = document.getElementById('samuTimerText');
+  var samuBasketText = document.getElementById('samuBasketText');
+  var samuTimerFill = document.getElementById('samuTimerFill');
+  var samuComboBadge = document.getElementById('samuComboBadge');
+  var samuField = document.getElementById('samuField');
+  var resBranches = document.getElementById('resBranches');
+  var resToku = document.getElementById('resToku');
+  var samuFinishBtn = document.getElementById('samuFinishBtn');
+
   function showToast(msg) {
     toastNotice.textContent = msg;
     toastNotice.classList.add('show');
     setTimeout(function() { toastNotice.classList.remove('show'); }, 2200);
   }
+
+  // ── Web Audio 合成音効果（和風SE） ──
+  var audioCtx = null;
+  function playTempleSound(type) {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      var now = audioCtx.currentTime;
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      if (type === 'sacred') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1046.5, now);
+        osc.frequency.exponentialRampToValueAtTime(2093, now + 0.2);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+        osc.start(now);
+        osc.stop(now + 0.45);
+      } else if (type === 'sandalwood') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(659.25, now);
+        osc.frequency.exponentialRampToValueAtTime(1318.5, now + 0.15);
+        gain.gain.setValueAtTime(0.2, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+        osc.start(now);
+        osc.stop(now + 0.3);
+      } else if (type === 'finish') {
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(523.25, now);
+        osc.frequency.exponentialRampToValueAtTime(261.63, now + 0.8);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
+        osc.start(now);
+        osc.stop(now + 0.8);
+      } else {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(400, now);
+        osc.frequency.exponentialRampToValueAtTime(200, now + 0.09);
+        gain.gain.setValueAtTime(0.25, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.start(now);
+        osc.stop(now + 0.1);
+      }
+    } catch (e) {}
+  }
+
+  // ── 手動作務ミニゲームの進行管理 ──
+  var currentSession = null;
+  var samuGameTimer = null;
+  var samuSpawnTimer = null;
+  var samuSecondsLeft = 15;
+  var samuBasketCount = 0;
+  var samuComboCount = 0;
+
+  function startInteractiveSamu(forestId) {
+    var sessionRes = TempleEconomy.startSamuSession(forestId);
+    if (!sessionRes.success) {
+      showToast(sessionRes.reason === 'not_arrived_yet' ? 'まだ目的地へ到着していません（移動中）' : '作務を開始できませんでした');
+      return;
+    }
+
+    currentSession = sessionRes;
+    samuSecondsLeft = 15;
+    samuBasketCount = 0;
+    samuComboCount = 0;
+
+    samuTitle.textContent = sessionRes.forest.icon + ' ' + sessionRes.forest.name + ' · 落ち枝拾い作務';
+    samuBasketText.textContent = '0 本';
+    samuTimerText.textContent = samuSecondsLeft + ' 秒';
+    samuTimerFill.style.width = '100%';
+    samuComboBadge.style.display = 'none';
+
+    samuPlayView.style.display = 'flex';
+    samuResultView.classList.remove('active');
+    samuModalOverlay.classList.add('open');
+
+    // フィールドクリア
+    samuField.querySelectorAll('.samu-item, .samu-float-text').forEach(function(el) { el.remove(); });
+
+    // 初期アイテム生成
+    var initCount = forestId === 'sacred_summit' ? 10 : (forestId === 'ancient_path' ? 7 : 5);
+    for (var i = 0; i < initCount; i++) {
+      spawnFieldItem(forestId);
+    }
+
+    // 継続スポーンタイマー
+    var spawnInterval = forestId === 'sacred_summit' ? 380 : 520;
+    samuSpawnTimer = setInterval(function() {
+      if (samuField.querySelectorAll('.samu-item:not(.picked)').length < 13) {
+        spawnFieldItem(forestId);
+      }
+    }, spawnInterval);
+
+    // ゲーム時間タイマー (15秒)
+    var startTime = Date.now();
+    var totalMs = 15000;
+    samuGameTimer = setInterval(function() {
+      var elapsed = Date.now() - startTime;
+      var remain = Math.max(0, totalMs - elapsed);
+      samuSecondsLeft = Math.ceil(remain / 1000);
+      samuTimerText.textContent = samuSecondsLeft + ' 秒';
+      samuTimerFill.style.width = ((remain / totalMs) * 100) + '%';
+
+      if (remain <= 0) {
+        endInteractiveSamu();
+      }
+    }, 100);
+  }
+
+  function spawnFieldItem(forestId) {
+    var item = document.createElement('div');
+    item.className = 'samu-item';
+
+    var rand = Math.random();
+    var type = 'normal';
+    var icon = '🪵';
+    var val = 1;
+
+    if (forestId === 'sacred_summit') {
+      // 奥山は神木霊枝が大量に溜まっている！
+      if (rand < 0.45) {
+        type = 'sacred';
+        icon = '✨';
+        val = 5;
+        item.style.filter = 'drop-shadow(0 0 6px #f1c40f)';
+      } else if (rand < 0.75) {
+        type = 'sandalwood';
+        icon = '🌲';
+        val = 3;
+      } else if (rand < 0.90) {
+        type = 'normal';
+        icon = '🪵';
+        val = 1;
+      } else {
+        type = 'leaf';
+        icon = '🍂';
+        val = 0;
+      }
+    } else if (forestId === 'ancient_path') {
+      if (rand < 0.35) {
+        type = 'sandalwood';
+        icon = '🌲';
+        val = 3;
+      } else if (rand < 0.80) {
+        type = 'normal';
+        icon = '🪵';
+        val = 1;
+      } else {
+        type = 'leaf';
+        icon = '🍂';
+        val = 0;
+      }
+    } else {
+      if (rand < 0.75) {
+        type = 'normal';
+        icon = '🪵';
+        val = 1;
+      } else {
+        type = 'leaf';
+        icon = '🍂';
+        val = 0;
+      }
+    }
+
+    item.textContent = icon;
+    item.setAttribute('data-type', type);
+    item.setAttribute('data-val', val);
+
+    var x = Math.floor(10 + Math.random() * 80);
+    var y = Math.floor(12 + Math.random() * 76);
+    item.style.left = x + '%';
+    item.style.top = y + '%';
+
+    item.onpointerdown = function(e) {
+      e.stopPropagation();
+      onItemTapped(item, e);
+    };
+
+    samuField.appendChild(item);
+
+    // 未回収なら風で消滅
+    setTimeout(function() {
+      if (item.parentNode && !item.classList.contains('picked')) {
+        item.style.opacity = '0';
+        setTimeout(function() { item.remove(); }, 200);
+      }
+    }, 4500);
+  }
+
+  function onItemTapped(item, e) {
+    if (item.classList.contains('picked')) return;
+    item.classList.add('picked');
+
+    var type = item.getAttribute('data-type');
+    var val = parseInt(item.getAttribute('data-val'), 10) || 0;
+
+    playTempleSound(type);
+
+    if (val > 0) {
+      if (currentSession) {
+        TempleEconomy.recordSamuTap(currentSession.token, {
+          type: type,
+          value: val,
+          isTrusted: e.isTrusted !== false
+        });
+      }
+
+      samuBasketCount += val;
+      samuComboCount++;
+      samuBasketText.textContent = samuBasketCount + ' 本';
+
+      if (samuComboCount >= 2) {
+        samuComboBadge.style.display = 'inline-block';
+        samuComboBadge.textContent = '集中 ' + samuComboCount + '連！';
+      }
+
+      showFloatText('+' + val + '本', item.style.left, item.style.top, '#b83823');
+    } else {
+      samuComboCount = 0;
+      samuComboBadge.style.display = 'none';
+      showFloatText('カサッ', item.style.left, item.style.top, '#888');
+    }
+
+    setTimeout(function() { item.remove(); }, 150);
+  }
+
+  function showFloatText(text, left, top, color) {
+    var ft = document.createElement('div');
+    ft.className = 'samu-float-text';
+    ft.textContent = text;
+    ft.style.left = left;
+    ft.style.top = top;
+    if (color) ft.style.color = color;
+    samuField.appendChild(ft);
+    setTimeout(function() { ft.remove(); }, 700);
+  }
+
+  function endInteractiveSamu() {
+    clearInterval(samuGameTimer);
+    clearInterval(samuSpawnTimer);
+
+    if (!currentSession) return;
+    playTempleSound('finish');
+
+    var finishRes = TempleEconomy.finishSamuSession(currentSession.token);
+    currentSession = null;
+
+    if (finishRes.success) {
+      resBranches.textContent = finishRes.branchesGained + ' 本';
+      resToku.textContent = '+' + finishRes.tokuGained;
+
+      samuPlayView.style.display = 'none';
+      samuResultView.classList.add('active');
+
+      if (window.TempleMultiplayer) {
+        TempleMultiplayer.broadcast('BRANCH_GATHERED', {
+          branches: finishRes.branchesGained,
+          text: '🪵 参拝者が境内の作務で枝 ' + finishRes.branchesGained + '本 を手動で拾い集めました！'
+        });
+      }
+    } else {
+      showToast(finishRes.message || '作務を完了できませんでした');
+      samuModalOverlay.classList.remove('open');
+      updateUI();
+    }
+  }
+
+  samuFinishBtn.onclick = function() {
+    samuModalOverlay.classList.remove('open');
+    showToast('✨ 作務の枝をお寺の荷物袋へ収めました！');
+    updateUI();
+  };
+
+  samuCloseBtn.onclick = function() {
+    if (samuGameTimer) clearInterval(samuGameTimer);
+    if (samuSpawnTimer) clearInterval(samuSpawnTimer);
+    samuModalOverlay.classList.remove('open');
+    updateUI();
+  };
 
   function updateUI() {
     var user = TempleEconomy.getUser();
@@ -355,32 +895,24 @@ body {
       if (currEl) currEl.textContent = f.currentBranches + ' 本';
 
       var btnWrap = card.querySelector('.btn-wrap');
-      var stateKey = f.isReady ? 'ready' : (f.isDispatched ? ('dispatched_' + f.secondsLeft) : ('go_' + f.currentBranches));
+      var canSamu = (f.id === 'backyard') || f.isArrived;
+      var stateKey = canSamu ? ('samu_ready_' + f.id) : (f.isDispatched ? ('traveling_' + f.secondsLeft) : ('dispatch_' + f.currentBranches));
+
       if (btnWrap.getAttribute('data-state') !== stateKey) {
         btnWrap.setAttribute('data-state', stateKey);
-        if (f.isReady) {
-          btnWrap.innerHTML = `<button type="button" class="gather-action-btn ready" data-claim="${f.id}">🪵 枝 ${f.carryingBranches}本 を持ち帰る！（収穫）</button>`;
+        if (canSamu) {
+          btnWrap.innerHTML = `<button type="button" class="gather-action-btn ready" data-samu="${f.id}">🪵 落ち枝拾い作務を始める（手動操作で収穫！）</button>`;
           btnWrap.querySelector('button').onclick = function() {
-            var res = TempleEconomy.claimBranchHarvest(f.id);
-            if (res.success) {
-              showToast(`🪵 枝を ${res.branchesGained}本 持ち帰りました！（徳 +${Math.max(1, Math.floor(res.branchesGained * 0.5))}）`);
-              if (window.TempleMultiplayer) {
-                TempleMultiplayer.broadcast('BRANCH_GATHERED', {
-                  branches: res.branchesGained,
-                  text: `🪵 参拝者が奥山より枝を ${res.branchesGained}本 持ち帰りました！`
-                });
-              }
-              updateUI();
-            }
+            startInteractiveSamu(f.id);
           };
         } else if (f.isDispatched) {
-          btnWrap.innerHTML = `<button type="button" class="gather-action-btn dispatched" disabled>🚶 枝拾い中… （あと ${f.secondsLeft} 秒で帰還）</button>`;
+          btnWrap.innerHTML = `<button type="button" class="gather-action-btn dispatched" disabled>🚶 出撃・移動中… （あと ${f.secondsLeft} 秒で到着）</button>`;
         } else {
-          btnWrap.innerHTML = `<button type="button" class="gather-action-btn" data-go="${f.id}">🚶 枝拾いに出かける（現在 ${f.currentBranches}本 / 帰還: 約${f.tripDurationSec}秒）</button>`;
+          btnWrap.innerHTML = `<button type="button" class="gather-action-btn" data-go="${f.id}">🚶 枝拾いに出かける（現在溜まり ${f.currentBranches}本 / 到着: 約${f.tripDurationSec}秒）</button>`;
           btnWrap.querySelector('button').onclick = function() {
             var res = TempleEconomy.startBranchGathering(f.id);
             if (res.success) {
-              showToast(`🚶 ${res.forest.name} へ枝拾いに出発しました！（帰還まで約${res.durationSec}秒）`);
+              showToast(`🚶 ${res.forest.name} へ出発しました！（到着まで約${res.durationSec}秒）`);
               updateUI();
             }
           };
