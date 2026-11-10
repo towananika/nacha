@@ -400,6 +400,10 @@ body {
     </svg>
     <h1 class="shop-title">境内授与所 · 寺院銀行</h1>
     <div class="shop-sub">NACHA TEMPLE CENTRAL BANK & TREASURY</div>
+    <div style="margin-top:6px;display:inline-flex;align-items:center;gap:6px;background:rgba(46,204,113,0.12);border:1px solid #2ecc71;padding:2px 10px;border-radius:999px;font-size:10.5px;color:#27ae60;font-weight:700;">
+      <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#2ecc71;box-shadow:0 0 6px #2ecc71;"></span>
+      リアルタイム共有在庫 · マルチ同期稼働中
+    </div>
   </header>
 
   <!-- 参拝者ウォレット（所持コイン＆徳） -->
@@ -499,6 +503,7 @@ body {
 <script src="../assets/coins.js"></script>
 <script src="../assets/temple-bank.js"></script>
 <script src="../assets/temple-economy.js"></script>
+<script src="../assets/temple-multiplayer.js"></script>
 
 <script>
 (function() {
@@ -589,6 +594,12 @@ body {
         var res = TempleEconomy.buyFromShelf(slotId);
         if (res.success) {
           showToast('✨ ' + res.item.name + ' を授かりました！（ローンへ充当）');
+          if (window.TempleMultiplayer) {
+            TempleMultiplayer.broadcast('ITEM_PURCHASED', {
+              slotId: slotId,
+              itemName: res.item.name
+            });
+          }
           updateUI();
         } else if (res.reason === 'insufficient_coins') {
           showToast('🪙 コインが足りません（銭投げや参拝で獲得できます）');
@@ -655,6 +666,11 @@ body {
           } else {
             showToast('チャリン… 徳 +' + res.tokuEarned + '（ナチャたちのローン返済へ）');
           }
+          if (window.TempleMultiplayer) {
+            TempleMultiplayer.broadcast('COIN_TOSSED', {
+              loanPayment: Math.floor(1 * 0.7)
+            });
+          }
           updateUI();
         }
       }, 500);
@@ -669,6 +685,17 @@ body {
 
   // 銀行再調整（初期チェック）
   TempleBank.rebalanceMonetaryPolicy();
+
+  // ── マルチプレイヤー同期初期化 ──
+  if (window.TempleMultiplayer) {
+    TempleMultiplayer.init();
+    TempleMultiplayer.onEvent(function(msg) {
+      if (msg.payload && msg.payload.text) {
+        showToast(msg.payload.text);
+      }
+      updateUI();
+    });
+  }
 
 })();
 </script>
