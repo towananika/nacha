@@ -45,7 +45,16 @@
     var pi=0,li=0,img=document.getElementById('nachaImg'),bb=document.getElementById('bubble');
     P.forEach(function(u){var i=new Image();i.src=u});
     nb.addEventListener('click',function(ev){
-      pi=(pi+1)%P.length;li=(li+1)%L.length;img.src=P[pi];bb.textContent=L[li];
+      if(navigator.vibrate)try{navigator.vibrate(18)}catch(e){}
+      var hr=new Date().getHours();
+      var pool=L;
+      if(hr>=22||hr<5){
+        pool=L.concat([
+          "こんな夜遅くまで本当にお疲れさま。今日はもう休もうね🌙",
+          "眠れない夜は、こころの休憩所でお茶でも飲んでいってね🪷"
+        ]);
+      }
+      pi=(pi+1)%P.length;li=(li+1)%pool.length;img.src=P[pi];bb.textContent=pool[li];
       nb.classList.remove('hop');void nb.offsetWidth;nb.classList.add('hop');
       var r=nb.getBoundingClientRect();
       for(var k=0;k<6;k++){var s=document.createElement('span');s.className='spark';s.textContent=['✨','🔥','🪷','⭐'][k%4];
