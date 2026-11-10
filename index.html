@@ -99,6 +99,24 @@
       </div>
     </div>
 
+    <!-- 境内直行ナビ（108段ゲーム＆授与所への直行便） -->
+    <div class="zen-quick-dock" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 16px;">
+      <a href="arcade/steps/" class="zen-quick-card" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(192,57,43,0.14),rgba(192,57,43,0.04));border:1.5px solid rgba(192,57,43,0.45);border-radius:16px;padding:12px;text-decoration:none;color:var(--ink);box-shadow:0 3px 10px rgba(0,0,0,0.03);transition:transform .2s,box-shadow .2s">
+        <span style="font-size:32px;line-height:1;flex-shrink:0">⛩️</span>
+        <div style="min-width:0;flex:1">
+          <strong style="display:block;font-size:14px;color:var(--acc);line-height:1.2">108の石段登詣</strong>
+          <small style="font-size:11px;color:var(--sub);display:block;margin-top:2px">階段ゲーム · +10コイン ↗</small>
+        </div>
+      </a>
+      <a href="shop/" class="zen-quick-card" style="display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,rgba(212,172,13,0.16),rgba(212,172,13,0.04));border:1.5px solid rgba(212,172,13,0.45);border-radius:16px;padding:12px;text-decoration:none;color:var(--ink);box-shadow:0 3px 10px rgba(0,0,0,0.03);transition:transform .2s,box-shadow .2s">
+        <span style="font-size:32px;line-height:1;flex-shrink:0">🎁</span>
+        <div style="min-width:0;flex:1">
+          <strong style="display:block;font-size:14px;color:var(--gold);line-height:1.2">境内授与所</strong>
+          <small style="font-size:11px;color:var(--sub);display:block;margin-top:2px">壁紙·着せ替え·ショップ ↗</small>
+        </div>
+      </a>
+    </div>
+
     <!-- 【境内の3大とびら】今の気分・目的で選ぶ -->
     <div class="zen-trio-doors" style="margin-top: 14px;">
 
@@ -202,11 +220,11 @@
 </main>
 
 <nav class="tabs" aria-label="Main">
-  <a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
-  <a href="amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
-  <a href="rest/"><span aria-hidden="true">🪷</span><b>休憩所</b></a>
+  <a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
+  <a href="arcade/steps/"><span aria-hidden="true">⛩️</span><b>108段</b></a>
+  <a href="shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
+  <a href="amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
   <a href="arcade/fukuiki/"><span aria-hidden="true">🎴</span><b>福引き</b></a>
-  <a href="characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">キャラ</b></a>
 </nav><script src="assets/i18n.js"></script>
 
 <script src="assets/coins.js"></script>
