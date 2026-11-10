@@ -32,15 +32,27 @@
 
 <a class="skip" href="#main" data-i="skip">メインへ</a>
 
-<div class="bar"><a class="brand" href="./">NACHA</a>
-
-<div class="barr">
-<a class="pill" href="dev/" style="border:1.5px solid #D4AC0D;color:#D4AC0D;background:rgba(212,172,13,0.1);font-weight:700">🛠️ 開発版</a><a class="header-coin-badge" href="arcade/fukuiki/" title="所持コイン・大福引きへ"><span aria-hidden="true">🪙</span><b id="headerCoinCount">--</b></a>
-<a class="pill" href="team/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span data-i="acct">マイページ</span></a>
-
-<div class="lang"><button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></button>
-
-<ul class="lmenu" id="langMenu" hidden><li><button data-l="ja">日本語</button></li><li><button data-l="en">English</button></li><li><button data-l="ko">한국어</button></li><li><button data-l="zh">繁體中文</button></li><li><button data-l="zhs">简体中文</button></li><li><button data-l="th">ภาษาไทย</button></li><li><button data-l="km">ភាសាខ្មែរ</button></li><li><button data-l="id">Bahasa Indonesia</button></li></ul></div></div></div>
+<div class="bar">
+  <a class="brand" href="./">NACHA</a>
+  <div class="barr">
+    <a class="pill" href="dev/" style="border:1.5px solid #D4AC0D;color:#D4AC0D;background:rgba(212,172,13,0.1);font-weight:700">🛠️ 開発版</a>
+    <div class="lang">
+      <button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
+      </button>
+      <ul class="lmenu" id="langMenu" hidden>
+        <li><button data-l="ja">日本語</button></li>
+        <li><button data-l="en">English</button></li>
+        <li><button data-l="ko">한국어</button></li>
+        <li><button data-l="zh">繁體中文</button></li>
+        <li><button data-l="zhs">简体中文</button></li>
+        <li><button data-l="th">ภาษาไทย</button></li>
+        <li><button data-l="km">ភាសាខ្មែរ</button></li>
+        <li><button data-l="id">Bahasa Indonesia</button></li>
+      </ul>
+    </div>
+  </div>
+</div>
 
 <p class="unoff" id="unoffBar"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
 
@@ -48,38 +60,45 @@
 
 <main id="main">
 
-<section class="playhero">
-
-  <div class="phtxt">
-
-    <h1 class="logo">NACHA</h1>
-
-    <p data-i="ph_lead" style="font-size:15px;line-height:1.5;opacity:.95">推しを愛するすべての人へ。<br>当落の胃痛も、席の不安も、ナチャが一緒に祈ってあげる。</p>
-
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 10px">
-      <a class="btn big" href="amulet/" style="background:linear-gradient(135deg,#C0392B,#E74C3C);color:#fff;font-weight:900;border:none;box-shadow:0 4px 15px rgba(192,57,43,0.4)">🧧 推し活お守りを作る</a>
-      <a class="btn big" href="rest/" style="background:rgba(248,187,208,0.18);color:#F8BBD0;border:1.5px solid rgba(248,187,208,0.45);font-weight:700">🪷 こころの休憩所</a>
-      <a class="btn" href="arcade/fukuiki/" style="background:linear-gradient(135deg,#D4AC0D,#F4D03F);color:#1A1A1A;font-weight:900;padding:10px 16px">🎴 大福引き</a>
+<section class="zen-first-view">
+  <!-- ナチャの美しいポートレート（吹き出し被りなし） -->
+  <div class="zen-avatar-stage">
+    <div class="zen-avatar-wrap" id="nachaBtn" title="タップしてね">
+      <img id="nachaImg" class="zen-avatar-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
     </div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap;font-size:12px;opacity:0.9">
-      <a href="arcade/mokugyo/" style="color:#fff;text-decoration:none;background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.2)">🪵 電子木魚</a>
-      <a href="goma/" style="color:#fff;text-decoration:none;background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.2)">🔥 護摩焚き</a>
-      <a href="ema/" style="color:#fff;text-decoration:none;background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.2)">🪵 境内絵馬</a>
-      <a href="goshuin/" style="color:#fff;text-decoration:none;background:rgba(255,255,255,0.1);padding:3px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.2)">📿 御朱印帳</a>
+    <div class="zen-word-pill" id="bubble">
+      生きてるだけで、今日のはなまる満点！
     </div>
-
   </div>
 
-  <button class="nbtn" type="button" id="nachaBtn" aria-label="Tap Nacha">
+  <!-- 最初にみえる2大アクション（イメージ主役・文字最小限） -->
+  <div class="zen-main-doors">
+    <!-- ① お守り -->
+    <a href="amulet/" class="zen-visual-card">
+      <img class="zen-card-bg" src="assets/poster.jpg" alt="蓮華護身符" style="object-position: 50% 20%;">
+      <div class="zen-card-scrim"></div>
+      <div class="zen-card-content">
+        <div>
+          <span class="zen-card-sub">OSHI PRAYER</span>
+          <h2 class="zen-card-title">推し活・心願お守り</h2>
+        </div>
+        <span class="zen-card-icon">🧧</span>
+      </div>
+    </a>
 
-    <span class="bubble" id="bubble">Hey, it's Nacha!</span>
-
-    <img id="nachaImg" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
-
-    <span class="tapme" aria-hidden="true" data-i="ph_tap">タップしてみて</span>
-
-  </button>
-
+    <!-- ② 休憩所 -->
+    <a href="rest/" class="zen-visual-card">
+      <img class="zen-card-bg" src="assets/waiting.jpg" alt="こころの休憩所" style="object-position: 50% 40%;">
+      <div class="zen-card-scrim"></div>
+      <div class="zen-card-content">
+        <div>
+          <span class="zen-card-sub">MINDFUL REST</span>
+          <h2 class="zen-card-title">こころの休憩所</h2>
+        </div>
+        <span class="zen-card-icon">🪷</span>
+      </div>
+    </a>
+  </div>
 </section>
 
 
