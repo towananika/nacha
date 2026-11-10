@@ -372,12 +372,13 @@
 
 <!-- トップバー -->
 <div class="bar">
-  <a class="brand" href="../">NACHA</a>
+  <div style="display:flex;align-items:center">
+    <a class="brand" href="../">NACHA</a>
+    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
+  </div>
   <div class="barr">
-    <a class="pill" href="../team/">
-      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>
-      <span>マイページ</span>
-    </a>
+    <a class="header-coin-badge" href="../arcade/fukuiki/" title="所持コイン（福引き・境内で使用）"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
+    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
   </div>
 </div>
 
@@ -1013,6 +1014,14 @@ function updateXShareLink(customOshi, customPray) {
       directDlBtn.href = dataUrl;
       directDlBtn.download = fileName;
       saveModal.style.display = 'flex';
+
+      // お守り謹製功徳の授与（+5コイン）
+      if (window.NachaCoins) {
+        var r = NachaCoins.earn('amulet_create', 5, ev);
+        if (r && r.success && NachaCoins.showEarnToast) {
+          NachaCoins.showEarnToast(5, 'お守り謹製功徳');
+        }
+      }
 
       var closeModal = function() { saveModal.style.display = 'none'; };
       document.getElementById('closeSaveModalBtn').onclick = closeModal;

@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../common.css">
+<link rel="stylesheet" href="../../assets/site.css">
 <style>
 :root{
   --gold:#D4AC0D;
@@ -15,7 +16,7 @@
   --bg-dark:#140c17;
 }
 body{overflow-x:hidden;overflow-y:auto;background:var(--bg-dark);color:#fff;touch-action:manipulation;font-family:"M PLUS Rounded 1c",sans-serif}
-#stage{width:min(100vw,540px);margin:0 auto;min-height:100dvh;position:relative;padding:calc(env(safe-area-inset-top)+10px) 14px calc(env(safe-area-inset-bottom)+20px);text-align:center}
+#stage{width:min(100vw,540px);margin:0 auto;min-height:100dvh;position:relative;padding:calc(env(safe-area-inset-top)+10px) 14px calc(env(safe-area-inset-bottom)+84px);text-align:center}
 #bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 
 /* ヘッダー＆コイン残高 */
@@ -827,4 +828,13 @@ body{overflow-x:hidden;overflow-y:auto;background:var(--bg-dark);color:#fff;touc
 
 })();
 </script>
+
+<nav class="tabs" aria-label="Main">
+  <a href="../../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
+  <a href="../../amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
+  <a href="../../rest/"><span aria-hidden="true">🪷</span><b>休憩所</b></a>
+  <a href="../../arcade/fukuiki/" aria-current="page"><span aria-hidden="true">🎴</span><b>福引き</b></a>
+  <a href="../../characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">キャラ</b></a>
+</nav>
+<script src="../../assets/site.js"></script>
 </body></html>

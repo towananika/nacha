@@ -463,7 +463,10 @@ main {
     <a href="../" class="btn-back-home">
       <span aria-hidden="true">🏮</span> 境内へ戻る
     </a>
-    <span style="font-size:12px;color:var(--text-muted);">小さな神様の避難所</span>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <a class="header-coin-badge" href="../arcade/fukuiki/" title="所持コイン"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
+      <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;cursor:pointer;display:grid;place-items:center;">🔔</button>
+    </div>
   </div>
 
   <span class="rest-badge">🪷 蓮華安寧堂</span>
@@ -610,6 +613,7 @@ main {
 </nav>
 
 <script src="../assets/coins.js"></script>
+<script src="../assets/site.js"></script>
 <script>
 (function() {
   'use strict';

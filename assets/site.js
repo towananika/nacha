@@ -327,3 +327,23 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
     }
   }
 })();
+
+
+// ナチャコイン残高のヘッダー自動連動同期
+(function(){
+  function syncCoins(val) {
+    var els = document.querySelectorAll('#headerCoinCount');
+    els.forEach(function(el){ el.textContent = val; });
+  }
+  if (window.NachaCoins) {
+    syncCoins(NachaCoins.getBalance());
+    NachaCoins.onChange(syncCoins);
+  } else {
+    window.addEventListener('DOMContentLoaded', function(){
+      if (window.NachaCoins) {
+        syncCoins(NachaCoins.getBalance());
+        NachaCoins.onChange(syncCoins);
+      }
+    });
+  }
+})();

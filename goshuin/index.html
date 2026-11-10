@@ -51,11 +51,14 @@ main{max-width:720px;margin:0 auto;padding:12px 16px 36px}
 </style>
 </head>
 <body>
-<div class="bar"><a class="brand" href="../">NACHA</a>
+<div class="bar">
+  <div style="display:flex;align-items:center">
+    <a class="brand" href="../">NACHA</a>
+    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
+  </div>
   <div class="barr">
-    <a class="pill" href="../amulet/">🧧 お守り</a>
-    <a class="pill" href="../ema/">🪵 絵馬</a>
-    <a class="pill" href="../arcade/fukuiki/">🎴 大福引き</a>
+    <a class="header-coin-badge" href="../arcade/fukuiki/" title="所持コイン（福引き・境内で使用）"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
+    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
   </div>
 </div>
 
@@ -96,6 +99,7 @@ main{max-width:720px;margin:0 auto;padding:12px 16px 36px}
 </nav>
 
 <script src="../assets/coins.js"></script>
+<script src="../assets/site.js"></script>
 <script>
 (function(){
   'use strict';

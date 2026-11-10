@@ -174,6 +174,23 @@
       window.addEventListener('nacha-coin-change', function(e) {
         callback(e.detail.total);
       });
+    },
+
+    // トースト通知（コイン獲得時の祝福）
+    showEarnToast: function(amount, label) {
+      var toast = document.getElementById('toast');
+      var text = '🪙 +' + amount + ' ナチャコイン獲得！' + (label ? ' (' + label + ')' : '');
+      if (toast) {
+        toast.textContent = text;
+        toast.hidden = false;
+        setTimeout(function(){ toast.hidden = true; }, 2600);
+      } else {
+        var el = document.createElement('div');
+        el.className = 'toast';
+        el.textContent = text;
+        document.body.appendChild(el);
+        setTimeout(function(){ el.remove(); }, 2600);
+      }
     }
   };
 
