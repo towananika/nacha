@@ -470,7 +470,7 @@ canvas#stage {
   <!-- タイトル画面 -->
   <div class="title-overlay" id="titleOverlay">
     <img src="assets/nacha-climb.png" alt="Nacha" style="width:78px;height:auto;margin-bottom:6px;filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5))">
-    <h1 class="title-h1">天空登詣 · 無限の石段</h1>
+    <h1 class="title-h1">悠遊観音堂 天空登詣<br><span style="font-size:22px;color:#c59b27">百八の石段</span></h1>
     <p class="title-desc">
       雲海を見晴らす天空の参道。<br><b>「上がる」</b>と<b>「方向転換」</b>で百八の煩悩を払い、頂の観音堂を目指しましょう。<br>小さな守護神ナチャがあなたを見守っています。
     </p>
@@ -745,7 +745,7 @@ canvas#stage {
     var cy = CH * 0.65;
     return {
       x: cx + gx * DX - camX,
-      y: cy - gy * DY - camY
+      y: cy - gy * DY + camY
     };
   }
 
@@ -988,14 +988,24 @@ canvas#stage {
 
     // 108段 山頂到達！
     if (playerStep === 108) {
-      if (window.playTempleBell) {
-        try { window.playTempleBell(); } catch(e) {}
-      }
+      playTempleGong();
       if (window.NachaCoins) {
-        NachaCoins.award('steps_summit', 10, '百八登詣 満願成就');
+        try {
+          if (typeof NachaCoins.award === 'function') {
+            NachaCoins.award('steps_summit', 10, '百八登詣 満願成就');
+          } else if (typeof NachaCoins.earn === 'function') {
+            NachaCoins.earn('steps_summit', 10);
+          }
+        } catch(e) {}
         sessionCoins += 10;
       }
       showCoinEffect("🌟 満願成就！+10 🪙");
+      // 1.5秒後に満願成就リザルトを表示
+      setTimeout(function() {
+        if (gameState === 'PLAYING') {
+          endGame(true);
+        }
+      }, 1500);
     }
   }
 
@@ -1029,7 +1039,7 @@ canvas#stage {
     setTimeout(function() { el.remove(); }, 850);
   }
 
-  function endGame() {
+  function endGame(isSummit) {
     gameState = 'OVER';
     var modal = document.getElementById('resultModal');
     var resTitle = document.getElementById('resTitle');
@@ -1044,10 +1054,10 @@ canvas#stage {
       localStorage.setItem('nacha_stairs_best', String(bestSteps));
     }
 
-    if (playerStep >= 108) {
+    if (isSummit || playerStep >= 108) {
       resEmoji.textContent = '💮';
       resTitle.textContent = '百八登詣 満願成就！';
-      resSub.textContent = '山頂の天空寺院へ見事に登破しました！';
+      resSub.textContent = '山頂の天空寺院へ見事に登破しました！大願成就のご加護がありますように。';
     } else {
       resEmoji.textContent = '🪷';
       resTitle.textContent = 'お疲れさまでした！';
@@ -1087,11 +1097,13 @@ canvas#stage {
   // ==========================================
   document.getElementById('btnTurn').addEventListener('pointerdown', function(e) {
     e.preventDefault();
+    e.stopPropagation();
     onTurn();
   });
 
   document.getElementById('btnClimb').addEventListener('pointerdown', function(e) {
     e.preventDefault();
+    e.stopPropagation();
     onClimb();
   });
 
@@ -1099,7 +1111,9 @@ canvas#stage {
   document.getElementById('gameWrap').addEventListener('pointerdown', function(e) {
     if (e.target.closest('button, a, .hud-coin-badge')) return;
     if (gameState !== 'PLAYING') return;
-    if (e.clientX < window.innerWidth / 2) {
+    var rect = this.getBoundingClientRect();
+    var touchX = e.clientX - rect.left;
+    if (touchX < rect.width / 2) {
       onTurn();
     } else {
       onClimb();
@@ -1121,6 +1135,17 @@ canvas#stage {
 
   document.getElementById('btnStart').onclick = startGame;
   document.getElementById('btnRestart').onclick = startGame;
+
+  // デバッグ・外部アクセス用
+  window.__nachaStairs = {
+    getState: function() { return gameState; },
+    getStep: function() { return playerStep; },
+    getDir: function() { return playerDir; },
+    getStairs: function() { return stairs; },
+    climb: onClimb,
+    turn: onTurn,
+    start: startGame
+  };
 
 })();
 </script>

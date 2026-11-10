@@ -137,6 +137,20 @@
       return { success: true, total: w.total, earned: amount };
     },
 
+    // 汎用アワード（エイリアス）
+    award: function(actionId, amount, label) {
+      var w = loadWallet();
+      var today = getTodayKey();
+      w.daily = w.daily || {};
+      if (w.daily[actionId] === today) {
+        return { success: false, reason: 'already_claimed_today' };
+      }
+      w.daily[actionId] = today;
+      w.total += amount;
+      saveWallet(w);
+      return { success: true, total: w.total, earned: amount };
+    },
+
     // ゲームスコアなど実績による獲得（1日回数制限付き）
     earnFromGame: function(gameId, score, event) {
       if (!verifyHuman(event)) return { success: false, reason: 'bot_detected' };
