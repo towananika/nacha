@@ -385,6 +385,174 @@ body {
   transition: opacity .25s ease;
 }
 .toast-notice.show { opacity: 1; }
+
+/* 🎒 インベントリモーダル */
+.inv-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 36, 30, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .2s ease;
+}
+.inv-modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.inv-modal-card {
+  background: #fbf9f4;
+  border: 1.5px solid var(--gold);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 20px;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+.inv-modal-card::after {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid var(--line-gold);
+  border-radius: 14px;
+  pointer-events: none;
+}
+.inv-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--line-fine);
+  padding-bottom: 10px;
+}
+.inv-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: .1em;
+}
+.inv-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--ink-light);
+}
+.inv-list-body {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 4px;
+}
+.inv-item-row {
+  background: #fff;
+  border: 1px solid var(--line-fine);
+  border-radius: 12px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.inv-item-info {
+  flex: 1;
+}
+.inv-item-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.inv-item-meta {
+  font-size: 11px;
+  color: var(--ink-light);
+  margin-top: 3px;
+}
+.offer-btn {
+  background: #fff;
+  border: 1px solid var(--vermilion);
+  color: var(--vermilion);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.offer-btn:hover {
+  background: var(--vermilion);
+  color: #fff;
+}
+
+/* 🏮 ガラポン福引所 */
+.fukubiki-arena {
+  background: #fff;
+  border: 1.5px solid var(--gold);
+  border-radius: 16px;
+  padding: 20px 16px;
+  margin-bottom: 24px;
+  text-align: center;
+  position: relative;
+}
+.fukubiki-wheel-wrap {
+  width: 120px;
+  height: 120px;
+  margin: 12px auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.garapon-octagon {
+  width: 90px;
+  height: 90px;
+  background: #d4ac0d;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  border: 3px solid #b7950b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
+  transition: transform 1.2s cubic-bezier(0.4, 2, 0.6, 1);
+}
+.garapon-spin {
+  animation: spinGarapon 1.2s ease-in-out;
+}
+@keyframes spinGarapon {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(720deg); }
+}
+.fuku-btn {
+  background: linear-gradient(135deg, var(--vermilion) 0%, #9e2a1e 100%);
+  color: #fff;
+  border: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(184, 56, 35, 0.35);
+  letter-spacing: .08em;
+}
+.fuku-btn:active { transform: scale(0.96); }
+.fuku-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 </style>
 </head>
 <body>
@@ -416,9 +584,9 @@ body {
       <span class="wallet-label">蓄積した徳</span>
       <span class="wallet-val toku" id="userTokuVal">10</span>
     </div>
-    <div class="wallet-col">
-      <span class="wallet-label">所持品（袋）</span>
-      <span class="wallet-val" id="userInventoryCount">1 点</span>
+    <div class="wallet-col" id="openInvBtn" style="cursor:pointer;" title="所持品袋を開く">
+      <span class="wallet-label">所持品（袋） ↗</span>
+      <span class="wallet-val" id="userInventoryCount" style="color:var(--gold);text-decoration:underline;">1 点</span>
     </div>
   </div>
 
@@ -476,6 +644,28 @@ body {
     <!-- JSで動的生成 -->
   </div>
 
+  <!-- 🏮 境内 ガラポン福引所 -->
+  <section class="fukubiki-arena">
+    <div style="font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.15em;">🏮 縁起・運試し</div>
+    <h3 style="font-size:16px;margin:4px 0 6px;letter-spacing:.08em;">境内 開運ガラポン福引所</h3>
+    <p style="font-size:11.5px;color:var(--ink-light);margin:0 0 12px;">
+      棚の「開運福引之符」でガラガラ回そう！<br>
+      特等（金玉）は非売品【黄金ナチャ尊像】が授与されます。
+    </p>
+
+    <div class="fukubiki-wheel-wrap">
+      <div class="garapon-octagon" id="garaponWheel">
+        <span>☸️</span>
+      </div>
+    </div>
+
+    <div style="margin-bottom:12px;font-size:12px;color:var(--ink-light);">
+      所持チケット: <b id="userTicketCount" style="color:var(--vermilion);">0</b> 枚
+    </div>
+
+    <button type="button" class="fuku-btn" id="fukuBtn">ガラポンを回す（符を1枚消費）</button>
+  </section>
+
   <!-- ⏳ 工房（熟成・祈祷中キュー） -->
   <section class="workshop-preview">
     <div class="workshop-head">
@@ -487,6 +677,22 @@ body {
     </div>
   </section>
 
+</div>
+
+<!-- 🎒 インベントリモーダル -->
+<div class="inv-modal-overlay" id="invModalOverlay">
+  <div class="inv-modal-card">
+    <div class="inv-modal-head">
+      <div class="inv-modal-title">🎒 参拝者の所持品袋</div>
+      <button type="button" class="inv-close-btn" id="closeInvBtn">✕</button>
+    </div>
+    <div style="font-size:11.5px;color:var(--ink-light);margin-bottom:12px;">
+      手に入れた記念品やお守りを鑑賞できます。仏前へ「奉納」すると徳ポイントに還元されます。
+    </div>
+    <div class="inv-list-body" id="invListBody">
+      <!-- JSで動的生成 -->
+    </div>
+  </div>
 </div>
 
 <!-- トースト -->
@@ -512,6 +718,13 @@ body {
   var userCoinsVal = document.getElementById('userCoinsVal');
   var userTokuVal = document.getElementById('userTokuVal');
   var userInventoryCount = document.getElementById('userInventoryCount');
+  var openInvBtn = document.getElementById('openInvBtn');
+  var closeInvBtn = document.getElementById('closeInvBtn');
+  var invModalOverlay = document.getElementById('invModalOverlay');
+  var invListBody = document.getElementById('invListBody');
+  var garaponWheel = document.getElementById('garaponWheel');
+  var userTicketCount = document.getElementById('userTicketCount');
+  var fukuBtn = document.getElementById('fukuBtn');
   var cpiVal = document.getElementById('cpiVal');
   var inflationVal = document.getElementById('inflationVal');
   var loanPercentVal = document.getElementById('loanPercentVal');
@@ -557,6 +770,55 @@ body {
 
     // 工房
     renderWorkshop(temple.workshopQueue);
+
+    // 福引チケット枚数
+    var tickets = (user.inventory || []).filter(function(it) {
+      return it.catalogId === 'fukubiki_ticket' || it.name.indexOf('福引') >= 0;
+    });
+    userTicketCount.textContent = tickets.length;
+    fukuBtn.disabled = tickets.length === 0;
+    fukuBtn.textContent = tickets.length > 0 ? 'ガラポンを回す（符を1枚消費）' : '福引之符がありません（棚で購入）';
+
+    // インベントリ一覧更新
+    renderInventoryModal(user.inventory || []);
+  }
+
+  function renderInventoryModal(inv) {
+    invListBody.innerHTML = '';
+    if (!inv || inv.length === 0) {
+      invListBody.innerHTML = '<div style="text-align:center;padding:24px;color:var(--ink-light);font-size:12px;">所持品袋は空です。授与所や福引で手に入れましょう。</div>';
+      return;
+    }
+
+    inv.forEach(function(item) {
+      var row = document.createElement('div');
+      row.className = 'inv-item-row';
+      row.innerHTML = `
+        <div class="inv-item-info">
+          <div class="inv-item-name">
+            <span>${item.icon || '🧧'}</span>
+            <span>${item.name}</span>
+            <small style="color:var(--gold);font-family:monospace;font-size:10px;">${item.serialNo || ''}</small>
+          </div>
+          <div class="inv-item-meta">
+            ${item.creator ? '作者: ' + item.creator + ' · ' : ''}${item.quality || '謹製'}
+          </div>
+        </div>
+        <button type="button" class="offer-btn" data-invid="${item.id}">仏前へ奉納</button>
+      `;
+      invListBody.appendChild(row);
+    });
+
+    invListBody.querySelectorAll('.offer-btn').forEach(function(btn) {
+      btn.onclick = function() {
+        var id = this.getAttribute('data-invid');
+        var res = TempleEconomy.offerItemToTemple(id);
+        if (res.success) {
+          showToast('📿 ' + res.item.name + ' を仏前へ奉納しました（徳 +' + res.tokuGain + '）');
+          updateUI();
+        }
+      };
+    });
   }
 
   function renderShelf(shelf) {
@@ -679,6 +941,44 @@ body {
 
   tossBtn.onclick = doTossCoin;
   tossPond.onclick = doTossCoin;
+
+  // ── ガラポン福引アクション ──
+  fukuBtn.onclick = function() {
+    fukuBtn.disabled = true;
+    garaponWheel.classList.add('garapon-spin');
+
+    setTimeout(function() {
+      garaponWheel.classList.remove('garapon-spin');
+      var res = TempleEconomy.drawFukubiki();
+      if (res.success) {
+        var emoji = res.ballColor === 'gold' ? '🌟' : (res.ballColor === 'red' ? '🏮' : '🔔');
+        showToast(emoji + ' 【' + res.grade + '当選！】 ' + res.prize.name + ' を授かりました！');
+
+        if (window.TempleMultiplayer) {
+          TempleMultiplayer.broadcast('FUKUBIKI_DRAWN', {
+            grade: res.grade,
+            prizeName: res.prize.name,
+            text: '🎉 参拝者が福引で【' + res.grade + '】' + res.prize.name + ' を引き当てました！'
+          });
+        }
+        updateUI();
+      } else {
+        showToast(res.message || '福引を引けませんでした');
+      }
+      fukuBtn.disabled = false;
+    }, 1200);
+  };
+
+  // ── インベントリモーダル開閉 ──
+  openInvBtn.onclick = function() {
+    invModalOverlay.classList.add('open');
+  };
+  closeInvBtn.onclick = function() {
+    invModalOverlay.classList.remove('open');
+  };
+  invModalOverlay.onclick = function(e) {
+    if (e.target === invModalOverlay) invModalOverlay.classList.remove('open');
+  };
 
   // 初期描画
   updateUI();

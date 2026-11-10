@@ -471,6 +471,129 @@
       saveTemple(temple);
 
       return { success: true, shelfObj: shelfObj };
+    },
+
+    // --- 仏前へ奉納（所持品をお供えして徳へ還元・循環） ---
+    offerItemToTemple: function(invId) {
+      var user = loadUser();
+      var idx = (user.inventory || []).findIndex(function(it) { return it.id === invId; });
+      if (idx < 0) return { success: false, reason: 'item_not_found' };
+
+      var item = user.inventory[idx];
+      user.inventory.splice(idx, 1);
+
+      // 徳ポイント付与（品物に応じて15〜40徳）
+      var tokuGain = item.price ? Math.floor(item.price * 1.5) : 20;
+      user.toku += tokuGain;
+      saveUser(user);
+
+      // お寺側の記録
+      var temple = loadTemple();
+      temple.totalOfferingsReceived += tokuGain;
+      saveTemple(temple);
+
+      return { success: true, item: item, tokuGain: tokuGain, totalToku: user.toku };
+    },
+
+    // --- 🏮 ガラポン開運福引システム ---
+    drawFukubiki: function() {
+      var user = loadUser();
+      var ticketIdx = (user.inventory || []).findIndex(function(it) {
+        return it.catalogId === 'fukubiki_ticket' || it.name.indexOf('福引') >= 0;
+      });
+
+      if (ticketIdx < 0) {
+        return { success: false, reason: 'no_ticket', message: '「開運福引之符」をお持ちではありません。授与所でお求めください。' };
+      }
+
+      // チケットを1枚消費
+      user.inventory.splice(ticketIdx, 1);
+
+      var rand = Math.random() * 100;
+      var prize = null;
+      var ballColor = 'white';
+      var grade = '三等';
+
+      if (rand < 10) {
+        // 特等（10%）金玉
+        ballColor = 'gold';
+        grade = '特等';
+        prize = {
+          id: 'fuku_gold_' + Date.now(),
+          catalogId: 'gold_statue',
+          name: '黄金ナチャ尊像 · 満願成就',
+          icon: '👑',
+          creator: '四柱合同',
+          serialNo: '#' + String(Math.floor(Math.random() * 90) + 10),
+          quality: '純金箔祈祷 · 非売品',
+          obtainedAt: Date.now(),
+          desc: '福引の特賞で授かった、黄金の輝きを放つナチャの尊像。'
+        };
+      } else if (rand < 35) {
+        // 一等（25%）赤玉
+        ballColor = 'red';
+        grade = '一等';
+        prize = {
+          id: 'fuku_red_' + Date.now(),
+          catalogId: 'spear_charm',
+          name: '白檀手彫り火焔槍チャーム',
+          icon: '🔥',
+          creator: '不動明王',
+          serialNo: '#' + String(Math.floor(Math.random() * 900) + 100),
+          quality: '護摩祈祷 · 厄除特撰',
+          obtainedAt: Date.now(),
+          desc: '福引の一等で授かった、白檀の香りと炎の加護を宿す槍飾り。'
+        };
+      } else if (rand < 70) {
+        // 二等（35%）青玉
+        ballColor = 'blue';
+        grade = '二等';
+        prize = {
+          id: 'fuku_blue_' + Date.now(),
+          catalogId: 'lotus_bell',
+          name: '蓮華水琴鈴根付',
+          icon: '🔔',
+          creator: '白衣観音',
+          serialNo: '#' + String(Math.floor(Math.random() * 900) + 100),
+          quality: '清音 · 良縁祈念',
+          obtainedAt: Date.now(),
+          desc: '福引の二等で授かった、涼やかな水琴の音を奏でる蓮の鈴。'
+        };
+      } else {
+        // 三等（30%）白玉
+        ballColor = 'white';
+        grade = '三等';
+        prize = {
+          id: 'fuku_white_' + Date.now(),
+          catalogId: 'incense_pouch',
+          name: '観音堂お清め塗香袋',
+          icon: '🌿',
+          creator: '南極老人',
+          serialNo: '#' + String(Math.floor(Math.random() * 900) + 100),
+          quality: '除災招福 · 吉祥',
+          obtainedAt: Date.now(),
+          desc: '福引の三等で授かった、天然香木を調合した清めのお香袋。'
+        };
+      }
+
+      user.inventory.push(prize);
+      user.toku += 10; // 福引を引くこと自体で徳積み
+      saveUser(user);
+
+      // お寺側のローン返済（福引による祈祷納入）
+      if (w.TempleBank) {
+        w.TempleBank.repayDeityLoan(5, '開運福引祈祷充当');
+      }
+
+      return {
+        success: true,
+        ballColor: ballColor,
+        grade: grade,
+        prize: prize,
+        remainingTickets: user.inventory.filter(function(it) {
+          return it.catalogId === 'fukubiki_ticket' || it.name.indexOf('福引') >= 0;
+        }).length
+      };
     }
   };
 
