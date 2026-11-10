@@ -1563,3 +1563,311 @@ body.authmode main{padding-bottom:24px}
 .zen-sub-pill:active {
   transform: scale(0.96);
 }
+
+/* ====================================================
+   境内授与所（ショップ）スタイル & アバター装飾
+   ==================================================== */
+.zen-avatar-wrap.has-gold-halo::before {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(244, 208, 63, 0.45) 0%, rgba(212, 172, 13, 0.18) 55%, transparent 72%);
+  box-shadow: 0 0 28px rgba(244, 208, 63, 0.5);
+  animation: haloPulse 3.2s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: -1;
+}
+@keyframes haloPulse {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  100% { transform: scale(1.08); opacity: 1; }
+}
+
+.zen-avatar-wrap.has-lotus-aura::after {
+  content: '🪷';
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  font-size: 24px;
+  filter: drop-shadow(0 2px 6px rgba(192, 57, 43, 0.4));
+  animation: floatLotus 2.4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes floatLotus {
+  from { transform: translateY(0) rotate(-6deg); }
+  to { transform: translateY(-8px) rotate(6deg); }
+}
+
+.user-title-badge {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 11px;
+  color: var(--gold);
+  background: rgba(212, 172, 13, 0.18);
+  border: 1px solid rgba(212, 172, 13, 0.45);
+  padding: 1px 7px;
+  border-radius: 999px;
+  vertical-align: middle;
+  font-weight: 700;
+}
+
+/* 授与所コンテナ */
+.shop-hero {
+  background: linear-gradient(135deg, #2c1218 0%, #1a080d 100%);
+  border: 2px solid #D4AC0D;
+  border-radius: 22px;
+  padding: 22px 18px;
+  color: #fcecd2;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.3);
+  margin-bottom: 22px;
+}
+.shop-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, rgba(212,172,13,0.05) 0 4px, transparent 4px 8px);
+  pointer-events: none;
+}
+.shop-title-badge {
+  display: inline-block;
+  background: #fffdfa;
+  color: #241518;
+  border: 2px solid #D4AC0D;
+  padding: 6px 20px;
+  border-radius: 6px;
+  font: 900 20px "Noto Serif JP", serif;
+  letter-spacing: 0.15em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  margin-bottom: 10px;
+}
+.shop-hero-desc {
+  font-size: 13px;
+  color: #fcecd2cc;
+  line-height: 1.5;
+  margin: 0 auto 16px;
+  max-width: 480px;
+}
+.shop-coin-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1.5px solid rgba(212, 172, 13, 0.6);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 15px;
+  font-weight: 800;
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+}
+.shop-coin-num {
+  color: #F4D03F;
+  font-size: 20px;
+  font-family: "Lilita One", sans-serif;
+}
+.shop-coin-hint-btn {
+  background: none;
+  border: none;
+  color: #fcecd2aa;
+  font-size: 12px;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 4px;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* フィルタータブ */
+.shop-filters {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 4px 2px 12px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.shop-filters::-webkit-scrollbar { display: none; }
+.shop-tab-btn {
+  white-space: nowrap;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: 700 12.5px "M PLUS Rounded 1c", sans-serif;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.shop-tab-btn.active {
+  background: var(--acc);
+  color: #fff;
+  border-color: var(--acc);
+  box-shadow: 0 4px 12px var(--accSoft);
+}
+
+/* グリッド & カード */
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.shop-card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.shop-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+}
+.shop-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.shop-card-icon-wrap {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background: var(--accSoft);
+  border: 1px solid rgba(192, 57, 43, 0.2);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.shop-card-icon-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.shop-card-meta {
+  flex: 1;
+  min-width: 0;
+}
+.shop-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(212, 172, 13, 0.15);
+  color: #B7950B;
+  border: 1px solid rgba(212, 172, 13, 0.35);
+  margin-bottom: 3px;
+}
+.shop-card-title {
+  font: 800 15px "M PLUS Rounded 1c", sans-serif;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.25;
+}
+.shop-card-desc {
+  font-size: 12px;
+  color: var(--sub);
+  line-height: 1.4;
+  margin: 0 0 14px;
+  flex-grow: 1;
+}
+.shop-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  border-top: 1px dashed var(--line);
+  padding-top: 10px;
+}
+.shop-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: 900 16px "Lilita One", sans-serif;
+  color: var(--gold);
+}
+.shop-btn {
+  padding: 8px 14px;
+  border-radius: 999px;
+  font: 800 12.5px "M PLUS Rounded 1c", sans-serif;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.shop-btn-buy {
+  background: linear-gradient(135deg, var(--gold) 0%, #B7950B 100%);
+  color: #1a080d;
+  box-shadow: 0 2px 8px rgba(212, 172, 13, 0.35);
+}
+.shop-btn-buy:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(212, 172, 13, 0.5);
+}
+.shop-btn-owned {
+  background: rgba(39, 174, 96, 0.12);
+  color: #27ae60;
+  border: 1px solid rgba(39, 174, 96, 0.35);
+}
+.shop-btn-equip {
+  background: var(--acc);
+  color: #fff;
+  box-shadow: 0 2px 8px var(--accSoft);
+}
+.shop-btn-equipped {
+  background: rgba(212, 172, 13, 0.2);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+  cursor: default;
+}
+
+/* 壁紙プレビュー＆お供えモーダル */
+.shop-modal-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+.shop-modal-box {
+  background: var(--card);
+  border: 2px solid var(--gold);
+  border-radius: 24px;
+  max-width: 440px;
+  width: 100%;
+  padding: 24px 20px;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+  color: var(--ink);
+  animation: popIn 0.25s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+@keyframes popIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.shop-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 22px;
+  color: var(--sub);
+  cursor: pointer;
+}

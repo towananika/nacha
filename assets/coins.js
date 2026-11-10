@@ -169,6 +169,70 @@
       return true;
     },
 
+    // 所持アイテムの確認
+    hasItem: function(itemId) {
+      var w = loadWallet();
+      return !!(w.inventory && w.inventory[itemId]);
+    },
+
+    // アイテム購入 (授受)
+    buyItem: function(itemId, price, name) {
+      var w = loadWallet();
+      if (w.total < price) {
+        return { success: false, reason: 'insufficient_funds' };
+      }
+      w.inventory = w.inventory || {};
+      if (w.inventory[itemId]) {
+        return { success: false, reason: 'already_owned' };
+      }
+      w.total -= price;
+      w.inventory[itemId] = { boughtAt: Date.now(), name: name };
+      saveWallet(w);
+      try {
+        window.dispatchEvent(new CustomEvent('nacha-inventory-change', { detail: { itemId: itemId, inventory: w.inventory } }));
+      } catch (e) {}
+      return { success: true, total: w.total };
+    },
+
+    // 所持品一覧の取得
+    getInventory: function() {
+      var w = loadWallet();
+      return w.inventory || {};
+    },
+
+    // 装備中のアイテム取得
+    getEquipped: function(type) {
+      var w = loadWallet();
+      return (w.equipped && w.equipped[type]) || null;
+    },
+
+    // 装備・着せ替え (type: 'avatar', 'aura', 'title')
+    equipItem: function(type, itemId) {
+      var w = loadWallet();
+      w.equipped = w.equipped || {};
+      if (itemId === null || itemId === '' || itemId === 'default') {
+        delete w.equipped[type];
+      } else {
+        w.equipped[type] = itemId;
+      }
+      saveWallet(w);
+      try {
+        window.dispatchEvent(new CustomEvent('nacha-equip-change', { detail: { type: type, itemId: itemId, equipped: w.equipped } }));
+      } catch (e) {}
+      return true;
+    },
+
+    // ナチャへのお供え
+    offer: function(itemId, price) {
+      var w = loadWallet();
+      if (w.total < price) {
+        return { success: false, reason: 'insufficient_funds' };
+      }
+      w.total -= price;
+      saveWallet(w);
+      return { success: true, total: w.total };
+    },
+
     // イベント購読用ヘルパー
     onChange: function(callback) {
       window.addEventListener('nacha-coin-change', function(e) {

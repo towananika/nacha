@@ -28,6 +28,44 @@
     document.addEventListener('keydown',function(ev){if(ev.key==='Escape')close()});
   }
   set(pick());
+  // 授与所の装備アイテム（着せ替え・オーラ・称号）の反映
+  function applyEquipped() {
+    if (!window.NachaCoins) return;
+    var avatar = NachaCoins.getEquipped('avatar');
+    var aura = NachaCoins.getEquipped('aura');
+    var title = NachaCoins.getEquipped('title');
+    var img = document.getElementById('nachaImg');
+    var wrap = document.getElementById('nachaBtn');
+    if (img && avatar) {
+      var map = {
+        'pray': 'assets/nacha-pray.webp',
+        'wheels': 'assets/nacha-wheels.webp',
+        'spear': 'assets/nacha-spear.webp',
+        'wink': 'assets/nacha-wink.webp'
+      };
+      if (map[avatar]) img.src = map[avatar];
+    }
+    if (wrap) {
+      wrap.classList.toggle('has-gold-halo', aura === 'gold_halo');
+      wrap.classList.toggle('has-lotus-aura', aura === 'lotus_aura');
+    }
+    if (title) {
+      var marker = document.querySelector('.temple-shrine-marker');
+      var titleBadge = document.getElementById('userTitleBadge');
+      if (marker && !titleBadge) {
+        var tEl = document.createElement('span');
+        tEl.id = 'userTitleBadge';
+        tEl.className = 'user-title-badge';
+        tEl.textContent = '【' + title + '】';
+        marker.appendChild(tEl);
+      } else if (titleBadge) {
+        titleBadge.textContent = '【' + title + '】';
+      }
+    }
+  }
+  applyEquipped();
+  window.addEventListener('nacha-equip-change', applyEquipped);
+
   // tap Nacha (公式の画像だけを使う)
   var nb=document.getElementById('nachaBtn');
   if(nb){

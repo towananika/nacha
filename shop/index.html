@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>境内授与所 (ショップ) · NACHA</title>
+<meta name="description" content="参拝や登詣、日々の徳積みで集めたナチャコインで、限定スマホ壁紙やホーム画面の着せ替え、特別なお供えを授かろう。">
+<meta name="theme-color" content="#C0392B">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@700;800;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+body {
+  background: var(--bg);
+  color: var(--ink);
+  padding-bottom: calc(84px + env(safe-area-inset-bottom));
+}
+main {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 14px 16px 36px;
+}
+.coin-hint-modal-box {
+  text-align: left;
+}
+.coin-hint-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.coin-hint-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: rgba(0,0,0,0.03);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.coin-hint-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.coin-hint-text strong {
+  display: block;
+  font-size: 14px;
+  color: var(--ink);
+}
+.coin-hint-text small {
+  font-size: 11.5px;
+  color: var(--sub);
+}
+.coin-hint-reward {
+  margin-left: auto;
+  font: 900 15px "Lilita One", sans-serif;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+</style>
+</head>
+
+<body>
+<div class="bar">
+  <div style="display:flex;align-items:center">
+    <a class="brand" href="../">NACHA</a>
+    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
+  </div>
+  <div class="barr">
+    <a class="header-coin-badge" href="./" title="現在の所持コイン"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
+    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
+  </div>
+</div>
+
+<main id="main">
+
+  <!-- 授与所メインヒーローバナー -->
+  <section class="shop-hero">
+    <div class="shop-title-badge">🏮 境 内 授 与 所</div>
+    <p class="shop-hero-desc">
+      日々の参拝や登詣、徳積みで集めたナチャコインをお納めいただき、<br>
+      限定のスマホ壁紙や、ホーム画面のナチャの着せ替え・神光オーラを授かる処です。
+    </p>
+
+    <div class="shop-coin-banner">
+      <span>所持コイン</span>
+      <span class="shop-coin-num" id="shopHeroCoinCount">--</span>
+      <span>枚</span>
+    </div>
+    <div>
+      <button type="button" class="shop-coin-hint-btn" id="coinHintBtn">🪙 コインの貯め方ガイドを見る</button>
+    </div>
+  </section>
+
+  <!-- フィルタータブ -->
+  <div class="shop-filters" role="tablist" aria-label="授与品カテゴリー">
+    <button type="button" class="shop-tab-btn active" data-cat="all">すべて</button>
+    <button type="button" class="shop-tab-btn" data-cat="wallpaper">🧧 限定壁紙</button>
+    <button type="button" class="shop-tab-btn" data-cat="costume">👘 着せ替え</button>
+    <button type="button" class="shop-tab-btn" data-cat="aura">✨ 神光装飾</button>
+    <button type="button" class="shop-tab-btn" data-cat="offering">🍵 お供え処</button>
+    <button type="button" class="shop-tab-btn" data-cat="title">📿 参拝称号</button>
+  </div>
+
+  <!-- 授与品一覧グリッド -->
+  <div class="shop-grid" id="shopGrid">
+    <!-- JSでアイテムを動的描画 -->
+  </div>
+
+  <!-- 福引き所への導線 -->
+  <div style="background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:16px;text-align:center;margin-top:12px;">
+    <span style="font-size:24px;display:block;margin-bottom:6px">🎴</span>
+    <b style="font-size:15px;color:var(--ink);display:block">神吉カードを狙うなら大福引き所へ！</b>
+    <p style="font-size:12px;color:var(--sub);margin:4px 0 12px">コインを使って10連福引きを引き、全神仏カードのコンプリートを目指そう。</p>
+    <a href="../arcade/fukuiki/" class="btn main" style="display:inline-block;padding:10px 22px;font-size:14px;text-decoration:none;border-radius:999px">大福引き所へ行く ↗</a>
+  </div>
+
+</main>
+
+<!-- 壁紙プレビューモーダル -->
+<div class="shop-modal-scrim" id="wpModal" hidden>
+  <div class="shop-modal-box">
+    <button type="button" class="shop-modal-close" id="wpModalClose" aria-label="閉じる">×</button>
+    <h3 id="wpModalTitle" style="font-size:18px;margin:0 0 10px;color:var(--ink)">限定壁紙</h3>
+    <div style="width:100%;max-height:55vh;border-radius:14px;overflow:hidden;background:#000;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.3)">
+      <img id="wpModalImg" src="" alt="限定壁紙プレビュー" style="width:100%;height:100%;max-height:55vh;object-fit:contain;display:block">
+    </div>
+    <p style="font-size:12px;color:var(--sub);margin:0 0 14px">スマートフォンでは画像を長押し、PCでは右クリックで「画像を保存」してください。</p>
+    <a id="wpModalDownload" href="" download class="btn main" style="display:inline-block;padding:10px 24px;border-radius:999px;text-decoration:none">📥 壁紙をダウンロード</a>
+  </div>
+</div>
+
+<!-- お供えリアクションモーダル -->
+<div class="shop-modal-scrim" id="offeringModal" hidden>
+  <div class="shop-modal-box">
+    <button type="button" class="shop-modal-close" id="offeringModalClose" aria-label="閉じる">×</button>
+    <div style="font-size:48px;margin-bottom:6px" id="offeringIcon">🍡</div>
+    <h3 id="offeringTitle" style="font-size:18px;margin:0 0 10px;color:var(--ink)">お供え</h3>
+    <div style="background:var(--accSoft);border:1px solid rgba(192,57,43,0.25);border-radius:16px;padding:14px;margin-bottom:16px;">
+      <p id="offeringMessage" style="font-size:14px;line-height:1.5;color:var(--ink);margin:0;font-weight:700">
+        もぐもぐ…！甘くてすっごく美味しい！今日も一日、君の心に特大の花丸をあげるね！🍡✨
+      </p>
+    </div>
+    <button type="button" class="btn main" id="offeringOkBtn" style="padding:10px 28px;border-radius:999px">ありがたや 🙏</button>
+  </div>
+</div>
+
+<!-- コイン獲得ガイドモーダル -->
+<div class="shop-modal-scrim" id="coinHintModal" hidden>
+  <div class="shop-modal-box coin-hint-modal-box">
+    <button type="button" class="shop-modal-close" id="coinHintModalClose" aria-label="閉じる">×</button>
+    <h3 style="font-size:18px;margin:0 0 6px;text-align:center;color:var(--ink)">🪙 コインの貯め方ガイド</h3>
+    <p style="font-size:12px;color:var(--sub);text-align:center;margin:0 0 14px">境内のさまざまな体験を通じて、自然と徳とコインがたまります。</p>
+    
+    <ul class="coin-hint-list">
+      <li class="coin-hint-item">
+        <span class="coin-hint-icon">📿</span>
+        <div class="coin-hint-text">
+          <strong>本日のデイリー参拝めぐり</strong>
+          <small>ホーム画面で鈴を鳴らし、ナチャに挨拶、お堂巡りで達成</small>
+        </div>
+        <span class="coin-hint-reward">+5 🪙</span>
+      </li>
+      <li class="coin-hint-item">
+        <span class="coin-hint-icon">🧧</span>
+        <div class="coin-hint-text">
+          <strong>推し祈願お守りの作成</strong>
+          <small>推しの名前とお祈りを込めてデジタルお守りを授かる</small>
+        </div>
+        <span class="coin-hint-reward">+5 🪙</span>
+      </li>
+      <li class="coin-hint-item">
+        <span class="coin-hint-icon">⛩️</span>
+        <div class="coin-hint-text">
+          <strong>天空登詣（百八の石段）</strong>
+          <small>山頂の天空寺院へ登破し、満願成就の鐘を鳴らす</small>
+        </div>
+        <span class="coin-hint-reward">+10 🪙</span>
+      </li>
+      <li class="coin-hint-item">
+        <span class="coin-hint-icon">🪵</span>
+        <div class="coin-hint-text">
+          <strong>電子木魚のポクポク徳積み</strong>
+          <small>木魚を叩いて雑念を祓う（1日3回まで功徳コイン獲得）</small>
+        </div>
+        <span class="coin-hint-reward">+3〜10 🪙</span>
+      </li>
+    </ul>
+
+    <div style="text-align:center;margin-top:18px">
+      <button type="button" class="btn main" id="coinHintOkBtn" style="padding:10px 28px;border-radius:999px">境内に戻る</button>
+    </div>
+  </div>
+</div>
+
+<nav class="tabs" aria-label="Main">
+  <a href="../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
+  <a href="../amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
+  <a href="../rest/"><span aria-hidden="true">🪷</span><b>休憩所</b></a>
+  <a href="../arcade/fukuiki/"><span aria-hidden="true">🎴</span><b>福引き</b></a>
+  <a href="../characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">キャラ</b></a>
+</nav>
+
+<script src="../assets/i18n.js"></script>
+<script src="../assets/coins.js"></script>
+<script src="../assets/site.js"></script>
+
+<script>
+(function() {
+  'use strict';
+
+  var SHOP_ITEMS = [
+    // --- カテゴリ: wallpaper (限定スマホ壁紙) ---
+    {
+      id: 'wp_cloud_sea',
+      category: 'wallpaper',
+      catName: '限定壁紙',
+      icon: '🌄',
+      title: '雲海の天空寺院',
+      desc: '標高高く雲海を見晴らす、悠遊観音堂の天空霊景スマホ壁紙。',
+      price: 20,
+      img: '../arcade/steps/assets/view4.webp',
+      actionText: '壁紙を見る・保存'
+    },
+    {
+      id: 'wp_sacred_pray',
+      category: 'wallpaper',
+      catName: '限定壁紙',
+      icon: '🪷',
+      title: '祈りの黄金ナチャ',
+      desc: '静かに手を合わせ、あらゆる願いを包み込む慈悲の御神姿。',
+      price: 30,
+      img: '../assets/nacha-pray.webp',
+      actionText: '壁紙を見る・保存'
+    },
+    {
+      id: 'wp_fire_wheels',
+      category: 'wallpaper',
+      catName: '限定壁紙',
+      icon: '🔥',
+      title: '開運·風火輪の疾走',
+      desc: '悪気と迷いを払い、運気をぐんぐん急上昇させる吉兆壁紙。',
+      price: 40,
+      img: '../assets/nacha-wheels.webp',
+      actionText: '壁紙を見る・保存'
+    },
+    {
+      id: 'wp_fire_spear',
+      category: 'wallpaper',
+      catName: '限定壁紙',
+      icon: '⚡',
+      title: '守護·火炎槍の神変',
+      desc: '当落の不安や厄を焼き払い、力強く守護する雄姿壁紙。',
+      price: 50,
+      img: '../assets/nacha-spear.webp',
+      actionText: '壁紙を見る・保存'
+    },
+
+    // --- カテゴリ: costume (ナチャ着せ替え) ---
+    {
+      id: 'costume_pray',
+      category: 'costume',
+      type: 'avatar',
+      catName: '着せ替え',
+      icon: '🙏',
+      title: '祈りの神姿（ホーム着せ替え）',
+      desc: 'ホーム画面のナチャを、静かに祈りを捧げる慈愛の神姿に変装。',
+      price: 25,
+      avatarKey: 'pray',
+      img: '../assets/nacha-pray.webp'
+    },
+    {
+      id: 'costume_wheels',
+      category: 'costume',
+      type: 'avatar',
+      catName: '着せ替え',
+      icon: '🛞',
+      title: '風火輪の出陣（ホーム着せ替え）',
+      desc: 'ホーム画面のナチャが風火輪に乗り、元気に駆け回る姿に変装。',
+      price: 35,
+      avatarKey: 'wheels',
+      img: '../assets/nacha-wheels.webp'
+    },
+
+    // --- カテゴリ: aura (装飾オーラ) ---
+    {
+      id: 'aura_gold_halo',
+      category: 'aura',
+      type: 'aura',
+      catName: '神光装飾',
+      icon: '✨',
+      title: '天空の黄金後光（オーラ）',
+      desc: 'ホーム画面のナチャの背後に、神聖な黄金の光芒がふわりと輝きます。',
+      price: 30,
+      auraKey: 'gold_halo'
+    },
+    {
+      id: 'aura_lotus_aura',
+      category: 'aura',
+      type: 'aura',
+      catName: '神光装飾',
+      icon: '🌸',
+      title: '蓮華の散華（オーラ）',
+      desc: 'ホーム画面のナチャの周りに、常に小さな蓮の花が寄り添います。',
+      price: 20,
+      auraKey: 'lotus_aura'
+    },
+
+    // --- カテゴリ: offering (お供え処 - インタラクティブ) ---
+    {
+      id: 'offering_dango',
+      category: 'offering',
+      catName: 'お供え処',
+      icon: '🍡',
+      title: '特上お抹茶とお団子',
+      desc: 'ナチャにおいしいお茶とお団子を献上。ナチャが喜んで特別な祝福をくれます。',
+      price: 5,
+      dialogue: 'もぐもぐ…！甘くてすっごく美味しい！今日も一日、君の心に特大の花丸をあげるね！🍡✨'
+    },
+    {
+      id: 'offering_incense',
+      category: 'offering',
+      catName: 'お供え処',
+      icon: '🕯️',
+      title: '白檀の清め香',
+      desc: '清らかなお香を焚いて境内に捧げます。日々の疲れや心配事を煙が浄化します。',
+      price: 3,
+      dialogue: 'ふぅ〜…清らかな香りが境内に満ちていくよ。君の悩みや疲れが、煙と一緒に消えていきますように…🪷🕯️'
+    },
+
+    // --- カテゴリ: title (参拝称号) ---
+    {
+      id: 'title_sky_pilgrim',
+      category: 'title',
+      type: 'title',
+      catName: '参拝称号',
+      icon: '⛩️',
+      title: '称号「天空の旅人」',
+      desc: '雲海を越えて天空寺院へ足繁く通う熱心な参拝者の証。',
+      price: 15,
+      titleText: '天空の旅人'
+    },
+    {
+      id: 'title_virtue_master',
+      category: 'title',
+      type: 'title',
+      catName: '参拝称号',
+      icon: '🪵',
+      title: '称号「徳積み十全」',
+      desc: '日々の木魚や石段登詣、祈願を積み重ねた徳の主の証。',
+      price: 30,
+      titleText: '徳積み十全'
+    },
+    {
+      id: 'title_yuyu_guardian',
+      category: 'title',
+      type: 'title',
+      catName: '参拝称号',
+      icon: '👑',
+      title: '称号「悠遊の守護者」',
+      desc: '悠遊観音堂とナチャを深く尊び支える、最高位の名誉参拝称号。',
+      price: 50,
+      titleText: '悠遊の守護者'
+    }
+  ];
+
+  var currentCat = 'all';
+
+  function updateCoinDisplay(total) {
+    if (typeof total !== 'number' && window.NachaCoins) total = NachaCoins.getBalance();
+    var h = document.getElementById('headerCoinCount');
+    var s = document.getElementById('shopHeroCoinCount');
+    if (h) h.textContent = total;
+    if (s) s.textContent = total;
+  }
+
+  function renderGrid() {
+    var grid = document.getElementById('shopGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    var items = SHOP_ITEMS.filter(function(it) {
+      return currentCat === 'all' || it.category === currentCat;
+    });
+
+    items.forEach(function(item) {
+      var card = document.createElement('div');
+      card.className = 'shop-card';
+
+      var owned = window.NachaCoins ? NachaCoins.hasItem(item.id) : false;
+      var equipped = false;
+      if (item.type && window.NachaCoins) {
+        var cur = NachaCoins.getEquipped(item.type);
+        if (item.type === 'avatar') equipped = (cur === item.avatarKey);
+        else if (item.type === 'aura') equipped = (cur === item.auraKey);
+        else if (item.type === 'title') equipped = (cur === item.titleText);
+      }
+
+      var iconHtml = item.img 
+        ? '<img src="' + item.img + '" alt="' + item.title + '" loading="lazy">' 
+        : item.icon;
+
+      var btnHtml = '';
+      if (item.category === 'offering') {
+        btnHtml = '<button type="button" class="shop-btn shop-btn-buy" data-action="offer" data-id="' + item.id + '">🍵 お供えする (' + item.price + '🪙)</button>';
+      } else if (!owned) {
+        btnHtml = '<button type="button" class="shop-btn shop-btn-buy" data-action="buy" data-id="' + item.id + '">授かる (' + item.price + '🪙)</button>';
+      } else if (item.category === 'wallpaper') {
+        btnHtml = '<button type="button" class="shop-btn shop-btn-owned" data-action="view-wp" data-id="' + item.id + '">📥 壁紙を見る</button>';
+      } else if (item.type) {
+        if (equipped) {
+          btnHtml = '<button type="button" class="shop-btn shop-btn-equipped" data-action="unequip" data-id="' + item.id + '" title="クリックでデフォルトに戻す">✨ 装備中 (解除)</button>';
+        } else {
+          btnHtml = '<button type="button" class="shop-btn shop-btn-equip" data-action="equip" data-id="' + item.id + '">🪷 装備する</button>';
+        }
+      }
+
+      card.innerHTML = 
+        '<div class="shop-card-top">' +
+          '<div class="shop-card-icon-wrap">' + iconHtml + '</div>' +
+          '<div class="shop-card-meta">' +
+            '<span class="shop-badge">' + item.catName + '</span>' +
+            '<h3 class="shop-card-title">' + item.title + '</h3>' +
+          '</div>' +
+        '</div>' +
+        '<p class="shop-card-desc">' + item.desc + '</p>' +
+        '<div class="shop-card-bottom">' +
+          '<span class="shop-price">🪙 ' + item.price + '</span>' +
+          btnHtml +
+        '</div>';
+
+      grid.appendChild(card);
+    });
+  }
+
+  // イベント委譲でカードボタンのタップ処理
+  document.getElementById('shopGrid').addEventListener('click', function(e) {
+    var btn = e.target.closest('.shop-btn');
+    if (!btn) return;
+    var action = btn.dataset.action;
+    var id = btn.dataset.id;
+    var item = SHOP_ITEMS.find(function(it){ return it.id === id; });
+    if (!item) return;
+
+    if (action === 'buy') {
+      if (!window.NachaCoins) return;
+      var balance = NachaCoins.getBalance();
+      if (balance < item.price) {
+        alert('🪙 コインが不足しています（必要: ' + item.price + '枚 / 所持: ' + balance + '枚）。\n\n日々の参拝や木魚、天空登詣などでコインを貯めてみましょう！');
+        return;
+      }
+      var res = NachaCoins.buyItem(item.id, item.price, item.title);
+      if (res.success) {
+        if (window.playTempleBell) {
+          try { window.playTempleBell(); } catch(err) {}
+        }
+        NachaCoins.showEarnToast(-item.price, '【' + item.title + '】を授かりました');
+        // 自動装備できるものは即時装備
+        if (item.type) {
+          if (item.type === 'avatar') NachaCoins.equipItem('avatar', item.avatarKey);
+          else if (item.type === 'aura') NachaCoins.equipItem('aura', item.auraKey);
+          else if (item.type === 'title') NachaCoins.equipItem('title', item.titleText);
+        }
+        updateCoinDisplay(res.total);
+        renderGrid();
+      }
+    } else if (action === 'equip') {
+      if (!window.NachaCoins) return;
+      if (item.type === 'avatar') NachaCoins.equipItem('avatar', item.avatarKey);
+      else if (item.type === 'aura') NachaCoins.equipItem('aura', item.auraKey);
+      else if (item.type === 'title') NachaCoins.equipItem('title', item.titleText);
+      renderGrid();
+      NachaCoins.showEarnToast(0, '【' + item.title + '】を装備しました');
+    } else if (action === 'unequip') {
+      if (!window.NachaCoins) return;
+      NachaCoins.equipItem(item.type, null);
+      renderGrid();
+      NachaCoins.showEarnToast(0, '装備を解除しました');
+    } else if (action === 'view-wp') {
+      var modal = document.getElementById('wpModal');
+      var modalImg = document.getElementById('wpModalImg');
+      var modalTitle = document.getElementById('wpModalTitle');
+      var dlBtn = document.getElementById('wpModalDownload');
+      if (modal && modalImg) {
+        modalTitle.textContent = item.title;
+        modalImg.src = item.img;
+        dlBtn.href = item.img;
+        modal.hidden = false;
+      }
+    } else if (action === 'offer') {
+      if (!window.NachaCoins) return;
+      var balance = NachaCoins.getBalance();
+      if (balance < item.price) {
+        alert('🪙 コインが不足しています（必要: ' + item.price + '枚 / 所持: ' + balance + '枚）。');
+        return;
+      }
+      var offRes = NachaCoins.offer(item.id, item.price);
+      if (offRes.success) {
+        updateCoinDisplay(offRes.total);
+        if (window.playTempleBell) {
+          try { window.playTempleBell(); } catch(err) {}
+        }
+        // お供えモーダル表示
+        var oModal = document.getElementById('offeringModal');
+        var oIcon = document.getElementById('offeringIcon');
+        var oTitle = document.getElementById('offeringTitle');
+        var oMsg = document.getElementById('offeringMessage');
+        if (oModal) {
+          oIcon.textContent = item.icon;
+          oTitle.textContent = item.title + 'のお供え';
+          oMsg.textContent = item.dialogue;
+          oModal.hidden = false;
+        }
+      }
+    }
+  });
+
+  // モーダルを閉じる処理
+  var wpModal = document.getElementById('wpModal');
+  var wpModalClose = document.getElementById('wpModalClose');
+  if (wpModalClose) wpModalClose.onclick = function() { wpModal.hidden = true; };
+  if (wpModal) wpModal.onclick = function(e) { if (e.target === wpModal) wpModal.hidden = true; };
+
+  var oModal = document.getElementById('offeringModal');
+  var oModalClose = document.getElementById('offeringModalClose');
+  var oOkBtn = document.getElementById('offeringOkBtn');
+  function closeOffering() { if (oModal) oModal.hidden = true; }
+  if (oModalClose) oModalClose.onclick = closeOffering;
+  if (oOkBtn) oOkBtn.onclick = closeOffering;
+  if (oModal) oModal.onclick = function(e) { if (e.target === oModal) closeOffering(); };
+
+  var cModal = document.getElementById('coinHintModal');
+  var cBtn = document.getElementById('coinHintBtn');
+  var cClose = document.getElementById('coinHintModalClose');
+  var cOk = document.getElementById('coinHintOkBtn');
+  function closeCoinHint() { if (cModal) cModal.hidden = true; }
+  if (cBtn) cBtn.onclick = function() { if (cModal) cModal.hidden = false; };
+  if (cClose) cClose.onclick = closeCoinHint;
+  if (cOk) cOk.onclick = closeCoinHint;
+  if (cModal) cModal.onclick = function(e) { if (e.target === cModal) closeCoinHint(); };
+
+  // フィルタータブ切り替え
+  var tabs = document.querySelectorAll('.shop-tab-btn');
+  tabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      tabs.forEach(function(t){ t.classList.remove('active'); });
+      tab.classList.add('active');
+      currentCat = tab.dataset.cat;
+      renderGrid();
+    });
+  });
+
+  // 初期化とコインリスナー登録
+  if (window.NachaCoins) {
+    updateCoinDisplay();
+    NachaCoins.onChange(function(total) {
+      updateCoinDisplay(total);
+      renderGrid();
+    });
+  }
+  renderGrid();
+
+})();
+</script>
+</body>
+</html>
