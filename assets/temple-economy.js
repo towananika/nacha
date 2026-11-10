@@ -318,6 +318,9 @@
       if (loanPayment > 0 && temple.loanPaid < temple.loanTotal) {
         temple.loanPaid = Math.min(temple.loanTotal, temple.loanPaid + loanPayment);
         temple.templeVault -= loanPayment;
+        if (w.TempleBank) {
+          try { w.TempleBank.repayDeityLoan(loanPayment, '賽銭投げ充当'); } catch(e) {}
+        }
       }
       saveTemple(temple);
 
@@ -362,6 +365,9 @@
       if (temple.loanPaid < temple.loanTotal) {
         temple.loanPaid = Math.min(temple.loanTotal, temple.loanPaid + loanPayment);
         temple.templeVault -= loanPayment;
+        if (w.TempleBank) {
+          try { w.TempleBank.repayDeityLoan(loanPayment, '授与品売上充当: ' + shelfItem.item.name); } catch(e) {}
+        }
       }
 
       // 在庫ゼロなら棚から除外（空きスロットになる）
