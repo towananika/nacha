@@ -731,10 +731,13 @@ canvas#stage {
     CH = rect.height;
     canvas.width = CW * dpr;
     canvas.height = CH * dpr;
-    ctx.scale(dpr, dpr);
+    // setTransform でリセットしてから scale — 累積しない
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
   window.addEventListener('resize', resize);
   resize();
+  // タイトル画面でも階段を描画できるように初期化
+  initStairs();
 
   // 原作の斜め2Dアイソメトリック座標変換
   function toScreen(gx, gy) {
@@ -868,6 +871,12 @@ canvas#stage {
     } else {
       ctx.fillStyle = "#1d1020";
       ctx.fillRect(0, 0, CW, CH);
+    }
+
+    // 階段未生成なら描画をスキップ
+    if (stairs.length === 0) {
+      requestAnimationFrame(render);
+      return;
     }
 
     // カメラのスムーズ追従
