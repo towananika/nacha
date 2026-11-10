@@ -33,8 +33,12 @@
 <a class="skip" href="#main" data-i="skip">メインへ</a>
 
 <div class="bar">
-  <a class="brand" href="./">NACHA</a>
+  <div style="display:flex;align-items:center">
+    <a class="brand" href="./">NACHA</a>
+    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
+  </div>
   <div class="barr">
+    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
     <a class="pill" href="dev/" style="border:1.5px solid #D4AC0D;color:#D4AC0D;background:rgba(212,172,13,0.1);font-weight:700">🛠️ 開発版</a>
     <div class="lang">
       <button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">
@@ -62,6 +66,7 @@
 
   <!-- 【第1段】ファーストビュー：主役ナチャ ＋ 2大美麗カード -->
   <section class="zen-first-view">
+    <div class="temple-shrine-marker" data-i="temple_marker">⛩️ カンボジア・悠遊観音堂 仮想境内</div>
     <div class="zen-avatar-stage">
       <div class="zen-avatar-wrap" id="nachaBtn" title="タップしてね">
         <img id="nachaImg" class="zen-avatar-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">

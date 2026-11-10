@@ -204,15 +204,126 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
   var d=new Date().toISOString().slice(0,10),seen='';try{seen=localStorage.getItem('nacha-unoff')||'';localStorage.setItem('nacha-unoff',d)}catch(e){}
   if(seen===d){b.classList.add('gone');b.style.transition='none';return}
   setTimeout(function(){b.classList.add('gone')},10000)})();
-// 時間帯連動（夕暮れ・深夜の寄り添い挨拶）
+// ==========================================
+// 悠遊観音堂 境内の空気感演出 (Web Audio 参拝の鈴 & 蓮の微風)
+// ==========================================
 (function(){
+  var audioCtx = null;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  // 528Hz 悠遊観音堂の参拝の鈴（おりん / シンギングボウル）
+  window.playTempleBell = function(btn) {
+    if (btn) {
+      btn.classList.remove('ringing');
+      void btn.offsetWidth;
+      btn.classList.add('ringing');
+      var wave = document.createElement('span');
+      wave.className = 'bell-wave';
+      btn.appendChild(wave);
+      setTimeout(function(){ wave.remove(); }, 1400);
+    }
+    if (navigator.vibrate) {
+      try { navigator.vibrate([25, 45, 20]); } catch(e){}
+    }
+    var ctx = getAudioCtx();
+    if (ctx) {
+      var now = ctx.currentTime;
+      var freqs = [528, 1056, 1584, 2112];
+      var gains = [0.42, 0.16, 0.08, 0.035];
+      var decays = [3.2, 2.4, 1.8, 1.1];
+      freqs.forEach(function(f, i){
+        var osc = ctx.createOscillator();
+        var g = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, now);
+        if (i > 0) osc.detune.setValueAtTime((Math.random() * 6 - 3), now);
+        g.gain.setValueAtTime(0.001, now);
+        g.gain.exponentialRampToValueAtTime(gains[i], now + 0.02);
+        g.gain.exponentialRampToValueAtTime(0.0001, now + decays[i]);
+        osc.connect(g);
+        g.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + decays[i] + 0.05);
+      });
+    }
+
+    var toast = document.getElementById('toast');
+    if (window.NachaCoins) {
+      var res = window.NachaCoins.earn('temple_bell', 1);
+      if (toast) {
+        if (res.success) {
+          toast.textContent = '🔔 悠遊観音堂の鈴が響きました。心穏やかな参拝を 🪷 (+1コイン)';
+        } else {
+          toast.textContent = '🔔 悠遊観音堂の鈴が響きました。心穏やかな参拝を 🪷';
+        }
+        toast.hidden = false;
+        setTimeout(function(){ toast.hidden = true; }, 2600);
+      }
+    } else if (toast) {
+      toast.textContent = '🔔 悠遊観音堂の鈴が響きました。心穏やかな参拝を 🪷';
+      toast.hidden = false;
+      setTimeout(function(){ toast.hidden = true; }, 2400);
+    }
+  };
+
+  // 🔔 参拝ボタンの自動バインド
+  var bellBtn = document.getElementById('templeBellBtn');
+  if (bellBtn) {
+    bellBtn.addEventListener('click', function(){
+      window.playTempleBell(bellBtn);
+    });
+  }
+
+  // 境内を漂う蓮の花びら・光の微粒子（軽量）
+  function setupAmbience() {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (document.getElementById('templeAmbience')) return;
+    var amb = document.createElement('div');
+    amb.id = 'templeAmbience';
+    amb.className = 'temple-ambience';
+    amb.setAttribute('aria-hidden', 'true');
+    var symbols = ['🪷', '🌸', '✨', '🍃', '🪷'];
+    for (var i = 0; i < 5; i++) {
+      var p = document.createElement('span');
+      p.className = 'temple-petal';
+      p.textContent = symbols[i];
+      p.style.left = (10 + i * 20 + Math.random() * 6) + '%';
+      p.style.animationDelay = (i * 3) + 's';
+      p.style.animationDuration = (14 + Math.random() * 5) + 's';
+      p.style.fontSize = (14 + (i % 3) * 3) + 'px';
+      p.style.setProperty('--drift', ((i % 2 === 0 ? 1 : -1) * (30 + Math.random() * 40)) + 'px');
+      amb.appendChild(p);
+    }
+    document.body.appendChild(amb);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupAmbience);
+  } else {
+    setupAmbience();
+  }
+
+  // 時間帯に応じた境内の寄り添いお告げ（朝・昼・夕・夜）
   var hr = new Date().getHours();
   var bb = document.getElementById('bubble');
   if (bb) {
     if (hr >= 22 || hr < 5) {
-      bb.textContent = '夜遅くまでお疲れさま。無理しないでね🌙';
+      bb.textContent = '静寂の夜のお堂。不安な夜も、ナチャがそばにいるよ🌙';
     } else if (hr >= 17) {
-      bb.textContent = '今日もお疲れさま！お堂でひと休みしていこう🏮';
+      bb.textContent = '夕暮れの灯籠が灯りました。今日もお疲れさまでした🏮';
+    } else if (hr >= 5 && hr < 11) {
+      bb.textContent = '朝の清々しいお寺へようこそ。今日が見守られますように🌅';
+    } else {
+      bb.textContent = '陽だまりの境内。推しのこと、いっぱい祈っていってね🪷';
     }
   }
 })();

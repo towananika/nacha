@@ -32,3 +32,14 @@ window.NACHA_WORDS=[
   "km": { "g_rest": "កន្លែងសម្រាកចិត្ត", "g_mokugyo": "រនាតឈើអេឡិចត្រូនិក", "g_goma": "ពិធីបូជាភ្លើងសក្ការៈ", "g_ema": "បន្ទះឈើបួងសួង", "g_goshuin": "សៀវភៅត្រាសក្ការៈ" },
   "id": { "g_rest": "Tempat Istirahat Jiwa", "g_mokugyo": "Mokugyo Digital", "g_goma": "Sanctuary Api Goma", "g_ema": "Papan Doa Ema", "g_goshuin": "Buku Ziarah Goshuin" }
 });
+
+(function(a){for(var l in a)Object.assign(window.NACHA_I18N[l]=window.NACHA_I18N[l]||{},a[l])})({
+  "ja": { "temple_badge": "悠遊観音堂 境内", "temple_marker": "⛩️ カンボジア・悠遊観音堂 仮想境内" },
+  "en": { "temple_badge": "Precinct", "temple_marker": "⛩️ Yuyu Kannondo Virtual Precinct" },
+  "ko": { "temple_badge": "경내", "temple_marker": "⛩️ 유유관음당 가상 경내" },
+  "zh": { "temple_badge": "境內", "temple_marker": "⛩️ 悠遊觀音堂 虛擬境內" },
+  "zhs": { "temple_badge": "境内", "temple_marker": "⛩️ 悠游观音堂 虚拟境内" },
+  "th": { "temple_badge": "บริเวณวัด", "temple_marker": "⛩️ อาณาเขตจำลองหยูหยูกวนอิมถัง" },
+  "km": { "temple_badge": "បរិវេណវត្ត", "temple_marker": "⛩️ បរិវេណនិម្មិតយូយូក្វាន់អ៊ីមដូ" },
+  "id": { "temple_badge": "Area Kuil", "temple_marker": "⛩️ Area Kuil Virtual Yuyu Kannondo" }
+});
