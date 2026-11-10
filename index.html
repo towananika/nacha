@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>NACHA — 天空の悠遊観音堂（非公式ファンページ）</title>
-<meta name="description" content="小さな神様ナチャと過ごす、天空の癒やしと祈りの境内。108段の石段登りや推し活お守りを楽しもう。">
+<meta name="description" content="小さな神様ナチャと過ごす、天空の癒やしと祈りの境内。">
 <meta name="theme-color" content="#C0392B">
 <meta property="og:type" content="website"><meta property="og:title" content="NACHA Fan Page (Unofficial)"><meta property="og:description" content="小さな神様ナチャと過ごす、天空の癒やしと祈りの境内。"><meta property="og:image" content="https://towananika.github.io/nacha/assets/cast.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -15,224 +15,177 @@
 
 <style>
 /* ══════════════════════════════════════════════════
-   ZEN MINIMAL HERO & CLEAN NAVIGATION
-   UI/UX: 余白を多めに、選択肢を明快に
+   VISUAL-FIRST ZEN TEMPLE UI
+   テキストを極限まで減らし、美しいイメージを主役に
 ══════════════════════════════════════════════════ */
-.simple-hero {
+.visual-stage {
   text-align: center;
-  padding: 24px 16px 28px;
+  padding: 20px 0 28px;
 }
-.simple-shrine-tag {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  color: var(--sub);
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 4px 14px;
-  border-radius: 999px;
-  margin-bottom: 20px;
-}
-.simple-avatar-wrap {
-  width: 170px;
-  height: 170px;
-  margin: 0 auto 16px;
+.visual-nacha-hero {
   position: relative;
-  cursor: pointer;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--accSoft) 0%, transparent 70%);
+  width: 220px;
+  height: 220px;
+  margin: 0 auto 16px;
   display: grid;
   place-items: center;
-  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
+  cursor: pointer;
 }
-.simple-avatar-wrap:active {
-  transform: scale(0.92);
-}
-.simple-avatar-img {
-  width: 140px;
-  height: auto;
-  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.12));
-}
-.simple-speech-bubble {
-  display: inline-block;
-  max-width: 320px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 10px 18px;
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--ink);
-  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-  margin-bottom: 24px;
-  position: relative;
-}
-.simple-speech-bubble::before {
+.visual-nacha-hero::before {
   content: "";
   position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 10px;
-  height: 10px;
-  background: var(--card);
-  border-top: 1px solid var(--line);
-  border-left: 1px solid var(--line);
+  inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(192,57,43,0.18) 0%, rgba(212,172,13,0.08) 50%, transparent 72%);
+  z-index: 0;
+  animation: pulseAura 4s ease-in-out infinite alternate;
 }
-
-/* ── 3大メインカード（選びやすい大きな選択肢） ── */
-.main-choices-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-  margin: 8px 0 32px;
+@keyframes pulseAura {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  100% { transform: scale(1.06); opacity: 1; }
 }
-@media (min-width: 600px) {
-  .main-choices-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
+.visual-nacha-img {
+  width: 180px;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 14px 28px rgba(0,0,0,0.15));
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1);
 }
-.main-choice-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: var(--card);
-  border: 1.5px solid var(--line);
-  border-radius: 20px;
-  padding: 18px 20px;
-  text-decoration: none;
-  color: var(--ink);
-  box-shadow: var(--shadow);
-  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+.visual-nacha-hero:active .visual-nacha-img {
+  transform: scale(0.92);
 }
-@media (min-width: 600px) {
-  .main-choice-card {
-    flex-direction: column;
-    text-align: center;
-    padding: 24px 16px;
-    gap: 12px;
-  }
-}
-.main-choice-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-}
-.main-choice-card.card-climb {
-  border-color: rgba(192,57,43,0.35);
-  background: linear-gradient(135deg, rgba(192,57,43,0.06), var(--card));
-}
-.main-choice-card.card-climb:hover {
-  border-color: var(--acc);
-}
-.main-choice-card.card-shop {
-  border-color: rgba(212,172,13,0.4);
-  background: linear-gradient(135deg, rgba(212,172,13,0.08), var(--card));
-}
-.main-choice-card.card-shop:hover {
-  border-color: var(--gold);
-}
-.main-choice-card.card-amulet {
-  border-color: rgba(155,89,182,0.3);
-  background: linear-gradient(135deg, rgba(155,89,182,0.05), var(--card));
-}
-.main-choice-card.card-amulet:hover {
-  border-color: #9B59B6;
-}
-
-.choice-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-  flex-shrink: 0;
-  background: var(--bg);
-  border: 1px solid var(--line);
-}
-.choice-info {
-  flex: 1;
-  min-width: 0;
-}
-.choice-title {
-  display: block;
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--ink);
-  line-height: 1.25;
-  margin-bottom: 4px;
-}
-.card-climb .choice-title { color: var(--acc); }
-.card-shop .choice-title { color: var(--gold); }
-.card-amulet .choice-title { color: #8E44AD; }
-
-.choice-desc {
-  display: block;
-  font-size: 12px;
-  color: var(--sub);
-  line-height: 1.4;
-}
-
-/* ── サブ巡礼ナビ（すっきりリスト型） ── */
-.sub-services-sec {
+.visual-bubble {
+  display: inline-block;
   background: var(--card);
   border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 20px;
-  margin-bottom: 32px;
-}
-.sub-services-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.sub-services-title {
+  border-radius: 999px;
+  padding: 8px 22px;
   font-size: 14px;
   font-weight: 800;
-  color: var(--sub);
-  letter-spacing: .05em;
-  margin: 0;
-}
-.sub-services-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
-}
-@media (min-width: 600px) {
-  .sub-services-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-.sub-service-pill {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 10px 12px;
-  text-decoration: none;
   color: var(--ink);
-  font-size: 13px;
-  font-weight: 700;
-  transition: all .2s;
-}
-.sub-service-pill:hover {
-  border-color: var(--acc);
-  color: var(--acc);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
 }
 
-/* ── お寺とナチャの物語（清潔感のあるカード） ── */
-.temple-story-card {
-  background: var(--card);
+/* ── ビジュアル・ピクチャーカード（文字少なめ・画像が主役） ── */
+.visual-doors-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 12px 0 32px;
+}
+@media (min-width: 620px) {
+  .visual-doors-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+}
+.visual-door-card {
+  position: relative;
+  height: 220px;
+  border-radius: 22px;
+  overflow: hidden;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: flex-end;
+  padding: 18px;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.visual-door-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(0,0,0,0.16);
+}
+.door-bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .4s ease;
+  z-index: 0;
+}
+.visual-door-card:hover .door-bg-img {
+  transform: scale(1.05);
+}
+.door-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(16,10,8,0.92) 0%, rgba(16,10,8,0.4) 50%, rgba(16,10,8,0.1) 100%);
+  z-index: 1;
+}
+.door-caption {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  width: 100%;
+}
+.door-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(8px);
+  margin-bottom: 6px;
+  color: #fff;
+}
+.door-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  font-family: "Lilita One", "M PLUS Rounded 1c", sans-serif;
+  letter-spacing: .03em;
+  line-height: 1.2;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+
+/* ── 4柱の神様ビジュアル・ストリップ ── */
+.pantheon-strip {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  height: 140px;
+  margin-bottom: 32px;
   border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 22px;
-  margin-bottom: 24px;
+  box-shadow: var(--shadow);
+  display: block;
+  text-decoration: none;
+}
+.pantheon-strip img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  transition: transform .4s ease;
+}
+.pantheon-strip:hover img {
+  transform: scale(1.03);
+}
+.pantheon-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+.pantheon-info {
+  color: #fff;
+}
+.pantheon-info h3 {
+  margin: 0 0 2px;
+  font-size: 18px;
+  font-weight: 800;
+}
+.pantheon-info p {
+  margin: 0;
+  font-size: 12px;
+  color: #f1e9df;
+  opacity: .9;
 }
 </style>
 </head>
@@ -243,10 +196,10 @@
 <div class="bar">
   <div style="display:flex;align-items:center">
     <a class="brand" href="./">NACHA</a>
-    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
+    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂</span>
   </div>
   <div class="barr">
-    <a class="header-coin-badge" href="shop/" title="現在の所持コイン（授与所で使えます）"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
+    <a class="header-coin-badge" href="shop/" title="現在の所持コイン"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
     <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="境内の鈴を鳴らす" aria-label="境内の鈴">🔔</button>
     <div class="lang">
       <button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">
@@ -266,96 +219,84 @@
   </div>
 </div>
 
-<p class="unoff" id="unoffBar"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
+<p class="unoff" id="unoffBar"><span data-i="unoff">非公式ファンページ · 公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></p>
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
 
 <main id="main">
 
-  <!-- ══ シンプル・ファーストビュー（広い余白と主役ナチャ） ══ -->
-  <section class="simple-hero">
-    <div class="simple-shrine-tag" data-i="temple_marker">⛩️ カンボジア・悠遊観音堂 仮想境内</div>
-    
-    <div class="simple-avatar-wrap" id="nachaBtn" title="ナチャをタップしてみてね">
-      <img id="nachaImg" class="simple-avatar-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
+  <!-- ══ 主役ナチャ：大きなビジュアル＆温かいひとこと ══ -->
+  <section class="visual-stage">
+    <div class="visual-nacha-hero" id="nachaBtn" title="ナチャをタップ">
+      <img id="nachaImg" class="visual-nacha-img" src="assets/nacha-wink.webp" alt="Nacha" width="712" height="1072">
     </div>
-
     <div>
-      <div class="simple-speech-bubble" id="bubble">
+      <div class="visual-bubble" id="bubble">
         生きてるだけで、今日のはなまる満点！
       </div>
     </div>
   </section>
 
-  <!-- ══ 3大メイン導線（余白広め・一目で選べるビッグカード） ══ -->
+  <!-- ══ 3大ピクチャーカード（文字を削ぎ落とし、写真で選ぶ） ══ -->
   <section>
-    <div class="main-choices-grid">
+    <div class="visual-doors-grid">
 
-      <!-- ① 108段ゲーム -->
-      <a href="arcade/steps/" class="main-choice-card card-climb">
-        <div class="choice-icon">⛩️</div>
-        <div class="choice-info">
-          <strong class="choice-title">百八の石段登詣</strong>
-          <span class="choice-desc">リズムよく頂上を目指す階段アクション。登頂でコインGET！</span>
+      <!-- ① 108段（天空の景色） -->
+      <a href="arcade/steps/" class="visual-door-card">
+        <img class="door-bg-img" src="arcade/steps/assets/view1.webp" alt="108段の石段" width="800" height="450" loading="eager">
+        <div class="door-scrim"></div>
+        <div class="door-caption">
+          <span class="door-badge">⛩️ 登詣</span>
+          <h2 class="door-title">百八の石段</h2>
         </div>
       </a>
 
-      <!-- ② 授与所（ショップ） -->
-      <a href="shop/" class="main-choice-card card-shop">
-        <div class="choice-icon">🎁</div>
-        <div class="choice-info">
-          <strong class="choice-title">境内授与所</strong>
-          <span class="choice-desc">集めたコインでアバター衣装や限定壁紙・オーラを交換。</span>
+      <!-- ② 授与所（神聖なグッズ・壁紙・お供え） -->
+      <a href="shop/" class="visual-door-card">
+        <img class="door-bg-img" src="assets/poster.jpg" alt="境内授与所" width="512" height="640" loading="lazy" style="object-position:center 20%">
+        <div class="door-scrim"></div>
+        <div class="door-caption">
+          <span class="door-badge">🎁 授与品</span>
+          <h2 class="door-title">境内授与所</h2>
         </div>
       </a>
 
-      <!-- ③ 推し活・心願お守り -->
-      <a href="amulet/" class="main-choice-card card-amulet">
-        <div class="choice-icon">🧧</div>
-        <div class="choice-info">
-          <strong class="choice-title">推し活・心願お守り</strong>
-          <span class="choice-desc">推し色を選んで、自分だけの祈願お守りを謹製して持ち歩こう。</span>
+      <!-- ③ お守り（推し活・心願成就） -->
+      <a href="amulet/" class="visual-door-card">
+        <img class="door-bg-img" src="assets/grow.jpg" alt="心願お守り" width="512" height="640" loading="lazy" style="object-position:center 30%">
+        <div class="door-scrim"></div>
+        <div class="door-caption">
+          <span class="door-badge">🧧 祈願</span>
+          <h2 class="door-title">心願お守り</h2>
         </div>
       </a>
 
     </div>
   </section>
 
-  <!-- ══ 境内のよりみち（厳選した癒やし・祈願コンテンツ） ══ -->
-  <section class="sub-services-sec">
-    <div class="sub-services-head">
-      <h3 class="sub-services-title">📿 こころを整えるよりみち</h3>
-      <a href="characters/" style="font-size:12px;color:var(--acc);font-weight:700;text-decoration:none">神様名鑑を見る ↗</a>
-    </div>
-    <div class="sub-services-grid">
-      <a href="rest/" class="sub-service-pill"><span>🪷</span><span>こころの休憩所</span></a>
-      <a href="arcade/fukuiki/" class="sub-service-pill"><span>🎴</span><span>大福引き所</span></a>
-      <a href="ema/" class="sub-service-pill"><span>🪵</span><span>絵馬掛け所</span></a>
-      <a href="characters/" class="sub-service-pill"><span>🗺️</span><span>キャラ紹介</span></a>
-    </div>
+  <!-- ══ 4柱の神様ビジュアル・ストリップ（タップでキャラ紹介へ） ══ -->
+  <section>
+    <a href="characters/" class="pantheon-strip" title="神様名鑑を見る">
+      <img src="assets/cast.jpg" alt="ナチャと3柱の神様" width="1023" height="576" loading="lazy">
+      <div class="pantheon-scrim">
+        <div class="pantheon-info">
+          <h3>ナチャと3柱の守護神</h3>
+          <p>悠遊観音堂を守る神様たち ↗</p>
+        </div>
+      </div>
+    </a>
   </section>
 
-  <!-- ══ カンボジアのお寺とナチャの物語 ══ -->
-  <section class="temple-story-card">
-    <h3 style="margin:0 0 10px;font-size:16px;color:var(--acc);display:flex;align-items:center;gap:6px">
-      <span>🏮</span><span>実在の寺院とナチャについて</span>
-    </h3>
-    <p style="margin:0;font-size:13px;color:var(--sub);line-height:1.7">
-      カンボジア・プノンペンに実在する「悠遊観音堂」。風・水・大地の調和した美しい土地に建てられたこのお寺で、小さな守護神ナチャは暮らしています。本サイトは、日々の暮らしに小さな癒やしと笑顔を届ける非公式ファンページです。
-    </p>
-
-    <!-- 公式リンク -->
-    <div class="icons" style="margin-top:16px">
+  <!-- ══ 公式SNS ══ -->
+  <footer style="text-align:center;margin-top:20px">
+    <div class="icons">
       <a href="https://x.com/nacha_project" target="_blank" rel="noopener"><i class="b-x"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg></i><span>X</span></a>
       <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener"><i class="b-ig"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></i><span>Instagram</span></a>
-      <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener"><i class="b-tt"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></i><span>TikTok</span></a>
       <a href="https://nacha.club/" target="_blank" rel="noopener"><i class="b-hp"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></svg></i><span data-i="site">公式サイト</span></a>
     </div>
-  </section>
-
-  <footer class="ufoot" style="margin-top:32px">
-    <span>このページは非公式のファンページです。公式情報は</span>
-    <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a>
+    <p class="ufoot" style="margin-top:20px;font-size:12px;color:var(--sub)">
+      このページは非公式のファンページです。<a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a>
+    </p>
   </footer>
 
 </main>
