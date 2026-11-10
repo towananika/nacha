@@ -840,13 +840,14 @@ canvas#stage {
     // キャラクターの向き（1 = 右上向き、-1 = 左上向きで水平反転）
     ctx.scale(playerDir, 1);
 
-    var spriteH = 78;
-    var spriteW = nachaImg.naturalWidth ? (spriteH * (nachaImg.naturalWidth / nachaImg.naturalHeight)) : 36;
+    var spriteH = 92;
+    var spriteW = nachaImg.naturalWidth ? (spriteH * (nachaImg.naturalWidth / nachaImg.naturalHeight)) : 42;
 
     if (nachaImg.complete && nachaImg.naturalWidth) {
-      ctx.drawImage(nachaImg, -spriteW / 2, -spriteH + 4, spriteW, spriteH);
+      // 足元がちょうど階段の上面（Y=0付近）に乗るよう描画
+      ctx.drawImage(nachaImg, -spriteW / 2, -spriteH + 8, spriteW, spriteH);
     } else {
-      ctx.font = "36px sans-serif";
+      ctx.font = "40px sans-serif";
       ctx.textAlign = "center";
       ctx.fillText("🪷", 0, 0);
     }
