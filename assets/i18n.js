@@ -59,3 +59,14 @@ window.NACHA_WORDS=[
   "km": { "door1_badge": "១ · បញ្ជីទេវតា", "door1_title": "បញ្ជីទេវតាស័ក្តិសិទ្ធិ", "door1_desc": "ណាចាទេវតាតូចការពារ និងទេវតាទាំងបួន រួមគ្នារក្សាទំនៀមទម្លាប់ខ្មែរ។" },
   "id": { "door1_badge": "I · Dewa", "door1_title": "Daftar Para Dewa", "door1_desc": "Dewa pelindung Nacha dan empat dewa penjaga tradisi serta doa Kamboja." }
 });
+
+(function(a){for(var l in a)Object.assign(window.NACHA_I18N[l]=window.NACHA_I18N[l]||{},a[l])})({
+  "ja": { "shrine_sub": "NACHA" },
+  "en": { "shrine_sub": "NACHA" },
+  "ko": { "shrine_sub": "NACHA" },
+  "zh": { "shrine_sub": "NACHA" },
+  "zhs": { "shrine_sub": "NACHA" },
+  "th": { "shrine_sub": "NACHA" },
+  "km": { "shrine_sub": "NACHA" },
+  "id": { "shrine_sub": "NACHA" }
+});
