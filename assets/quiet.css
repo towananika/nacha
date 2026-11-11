@@ -1,0 +1,278 @@
+/* ============================================================
+   NACHA — quiet design system
+   引き算の設計：紙・墨・朱の3色、罫線、余白、明朝の細字。
+   影・グラデーション・額縁・絵文字を使わない。
+   ============================================================ */
+
+:root{
+  --paper:#fbfaf7;
+  --ink:#1c1a17;
+  --ink-2:#6b665d;
+  --ink-3:#9a948a;
+  --rule:#e6e2d9;
+  --accent:#b03a2e;
+  --serif:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;
+  --sans:system-ui,-apple-system,"Hiragino Sans","Yu Gothic",sans-serif;
+  --wrap:1040px;
+  --gut:44px;
+}
+@media(max-width:760px){ :root{ --gut:22px } }
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body.q{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font:15px/1.95 var(--sans);
+  letter-spacing:.01em;
+  -webkit-font-smoothing:antialiased;
+}
+body.q a{color:inherit}
+body.q img{display:block;max-width:100%;height:auto}
+body.q button{font-family:inherit}
+
+.wrap{max-width:var(--wrap);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
+
+/* ── 見出し・ラベル ── */
+.q h1,.q h2,.q h3{font-family:var(--serif);font-weight:400;letter-spacing:.04em}
+.eyebrow{
+  font-family:var(--sans);
+  font-size:10px;
+  letter-spacing:.26em;
+  color:var(--ink-3);
+  margin:0 0 26px;
+  text-transform:uppercase;
+}
+.q h2.sec{
+  font-size:22px;
+  line-height:1.5;
+  margin:0 0 22px;
+}
+
+/* ── ヘッダー ── */
+.site-head{border-bottom:1px solid var(--rule)}
+.site-head .wrap{
+  height:96px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+.brand{
+  font-family:var(--serif);
+  font-size:15px;
+  letter-spacing:.34em;
+  text-decoration:none;
+  line-height:1.2;
+}
+.brand span{
+  display:block;
+  font-family:var(--sans);
+  font-size:9px;
+  letter-spacing:.22em;
+  color:var(--ink-3);
+  margin-top:7px;
+}
+.util{display:flex;align-items:center;gap:26px;position:relative}
+.util a,.util button{
+  font:11px/1 var(--sans);
+  letter-spacing:.14em;
+  color:var(--ink-2);
+  text-decoration:none;
+  background:none;
+  border:0;
+  padding:6px 0;
+  cursor:pointer;
+}
+.util a:hover,.util button:hover{color:var(--ink)}
+.util a:focus-visible,.util button:focus-visible,.brand:focus-visible{
+  outline:1px solid var(--accent);
+  outline-offset:6px;
+}
+.lmenu{
+  position:absolute;
+  right:0;
+  top:32px;
+  background:var(--paper);
+  border:1px solid var(--rule);
+  list-style:none;
+  margin:0;
+  padding:6px;
+  min-width:150px;
+  z-index:100;
+}
+.lmenu[hidden]{display:none}
+.lmenu button{
+  width:100%;
+  text-align:left;
+  border:0;
+  background:transparent;
+  padding:7px 10px;
+  font:12px/1.4 var(--sans);
+  color:var(--ink-2);
+  cursor:pointer;
+  letter-spacing:.04em;
+}
+.lmenu button:hover,.lmenu button[aria-current="true"]{color:var(--accent)}
+
+/* ── ボタン ── */
+.btn{
+  display:inline-flex;
+  align-items:center;
+  gap:16px;
+  border:1px solid var(--ink);
+  padding:15px 28px;
+  font-size:12px;
+  letter-spacing:.12em;
+  text-decoration:none;
+  color:var(--ink);
+  background:none;
+  cursor:pointer;
+  transition:background .22s ease,color .22s ease;
+}
+.btn:hover,.btn:focus-visible{background:var(--ink);color:var(--paper)}
+.btn:focus-visible{outline:1px solid var(--accent);outline-offset:3px}
+.link-btn{
+  font:12px/1 var(--sans);
+  letter-spacing:.12em;
+  color:var(--ink);
+  background:none;
+  border:0;
+  border-bottom:1px solid var(--ink);
+  padding:0 0 6px;
+  cursor:pointer;
+  transition:opacity .2s ease;
+}
+.link-btn:hover{opacity:.55}
+.link-btn:focus-visible{outline:1px solid var(--accent);outline-offset:5px}
+
+/* ── ヒーロー ── */
+.hero{
+  display:grid;
+  grid-template-columns:1fr .78fr;
+  gap:88px;
+  align-items:center;
+  padding-top:104px;
+  padding-bottom:96px;
+}
+.hero h1{
+  font-size:clamp(34px,5vw,54px);
+  line-height:1.34;
+  margin:0 0 26px;
+}
+.hero h1 span{display:block}
+.hero .lede{color:var(--ink-2);max-width:30em;margin:0 0 42px}
+.hero-figure{margin:0}
+.hero-figure img{width:100%;mix-blend-mode:multiply}
+.hero-figure figcaption{
+  font-family:var(--serif);
+  font-size:12.5px;
+  line-height:1.85;
+  color:var(--ink-2);
+  margin-top:22px;
+  padding-top:18px;
+  border-top:1px solid var(--rule);
+}
+
+/* ── 今日の一礼 ── */
+.bow{
+  border-top:1px solid var(--rule);
+  border-bottom:1px solid var(--rule);
+  padding-top:66px;
+  padding-bottom:66px;
+  display:grid;
+  grid-template-columns:64px 1fr;
+  gap:32px;
+  align-items:center;
+}
+.bow-mark{width:56px;height:56px;margin:0}
+.bow-mark svg{width:100%;height:100%;overflow:visible;display:block}
+.lamp-paper{fill:none;stroke:var(--ink-3);stroke-width:1;transition:stroke .45s ease,fill .45s ease}
+.lamp-frame{fill:none;stroke:var(--ink-3);stroke-width:1;transition:stroke .45s ease}
+.bow.is-lit .lamp-paper{stroke:var(--accent);fill:rgba(176,58,46,.07)}
+.bow.is-lit .lamp-frame{stroke:var(--accent)}
+.bow h2{font-size:22px;margin:0 0 10px}
+.bow .lede{margin:0 0 22px;color:var(--ink-2);font-size:14px}
+.bow-status{margin:16px 0 0;font-size:12px;color:var(--ink-3);min-height:1.4em}
+
+/* ── 今日の言葉（思い出） ── */
+.memory{
+  padding-top:88px;
+  padding-bottom:88px;
+  border-bottom:1px solid var(--rule);
+}
+.memory .quote{
+  font-family:var(--serif);
+  font-size:19px;
+  line-height:1.95;
+  letter-spacing:.03em;
+  margin:0;
+}
+.memory .link-btn{margin-top:28px}
+.memory .mem-list{
+  font-size:12px;
+  color:var(--ink-3);
+  margin:18px 0 0;
+  line-height:1.9;
+}
+.memory .mem-list strong{font-weight:400;color:var(--ink-2);letter-spacing:.06em}
+
+/* ── 三つの入口 ── */
+.entries{padding-top:96px;padding-bottom:24px}
+.entry{
+  display:grid;
+  grid-template-columns:64px 1fr auto;
+  gap:28px;
+  align-items:baseline;
+  padding-top:30px;
+  padding-bottom:30px;
+  border-top:1px solid var(--rule);
+  text-decoration:none;
+  transition:opacity .2s ease;
+}
+.entry:last-child{border-bottom:1px solid var(--rule)}
+.entry:hover{opacity:.55}
+.entry .num{font-size:10px;letter-spacing:.16em;color:var(--ink-3)}
+.entry .t{font-family:var(--serif);font-size:20px;letter-spacing:.06em;margin:0;display:block}
+.entry .d{display:block;color:var(--ink-2);font-size:13.5px;margin-top:8px;line-height:1.8}
+.entry .arw{font-size:14px;color:var(--ink-2)}
+
+/* ── ギャラリー ── */
+.gallery{padding-top:88px}
+.gallery-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:30px}
+.gallery-head .eyebrow{margin:0}
+.gallery-head a{font-size:11px;letter-spacing:.12em;color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--rule);padding-bottom:4px}
+.quad{display:grid;grid-template-columns:repeat(4,minmax(0,176px));gap:22px}
+.quad figure{margin:0}
+.quad img{width:100%;aspect-ratio:4/5;object-fit:cover}
+.quad figcaption{font-size:10.5px;letter-spacing:.1em;color:var(--ink-3);margin-top:10px}
+
+/* ── フッター ── */
+.site-foot{border-top:1px solid var(--rule);margin-top:96px;padding-top:56px;padding-bottom:72px}
+.foot-grid{display:grid;grid-template-columns:1fr auto;gap:48px;align-items:start}
+.site-foot p{margin:0;font-size:12px;line-height:2;color:var(--ink-2);max-width:34em}
+.foot-links{display:flex;gap:26px;font-size:11px;letter-spacing:.1em}
+.foot-links a{text-decoration:none;color:var(--ink-2)}
+.foot-links a:hover{color:var(--ink)}
+.unoff{margin-top:34px;font-size:11px;color:var(--ink-3);letter-spacing:.04em}
+
+/* ── モバイル ── */
+@media(max-width:760px){
+  .site-head .wrap{height:76px}
+  .util{gap:18px}
+  .hero{grid-template-columns:1fr;gap:48px;padding-top:64px;padding-bottom:72px}
+  .hero-figure{order:-1}
+  .hero-figure img{max-width:240px}
+  .bow{grid-template-columns:1fr;gap:24px;padding-top:52px;padding-bottom:52px}
+  .memory{grid-template-columns:1fr;gap:24px;padding-top:64px;padding-bottom:64px}
+  .memory .quote{font-size:17px}
+  .entries{padding-top:72px;padding-bottom:16px}
+  .entry{grid-template-columns:40px 1fr auto;gap:16px;padding-top:24px;padding-bottom:24px}
+  .quad{grid-template-columns:repeat(2,1fr);gap:12px}
+  .foot-grid{grid-template-columns:1fr;gap:28px}
+  .site-foot{margin-top:72px}
+}
+@media(prefers-reduced-motion:reduce){
+  .btn,.entry,.link-btn,.lamp-paper,.lamp-frame{transition:none}
+}

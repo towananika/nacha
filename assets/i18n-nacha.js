@@ -125,3 +125,44 @@
     "mem_7": "今天的你，已经很努力了。"
   }
 });
+
+/* 静けさの設計（2026-11）で追加した見出し */
+(function (a) {
+  for (var l in a) Object.assign(window.NACHA_I18N[l] = window.NACHA_I18N[l] || {}, a[l]);
+})({
+  "ja": {
+    "hero_t1": "小さな守護神、",
+    "hero_t2": "ナチャ。",
+    "hero_lead": "カンボジア・プノンペンの実在するお寺から生まれた神様です。忙しい毎日に、やさしい祈りと小さな笑顔を。",
+    "gallery_h": "姿絵",
+    "entry_quiz_desc": "三つの質問に答えて、ナチャたちからのひとことを。"
+  },
+  "en": {
+    "hero_t1": "Nacha,",
+    "hero_t2": "the small guardian.",
+    "hero_lead": "A small god born from a real temple in Phnom Penh, Cambodia — bringing gentle prayers and small smiles to busy days.",
+    "gallery_h": "Portraits",
+    "entry_quiz_desc": "Three questions, and a word from Nacha and friends."
+  },
+  "ko": {
+    "hero_t1": "작은 수호신,",
+    "hero_t2": "나차.",
+    "hero_lead": "캄보디아 프놈펜의 실제 사원에서 태어난 작은 신. 바쁜 일상에 다정한 기도와 작은 미소를.",
+    "gallery_h": "그림",
+    "entry_quiz_desc": "세 가지 질문에 답하고 나차들이 건네는 한마디를."
+  },
+  "zh": {
+    "hero_t1": "小小的守護神，",
+    "hero_t2": "哪吒。",
+    "hero_lead": "誕生於柬埔寨金邊真實寺廟的小神明。為忙碌的日常帶來溫柔的祈禱與微小笑容。",
+    "gallery_h": "畫像",
+    "entry_quiz_desc": "回答三個問題，接收哪吒他們的一句話。"
+  },
+  "zhs": {
+    "hero_t1": "小小的守护神，",
+    "hero_t2": "哪吒。",
+    "hero_lead": "诞生于柬埔寨金边真实寺庙的小神明。为忙碌的日常带来温柔的祈祷与微小笑容。",
+    "gallery_h": "画像",
+    "entry_quiz_desc": "回答三个问题，接收哪吒他们的一句话。"
+  }
+});
