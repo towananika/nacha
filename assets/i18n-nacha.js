@@ -166,3 +166,14 @@
     "entry_quiz_desc": "回答三个问题，接收哪吒他们的一句话。"
   }
 });
+
+/* 名鑑ページの見出し */
+(function (a) {
+  for (var l in a) Object.assign(window.NACHA_I18N[l] = window.NACHA_I18N[l] || {}, a[l]);
+})({
+  "ja": { "wep_h": "持ち物と武器" },
+  "en": { "wep_h": "Tools and weapons" },
+  "ko": { "wep_h": "도구와 무기" },
+  "zh": { "wep_h": "持有物與武器" },
+  "zhs": { "wep_h": "持有物与武器" }
+});

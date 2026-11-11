@@ -257,6 +257,52 @@ body.q button{font-family:inherit}
 .foot-links a:hover{color:var(--ink)}
 .unoff{margin-top:34px;font-size:11px;color:var(--ink-3);letter-spacing:.04em}
 
+
+/* ── 下層ページ共通 ── */
+.page-head{padding-top:88px;padding-bottom:56px;border-bottom:1px solid var(--rule)}
+.page-head h1{font-size:clamp(30px,4vw,44px);margin:0 0 16px}
+.page-head .lede{color:var(--ink-2);margin:0;max-width:36em}
+
+.section{padding-top:88px}
+.section > .eyebrow{margin-bottom:18px}
+
+.strip{display:flex;gap:14px;overflow-x:auto;padding-top:56px;padding-bottom:8px;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.strip figure{flex:none;margin:0;width:176px}
+.strip img{aspect-ratio:4/5;object-fit:cover;object-position:top}
+.strip figcaption{font-size:10.5px;letter-spacing:.1em;color:var(--ink-3);margin-top:9px}
+
+.def-list{margin:0}
+.def-row{display:grid;grid-template-columns:160px 1fr;gap:24px;padding-top:24px;padding-bottom:24px;border-top:1px solid var(--rule)}
+.def-row:last-child{border-bottom:1px solid var(--rule)}
+.def-row dt{font-size:11px;letter-spacing:.14em;color:var(--ink-3);margin:0}
+.def-row dd{margin:0;font-size:14px;line-height:1.9;color:var(--ink-2)}
+.def-row dd strong{font-weight:400;color:var(--ink)}
+
+.num-list{list-style:none;margin:0;padding:0}
+.num-list li{display:grid;grid-template-columns:56px 1fr;gap:28px;padding-top:26px;padding-bottom:26px;border-top:1px solid var(--rule)}
+.num-list li:last-child{border-bottom:1px solid var(--rule)}
+.num-list .n{font-size:10px;letter-spacing:.16em;color:var(--ink-3);padding-top:6px}
+.num-list h3{font-size:17px;margin:0 0 6px;letter-spacing:.04em}
+.num-list p{margin:0;font-size:13.5px;line-height:1.9;color:var(--ink-2)}
+
+.col-3{display:grid;grid-template-columns:repeat(3,1fr);gap:44px}
+.col-2{display:grid;grid-template-columns:repeat(2,1fr);gap:0 64px}
+
+@media(max-width:760px){
+  .page-head{padding-top:64px;padding-bottom:40px}
+  .section{padding-top:64px}
+  .strip{padding-top:40px}
+  .strip figure{width:150px}
+  .def-row{grid-template-columns:1fr;gap:8px;padding-top:20px;padding-bottom:20px}
+  .num-list li{grid-template-columns:36px 1fr;gap:16px}
+  .col-3,.col-2{grid-template-columns:1fr;gap:0}
+}
+
+
+/* ── 旧来の装飾（絵文字の花びら・光）は静けさの設計では出さない ── */
+.temple-ambience,.temple-petal,.spark,.bfire,.petal{display:none !important}
+
 /* ── モバイル ── */
 @media(max-width:760px){
   .site-head .wrap{height:76px}

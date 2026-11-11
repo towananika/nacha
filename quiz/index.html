@@ -5,43 +5,97 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="description" content="3つの質問で、今日あなたを見守るNACHAの守護神を診断します。">
   <title>今日の守護神診断 — NACHA</title>
-  <link rel="stylesheet" href="../assets/site.css">
+  <meta name="theme-color" content="#fbfaf7">
+  <meta property="og:type" content="website"><meta property="og:title" content="今日の守護神診断 — NACHA"><meta property="og:description" content="3つの質問で、今日あなたを見守る守護神を診断します。"><meta property="og:image" content="https://towananika.github.io/nacha/assets/poster.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/quiet.css">
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
   <style>
-    .quiz-wrap{max-width:560px;margin:0 auto;padding:28px 16px 110px}.quiz-head{text-align:center;margin:12px 0 22px}.quiz-head p{color:var(--sub);font-size:13px}.quiz-card,.quiz-result{background:var(--card,#fff);border:1px solid var(--line,#e8dccE);border-radius:20px;padding:22px;box-shadow:0 8px 24px rgba(43,36,30,.07)}.quiz-count{color:var(--acc,#c0392b);font-size:12px;font-weight:800;letter-spacing:.1em}.quiz-question{font-size:20px;line-height:1.55;margin:10px 0 18px}.quiz-answers{display:grid;gap:10px}.quiz-answer{width:100%;padding:14px;border:1px solid var(--line,#e8dcce);border-radius:12px;background:var(--bg,#fdfbf7);text-align:left;color:var(--ink);font:700 14px/1.45 inherit;cursor:pointer}.quiz-answer:hover,.quiz-answer:focus{border-color:var(--acc,#c0392b);background:var(--accSoft,#fff0ed)}.quiz-answer:active{transform:scale(.99)}.quiz-result{text-align:center}.quiz-result[hidden]{display:none}.result-icon{font-size:48px;margin:2px 0 4px}.result-name{color:var(--acc,#c0392b);font-size:24px;letter-spacing:.1em;margin:0}.result-role{color:var(--sub);font-size:13px;margin:6px 0 14px}.result-message{padding:14px;background:var(--bg,#fdfbf7);border-radius:12px;line-height:1.8;font-size:14px}.result-actions{display:grid;gap:10px;margin-top:16px}.result-x,.result-retry{display:block;padding:12px 14px;border-radius:999px;text-decoration:none;font-weight:700;font-size:14px}.result-x{background:#1a1a1a;color:#fff}.result-retry{border:1px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;font-family:inherit}.quiz-note{color:var(--sub);font-size:11px;text-align:center;margin:14px 0}.tabs{font-family:inherit}
+    .quiz{padding-top:16px}
+    .quiz-card{border-top:1px solid var(--rule);padding-top:36px;margin-top:8px}
+    .quiz-count{font-size:10px;letter-spacing:.24em;color:var(--ink-3);margin:0 0 14px;text-transform:uppercase}
+    .quiz-question{font-size:clamp(20px,2.6vw,26px);line-height:1.7;margin:0 0 28px;letter-spacing:.03em}
+    .quiz-answers{display:grid;gap:0;border-top:1px solid var(--rule)}
+    .quiz-answer{
+      width:100%;padding:20px 4px;border:0;border-bottom:1px solid var(--rule);
+      background:none;text-align:left;color:var(--ink);font:14px/1.6 var(--sans);
+      letter-spacing:.02em;cursor:pointer;transition:opacity .2s ease;
+    }
+    .quiz-answer:hover,.quiz-answer:focus-visible{opacity:.5}
+    .quiz-answer:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
+    .quiz-result[hidden]{display:none}
+    .quiz-result{border-top:1px solid var(--rule);padding-top:36px}
+    .result-icon{display:none}
+    .result-name{font-size:clamp(26px,3.4vw,34px);margin:0 0 8px;letter-spacing:.06em}
+    .result-role{color:var(--ink-2);font-size:12px;letter-spacing:.12em;margin:0 0 26px}
+    .result-message{font-size:15px;line-height:2;color:var(--ink-2);margin:0 0 32px;max-width:32em}
+    .result-actions{display:flex;flex-wrap:wrap;gap:28px;align-items:center}
+    .result-x{font-size:12px;letter-spacing:.08em;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);padding-bottom:4px}
+    .result-retry{font:12px/1 var(--sans);letter-spacing:.08em;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:0}
+    .result-retry:hover{color:var(--ink)}
+    .quiz-note{color:var(--ink-3);font-size:11px;margin-top:44px}
   </style>
 </head>
-<body>
-  <main class="quiz-wrap">
-    <a class="brand" href="../" style="display:inline-block;text-decoration:none;color:var(--acc);font-weight:800;letter-spacing:.1em">← NACHA</a>
-    <header class="quiz-head"><p>3 QUESTIONS · 1 MINUTE</p><h1>今日の守護神診断</h1><p>いまの気持ちに寄り添う神様を見つけよう。</p></header>
+<body class="q">
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../">NACHA<span>今日の守護神診断</span></a>
+    <div class="util"><a href="../characters/">神様名鑑</a><a href="../amulet/">お守り</a></div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="page-head" style="padding-bottom:0;border-bottom:0">
+    <p class="eyebrow">3 questions · 1 minute</p>
+    <h1>今日の守護神診断</h1>
+    <p class="lede">いまの気持ちに寄り添う神様を見つけよう。</p>
+  </div>
+
+  <section class="quiz">
     <section class="quiz-card" id="quiz-card" aria-live="polite">
-      <p class="quiz-count" id="quiz-count"></p><h2 class="quiz-question" id="quiz-question"></h2><div class="quiz-answers" id="quiz-answers"></div>
+      <p class="quiz-count" id="quiz-count"></p>
+      <h2 class="quiz-question" id="quiz-question"></h2>
+      <div class="quiz-answers" id="quiz-answers"></div>
     </section>
+
     <section class="quiz-result" id="quiz-result" hidden aria-live="polite">
-      <div class="result-icon" id="result-icon"></div><p class="quiz-count">TODAY'S GUARDIAN</p><h2 class="result-name" id="result-name"></h2><p class="result-role" id="result-role"></p><p class="result-message" id="result-message"></p>
-      <div class="result-actions"><a class="result-x" id="result-x" href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="quiz-x">公式Xでナチャの毎日を見る</a><button class="result-retry" id="result-retry" type="button">もう一度診断する</button></div>
+      <div class="result-icon" id="result-icon"></div>
+      <p class="quiz-count">Today’s guardian</p>
+      <h2 class="result-name" id="result-name"></h2>
+      <p class="result-role" id="result-role"></p>
+      <p class="result-message" id="result-message"></p>
+      <div class="result-actions">
+        <a class="result-x" id="result-x" href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="quiz-x">公式Xでナチャの毎日を見る</a>
+        <button class="result-retry" id="result-retry" type="button">もう一度診断する</button>
+      </div>
     </section>
+
     <p class="quiz-note">この診断は楽しむためのコンテンツです。</p>
-  </main>
-  <nav class="tabs" aria-label="Main"><a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a><a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a><a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a></nav>
-  <script src="../assets/site.js"></script>
-  <script>
-  (function(){
-    var questions=[
-      {q:'今日いちばん欲しいものは？',a:[['安心して話せる時間','kunsim'],['背中を押してくれる力','fdo'],['ゆっくり整える余白','sousang'],['小さなラッキー','nacha']]},
-      {q:'気持ちが少し曇ったとき、どうする？',a:[['誰かに聞いてもらう','kunsim'],['えいっと行動してみる','fdo'],['お茶を飲んで深呼吸','sousang'],['好きなことで気分転換','nacha']]},
-      {q:'ナチャたちと過ごすなら？',a:[['蓮のそばでおしゃべり','kunsim'],['炎の前で決意表明','fdo'],['鶴と一緒にのんびり','sousang'],['境内を冒険する','nacha']]}
-    ], results={
-      nacha:{icon:'🏮',name:'ナチャ',role:'小さな守護神',message:'今日はナチャがあなたの味方。小さな「できた」を見つけて、こっそりはなまるをあげよう！'},
-      kunsim:{icon:'🪷',name:'白衣観音',role:'慈悲と傾聴の守護神',message:'今日は白衣観音が寄り添います。ひとりで抱えず、心の声をやさしく聞いてあげて。'},
-      fdo:{icon:'🔥',name:'不動明王',role:'覚悟を支える守護神',message:'今日は不動明王が背中を押します。小さくても一歩進めば、景色は変わっていく。'},
-      sousang:{icon:'🕊️',name:'南極老人',role:'長寿と良縁の守護神',message:'今日は南極老人が見守ります。急がなくて大丈夫。いいご縁は、ゆっくり育ちます。'}
-    };
-    var step=0,scores={nacha:0,kunsim:0,fdo:0,sousang:0},card=document.getElementById('quiz-card'),result=document.getElementById('quiz-result'),count=document.getElementById('quiz-count'),question=document.getElementById('quiz-question'),answers=document.getElementById('quiz-answers');
-    function draw(){var item=questions[step];count.textContent='QUESTION '+(step+1)+' / '+questions.length;question.textContent=item.q;answers.innerHTML='';item.a.forEach(function(answer){var button=document.createElement('button');button.type='button';button.className='quiz-answer';button.textContent=answer[0];button.addEventListener('click',function(){scores[answer[1]]++;step++;step<questions.length?draw():showResult()});answers.appendChild(button)})}
-    function showResult(){var key=Object.keys(scores).sort(function(a,b){return scores[b]-scores[a]||(['nacha','kunsim','fdo','sousang'].indexOf(a)-['nacha','kunsim','fdo','sousang'].indexOf(b))})[0],data=results[key];card.hidden=true;document.getElementById('result-icon').textContent=data.icon;document.getElementById('result-name').textContent=data.name;document.getElementById('result-role').textContent=data.role;document.getElementById('result-message').textContent=data.message;result.hidden=false}
-    document.getElementById('result-retry').addEventListener('click',function(){step=0;scores={nacha:0,kunsim:0,fdo:0,sousang:0};result.hidden=true;card.hidden=false;draw()});draw();
-  })();
-  </script>
+  </section>
+
+</main>
+
+<script src="../assets/site.js"></script>
+<script>
+(function(){
+  var questions=[
+    {q:'今日いちばん欲しいものは？',a:[['安心して話せる時間','kunsim'],['背中を押してくれる力','fdo'],['ゆっくり整える余白','sousang'],['小さなラッキー','nacha']]},
+    {q:'気持ちが少し曇ったとき、どうする？',a:[['誰かに聞いてもらう','kunsim'],['えいっと行動してみる','fdo'],['お茶を飲んで深呼吸','sousang'],['好きなことで気分転換','nacha']]},
+    {q:'ナチャたちと過ごすなら？',a:[['蓮のそばでおしゃべり','kunsim'],['炎の前で決意表明','fdo'],['鶴と一緒にのんびり','sousang'],['境内を冒険する','nacha']]}
+  ], results={
+    nacha:{icon:'',name:'ナチャ',role:'小さな守護神',message:'今日はナチャがあなたの味方。小さな「できた」を見つけて、こっそりはなまるをあげよう！'},
+    kunsim:{icon:'',name:'白衣観音',role:'慈悲と傾聴の守護神',message:'今日は白衣観音が寄り添います。ひとりで抱えず、心の声をやさしく聞いてあげて。'},
+    fdo:{icon:'',name:'不動明王',role:'覚悟を支える守護神',message:'今日は不動明王が背中を押します。小さくても一歩進めば、景色は変わっていく。'},
+    sousang:{icon:'',name:'南極老人',role:'長寿と良縁の守護神',message:'今日は南極老人が見守ります。急がなくて大丈夫。いいご縁は、ゆっくり育ちます。'}
+  };
+  var step=0,scores={nacha:0,kunsim:0,fdo:0,sousang:0},card=document.getElementById('quiz-card'),result=document.getElementById('quiz-result'),count=document.getElementById('quiz-count'),question=document.getElementById('quiz-question'),answers=document.getElementById('quiz-answers');
+  function draw(){var item=questions[step];count.textContent='Question '+(step+1)+' / '+questions.length;question.textContent=item.q;answers.innerHTML='';item.a.forEach(function(answer){var button=document.createElement('button');button.type='button';button.className='quiz-answer';button.textContent=answer[0];button.addEventListener('click',function(){scores[answer[1]]++;step++;step<questions.length?draw():showResult()});answers.appendChild(button)})}
+  function showResult(){var key=Object.keys(scores).sort(function(a,b){return scores[b]-scores[a]||(['nacha','kunsim','fdo','sousang'].indexOf(a)-['nacha','kunsim','fdo','sousang'].indexOf(b))})[0],data=results[key];card.hidden=true;document.getElementById('result-icon').textContent=data.icon;document.getElementById('result-name').textContent=data.name;document.getElementById('result-role').textContent=data.role;document.getElementById('result-message').textContent=data.message;result.hidden=false}
+  document.getElementById('result-retry').addEventListener('click',function(){step=0;scores={nacha:0,kunsim:0,fdo:0,sousang:0};result.hidden=true;card.hidden=false;draw()});draw();
+})();
+</script>
 </body>
 </html>

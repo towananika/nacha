@@ -3,314 +3,205 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NACHA — キャラ紹介</title>
-<meta name="description" content="ナチャと仲間の神様キャラクター紹介">
-<meta name="theme-color" content="#C0392B">
-<meta property="og:type" content="website"><meta property="og:title" content="NACHA — キャラ紹介"><meta property="og:description" content="ナチャと仲間の神様キャラクター紹介"><meta property="og:image" content="https://towananika.github.io/nacha/assets/poster.jpg">
+<title>キャラ紹介 — NACHA</title>
+<meta name="description" content="小さな守護神ナチャと三柱の仲間たち。姿、持ち物、物語。">
+<meta name="theme-color" content="#fbfaf7">
+<meta property="og:type" content="website"><meta property="og:title" content="キャラ紹介 — NACHA"><meta property="og:description" content="小さな守護神ナチャと三柱の仲間たち。姿、持ち物、物語。"><meta property="og:image" content="https://towananika.github.io/nacha/assets/poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8F%AE%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/site.css">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/quiet.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <style>
-/* ── Character hero ── */
-.chara-hero{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start;margin-bottom:4px}
-@media(max-width:480px){.chara-hero{grid-template-columns:1fr}}
-.chara-gallery{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;-ms-overflow-style:none;scrollbar-width:none}
-.chara-gallery::-webkit-scrollbar{display:none}
-.chara-gallery figure{flex:none;margin:0;width:160px;height:200px;border-radius:14px;overflow:hidden;scroll-snap-align:start;border:2px solid var(--line);box-shadow:var(--shadow);background:var(--card)}
-.chara-gallery img{width:100%;height:100%;object-fit:cover;object-position:top}
-.chara-gallery figcaption{display:none}
-.chara-info{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--acc);border-radius:16px;padding:16px}
-.chara-info h2{margin:0 0 2px;font:28px/1.1 "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--acc);letter-spacing:.05em}
-.chara-info .sub-name{font-size:14px;color:var(--sub);margin:0 0 10px}
-.chara-info .role-badge{display:inline-block;background:var(--accSoft);color:var(--acc);border-radius:999px;padding:2px 14px;font-size:12px;font-weight:700;margin-bottom:10px}
-.chara-info q{display:block;font-style:italic;font-size:15px;color:var(--ink);margin:12px 0 0;padding:10px 14px;background:var(--bg);border-left:3px solid var(--gold);border-radius:0 10px 10px 0;quotes:none}
-
-/* ── Traits ── */
-.traits{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.traits span{background:var(--accSoft);color:var(--acc);border-radius:999px;padding:3px 12px;font-size:12px;font-weight:600}
-
-/* ── Design specs ── */
-.spec-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-@media(max-width:420px){.spec-grid{grid-template-columns:1fr}}
-.spec-item{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
-.spec-item .spec-label{font-size:11px;font-weight:700;color:var(--sub);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
-.spec-item p{margin:0;font-size:13px;line-height:1.5}
-
-/* ── Weapons section ── */
-.weapons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
-@media(max-width:360px){.weapons{grid-template-columns:1fr}}
-.weapon-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;display:flex;gap:10px;align-items:flex-start}
-.weapon-icon{font-size:28px;flex:none;width:44px;height:44px;display:grid;place-items:center;background:var(--accSoft);border-radius:12px}
-.weapon-card h4{margin:0 0 2px;font-size:14px}
-.weapon-card p{margin:0;font-size:12px;color:var(--sub)}
-
-/* ── Friends grid ── */
-.friends-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-@media(max-width:420px){.friends-grid{grid-template-columns:1fr}}
-.friend-card{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--g);border-radius:14px;padding:12px;text-align:center}
-.friend-face{width:60px;height:60px;border-radius:50%;object-fit:cover;object-position:var(--fp,center);border:3px solid var(--g);margin:0 auto 8px;display:block}
-.friend-card h3{margin:0 0 2px;font-size:14px;font-family:"Lilita One","M PLUS Rounded 1c",sans-serif;font-weight:400}
-.friend-card .friend-sub{font-size:11px;color:var(--sub);margin:0 0 6px}
-.friend-card p{margin:0;font-size:11px;color:var(--sub);line-height:1.5}
-.friend-tags{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:6px}
-.friend-tags span{font-size:10px;padding:2px 8px;border-radius:999px;background:var(--bg);border:1px solid var(--line)}
-
-/* ── Story section ── */
-.story-steps{list-style:none;margin:12px 0 0;padding:0}
-.story-steps li{display:flex;gap:12px;padding-bottom:16px;position:relative}
-.story-steps li:not(:last-child)::before{content:"";position:absolute;left:18px;top:38px;bottom:0;width:2px;background:var(--line)}
-.story-num{flex:none;width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;font-weight:700;font-size:14px;display:grid;place-items:center}
-.story-steps p{margin:6px 0 0;font-size:14px;line-height:1.6}
-.story-steps strong{display:block;font-size:15px}
-
-/* ── Lore highlight ── */
-.lore-box{background:linear-gradient(135deg,#c0392b18,#d4ac0d14);border:1px solid #d4ac0d44;border-radius:16px;padding:16px;margin-top:16px;text-align:center}
-.lore-box .lore-emoji{font-size:36px;margin-bottom:6px}
-.lore-box h3{margin:0 0 6px;color:var(--acc)}
-.lore-box p{margin:0;font-size:14px;color:var(--sub);line-height:1.6}
-
-.gnote{text-align:center;color:var(--sub);font-size:12px;margin-top:14px;padding:10px;border:1px dashed var(--line);border-radius:10px}
-.sec{margin:28px 0 4px;font:22px/1.2 "Lilita One","M PLUS Rounded 1c",sans-serif;color:var(--ink);font-weight:400}
-.sec-sub{margin:0 0 12px;font-size:13px;color:var(--sub)}
+.profile{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;padding-top:80px;padding-bottom:8px}
+.profile figure{margin:0}
+.profile figure img{mix-blend-mode:multiply}
+.profile h2{font-size:30px;letter-spacing:.08em;margin:0 0 6px}
+.profile .kana{color:var(--ink-3);font-size:13px;letter-spacing:.1em;margin:0 0 20px}
+.profile .role{font-size:12px;letter-spacing:.14em;color:var(--accent);margin:0 0 26px}
+.traits{list-style:none;display:flex;flex-wrap:wrap;margin:0 0 30px;padding:0;font-size:13.5px;color:var(--ink-2)}
+.traits li{display:flex;align-items:center}
+.traits li+li::before{content:"·";margin:0 12px;color:var(--ink-3)}
+.profile blockquote{margin:0;padding-top:24px;border-top:1px solid var(--rule);font-family:var(--serif);font-size:16px;line-height:1.95;letter-spacing:.03em}
+.friend{display:block;padding-top:24px;padding-bottom:24px;border-top:1px solid var(--rule)}
+.friend h3{font-size:16px;margin:0 0 2px}
+.friend .sub{font-size:11px;letter-spacing:.1em;color:var(--ink-3);margin:0 0 8px}
+.friend p{margin:0;font-size:13px;line-height:1.85;color:var(--ink-2)}
+.friend .tags{margin:8px 0 0;font-size:11px;color:var(--ink-3);letter-spacing:.06em}
+.cast-wide{margin:0 0 40px}
+.cast-wide img{max-width:420px}
+.worship{margin-top:8px}
+.gnote{font-size:12px;color:var(--ink-3);margin:28px 0 0}
+@media(max-width:760px){
+  .profile{grid-template-columns:1fr;gap:40px;padding-top:56px}
+  .profile figure{max-width:260px}
+  .profile blockquote{font-size:15px}
+}
 </style>
 </head>
-<body>
-<a class="skip" href="#main" data-i="skip">メインへ</a>
-<div class="bar"><a class="brand" href="../">NACHA</a>
-<div class="barr"><a class="pill" href="../team/"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg><span data-i="acct">マイページ</span></a>
-<div class="lang"><button class="ibtn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></button>
-<ul class="lmenu" id="langMenu" hidden><li><button data-l="ja">日本語</button></li><li><button data-l="en">English</button></li><li><button data-l="ko">한국어</button></li><li><button data-l="zh">繁體中文</button></li><li><button data-l="zhs">简体中文</button></li><li><button data-l="th">ภาษาไทย</button></li><li><button data-l="km">ភាសាខ្មែរ</button></li><li><button data-l="id">Bahasa Indonesia</button></li></ul></div></div></div>
-<div class="toast" id="toast" role="status" aria-live="polite" hidden><span data-i="copied">リンクをコピーしました</span></div>
+<body class="q">
 
-<main id="main">
-<h1 class="pt" data-i="c_title">キャラ紹介</h1>
-<p class="ps" data-i="c_sub">小さな守護神ナチャと、3柱の仲間たち</p>
-
-<!-- ══ NACHA MAIN ══ -->
-<section class="reveal">
-  <div class="chara-hero">
-    <div class="chara-gallery">
-      <figure><img src="../assets/poster.jpg" alt="Nacha, arms crossed" width="512" height="640" loading="eager"><figcaption>Ready</figcaption></figure>
-      <figure><img src="../assets/nacha-wink.webp" alt="Nacha winking" width="512" height="640" loading="lazy"><figcaption>Wink</figcaption></figure>
-      <figure><img src="../assets/nacha-pray.webp" alt="Nacha praying" width="512" height="640" loading="lazy"><figcaption>Pray</figcaption></figure>
-      <figure><img src="../assets/outfit.jpg" alt="Nacha outfit" width="512" height="640" loading="lazy"><figcaption>Outfit</figcaption></figure>
-      <figure><img src="../assets/grow.jpg" alt="Nacha with sprout" width="512" height="640" loading="lazy"><figcaption>Grow</figcaption></figure>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../">NACHA<span>神様名鑑</span></a>
+    <div class="util">
+      <a href="../team/"><span data-i="acct">マイページ</span></a>
+      <button id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false"><span id="currentLangLabel">日本語</span></button>
+      <ul class="lmenu" id="langMenu" hidden>
+        <li><button data-l="ja">日本語</button></li>
+        <li><button data-l="en">English</button></li>
+        <li><button data-l="ko">한국어</button></li>
+        <li><button data-l="zh">繁體中文</button></li>
+        <li><button data-l="zhs">简体中文</button></li>
+        <li><button data-l="th">ภาษาไทย</button></li>
+        <li><button data-l="km">ភាសាខ្មែរ</button></li>
+        <li><button data-l="id">Bahasa Indonesia</button></li>
+      </ul>
     </div>
+  </div>
+</header>
 
-    <div class="chara-info">
+<main>
+
+  <div class="wrap page-head">
+    <p class="eyebrow">名鑑</p>
+    <h1 data-i="c_title">キャラ紹介</h1>
+    <p class="lede" data-i="c_sub">小さな守護神ナチャと、3柱の仲間たち</p>
+  </div>
+
+  <section class="wrap profile">
+    <figure>
+      <img src="../assets/opt/poster.webp" alt="ナチャ" width="320" height="400" loading="eager" decoding="async">
+    </figure>
+    <div>
       <h2>NACHA</h2>
-      <p class="sub-name">那茶 / ナチャ</p>
-      <span class="role-badge" data-i="n_role">主人公・小さな守護神</span>
-      <div class="traits">
-        <span data-i="tr1">🎭 いたずら好き</span>
-        <span data-i="tr2">💛 まっすぐ</span>
-        <span data-i="tr3">🤫 こっそり善行</span>
-        <span data-i="tr4">💪 努力家</span>
-      </div>
-      <q data-i="n_quote">「内緒だよ、僕がやったって。」</q>
+      <p class="kana">那茶 / ナチャ</p>
+      <p class="role" data-i="n_role">主人公・小さな守護神</p>
+      <ul class="traits">
+        <li data-i="tr1">いたずら好き</li>
+        <li data-i="tr2">まっすぐ</li>
+        <li data-i="tr3">こっそり善行</li>
+        <li data-i="tr4">努力家</li>
+      </ul>
+      <blockquote data-i="n_quote">「内緒だよ、僕がやったって。」</blockquote>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ══ DESIGN SPECS ══ -->
-<section class="reveal">
-  <h2 class="sec" data-i="look_h">🎨 見た目のしるし</h2>
-  <p class="sec-sub">ナチャを見分ける7つのポイント</p>
-
-  <div class="spec-grid">
-    <div class="spec-item">
-      <div class="spec-label">👑 頭の冠</div>
-      <p>頭全体を包む<strong>金のクメール炎型ティアラ</strong>。冠の上部はなだらかに尖り、金のレリーフ模様が全面に。大きな仏塔ではなく、頭にフィットするヘルメット型。</p>
-    </div>
-    <div class="spec-item">
-      <div class="spec-label">🎀 まとめ髪</div>
-      <p>冠の後ろからのぞく<strong>小さな黒いお団子</strong>。赤いシンプルなリボン1本。タコ足のようなリボンは×、小ぶりが正解。</p>
-    </div>
-    <div class="spec-item">
-      <div class="spec-label">👕 上半身</div>
-      <p><strong>金刺繍の肩ベスト風衣装</strong>。完全裸ではなく、胸元に金の装飾ネックレス。ドラゴンメダルのみの胸は×。</p>
-    </div>
-    <div class="spec-item">
-      <div class="spec-label">👘 下半身</div>
-      <p><strong>赤いサンプット（腰布）</strong>に金の刺繍模様。クメール/タイ伝統衣装スタイル。くるぶし丈。</p>
-    </div>
-    <div class="spec-item">
-      <div class="spec-label">🌸 お顔</div>
-      <p><strong>2.5〜3頭身のチビ体型</strong>。丸くふっくらした輪郭。大きなアーモンド型の茶褐色の目。健康的な小麦肌。チークあり。</p>
-    </div>
-    <div class="spec-item">
-      <div class="spec-label">💛 アクセサリー</div>
-      <p>両手首・両足首に<strong>金の輪（バングル）</strong>。ゴールドイヤリング。腰ベルトに金の花形バックル。</p>
+  <div class="wrap">
+    <div class="strip">
+      <figure><img src="../assets/opt/poster.webp" alt="決意" width="320" height="400" loading="lazy"><figcaption>Ready</figcaption></figure>
+      <figure><img src="../assets/opt/nacha-wink.webp" alt="ウインク" width="300" height="452" loading="lazy"><figcaption>Wink</figcaption></figure>
+      <figure><img src="../assets/nacha-pray.webp" alt="祈り" width="512" height="640" loading="lazy"><figcaption>Pray</figcaption></figure>
+      <figure><img src="../assets/outfit.jpg" alt="衣装" width="512" height="640" loading="lazy"><figcaption>Outfit</figcaption></figure>
+      <figure><img src="../assets/opt/grow.webp" alt="芽吹き" width="320" height="400" loading="lazy"><figcaption>Grow</figcaption></figure>
     </div>
   </div>
 
-  <div class="lore-box">
-    <div class="lore-emoji">🧧</div>
-    <h3>ナチャのカラー</h3>
-    <p>主色：<strong style="color:#C0392B">赤</strong>（情熱・守護）　金（神聖・繁栄）　黒（決意）<br>ベース：小麦色の肌　白い背景によく映える</p>
-  </div>
-</section>
+  <section class="wrap section">
+    <p class="eyebrow">仕様</p>
+    <h2 class="sec" data-i="look_h">見た目のしるし</h2>
+    <dl class="def-list">
+      <div class="def-row"><dt>頭の冠</dt><dd>頭全体を包む<strong>金のクメール炎型ティアラ</strong>。上部はなだらかに尖り、全面に金のレリーフ。大きな仏塔ではなく、頭にフィットするヘルメット型。</dd></div>
+      <div class="def-row"><dt>まとめ髪</dt><dd>冠の後ろからのぞく<strong>小さな黒いお団子</strong>。赤いシンプルなリボン1本。タコ足のようなリボンは×、小ぶりが正解。</dd></div>
+      <div class="def-row"><dt>上半身</dt><dd><strong>金刺繍の肩ベスト風衣装</strong>。完全な裸ではなく、胸元に金の装飾ネックレス。ドラゴンメダルのみの胸は×。</dd></div>
+      <div class="def-row"><dt>下半身</dt><dd><strong>赤いサンプット（腰布）</strong>に金の刺繍。クメール／タイの伝統衣装スタイルで、くるぶし丈。</dd></div>
+      <div class="def-row"><dt>お顔</dt><dd><strong>2.5〜3頭身のチビ体型</strong>。丸くふっくらした輪郭、大きなアーモンド型の茶褐色の目。健康的な小麦肌で、チークあり。</dd></div>
+      <div class="def-row"><dt>アクセサリー</dt><dd>両手首・両足首に<strong>金の輪（バングル）</strong>。ゴールドのイヤリング、腰ベルトに金の花形バックル。</dd></div>
+      <div class="def-row"><dt>色</dt><dd>主色は<strong>赤</strong>（情熱・守護）、金（神聖・繁栄）、黒（決意）。ベースは小麦色の肌。</dd></div>
+    </dl>
+  </section>
 
-<!-- ══ WEAPONS ══ -->
-<section class="reveal">
-  <h2 class="sec">⚔️ 持ち物と武器</h2>
-  <div class="weapons">
-    <div class="weapon-card">
-      <div class="weapon-icon">🔥</div>
-      <div>
-        <h4 data-i="w1">火焔槍（かえんそう）</h4>
-        <p data-i="w1d">先端に炎をまとった槍。ナチャの象徴的な武器。</p>
-      </div>
+  <section class="wrap section">
+    <p class="eyebrow">道具</p>
+    <h2 class="sec" data-i="wep_h">持ち物と武器</h2>
+    <div class="col-2">
+      <dl class="def-list">
+        <div class="def-row"><dt data-i="w1">火焔槍</dt><dd data-i="w1d">先端に炎をまとった槍。ナチャの象徴的な武器。</dd></div>
+        <div class="def-row"><dt data-i="w2">風火輪</dt><dd data-i="w2d">足元に乗る炎の輪。空を自在に飛べる。</dd></div>
+      </dl>
+      <dl class="def-list">
+        <div class="def-row"><dt data-i="w3">乾坤圈</dt><dd data-i="w3d">黄金の輪。投げると必ず戻る。</dd></div>
+        <div class="def-row"><dt data-i="w4">紅綾</dt><dd data-i="w4d">赤い帯状の布。縛ったり攻撃したりと万能。</dd></div>
+      </dl>
     </div>
-    <div class="weapon-card">
-      <div class="weapon-icon">🌀</div>
-      <div>
-        <h4 data-i="w2">風火輪（ふうかりん）</h4>
-        <p data-i="w2d">足元に乗る炎の輪。空を自在に飛べる。</p>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <div class="weapon-icon">🪢</div>
-      <div>
-        <h4 data-i="w3">乾坤圈（けんこんけん）</h4>
-        <p data-i="w3d">黄金の輪。投げると必ず戻る。</p>
-      </div>
-    </div>
-    <div class="weapon-card">
-      <div class="weapon-icon">🎏</div>
-      <div>
-        <h4 data-i="w4">紅綾（こうりょう）</h4>
-        <p data-i="w4d">赤い帯状の布。縛ったり攻撃したりと万能。</p>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- ══ STORY ══ -->
-<section class="reveal">
-  <h2 class="sec" data-i="story_h">📖 ナチャのはなし</h2>
-  <ul class="story-steps">
-    <li>
-      <div class="story-num">1</div>
-      <div>
-        <strong data-i="s1t">カンボジアの守護神</strong>
-        <p data-i="s1">那茶（ナチャ）はカンボジアで広く信仰される守護の神様。子どもたちや旅人を見守り、悪いものを払う。</p>
-      </div>
-    </li>
-    <li>
-      <div class="story-num">2</div>
-      <div>
-        <strong data-i="s2t">小さいけれど最強</strong>
-        <p data-i="s2">見た目は子どものようなチビ体型。でもその力はどんな敵も退ける。強さは体の大きさじゃない。</p>
-      </div>
-    </li>
-    <li>
-      <div class="story-num">3</div>
-      <div>
-        <strong data-i="s3t">こっそり善行</strong>
-        <p data-i="s3">困っている人をこっそり助けて、すぐどこかへ行ってしまう。「誰がやったか」なんて気にしない。</p>
-      </div>
-    </li>
-    <li>
-      <div class="story-num">4</div>
-      <div>
-        <strong data-i="s4t">友だちと一緒に</strong>
-        <p data-i="s4">白衣観音、不動明王、南極老人の3柱と力を合わせて、みんなの暮らしを守っている。</p>
-      </div>
-    </li>
-  </ul>
-</section>
+  <section class="wrap section">
+    <p class="eyebrow">物語</p>
+    <h2 class="sec" data-i="story_h">ナチャのはなし</h2>
+    <ol class="num-list">
+      <li><span class="n">01</span><div><h3 data-i="s1t">カンボジアの守護神</h3><p data-i="s1">那茶（ナチャ）はカンボジアで広く信仰される守護の神様。子どもたちや旅人を見守り、悪いものを払う。</p></div></li>
+      <li><span class="n">02</span><div><h3 data-i="s2t">小さいけれど最強</h3><p data-i="s2">見た目は子どものようなチビ体型。でもその力はどんな敵も退ける。強さは体の大きさじゃない。</p></div></li>
+      <li><span class="n">03</span><div><h3 data-i="s3t">こっそり善行</h3><p data-i="s3">困っている人をこっそり助けて、すぐどこかへ行ってしまう。「誰がやったか」なんて気にしない。</p></div></li>
+      <li><span class="n">04</span><div><h3 data-i="s4t">友だちと一緒に</h3><p data-i="s4">白衣観音、不動明王、南極老人の3柱と力を合わせて、みんなの暮らしを守っている。</p></div></li>
+    </ol>
+  </section>
 
-<!-- ══ FRIENDS ══ -->
-<section class="reveal">
-  <h2 class="sec" data-i="gods_h">👥 3柱の仲間</h2>
-  <p class="sec-sub">ナチャを支える神様たち</p>
+  <section class="wrap section">
+    <p class="eyebrow">仲間</p>
+    <h2 class="sec" data-i="gods_h">3柱の仲間</h2>
 
-  <img class="castimg" src="../assets/cast.jpg" alt="The four gods" width="1023" height="576" loading="lazy" style="margin-bottom:12px">
+    <figure class="cast-wide">
+      <img src="../assets/opt/cast.webp" alt="四柱の守護神" width="320" height="180" loading="lazy">
+    </figure>
 
-  <div class="friends-grid">
-    <div class="friend-card" style="--g:#f1c6d3">
-      <img class="friend-face" src="../assets/cast.jpg" alt="Kun Sim" width="60" height="60"
-           style="--fp:44% 25%;object-position:44% 25%">
-      <h3 data-i="g1n">白衣観音</h3>
-      <p class="friend-sub">White Kun Sim</p>
-      <p data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</p>
-      <div class="friend-tags">
-        <span>🪷 蓮の花</span>
-        <span>👑 金の冠</span>
-        <span>😊 聴き上手</span>
-      </div>
+    <div class="col-3">
+      <article class="friend">
+        <div>
+          <h3 data-i="g1n">白衣観音</h3>
+          <p class="sub">White Kun Sim</p>
+          <p data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</p>
+          <p class="tags">蓮の花 · 金の冠 · 聴き上手</p>
+        </div>
+      </article>
+
+      <article class="friend">
+        <div>
+          <h3 data-i="g2n">不動明王</h3>
+          <p class="sub">Fdo King</p>
+          <p data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</p>
+          <p class="tags">炎の剣 · 三本の縄 · 覚悟</p>
+        </div>
+      </article>
+
+      <article class="friend">
+        <div>
+          <h3 data-i="g3n">南極老人</h3>
+          <p class="sub">Preah Sousang</p>
+          <p data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</p>
+          <p class="tags">鈴の杖 · ひょうたん · 鶴</p>
+        </div>
+      </article>
     </div>
 
-    <div class="friend-card" style="--g:#D35400">
-      <img class="friend-face" src="../assets/cast.jpg" alt="Fdo King" width="60" height="60"
-           style="--fp:51% 3%;object-position:51% 3%">
-      <h3 data-i="g2n">不動明王</h3>
-      <p class="friend-sub">Fdo King</p>
-      <p data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</p>
-      <div class="friend-tags">
-        <span>🔥 炎の剣</span>
-        <span>🪢 三本の縄</span>
-        <span>💪 覚悟</span>
-      </div>
+    <div class="worship">
+      <dl class="def-list">
+        <div class="def-row"><dt>ナチャ</dt><dd>境内や奥山を走り回って枝や霊木を集め、木製記念品の成形・彫刻を手掛ける。</dd></div>
+        <div class="def-row"><dt>白衣観音</dt><dd>参拝者の祈りに耳を澄ませ、心願お守りや蓮華香の調合と30日の熟成祈祷を執り行う。</dd></div>
+        <div class="def-row"><dt>不動明王</dt><dd>護摩の炎で木材を清め、神木に力を宿らせる細工彫刻や厄除け工芸を謹製。</dd></div>
+        <div class="def-row"><dt>南極老人</dt><dd>寺院銀行の元帳を守り、物価安定と工房の資材調達ローンを厳正に差配。</dd></div>
+      </dl>
     </div>
 
-    <div class="friend-card" style="--g:#5d7a64">
-      <img class="friend-face" src="../assets/cast.jpg" alt="Preah Sousang" width="60" height="60"
-           style="--fp:72% 13%;object-position:72% 13%">
-      <h3 data-i="g3n">南極老人</h3>
-      <p class="friend-sub">Preah Sousang</p>
-      <p data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</p>
-      <div class="friend-tags">
-        <span>🔔 鈴の杖</span>
-        <span>🍶 ひょうたん</span>
-        <span>🕊️ 鶴</span>
-      </div>
-    </div>
-  </div>
+    <p class="gnote" data-i="g_note">くわしいプロフィールは、公式の発表を待っています</p>
+  </section>
 
-  <!-- 🏛️ 4神の寺院工房でのお役目 -->
-  <div style="margin-top:20px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;">
-    <h3 style="font-size:15px;margin:0 0 10px;color:var(--ink);display:flex;align-items:center;gap:6px;">
-      <span>🏛️</span> 境内の工房と寺院銀行における4神の連携
-    </h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;line-height:1.6;">
-      <div style="background:var(--bg);border-radius:8px;padding:8px 10px;">
-        <b style="color:var(--acc);">🌿 ナチャ（作務・木工仕上げ）</b><br>
-        境内や奥山を走り回って枝や霊木を集め、木製記念品の成形・彫刻を手掛ける。
-      </div>
-      <div style="background:var(--bg);border-radius:8px;padding:8px 10px;">
-        <b style="color:#d46985;">🪷 白衣観音（祈祷・護符調合）</b><br>
-        参拝者の祈りに耳を澄ませ、心願お守りや蓮華香の調合と30日の熟成祈祷を執り行う。
-      </div>
-      <div style="background:var(--bg);border-radius:8px;padding:8px 10px;">
-        <b style="color:#D35400;">🔥 不動明王（神炎彫刻・護摩）</b><br>
-        護摩の炎で木材を清め、神木に力を宿らせる細工彫刻や厄除け工芸を謹製。
-      </div>
-      <div style="background:var(--bg);border-radius:8px;padding:8px 10px;">
-        <b style="color:#5d7a64;">📜 南極老人（出納台帳・寺院銀行）</b><br>
-        寺院銀行の元帳を守り、物価安定（目標2%）と工房の資材調達ローンを厳格に差配。
-      </div>
-    </div>
-  </div>
-
-  <p class="gnote" data-i="g_note">くわしいプロフィールは、公式の発表を待っています</p>
-</section>
-
-<section class="follow-cta-block">
-  <p class="follow-cta-lead" data-i="fcta_lead">ナチャの毎日は公式Xで。<br>フォローして、小さな守護神を見守ってください</p>
-  <a class="follow-cta-btn" href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="x-chars">𝕏 <span data-i="fcta_btn">公式Xをフォローする</span></a>
-</section>
-<footer class="ufoot"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></footer>
 </main>
 
-<nav class="tabs" aria-label="Main">
-  <a href="../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
-  <a href="../characters/" aria-current="page"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">神様名鑑</b></a>
-  <a href="../amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
-</nav>
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <p><span data-i="fcta_lead">ナチャの毎日は公式Xで。フォローして、小さな守護神を見守ってください。</span></p>
+      <div class="foot-links">
+        <a href="https://x.com/nacha_project" target="_blank" rel="noopener" data-i="fcta_btn">公式Xをフォローする</a>
+        <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club</a>
+        <a href="../">ホーム</a>
+      </div>
+    </div>
+    <p class="unoff"><span data-i="unoff">このページは非公式のファンページです。</span></p>
+  </div>
+</footer>
+
 <script src="../assets/i18n.js"></script>
 <script src="../assets/site.js"></script>
 </body>
