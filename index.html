@@ -96,6 +96,26 @@ body {
   position: relative;
   z-index: 10;
 }
+.account-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--washi-base);
+  border: 1px solid var(--line-gold);
+  border-radius: 20px;
+  padding: 5px 12px;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-decoration: none;
+}
+.account-link:hover,
+.account-link:focus-visible {
+  border-color: var(--vermilion);
+  color: var(--vermilion);
+}
 .lang-btn {
   background: var(--washi-base);
   border: 1px solid var(--line-gold);
@@ -534,6 +554,9 @@ html[lang="id"] .tanzaku-content {
 
   <!-- 🌐 言語切り替えセレクター -->
   <div class="top-action-bar">
+    <a class="account-link" href="team/" aria-label="ログインまたはマイページを開く">
+      <span aria-hidden="true">👤</span><span id="accountLinkText">ログイン・マイページ</span>
+    </a>
     <div style="position:relative">
       <button class="lang-btn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg>
@@ -708,6 +731,20 @@ document.addEventListener('nacha-lang', function(e) {
     span.textContent = labels[e.detail];
   }
 });
+</script>
+
+<script>
+(function () {
+  // 表示だけを更新する。ログイン状態や権限の判定は、マイページ側でサーバーに確認する。
+  var label = document.getElementById('accountLinkText');
+  if (!label) return;
+  try {
+    var auth = JSON.parse(localStorage.getItem('nacha-auth') || 'null');
+    if (auth && auth.token && auth.exp > Date.now() && auth.user && auth.user.id) {
+      label.textContent = 'マイページ';
+    }
+  } catch (_) {}
+})();
 </script>
 
 <script>
