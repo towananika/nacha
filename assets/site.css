@@ -1886,3 +1886,11 @@ body.authmode main{padding-bottom:24px}
 .follow-cta-btn{display:flex;align-items:center;justify-content:center;gap:8px;max-width:300px;margin:0 auto;padding:14px 20px;border-radius:999px;background:#1A1A1A;color:#fff;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:.06em;box-shadow:0 4px 14px rgba(26,26,26,.25)}
 .follow-cta-btn:active{transform:scale(.97)}
 .follow-cta-sub{display:inline-block;margin-top:10px;font-size:12.5px;color:var(--sub,#6e6259);text-decoration:underline;text-underline-offset:3px}
+
+/* 今日の守護神診断 */
+.guardian-quiz-card{max-width:500px;margin:28px auto 10px;padding:20px;border:1px solid var(--line-gold,#e2d7c5);border-radius:16px;background:linear-gradient(135deg,#fff 0%,#fff7e8 100%);box-shadow:0 8px 24px rgba(43,36,30,.06);text-align:center}
+.guardian-quiz-kicker{margin:0 0 5px;color:var(--gold,#bfa15f);font:700 10px/1.4 sans-serif;letter-spacing:.16em}
+.guardian-quiz-card h2{margin:0;color:var(--ink,#2b241e);font-size:19px;letter-spacing:.12em}
+.guardian-quiz-card p:not(.guardian-quiz-kicker){margin:9px 0 16px;color:var(--ink-light,#73675a);font-size:12px;line-height:1.7}
+.guardian-quiz-btn{display:inline-flex;align-items:center;gap:10px;padding:11px 18px;border-radius:999px;background:var(--vermilion,#b83823);color:#fff;text-decoration:none;font-weight:700;font-size:13px;box-shadow:0 4px 12px rgba(184,56,35,.24);transition:transform .2s ease,box-shadow .2s ease}
+.guardian-quiz-btn:hover{transform:translateY(-2px);box-shadow:0 7px 16px rgba(184,56,35,.3)}
