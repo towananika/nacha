@@ -7,6 +7,9 @@
   function set(l){
     var d=D[l]||{};
     document.documentElement.lang=LANGS[l]||l;
+    var labels={ja:'日本語',en:'English',ko:'한국어',zh:'繁體中文',zhs:'简体中文',th:'ภาษาไทย',km:'ភាសាខ្មែរ',id:'Bahasa Indonesia'};
+    var currentLabel=document.getElementById('currentLangLabel');
+    if(currentLabel&&labels[l])currentLabel.textContent=labels[l];
     els.forEach(function(e){e.textContent=l==='ja'?e.dataset.ja:(d[e.dataset.i]||(D.en||{})[e.dataset.i]||e.dataset.ja)});
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'),function(e){var k=e.dataset.i18nPh;if(!e.dataset.jaPh)e.dataset.jaPh=e.placeholder;e.placeholder=l==='ja'?e.dataset.jaPh:((D[l]||{})[k]||(D.en||{})[k]||e.dataset.jaPh)});
     document.dispatchEvent(new CustomEvent('nacha-lang',{detail:l}));

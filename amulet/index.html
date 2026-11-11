@@ -279,6 +279,16 @@
   .prayer-btn:active {
     transform: scale(0.97);
   }
+  .completion-follow {
+    margin-top: 12px;
+    padding: 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(192,57,43,.08), rgba(212,172,13,.12));
+    border: 1px solid rgba(192,57,43,.2);
+    text-align: center;
+  }
+  .completion-follow p { margin: 0 0 10px; color: var(--ink); font-size: 13px; font-weight: 700; line-height: 1.6; }
+  .completion-follow a { display: inline-flex; align-items: center; justify-content: center; width: 100%; min-height: 44px; border-radius: 999px; background: #1A1A1A; color: #fff; text-decoration: none; font-size: 13px; font-weight: 700; }
 
   /* キラキラ光るパーティクル */
   .petal {
@@ -540,6 +550,10 @@
       <button class="prayer-btn" id="submitPrayerBtn" type="submit">🙏 お守りに願いを込めて完成</button>
     </form>
     <p id="prayerMessage" style="font-size:13px;color:var(--acc);margin:10px 0 0;font-weight:700;display:none;"></p>
+    <section class="completion-follow" id="completionFollow" hidden aria-live="polite">
+      <p>お守りができたら、公式Xでナチャの毎日も見守ろう。</p>
+      <a href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="amulet-complete-follow">𝕏 公式Xをフォローする</a>
+    </section>
   </div>
 
   <!-- ボタン群 -->
@@ -648,6 +662,7 @@ try{navigator.sendBeacon(API+a.dataset.hit)}catch(_){}},true);})();
   var pilgrimEmaLink = document.getElementById('pilgrimEmaLink');
   var pilgrimGomaLink = document.getElementById('pilgrimGomaLink');
   var prayerMsg = document.getElementById('prayerMessage');
+  var completionFollow = document.getElementById('completionFollow');
   var colorChipsContainer = document.getElementById('colorChips');
   var activeColorName = document.getElementById('activeColorName');
   var plateText = document.getElementById('plateText');
@@ -834,6 +849,7 @@ try{navigator.sendBeacon(API+a.dataset.hit)}catch(_){}},true);})();
 
     prayerMsg.textContent = '🙏 ' + targetName + '『' + prayTxt + '』をお守りに奉納しました！' + (cd ? ' ' + cd : '');
     prayerMsg.style.display = 'block';
+    if (completionFollow) completionFollow.hidden = false;
 
     bTag.textContent = currentMode === 'oshi' ? '推し活祈願奉納済' : '祈願奉納済';
     bTitle.textContent = (oshi ? oshi + ' · ' : '') + (cd ? cd + ' ' : '') + '大願成就';
