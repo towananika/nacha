@@ -492,3 +492,8 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
     initPilgrim();
   }
 })();
+
+// フォロー導線の計測: data-hit のリンクが押されたら「数」だけサーバーへ送る（だれが押したかは送らない）
+(function(){var API='https://remitech-chores.jaykim-can.workers.dev/nacha/hit/';
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-hit]');if(!a)return;
+try{navigator.sendBeacon(API+a.dataset.hit)}catch(_){}},true);})();

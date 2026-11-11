@@ -572,7 +572,17 @@
     <span>このページは非公式のファンページです。公式情報は</span>
     <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a>
   </footer>
+<section class="follow-cta-block">
+  <p class="follow-cta-lead">お守りができたら、ナチャの毎日も公式Xで。<br>フォローして、小さな守護神を見守ってください</p>
+  <a class="follow-cta-btn" href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="x-amulet">𝕏 公式Xをフォローする</a>
+</section>
 </main>
+<script>
+// フォロー導線の計測（数だけ送る）
+(function(){var API='https://remitech-chores.jaykim-can.workers.dev/nacha/hit/';
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-hit]');if(!a)return;
+try{navigator.sendBeacon(API+a.dataset.hit)}catch(_){}},true);})();
+</script>
 
 <!-- タブバー -->
 <nav class="tabs" aria-label="Main">

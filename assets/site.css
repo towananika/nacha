@@ -1879,3 +1879,10 @@ body.authmode main{padding-bottom:24px}
   color: var(--sub);
   cursor: pointer;
 }
+
+/* 公式Xフォロー導線（2026-11-11 目標=Xフォロワー） */
+.follow-cta-block{text-align:center;margin:26px auto 6px;max-width:420px}
+.follow-cta-lead{font-size:13.5px;color:var(--sub,#6e6259);letter-spacing:.05em;margin:0 0 12px;line-height:1.9}
+.follow-cta-btn{display:flex;align-items:center;justify-content:center;gap:8px;max-width:300px;margin:0 auto;padding:14px 20px;border-radius:999px;background:#1A1A1A;color:#fff;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:.06em;box-shadow:0 4px 14px rgba(26,26,26,.25)}
+.follow-cta-btn:active{transform:scale(.97)}
+.follow-cta-sub{display:inline-block;margin-top:10px;font-size:12.5px;color:var(--sub,#6e6259);text-decoration:underline;text-underline-offset:3px}
