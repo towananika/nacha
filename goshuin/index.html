@@ -1,231 +1,200 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8">
+<html lang="ja" id="docRoot">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NACHA 旅するデジタル御朱印帳</title>
-<meta name="description" content="小さな神様ナチャと巡るデジタルの御朱印帳。日々の参拝・ゲーム・祈願の証を朱印として集めよう。">
-<meta name="theme-color" content="#C0392B">
+<title>新企画 奉納準備中 | 小さな守護神 ナチャ</title>
+<meta name="description" content="悠遊観音堂と小さな守護神ナチャの新しい体験を企画準備中です。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-body{background:var(--bg);color:var(--ink);padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-main{max-width:720px;margin:0 auto;padding:12px 16px 36px}
-
-/* 御朱印帳カバー */
-.goshuin-book{background:linear-gradient(135deg,#5e131d 0%,#3d0811 50%,#240308 100%);border:3px solid #D4AC0D;border-radius:24px;padding:26px 18px;box-shadow:0 14px 34px rgba(0,0,0,0.4),inset 0 0 20px rgba(0,0,0,0.5);color:#fcecd2;text-align:center;position:relative;overflow:hidden}
-.goshuin-book:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(212,172,13,0.06) 0 4px,transparent 4px 8px);pointer-events:none}
-
-.book-title-tag{display:inline-block;background:#fffdfa;color:#241518;border:2px solid #D4AC0D;padding:8px 24px;border-radius:6px;font:900 22px "Noto Serif JP",serif;letter-spacing:.25em;box-shadow:0 4px 12px rgba(0,0,0,0.3);margin-bottom:14px}
-.book-sub{font-size:13px;color:#fcecd2aa;margin:0 0 20px}
-
-/* 和紙ページコンテナ */
-.washi-page{background:#fffdf9;border-radius:18px;border:1px solid #e2d5c3;padding:22px 16px;box-shadow:inset 0 0 16px rgba(0,0,0,0.06),0 6px 16px rgba(0,0,0,0.25);color:#241518;text-align:left}
-
-/* 墨書ヘッダー */
-.sumi-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #8e2b20;padding-bottom:12px;margin-bottom:18px}
-.sumi-temple{font:900 22px "Noto Serif JP",serif;color:#8e2b20;letter-spacing:.1em;line-height:1.2}
-.sumi-date{font:700 13px "Noto Serif JP",serif;color:#55433c;text-align:right}
-
-/* 朱印スタンプグリッド */
-.stamp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-@media(max-width:440px){.stamp-grid{grid-template-columns:repeat(2,1fr)}}
-
-/* スタンプセル */
-.stamp-slot{border:1.5px dashed #d5c4b1;border-radius:14px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 6px;text-align:center;position:relative;background:#f9f5ee}
-.stamp-slot.collected{border-style:solid;border-color:#b5392a;background:radial-gradient(circle at 50% 50%,#fff2eb 0%,#fdfbf7 70%)}
-
-/* 朱肉の印章 */
-.seal{width:64px;height:64px;border:3px solid #b5392a;border-radius:12px;display:grid;place-items:center;color:#b5392a;font:900 12px/1.1 "Noto Serif JP",serif;letter-spacing:1px;position:relative;opacity:0.3;filter:grayscale(1);transform:scale(0.9);transition:all .3s}
-.stamp-slot.collected .seal{opacity:0.95;filter:none;transform:rotate(-4deg) scale(1);box-shadow:0 0 10px rgba(181,57,42,0.25)}
-.stamp-slot.collected .seal:after{content:"";position:absolute;inset:2px;border:1px solid #b5392a;border-radius:8px}
-
-.stamp-name{font:800 12px "M PLUS Rounded 1c",sans-serif;margin-top:6px;color:#6b5a52}
-.stamp-slot.collected .stamp-name{color:#8e2b20}
-.stamp-status{font-size:10px;font-weight:700;color:#9c8c82}
-.stamp-slot.collected .stamp-status{color:#b5392a}
-
-/* アクションボタン */
-.goshuin-actions{display:flex;gap:10px;margin-top:20px}
-.btn-goshuin-share{flex:1;padding:14px;border-radius:14px;background:linear-gradient(135deg,#1da1f2,#0c7abf);color:#fff;border:0;font:900 15px "M PLUS Rounded 1c",sans-serif;cursor:pointer}
-.btn-goshuin-save{flex:1;padding:14px;border-radius:14px;background:#ffffff24;border:1.5px solid #ffffff55;color:#fff;font:900 15px "M PLUS Rounded 1c",sans-serif;cursor:pointer}
+:root {
+  --washi-base: #f5f0e6;
+  --washi-subtle: #eae3d2;
+  --ink: #2b241e;
+  --ink-light: #6e6259;
+  --vermilion: #b83823;
+  --gold: #bfa15f;
+  --line-gold: rgba(191, 161, 95, 0.45);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--washi-base);
+  color: var(--ink);
+  font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 80px;
+}
+.sheet-canvas {
+  width: 100%;
+  max-width: 520px;
+  background: #fbf9f4;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  padding: 40px 24px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.05);
+}
+.sheet-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.emblem-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px;
+  color: var(--gold);
+}
+.tag-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--vermilion);
+  border: 1px solid var(--vermilion);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  margin: 0 0 16px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.desc {
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--ink-light);
+  letter-spacing: .06em;
+  margin: 0 auto 28px;
+  max-width: 380px;
+}
+.action-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 20px;
+  border-radius: 999px;
+  letter-spacing: .08em;
+  box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s;
+}
+.btn-gold:active { transform: scale(0.97); }
+.btn-outline {
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 999px;
+  letter-spacing: .06em;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(251, 249, 244, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line-gold);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.tabs a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink-light);
+  font-size: 11px;
+  gap: 2px;
+}
+.tabs a span { font-size: 18px; }
+.tabs a b { font-weight: 600; }
 </style>
 </head>
 <body>
-<div class="bar">
-  <div style="display:flex;align-items:center">
-    <a class="brand" href="../">NACHA</a>
-    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
-  </div>
-  <div class="barr">
-    <a class="header-coin-badge" href="../shop/" title="所持コイン・境内授与所（ショップ）へ"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
-    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
+
+<div class="sheet-canvas">
+  <svg class="emblem-icon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+    <circle cx="12" cy="20.5" r="1.5"/>
+  </svg>
+
+  <div class="tag-badge" id="gBadge">奉納準備中</div>
+
+  <h1 id="gH1">新たな境内体験を<br>ただいま企画中です</h1>
+
+  <p class="desc" id="gDesc">
+    小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
+    完成までどうぞ楽しみにお待ちください。
+  </p>
+
+  <div class="action-grid">
+    <a href="../" class="btn-gold">🏮 <span id="gHome">境内（ホーム）へ戻る</span></a>
+    <a href="../characters/" class="btn-outline">🗺️ <span id="gChars">神様名鑑を見る</span></a>
+    <a href="../amulet/" class="btn-outline">🧧 <span id="gAmu">心願お守りを作る</span></a>
   </div>
 </div>
 
-<main id="main">
-  <div class="goshuin-book">
-    <div class="book-title-tag">御 朱 印 帳</div>
-    <p class="book-sub">悠遊観音堂 · 小さき神 那茶巡礼結願</p>
-
-    <!-- 和紙風中身 -->
-    <div class="washi-page">
-      <div class="sumi-head">
-        <div>
-          <div class="sumi-temple">カンボジア悠遊観音堂</div>
-          <small style="color:#776054;font-size:11px">実在の仏教寺院 · 那茶神変</small>
-        </div>
-        <div class="sumi-date" id="stampDate">令和八年 参拝</div>
-      </div>
-
-      <!-- 印章一覧 -->
-      <div class="stamp-grid" id="stampGrid"></div>
-    </div>
-
-    <!-- アクションボタン -->
-    <div class="goshuin-actions">
-      <button class="btn-goshuin-share" id="btnShareGoshuin">𝕏 で御朱印帳をシェア</button>
-      <button class="btn-goshuin-save" id="btnSaveGoshuin">御朱印帳を保存</button>
-    </div>
-  </div>
-</main>
-
-<!-- ボトムナビ -->
 <nav class="tabs" aria-label="Main">
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
   <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
-  <a href="../shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
 </nav>
 
-<script src="../assets/coins.js"></script>
-<script src="../assets/site.js"></script>
+
 <script>
+// 日本語以外は英語で表示（日英を主要言語とする）
 (function(){
-  'use strict';
-
-  // 御朱印スタンプマスター
-  var STAMPS = [
-    { id:'visit',    title:'本尊参拝印',   sub:'毎日参拝',       char:'那茶\n参拝',   check: function(){ return true; } },
-    { id:'fukuiki',  title:'大福引き印',   sub:'縁起感得',       char:'神吉\n感得',   check: function(){ return !!localStorage.getItem('nacha-fukuiki-date'); } },
-    { id:'amulet',   title:'護身符印',     sub:'推し活祈願',     char:'蓮華\n護身',   check: function(){ return !!localStorage.getItem('nacha-amulet-mode'); } },
-    { id:'ema',      title:'心願奉納印',   sub:'絵馬掛け',       char:'心願\n成就',   check: function(){ return !!localStorage.getItem('nacha_user_emas_v1'); } },
-    { id:'spear',    title:'火焔祓印',     sub:'Fire Spear',   char:'火焔\n消滅',   check: function(){ return true; } },
-    { id:'burn',     title:'煩悩焼却印',   sub:'煩悩やき',       char:'煩悩\n浄化',   check: function(){ return !!localStorage.getItem('nacha-burned'); } }
-  ];
-
-  var now = new Date();
-  var dateStr = now.getFullYear() + '年 ' + (now.getMonth() + 1) + '月 ' + now.getDate() + '日 参拝';
-  document.getElementById('stampDate').textContent = dateStr;
-
-  var grid = document.getElementById('stampGrid');
-  STAMPS.forEach(function(s){
-    var isDone = s.check();
-    var slot = document.createElement('div');
-    slot.className = 'stamp-slot' + (isDone ? ' collected' : '');
-    slot.innerHTML = 
-      '<div class="seal">' + s.char.replace('\n', '<br>') + '</div>' +
-      '<div class="stamp-name">' + s.title + '</div>' +
-      '<div class="stamp-status">' + (isDone ? '受取済' : '未参拝') + '</div>';
-    grid.appendChild(slot);
-  });
-
-  // Canvas画像生成（1080×1080）
-  function renderGoshuinCanvas(cb) {
-    var c = document.createElement('canvas');
-    c.width = 1080; c.height = 1080;
-    var ctx = c.getContext('2d');
-
-    // 濃紅臙脂色の和表紙
-    var bg = ctx.createLinearGradient(0, 0, 1080, 1080);
-    bg.addColorStop(0, '#5e131d');
-    bg.addColorStop(0.5, '#3d0811');
-    bg.addColorStop(1, '#240308');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, 1080, 1080);
-
-    // 金の装飾枠
-    ctx.strokeStyle = '#D4AC0D';
-    ctx.lineWidth = 6;
-    ctx.strokeRect(40, 40, 1000, 1000);
-
-    // 白和紙エリア
-    ctx.fillStyle = '#fffdf9';
-    ctx.fillRect(80, 80, 920, 920);
-
-    // 墨書
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#8e2b20';
-    ctx.font = '900 64px "Noto Serif JP",serif';
-    ctx.fillText('カンボジア悠遊観音堂', 540, 180);
-
-    ctx.fillStyle = '#241518';
-    ctx.font = '900 48px "Noto Serif JP",serif';
-    ctx.fillText('那 茶 神 変 御 朱 印 帳', 540, 260);
-
-    ctx.font = '700 28px "Noto Serif JP",serif';
-    ctx.fillStyle = '#776054';
-    ctx.fillText(dateStr, 540, 320);
-
-    // スタンプ6個を描画
-    var startX = 220, startY = 400, stepX = 220, stepY = 220;
-    STAMPS.forEach(function(s, idx){
-      var col = idx % 3;
-      var row = Math.floor(idx / 3);
-      var x = 200 + col * 260;
-      var y = 420 + row * 240;
-
-      // 印章枠
-      ctx.strokeStyle = '#b5392a';
-      ctx.lineWidth = 4;
-      ctx.strokeRect(x, y, 160, 160);
-
-      // 印章文字
-      ctx.fillStyle = '#b5392a';
-      ctx.font = '900 32px "Noto Serif JP",serif';
-      var lines = s.char.split('\n');
-      ctx.fillText(lines[0], x + 80, y + 68);
-      ctx.fillText(lines[1], x + 80, y + 115);
-
-      // 名称
-      ctx.fillStyle = '#443229';
-      ctx.font = '700 22px "M PLUS Rounded 1c",sans-serif';
-      ctx.fillText(s.title, x + 80, y + 195);
-    });
-
-    // フッター
-    ctx.fillStyle = 'rgba(212,172,13,0.9)';
-    ctx.font = '800 30px "Lilita One",sans-serif';
-    ctx.fillText('#NACHA #御朱印帳  https://towananika.github.io/nacha/goshuin/', 540, 960);
-
-    c.toBlob(cb, 'image/png');
-  }
-
-  document.getElementById('btnShareGoshuin').addEventListener('click', function(){
-    var text = 'ナチャ寺院のデジタル御朱印帳をいただきました！📿✨\n' +
-      '境内の参拝・祈願スタンプを集めています。\n\n' +
-      '#NACHA #御朱印帳 #推し活祈願\n' +
-      'https://towananika.github.io/nacha/goshuin/';
-    window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text), '_blank', 'noopener');
-  });
-
-  document.getElementById('btnSaveGoshuin').addEventListener('click', function(e){
-    if (window.NachaCoins) {
-      var res = NachaCoins.earn('goshuin_save', 5, e);
-      if (res && res.success) {
-        if (window.NachaCoins.showEarnToast) NachaCoins.showEarnToast(5, '御朱印授受の記念功徳');
-      }
-    }
-    renderGoshuinCanvas(function(blob){
-      if (!blob) return;
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'nacha-goshuin.png';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    });
-  });
-
+  var L='ja';try{L=localStorage.getItem('nacha-lang')||''}catch(e){}
+  if(!L){var nl=(navigator.language||'en').toLowerCase();L=nl.slice(0,2)}
+  if(L==='ja')return;
+  document.documentElement.lang='en';
+  document.title='Coming Soon | NACHA the Little Guardian';
+  var T={gBadge:'COMING SOON',gH1:'A new temple experience<br>is in the making',
+    gDesc:'We are planning a new experience to bring you closer to NACHA the little guardian and the real temple Yuyu Kannondo in Cambodia.<br><br>Please look forward to it.',
+    gHome:'Back to the temple (Home)',gChars:'Meet the gods',gAmu:'Craft a wish amulet',
+    tHome:'Home',tChars:'Pantheon',tAmu:'Amulet'};
+  for(var k in T){var e=document.getElementById(k);if(e)e.innerHTML=T[k]}
+  var tabs=document.querySelectorAll('.tabs b'),tt=[T.tHome,T.tChars,T.tAmu];
+  for(var i=0;i<tabs.length&&i<tt.length;i++)tabs[i].textContent=tt[i];
 })();
 </script>
-</body></html>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" id="docRoot">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -156,19 +156,19 @@ h1 {
     <circle cx="12" cy="20.5" r="1.5"/>
   </svg>
 
-  <div class="tag-badge">奉納準備中</div>
+  <div class="tag-badge" id="gBadge">奉納準備中</div>
 
-  <h1>新たな境内体験を<br>ただいま企画中です</h1>
+  <h1 id="gH1">新たな境内体験を<br>ただいま企画中です</h1>
 
-  <p class="desc">
+  <p class="desc" id="gDesc">
     小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
     完成までどうぞ楽しみにお待ちください。
   </p>
 
   <div class="action-grid">
-    <a href="../" class="btn-gold">🏮 境内（ホーム）へ戻る</a>
-    <a href="../characters/" class="btn-outline">🗺️ 神様名鑑を見る</a>
-    <a href="../amulet/" class="btn-outline">🧧 心願お守りを作る</a>
+    <a href="../" class="btn-gold">🏮 <span id="gHome">境内（ホーム）へ戻る</span></a>
+    <a href="../characters/" class="btn-outline">🗺️ <span id="gChars">神様名鑑を見る</span></a>
+    <a href="../amulet/" class="btn-outline">🧧 <span id="gAmu">心願お守りを作る</span></a>
   </div>
 </div>
 
@@ -176,8 +176,25 @@ h1 {
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
   <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
-  <a href="../shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
 </nav>
 
+
+<script>
+// 日本語以外は英語で表示（日英を主要言語とする）
+(function(){
+  var L='ja';try{L=localStorage.getItem('nacha-lang')||''}catch(e){}
+  if(!L){var nl=(navigator.language||'en').toLowerCase();L=nl.slice(0,2)}
+  if(L==='ja')return;
+  document.documentElement.lang='en';
+  document.title='Coming Soon | NACHA the Little Guardian';
+  var T={gBadge:'COMING SOON',gH1:'A new temple experience<br>is in the making',
+    gDesc:'We are planning a new experience to bring you closer to NACHA the little guardian and the real temple Yuyu Kannondo in Cambodia.<br><br>Please look forward to it.',
+    gHome:'Back to the temple (Home)',gChars:'Meet the gods',gAmu:'Craft a wish amulet',
+    tHome:'Home',tChars:'Pantheon',tAmu:'Amulet'};
+  for(var k in T){var e=document.getElementById(k);if(e)e.innerHTML=T[k]}
+  var tabs=document.querySelectorAll('.tabs b'),tt=[T.tHome,T.tChars,T.tAmu];
+  for(var i=0;i<tabs.length&&i<tt.length;i++)tabs[i].textContent=tt[i];
+})();
+</script>
 </body>
 </html>

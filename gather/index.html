@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" id="docRoot">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>境内・奥山の枝拾い作務 | NACHA</title>
-<meta name="description" content="お寺の聖樹から落ちた枝を拾う作務。遠くの霊山ほど持ち帰りに時間がかかりますが、放置された大量の枝が溜まります。ナチャの木製クラフト資材に！">
+<title>新企画 奉納準備中 | 小さな守護神 ナチャ</title>
+<meta name="description" content="悠遊観音堂と小さな守護神ナチャの新しい体験を企画準備中です。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
@@ -17,7 +17,6 @@
   --vermilion: #b83823;
   --gold: #bfa15f;
   --line-gold: rgba(191, 161, 95, 0.45);
-  --line-fine: rgba(43, 36, 30, 0.12);
 }
 * { box-sizing: border-box; }
 body {
@@ -27,932 +26,175 @@ body {
   color: var(--ink);
   font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
   min-height: 100vh;
-  padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 80px;
 }
-
 .sheet-canvas {
-  width: min(100% - 24px, 580px);
-  margin: 16px auto 32px;
+  width: 100%;
+  max-width: 520px;
   background: #fbf9f4;
   border: 1px solid var(--gold);
   border-radius: 18px;
-  padding: 24px 18px;
+  padding: 40px 24px;
   position: relative;
-  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.04);
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.05);
 }
 .sheet-canvas::after {
   content: "";
   position: absolute;
-  inset: 6px;
+  inset: 7px;
   border: 1px solid var(--line-gold);
   border-radius: 12px;
   pointer-events: none;
 }
-
-/* ヘッダー */
-.gather-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.gather-emblem {
-  width: 36px;
-  height: 36px;
-  margin: 0 auto 8px;
+.emblem-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px;
   color: var(--gold);
 }
-.gather-title {
+.tag-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--vermilion);
+  border: 1px solid var(--vermilion);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+h1 {
   font-size: 22px;
   font-weight: 700;
-  letter-spacing: .14em;
-  margin: 0 0 4px;
-}
-.gather-sub {
-  font-size: 11px;
-  letter-spacing: .16em;
-  color: var(--ink-light);
-}
-
-/* ユーザー資材バー */
-.user-material-bar {
-  display: flex;
-  justify-content: space-around;
-  background: #fff;
-  border: 1px solid var(--line-gold);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(43, 36, 30, 0.02);
-}
-.mat-col { text-align: center; }
-.mat-label { font-size: 11px; color: var(--ink-light); display: block; margin-bottom: 2px; }
-.mat-val { font-size: 20px; font-weight: 700; color: var(--ink); }
-.mat-val.branches { color: #8e623c; }
-.mat-val.coins { color: var(--gold); }
-
-/* ルール案内 */
-.gather-rule-box {
-  background: #fffdf9;
-  border: 1px dashed var(--gold);
-  border-radius: 12px;
-  padding: 14px 16px;
-  font-size: 12px;
-  line-height: 1.7;
-  color: var(--ink-light);
-  margin-bottom: 22px;
-}
-
-/* エリアカード一覧 */
-.forest-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  margin-bottom: 24px;
-}
-.forest-card {
-  background: #fff;
-  border: 1px solid var(--line-fine);
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 2px 6px rgba(43, 36, 30, 0.02);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.forest-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.forest-name-wrap {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.forest-icon { font-size: 26px; }
-.forest-name { font-size: 15px; font-weight: 700; }
-.forest-dist {
-  font-size: 11px;
-  color: var(--gold);
-  border: 1px solid var(--line-gold);
-  padding: 2px 8px;
-  border-radius: 999px;
-}
-.forest-stats-row {
-  display: flex;
-  justify-content: space-between;
-  background: var(--washi-subtle);
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 11.5px;
-}
-.forest-stats-item b { font-size: 13px; color: #8e623c; }
-
-/* アクションボタン */
-.gather-action-btn {
-  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
-  color: #fff;
-  border: none;
-  font-size: 13.5px;
-  font-weight: 700;
-  padding: 11px;
-  border-radius: 999px;
-  cursor: pointer;
-  letter-spacing: .06em;
-  box-shadow: 0 4px 12px rgba(191, 161, 95, 0.25);
-  transition: transform .1s;
-}
-.gather-action-btn:active { transform: scale(0.97); }
-.gather-action-btn.dispatched {
-  background: #bbb;
-  box-shadow: none;
-  cursor: not-allowed;
-}
-.gather-action-btn.ready {
-  background: linear-gradient(135deg, var(--vermilion) 0%, #9e2a1e 100%);
-  box-shadow: 0 4px 14px rgba(184, 56, 35, 0.45);
-  border: 1.5px solid #fff;
-}
-
-/* ── 落ち枝拾い作務（人操作ミニゲーム）モーダル ── */
-.samu-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(30, 24, 18, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .25s ease;
-}
-.samu-modal-overlay.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-.samu-modal-card {
-  background: #fdfbf7;
-  border: 1.5px solid var(--gold);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 460px;
-  padding: 20px 18px;
-  position: relative;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.35);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.samu-modal-card::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid var(--line-gold);
-  border-radius: 14px;
-  pointer-events: none;
-}
-.samu-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.samu-head-title {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: .08em;
+  letter-spacing: .12em;
+  margin: 0 0 16px;
   color: var(--ink);
-}
-.samu-close-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: var(--ink-light);
-  cursor: pointer;
-  padding: 4px;
-}
-.samu-instructions {
-  font-size: 11.5px;
-  color: var(--ink-light);
   line-height: 1.5;
-  background: rgba(191, 161, 95, 0.1);
-  border-left: 3px solid var(--gold);
-  padding: 6px 10px;
-  border-radius: 0 8px 8px 0;
 }
-.samu-hud {
+.desc {
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--ink-light);
+  letter-spacing: .06em;
+  margin: 0 auto 28px;
+  max-width: 380px;
+}
+.action-grid {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #fff;
-  border: 1px solid var(--line-fine);
-  border-radius: 12px;
-  padding: 8px 14px;
-  font-size: 12.5px;
-}
-.samu-hud b { color: var(--vermilion); font-size: 14px; }
-.samu-timer-bar-wrap {
-  width: 100%;
-  height: 6px;
-  background: var(--washi-subtle);
-  border-radius: 999px;
-  overflow: hidden;
-}
-.samu-timer-bar-fill {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, var(--gold) 0%, var(--vermilion) 100%);
-  transition: width 0.1s linear;
-}
-.samu-field {
-  width: 100%;
-  height: 300px;
-  background: radial-gradient(circle at 50% 30%, #fefcf7 0%, #ebe2cd 100%);
-  border: 1.5px solid var(--gold);
-  border-radius: 14px;
-  position: relative;
-  overflow: hidden;
-  user-select: none;
-  touch-action: manipulation;
-  cursor: crosshair;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.06);
-}
-.samu-field-pattern {
-  position: absolute;
-  inset: 0;
-  opacity: 0.15;
-  background-image: radial-gradient(var(--gold) 1.5px, transparent 1.5px);
-  background-size: 18px 18px;
-  pointer-events: none;
-}
-.samu-item {
-  position: absolute;
-  font-size: 28px;
-  cursor: pointer;
-  transform: translate(-50%, -50%);
-  transition: transform .12s ease, opacity .15s ease;
-  user-select: none;
-  touch-action: manipulation;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-}
-.samu-item:active {
-  transform: translate(-50%, -50%) scale(1.3);
-}
-.samu-item.picked {
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(1.5);
-  opacity: 0;
-}
-.samu-float-text {
-  position: absolute;
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--vermilion);
-  text-shadow: 0 1px 3px rgba(255,255,255,0.9);
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  animation: floatUp 0.7s forwards ease-out;
-}
-@keyframes floatUp {
-  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 1; }
-  100% { transform: translate(-50%, -100%) scale(1.2); opacity: 0; }
-}
-.samu-result-view {
-  display: none;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 12px 6px;
   gap: 12px;
+  max-width: 300px;
+  margin: 0 auto;
 }
-.samu-result-view.active { display: flex; }
-.samu-result-badge {
-  font-size: 32px;
-  animation: popBadge .3s ease;
-}
-.samu-result-title {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  color: var(--ink);
-}
-.samu-result-stats {
-  background: #fff;
-  border: 1px solid var(--line-gold);
-  border-radius: 12px;
-  padding: 12px 20px;
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  font-size: 13px;
-}
-.samu-result-stats b { font-size: 18px; }
-.samu-finish-btn {
+.btn-gold {
   background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
   color: #fff;
-  border: none;
+  text-decoration: none;
   font-size: 14px;
   font-weight: 700;
-  padding: 11px 32px;
+  padding: 13px 20px;
   border-radius: 999px;
-  cursor: pointer;
+  letter-spacing: .08em;
   box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s;
 }
-
-/* 🪵 ナチャ工房へ納品セクション */
-.workshop-delivery {
-  background: #fff;
-  border: 1.5px solid var(--gold);
-  border-radius: 14px;
-  padding: 18px 16px;
-  text-align: center;
-}
-.delivery-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-.delivery-sub { font-size: 11.5px; color: var(--ink-light); margin-bottom: 14px; line-height: 1.6; }
-.deliver-btn {
-  background: linear-gradient(135deg, #8e623c 0%, #6e4a2c 100%);
-  color: #fff;
-  border: none;
-  font-size: 13.5px;
-  font-weight: 700;
-  padding: 11px 24px;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(142, 98, 60, 0.3);
-}
-.deliver-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* トースト通知 */
-.toast-notice {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(43, 36, 30, 0.95);
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 999px;
+.btn-gold:active { transform: scale(0.97); }
+.btn-outline {
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  text-decoration: none;
   font-size: 13px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-  z-index: 1000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .25s ease;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 999px;
+  letter-spacing: .06em;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
-.toast-notice.show { opacity: 1; }
+.tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(251, 249, 244, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line-gold);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.tabs a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink-light);
+  font-size: 11px;
+  gap: 2px;
+}
+.tabs a span { font-size: 18px; }
+.tabs a b { font-weight: 600; }
 </style>
 </head>
 <body>
 
 <div class="sheet-canvas">
+  <svg class="emblem-icon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+    <circle cx="12" cy="20.5" r="1.5"/>
+  </svg>
 
-  <header class="gather-header">
-    <svg class="gather-emblem" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
-      <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
-      <circle cx="12" cy="20.5" r="1.5"/>
-    </svg>
-    <h1 class="gather-title">境内・奥山の枝拾い作務</h1>
-    <div class="gather-sub">BRANCH GATHERING & EXPEDITION</div>
-  </header>
+  <div class="tag-badge" id="gBadge">奉納準備中</div>
 
-  <!-- 資材・お財布バー -->
-  <div class="user-material-bar">
-    <div class="mat-col">
-      <span class="mat-label">集めた枝</span>
-      <span class="mat-val branches" id="valBranches">0 本</span>
-    </div>
-    <div class="mat-col">
-      <span class="mat-label">所持コイン</span>
-      <span class="mat-val coins" id="valCoins">0</span>
-    </div>
-    <div class="mat-col">
-      <span class="mat-label">蓄積した徳</span>
-      <span class="mat-val" id="valToku" style="color:var(--vermilion);">0</span>
-    </div>
-  </div>
+  <h1 id="gH1">新たな境内体験を<br>ただいま企画中です</h1>
 
-  <!-- ルール説明 -->
-  <div class="gather-rule-box">
-    🌿 <b>枝拾い作務の心得（人操作・ボット対策）:</b><br>
-    ・枝拾いにはお寺から出かける必要があります。<br>
-    ・<b>遠い場所（奥山）ほど時間はかかりますが、放置された大量の枝が山盛りに溜まります。</b><br>
-    ・<b>【人操作の作務】</b>: 到着後、地面に散らばる枝を手動でタップして素早く籠へ拾い集めます（ボットによる自動回収はできません）。<br>
-    ・拾った枝はナチャの工房へ納品してコイン＆徳を獲得し、木製記念品の資材（ローン返済）に役立てましょう！
-  </div>
+  <p class="desc" id="gDesc">
+    小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
+    完成までどうぞ楽しみにお待ちください。
+  </p>
 
-  <!-- エリア一覧 -->
-  <div class="forest-list" id="forestList">
-    <!-- JSで動的生成 -->
-  </div>
-
-  <!-- 🪵 ナチャ工房へ納品セクション -->
-  <section class="workshop-delivery">
-    <div class="delivery-title">🔨 ナチャの工房へ枝を納品</div>
-    <div class="delivery-sub">
-      集めた枝を工房に納めると、<b>1本につき 2コイン＋徳1</b> で買い取ってもらえます。<br>
-      ナチャたちの木製記念品資材となり、ローン返済にも直結します！
-    </div>
-    <button type="button" class="deliver-btn" id="deliverAllBtn">所持している枝をすべて納品する</button>
-  </section>
-
-</div>
-
-<!-- 🪵 落ち枝拾い作務（手動ミニゲーム）モーダル -->
-<div class="samu-modal-overlay" id="samuModalOverlay">
-  <div class="samu-modal-card">
-
-    <div class="samu-head">
-      <div class="samu-head-title" id="samuTitle">🪵 落ち枝拾い作務</div>
-      <button type="button" class="samu-close-btn" id="samuCloseBtn" title="閉じる">✕</button>
-    </div>
-
-    <!-- プレイ中ビュー -->
-    <div id="samuPlayView" style="display:flex;flex-direction:column;gap:10px;">
-      <div class="samu-instructions">
-        👉 <b>操作方法</b>: 画面に散らばる枝（🪵・🌲・✨）を手でタップして拾い集めよう！落ち葉（🍂）や石（🪨）を避けて素早く作務！
-      </div>
-
-      <div class="samu-hud">
-        <div>残り: <b id="samuTimerText">12 秒</b></div>
-        <div>拾った枝: <b id="samuBasketText" style="color:#8e623c;">0 本</b></div>
-        <div id="samuComboBadge" style="display:none;" class="samu-combo-badge">集中 2連</div>
-      </div>
-
-      <div class="samu-timer-bar-wrap">
-        <div class="samu-timer-bar-fill" id="samuTimerFill"></div>
-      </div>
-
-      <!-- インタラクティブフィールド -->
-      <div class="samu-field" id="samuField">
-        <div class="samu-field-pattern"></div>
-        <!-- 枝や落ち葉が動的に生成される -->
-      </div>
-    </div>
-
-    <!-- リザルトビュー -->
-    <div class="samu-result-view" id="samuResultView">
-      <div class="samu-result-badge">✨</div>
-      <div class="samu-result-title">作務満願！お疲れ様でした</div>
-      <p style="font-size:12px;color:var(--ink-light);margin:0;">
-        参拝者の手によって、清らかに落ち枝が拾い集められました。
-      </p>
-      <div class="samu-result-stats">
-        <div>拾った枝: <b id="resBranches" style="color:#8e623c;">0 本</b></div>
-        <div>獲得した徳: <b id="resToku" style="color:var(--vermilion);">+0</b></div>
-      </div>
-      <button type="button" class="samu-finish-btn" id="samuFinishBtn">お寺の荷物袋へ収める</button>
-    </div>
-
+  <div class="action-grid">
+    <a href="../" class="btn-gold">🏮 <span id="gHome">境内（ホーム）へ戻る</span></a>
+    <a href="../characters/" class="btn-outline">🗺️ <span id="gChars">神様名鑑を見る</span></a>
+    <a href="../amulet/" class="btn-outline">🧧 <span id="gAmu">心願お守りを作る</span></a>
   </div>
 </div>
 
-<!-- トースト -->
-<div class="toast-notice" id="toastNotice"></div>
-
-<!-- 共通ボトムタブバー -->
 <nav class="tabs" aria-label="Main">
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
   <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
-  <a href="../gather/" aria-current="page"><span aria-hidden="true">🌿</span><b>枝拾い</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
-  <a href="../shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
 </nav>
 
-<script src="../assets/coins.js"></script>
-<script src="../assets/temple-bank.js"></script>
-<script src="../assets/temple-economy.js"></script>
-<script src="../assets/temple-multiplayer.js"></script>
 
 <script>
-(function() {
-  'use strict';
-
-  var valBranches = document.getElementById('valBranches');
-  var valCoins = document.getElementById('valCoins');
-  var valToku = document.getElementById('valToku');
-  var forestList = document.getElementById('forestList');
-  var deliverAllBtn = document.getElementById('deliverAllBtn');
-  var toastNotice = document.getElementById('toastNotice');
-
-  // モーダル要素
-  var samuModalOverlay = document.getElementById('samuModalOverlay');
-  var samuTitle = document.getElementById('samuTitle');
-  var samuCloseBtn = document.getElementById('samuCloseBtn');
-  var samuPlayView = document.getElementById('samuPlayView');
-  var samuResultView = document.getElementById('samuResultView');
-  var samuTimerText = document.getElementById('samuTimerText');
-  var samuBasketText = document.getElementById('samuBasketText');
-  var samuTimerFill = document.getElementById('samuTimerFill');
-  var samuComboBadge = document.getElementById('samuComboBadge');
-  var samuField = document.getElementById('samuField');
-  var resBranches = document.getElementById('resBranches');
-  var resToku = document.getElementById('resToku');
-  var samuFinishBtn = document.getElementById('samuFinishBtn');
-
-  function showToast(msg) {
-    toastNotice.textContent = msg;
-    toastNotice.classList.add('show');
-    setTimeout(function() { toastNotice.classList.remove('show'); }, 2200);
-  }
-
-  // ── Web Audio 合成音効果（和風SE） ──
-  var audioCtx = null;
-  function playTempleSound(type) {
-    try {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      if (audioCtx.state === 'suspended') audioCtx.resume();
-      var now = audioCtx.currentTime;
-      var osc = audioCtx.createOscillator();
-      var gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      if (type === 'sacred') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(1046.5, now);
-        osc.frequency.exponentialRampToValueAtTime(2093, now + 0.2);
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-        osc.start(now);
-        osc.stop(now + 0.45);
-      } else if (type === 'sandalwood') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(659.25, now);
-        osc.frequency.exponentialRampToValueAtTime(1318.5, now + 0.15);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
-        osc.start(now);
-        osc.stop(now + 0.3);
-      } else if (type === 'finish') {
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(523.25, now);
-        osc.frequency.exponentialRampToValueAtTime(261.63, now + 0.8);
-        gain.gain.setValueAtTime(0.3, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.8);
-        osc.start(now);
-        osc.stop(now + 0.8);
-      } else {
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(400, now);
-        osc.frequency.exponentialRampToValueAtTime(200, now + 0.09);
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
-        osc.start(now);
-        osc.stop(now + 0.1);
-      }
-    } catch (e) {}
-  }
-
-  // ── 手動作務ミニゲームの進行管理 ──
-  var currentSession = null;
-  var samuGameTimer = null;
-  var samuSpawnTimer = null;
-  var samuSecondsLeft = 15;
-  var samuBasketCount = 0;
-  var samuComboCount = 0;
-
-  function startInteractiveSamu(forestId) {
-    var sessionRes = TempleEconomy.startSamuSession(forestId);
-    if (!sessionRes.success) {
-      showToast(sessionRes.reason === 'not_arrived_yet' ? 'まだ目的地へ到着していません（移動中）' : '作務を開始できませんでした');
-      return;
-    }
-
-    currentSession = sessionRes;
-    samuSecondsLeft = 15;
-    samuBasketCount = 0;
-    samuComboCount = 0;
-
-    samuTitle.textContent = sessionRes.forest.icon + ' ' + sessionRes.forest.name + ' · 落ち枝拾い作務';
-    samuBasketText.textContent = '0 本';
-    samuTimerText.textContent = samuSecondsLeft + ' 秒';
-    samuTimerFill.style.width = '100%';
-    samuComboBadge.style.display = 'none';
-
-    samuPlayView.style.display = 'flex';
-    samuResultView.classList.remove('active');
-    samuModalOverlay.classList.add('open');
-
-    // フィールドクリア
-    samuField.querySelectorAll('.samu-item, .samu-float-text').forEach(function(el) { el.remove(); });
-
-    // 初期アイテム生成
-    var initCount = forestId === 'sacred_summit' ? 10 : (forestId === 'ancient_path' ? 7 : 5);
-    for (var i = 0; i < initCount; i++) {
-      spawnFieldItem(forestId);
-    }
-
-    // 継続スポーンタイマー
-    var spawnInterval = forestId === 'sacred_summit' ? 380 : 520;
-    samuSpawnTimer = setInterval(function() {
-      if (samuField.querySelectorAll('.samu-item:not(.picked)').length < 13) {
-        spawnFieldItem(forestId);
-      }
-    }, spawnInterval);
-
-    // ゲーム時間タイマー (15秒)
-    var startTime = Date.now();
-    var totalMs = 15000;
-    samuGameTimer = setInterval(function() {
-      var elapsed = Date.now() - startTime;
-      var remain = Math.max(0, totalMs - elapsed);
-      samuSecondsLeft = Math.ceil(remain / 1000);
-      samuTimerText.textContent = samuSecondsLeft + ' 秒';
-      samuTimerFill.style.width = ((remain / totalMs) * 100) + '%';
-
-      if (remain <= 0) {
-        endInteractiveSamu();
-      }
-    }, 100);
-  }
-
-  function spawnFieldItem(forestId) {
-    var item = document.createElement('div');
-    item.className = 'samu-item';
-
-    var rand = Math.random();
-    var type = 'normal';
-    var icon = '🪵';
-    var val = 1;
-
-    if (forestId === 'sacred_summit') {
-      // 奥山は神木霊枝が大量に溜まっている！
-      if (rand < 0.45) {
-        type = 'sacred';
-        icon = '✨';
-        val = 5;
-        item.style.filter = 'drop-shadow(0 0 6px #f1c40f)';
-      } else if (rand < 0.75) {
-        type = 'sandalwood';
-        icon = '🌲';
-        val = 3;
-      } else if (rand < 0.90) {
-        type = 'normal';
-        icon = '🪵';
-        val = 1;
-      } else {
-        type = 'leaf';
-        icon = '🍂';
-        val = 0;
-      }
-    } else if (forestId === 'ancient_path') {
-      if (rand < 0.35) {
-        type = 'sandalwood';
-        icon = '🌲';
-        val = 3;
-      } else if (rand < 0.80) {
-        type = 'normal';
-        icon = '🪵';
-        val = 1;
-      } else {
-        type = 'leaf';
-        icon = '🍂';
-        val = 0;
-      }
-    } else {
-      if (rand < 0.75) {
-        type = 'normal';
-        icon = '🪵';
-        val = 1;
-      } else {
-        type = 'leaf';
-        icon = '🍂';
-        val = 0;
-      }
-    }
-
-    item.textContent = icon;
-    item.setAttribute('data-type', type);
-    item.setAttribute('data-val', val);
-
-    var x = Math.floor(10 + Math.random() * 80);
-    var y = Math.floor(12 + Math.random() * 76);
-    item.style.left = x + '%';
-    item.style.top = y + '%';
-
-    item.onpointerdown = function(e) {
-      e.stopPropagation();
-      onItemTapped(item, e);
-    };
-
-    samuField.appendChild(item);
-
-    // 未回収なら風で消滅
-    setTimeout(function() {
-      if (item.parentNode && !item.classList.contains('picked')) {
-        item.style.opacity = '0';
-        setTimeout(function() { item.remove(); }, 200);
-      }
-    }, 4500);
-  }
-
-  function onItemTapped(item, e) {
-    if (item.classList.contains('picked')) return;
-    item.classList.add('picked');
-
-    var type = item.getAttribute('data-type');
-    var val = parseInt(item.getAttribute('data-val'), 10) || 0;
-
-    playTempleSound(type);
-
-    if (val > 0) {
-      if (currentSession) {
-        TempleEconomy.recordSamuTap(currentSession.token, {
-          type: type,
-          value: val,
-          isTrusted: e.isTrusted !== false
-        });
-      }
-
-      samuBasketCount += val;
-      samuComboCount++;
-      samuBasketText.textContent = samuBasketCount + ' 本';
-
-      if (samuComboCount >= 2) {
-        samuComboBadge.style.display = 'inline-block';
-        samuComboBadge.textContent = '集中 ' + samuComboCount + '連！';
-      }
-
-      showFloatText('+' + val + '本', item.style.left, item.style.top, '#b83823');
-    } else {
-      samuComboCount = 0;
-      samuComboBadge.style.display = 'none';
-      showFloatText('カサッ', item.style.left, item.style.top, '#888');
-    }
-
-    setTimeout(function() { item.remove(); }, 150);
-  }
-
-  function showFloatText(text, left, top, color) {
-    var ft = document.createElement('div');
-    ft.className = 'samu-float-text';
-    ft.textContent = text;
-    ft.style.left = left;
-    ft.style.top = top;
-    if (color) ft.style.color = color;
-    samuField.appendChild(ft);
-    setTimeout(function() { ft.remove(); }, 700);
-  }
-
-  function endInteractiveSamu() {
-    clearInterval(samuGameTimer);
-    clearInterval(samuSpawnTimer);
-
-    if (!currentSession) return;
-    playTempleSound('finish');
-
-    var finishRes = TempleEconomy.finishSamuSession(currentSession.token);
-    currentSession = null;
-
-    if (finishRes.success) {
-      resBranches.textContent = finishRes.branchesGained + ' 本';
-      resToku.textContent = '+' + finishRes.tokuGained;
-
-      samuPlayView.style.display = 'none';
-      samuResultView.classList.add('active');
-
-      if (window.TempleMultiplayer) {
-        TempleMultiplayer.broadcast('BRANCH_GATHERED', {
-          branches: finishRes.branchesGained,
-          text: '🪵 参拝者が境内の作務で枝 ' + finishRes.branchesGained + '本 を手動で拾い集めました！'
-        });
-      }
-    } else {
-      showToast(finishRes.message || '作務を完了できませんでした');
-      samuModalOverlay.classList.remove('open');
-      updateUI();
-    }
-  }
-
-  samuFinishBtn.onclick = function() {
-    samuModalOverlay.classList.remove('open');
-    showToast('✨ 作務の枝をお寺の荷物袋へ収めました！');
-    updateUI();
-  };
-
-  samuCloseBtn.onclick = function() {
-    if (samuGameTimer) clearInterval(samuGameTimer);
-    if (samuSpawnTimer) clearInterval(samuSpawnTimer);
-    samuModalOverlay.classList.remove('open');
-    updateUI();
-  };
-
-  function updateUI() {
-    var user = TempleEconomy.getUser();
-    var forests = TempleEconomy.getForestStatus();
-
-    valBranches.textContent = (user.branches || 0) + ' 本';
-    valCoins.textContent = user.coins || 0;
-    valToku.textContent = user.toku || 0;
-
-    deliverAllBtn.disabled = !user.branches || user.branches <= 0;
-    deliverAllBtn.textContent = (user.branches > 0) ? `枝を ${user.branches}本 すべて納品（+${user.branches * 2}🪙）` : '納品できる枝がありません';
-
-    renderForests(forests);
-  }
-
-  function renderForests(forests) {
-    forests.forEach(function(f) {
-      var card = document.getElementById('forest-card-' + f.id);
-      if (!card) {
-        card = document.createElement('div');
-        card.className = 'forest-card';
-        card.id = 'forest-card-' + f.id;
-        card.innerHTML = `
-          <div class="forest-head">
-            <div class="forest-name-wrap">
-              <span class="forest-icon">${f.icon}</span>
-              <div>
-                <div class="forest-name">${f.name}</div>
-                <small style="font-size:10.5px;color:var(--ink-light);">${f.woodType} · 木 ${f.treesCount}本</small>
-              </div>
-            </div>
-            <span class="forest-dist">${f.distance}</span>
-          </div>
-
-          <div class="forest-stats-row">
-            <div class="forest-stats-item">溜まり上限: <b>${f.maxAccumulate} 本</b></div>
-            <div class="forest-stats-item">現在溜まり: <b class="curr-val">${f.currentBranches} 本</b></div>
-          </div>
-
-          <div class="btn-wrap"></div>
-        `;
-        forestList.appendChild(card);
-      }
-
-      var currEl = card.querySelector('.curr-val');
-      if (currEl) currEl.textContent = f.currentBranches + ' 本';
-
-      var btnWrap = card.querySelector('.btn-wrap');
-      var canSamu = (f.id === 'backyard') || f.isArrived;
-      var stateKey = canSamu ? ('samu_ready_' + f.id) : (f.isDispatched ? ('traveling_' + f.secondsLeft) : ('dispatch_' + f.currentBranches));
-
-      if (btnWrap.getAttribute('data-state') !== stateKey) {
-        btnWrap.setAttribute('data-state', stateKey);
-        if (canSamu) {
-          btnWrap.innerHTML = `<button type="button" class="gather-action-btn ready" data-samu="${f.id}">🪵 落ち枝拾い作務を始める（手動操作で収穫！）</button>`;
-          btnWrap.querySelector('button').onclick = function() {
-            startInteractiveSamu(f.id);
-          };
-        } else if (f.isDispatched) {
-          btnWrap.innerHTML = `<button type="button" class="gather-action-btn dispatched" disabled>🚶 出撃・移動中… （あと ${f.secondsLeft} 秒で到着）</button>`;
-        } else {
-          btnWrap.innerHTML = `<button type="button" class="gather-action-btn" data-go="${f.id}">🚶 枝拾いに出かける（現在溜まり ${f.currentBranches}本 / 到着: 約${f.tripDurationSec}秒）</button>`;
-          btnWrap.querySelector('button').onclick = function() {
-            var res = TempleEconomy.startBranchGathering(f.id);
-            if (res.success) {
-              showToast(`🚶 ${res.forest.name} へ出発しました！（到着まで約${res.durationSec}秒）`);
-              updateUI();
-            }
-          };
-        }
-      }
-    });
-  }
-
-  // 納品イベント
-  deliverAllBtn.onclick = function() {
-    var user = TempleEconomy.getUser();
-    if (!user.branches || user.branches <= 0) return;
-
-    var count = user.branches;
-    var res = TempleEconomy.sellBranchesToWorkshop(count);
-    if (res.success) {
-      showToast(`🔨 枝 ${count}本 を工房へ納品！ +${res.coinsEarned}🪙 獲得！（ローンへ充当）`);
-      if (window.TempleMultiplayer) {
-        TempleMultiplayer.broadcast('BRANCH_DELIVERED', {
-          count: count,
-          text: `🔨 ナチャ工房へ木製資材（枝 ${count}本）が納品されました！`
-        });
-      }
-      updateUI();
-    }
-  };
-
-  // 毎秒タイマー（遠征カウントダウン用）
-  setInterval(function() {
-    var temple = TempleEconomy.getTempleState();
-    if (temple && temple.forestState && Object.keys(temple.forestState.activeDispatches || {}).length > 0) {
-      updateUI();
-    }
-  }, 1000);
-
-  // 初期描画
-  updateUI();
-
+// 日本語以外は英語で表示（日英を主要言語とする）
+(function(){
+  var L='ja';try{L=localStorage.getItem('nacha-lang')||''}catch(e){}
+  if(!L){var nl=(navigator.language||'en').toLowerCase();L=nl.slice(0,2)}
+  if(L==='ja')return;
+  document.documentElement.lang='en';
+  document.title='Coming Soon | NACHA the Little Guardian';
+  var T={gBadge:'COMING SOON',gH1:'A new temple experience<br>is in the making',
+    gDesc:'We are planning a new experience to bring you closer to NACHA the little guardian and the real temple Yuyu Kannondo in Cambodia.<br><br>Please look forward to it.',
+    gHome:'Back to the temple (Home)',gChars:'Meet the gods',gAmu:'Craft a wish amulet',
+    tHome:'Home',tChars:'Pantheon',tAmu:'Amulet'};
+  for(var k in T){var e=document.getElementById(k);if(e)e.innerHTML=T[k]}
+  var tabs=document.querySelectorAll('.tabs b'),tt=[T.tHome,T.tChars,T.tAmu];
+  for(var i=0;i<tabs.length&&i<tt.length;i++)tabs[i].textContent=tt[i];
 })();
 </script>
-
 </body>
 </html>

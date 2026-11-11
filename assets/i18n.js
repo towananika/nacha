@@ -70,3 +70,4 @@ window.NACHA_WORDS=[
   "km": { "shrine_sub": "NACHA" },
   "id": { "shrine_sub": "NACHA" }
 });
+(function(a){for(var l in a)Object.assign(window.NACHA_I18N[l]=window.NACHA_I18N[l]||{},a[l])})({"ja":{"nav_amulet":"お守り"},"en":{"nav_amulet":"Amulet"},"ko":{"nav_amulet":"부적"},"zh":{"nav_amulet":"御守"},"zhs":{"nav_amulet":"御守"},"th":{"nav_amulet":"เครื่องราง"},"km":{"nav_amulet":"គ្រឿងការពារ"},"id":{"nav_amulet":"Jimat"}});

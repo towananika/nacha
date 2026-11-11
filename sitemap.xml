@@ -1,48 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://towananika.github.io/nacha/</loc>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/amulet/</loc>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/ema/</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/goma/</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/arcade/mokugyo/</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/goshuin/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/arcade/fukuiki/</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/characters/</loc>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/roadmap/</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/arcade/</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://towananika.github.io/nacha/rest/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.85</priority>
-  </url>
+<url><loc>https://towananika.github.io/nacha/</loc></url>
+<url><loc>https://towananika.github.io/nacha/characters/</loc></url>
+<url><loc>https://towananika.github.io/nacha/amulet/</loc></url>
+<url><loc>https://towananika.github.io/nacha/roadmap/</loc></url>
 </urlset>

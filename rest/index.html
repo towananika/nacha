@@ -1,872 +1,199 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" id="docRoot">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NACHA こころの休憩所 — 深呼吸と弱音の預かり所</title>
-<meta name="description" content="疲れたとき、息が苦しいとき、誰にも弱音を吐けない夜に。小さな神様ナチャがそっと隣に寄り添う、何もしなくていい避難所。">
-<meta name="theme-color" content="#120c18">
-<meta property="og:type" content="website">
-<meta property="og:title" content="NACHA こころの休憩所 — 深呼吸と弱音の預かり所">
-<meta property="og:description" content="生きてるだけで満点だよ。小さな神様ナチャと一緒に、すーはー深呼吸して心を休めよう。">
-<meta property="og:image" content="https://towananika.github.io/nacha/assets/nacha-pray.webp">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%B7%3C/text%3E%3C/svg%3E">
+<title>新企画 奉納準備中 | 小さな守護神 ナチャ</title>
+<meta name="description" content="悠遊観音堂と小さな守護神ナチャの新しい体験を企画準備中です。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@400;700;900&family=Noto+Serif+JP:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
 :root {
-  --bg-dark: #0f0a14;
-  --bg-card: rgba(25, 17, 34, 0.85);
-  --lotus-pink: #F8BBD0;
-  --lotus-glow: rgba(248, 187, 208, 0.45);
-  --gold-glow: #F9E79F;
-  --text-soft: #EDE7F6;
-  --text-muted: #B39DDB;
+  --washi-base: #f5f0e6;
+  --washi-subtle: #eae3d2;
+  --ink: #2b241e;
+  --ink-light: #6e6259;
+  --vermilion: #b83823;
+  --gold: #bfa15f;
+  --line-gold: rgba(191, 161, 95, 0.45);
 }
-
+* { box-sizing: border-box; }
 body {
-  background: radial-gradient(circle at 50% 20%, #21122a 0%, #0d0813 100%);
-  color: var(--text-soft);
-  font-family: "M PLUS Rounded 1c", -apple-system, sans-serif;
-  min-height: 100dvh;
   margin: 0;
   padding: 0;
+  background-color: var(--washi-base);
+  color: var(--ink);
+  font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 80px;
 }
-
-main {
-  max-width: 580px;
-  margin: 0 auto;
-  padding: 16px 20px 80px;
+.sheet-canvas {
+  width: 100%;
+  max-width: 520px;
+  background: #fbf9f4;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  padding: 40px 24px;
+  position: relative;
   text-align: center;
-  flex: 1;
+  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.05);
 }
-
-/* ヘッダー・戻るリンク */
-.nav-top {
+.sheet-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.emblem-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px;
+  color: var(--gold);
+}
+.tag-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--vermilion);
+  border: 1px solid var(--vermilion);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  margin: 0 0 16px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.desc {
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--ink-light);
+  letter-spacing: .06em;
+  margin: 0 auto 28px;
+  max-width: 380px;
+}
+.action-grid {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 300px;
+  margin: 0 auto;
 }
-.btn-back-home {
-  display: inline-flex;
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 20px;
+  border-radius: 999px;
+  letter-spacing: .08em;
+  box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
+  display: flex;
   align-items: center;
-  gap: 6px;
-  color: var(--text-muted);
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s;
+}
+.btn-gold:active { transform: scale(0.97); }
+.btn-outline {
+  border: 1px solid var(--gold);
+  color: var(--ink);
   text-decoration: none;
   font-size: 13px;
-  font-weight: 700;
-  background: rgba(255,255,255,0.06);
-  padding: 6px 14px;
+  font-weight: 600;
+  padding: 11px 18px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.1);
-  transition: all 0.2s;
-}
-.btn-back-home:hover {
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-}
-
-/* タイトルエリア */
-.rest-badge {
-  display: inline-block;
-  background: rgba(248, 187, 208, 0.15);
-  color: var(--lotus-pink);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  padding: 4px 14px;
-  border-radius: 999px;
-  border: 1px solid rgba(248, 187, 208, 0.3);
-  margin-bottom: 10px;
-}
-.rest-title {
-  font-family: "Noto Serif JP", serif;
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
-  margin: 0 0 8px;
-  letter-spacing: 1px;
-}
-.rest-sub {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin: 0 0 24px;
-}
-
-/* モード切り替えタブ */
-.rest-tabs {
+  letter-spacing: .06em;
+  background: #fff;
   display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 24px;
+  gap: 8px;
 }
-.rest-tab-btn {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.12);
-  color: var(--text-muted);
-  font-size: 14px;
-  font-weight: 700;
-  padding: 10px 20px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.25s;
-  font-family: inherit;
+.tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(251, 249, 244, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line-gold);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
 }
-.rest-tab-btn.active {
-  background: linear-gradient(135deg, rgba(248,187,208,0.25), rgba(229,179,56,0.25));
-  border-color: var(--lotus-pink);
-  color: #fff;
-  box-shadow: 0 0 16px var(--lotus-glow);
-}
-
-/* セクションカード */
-.rest-section {
-  display: none;
-  background: var(--bg-card);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 24px;
-  padding: 28px 20px;
-  box-shadow: 0 16px 40px rgba(0,0,0,0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  animation: fadeIn 0.4s ease-out;
-}
-.rest-section.active {
-  display: block;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ============================
-   1. 深呼吸モード
-   ============================ */
-.breathe-box {
+.tabs a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;
-  min-height: 320px;
-  justify-content: center;
+  text-decoration: none;
+  color: var(--ink-light);
+  font-size: 11px;
+  gap: 2px;
 }
-
-.lotus-halo {
-  position: relative;
-  width: 220px;
-  height: 220px;
-  display: grid;
-  place-items: center;
-  margin: 10px 0 20px;
-}
-
-.halo-circle {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(248,187,208,0.22) 0%, rgba(248,187,208,0.03) 65%, transparent 70%);
-  border: 1.5px solid rgba(248,187,208,0.3);
-  transform: scale(0.65);
-  transition: transform 4s ease-in-out, border-color 4s ease-in-out, box-shadow 4s ease-in-out;
-}
-
-.halo-circle.inhale {
-  transform: scale(1.15);
-  border-color: rgba(248,187,208,0.85);
-  box-shadow: 0 0 45px var(--lotus-glow);
-}
-.halo-circle.hold {
-  transform: scale(1.15);
-  border-color: rgba(249,231,159,0.85);
-  box-shadow: 0 0 50px rgba(249,231,159,0.4);
-}
-.halo-circle.exhale {
-  transform: scale(0.65);
-  border-color: rgba(248,187,208,0.3);
-  box-shadow: none;
-}
-
-.nacha-breathing-avatar {
-  width: 110px;
-  height: 110px;
-  position: relative;
-  z-index: 2;
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,0.5));
-  transition: transform 4s ease-in-out;
-}
-.halo-circle.inhale ~ .nacha-breathing-avatar {
-  transform: scale(1.08) translateY(-4px);
-}
-.halo-circle.exhale ~ .nacha-breathing-avatar {
-  transform: scale(0.96) translateY(2px);
-}
-
-.breathe-instruction {
-  font-family: "Noto Serif JP", serif;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: #fff;
-  min-height: 38px;
-  margin: 8px 0 4px;
-  transition: color 0.5s;
-}
-.breathe-timer {
-  font-size: 13px;
-  color: var(--text-muted);
-  margin-bottom: 16px;
-}
-
-/* ナチャの寄り添いセリフ枠 */
-.nacha-whisper {
-  background: rgba(255,255,255,0.05);
-  border: 1px dashed rgba(248,187,208,0.35);
-  border-radius: 16px;
-  padding: 14px 18px;
-  font-size: 14px;
-  color: #fff;
-  line-height: 1.6;
-  margin: 12px 0 20px;
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.nacha-whisper b {
-  color: var(--lotus-pink);
-}
-
-.btn-breathe-toggle {
-  background: linear-gradient(135deg, #A9261B, #C0392B);
-  color: #fff;
-  border: none;
-  font-size: 15px;
-  font-weight: 700;
-  padding: 12px 32px;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 4px 18px rgba(192,57,43,0.4);
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.btn-breathe-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 22px rgba(192,57,43,0.55);
-}
-
-/* ============================
-   2. 弱音の預かり所
-   ============================ */
-.confess-desc {
-  font-size: 14px;
-  color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-.confess-textarea {
-  width: 100%;
-  box-sizing: border-box;
-  background: rgba(10, 6, 14, 0.7);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 16px;
-  padding: 16px;
-  color: #fff;
-  font-family: inherit;
-  font-size: 15px;
-  line-height: 1.6;
-  resize: none;
-  min-height: 120px;
-  margin-bottom: 12px;
-  outline: none;
-  transition: border-color 0.2s;
-}
-.confess-textarea:focus {
-  border-color: var(--lotus-pink);
-  box-shadow: 0 0 12px rgba(248,187,208,0.2);
-}
-.confess-notice {
-  font-size: 12px;
-  color: #8c7d95;
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-/* クイック弱音タグ（クリックで気持ちを言語化） */
-.confess-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-  margin-bottom: 18px;
-}
-.confess-tag-btn {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: inherit;
-}
-.confess-tag-btn:hover {
-  background: rgba(248,187,208,0.15);
-  color: #fff;
-  border-color: var(--lotus-pink);
-}
-
-.btn-confess-send {
-  background: linear-gradient(135deg, #7D3C98, #5B2C6F);
-  color: #fff;
-  border: 1px solid rgba(248,187,208,0.4);
-  font-size: 15px;
-  font-weight: 700;
-  padding: 13px 36px;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(125,60,152,0.4);
-  font-family: inherit;
-  transition: all 0.2s;
-}
-.btn-confess-send:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 26px rgba(125,60,152,0.6);
-}
-
-/* 浄化後のナチャの抱擁カード */
-.hug-card {
-  display: none;
-  background: linear-gradient(135deg, rgba(74,20,140,0.3), rgba(26,35,126,0.3));
-  border: 1.5px solid var(--lotus-pink);
-  border-radius: 20px;
-  padding: 24px 20px;
-  margin-top: 20px;
-  box-shadow: 0 0 30px rgba(248,187,208,0.3);
-  animation: hugFade 0.6s ease-out;
-}
-@keyframes hugFade {
-  from { opacity: 0; transform: scale(0.94); }
-  to { opacity: 1; transform: scale(1); }
-}
-.hug-title {
-  font-family: "Noto Serif JP", serif;
-  font-size: 19px;
-  color: var(--lotus-pink);
-  margin: 0 0 10px;
-}
-.hug-message {
-  font-size: 14.5px;
-  color: #fff;
-  line-height: 1.8;
-  margin: 0 0 16px;
-}
-.hug-quote {
-  font-size: 14px;
-  color: var(--gold-glow);
-  font-style: italic;
-  background: rgba(0,0,0,0.25);
-  padding: 10px 14px;
-  border-radius: 12px;
-  margin: 0;
-}
-
-/* 消滅アニメーション用の浮遊文字 */
-.dissolving-text {
-  animation: dissolveUp 1.8s ease-out forwards;
-  pointer-events: none;
-  position: fixed;
-  color: var(--lotus-pink);
-  font-size: 16px;
-  font-weight: 700;
-  z-index: 1000;
-  text-shadow: 0 0 12px rgba(248,187,208,0.8);
-}
-@keyframes dissolveUp {
-  0% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  60% { opacity: 0.8; transform: translateY(-60px) scale(1.1); filter: blur(2px); }
-  100% { opacity: 0; transform: translateY(-120px) scale(1.4); filter: blur(8px); }
-}
-
-/* ============================
-   3. 全肯定の言葉集（なでなで帳）
-   ============================ */
-.cards-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 14px;
-  text-align: left;
-}
-.comfort-item {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 16px;
-  padding: 16px;
-  transition: all 0.2s;
-}
-.comfort-item:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(248,187,208,0.3);
-  transform: translateY(-2px);
-}
-.comfort-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--lotus-pink);
-  margin-bottom: 6px;
-}
-.comfort-text {
-  font-size: 14.5px;
-  line-height: 1.6;
-  color: #fff;
-  margin: 0 0 8px;
-}
-.comfort-by {
-  font-size: 12px;
-  color: var(--gold-glow);
-  text-align: right;
-  margin: 0;
-  font-style: italic;
-}
-
-/* フッター */
-.rest-foot {
-  margin-top: 40px;
-  font-size: 12px;
-  color: #8c7d95;
-  line-height: 1.7;
-}
-.rest-foot a {
-  color: var(--text-muted);
-  text-decoration: underline;
-}
+.tabs a span { font-size: 18px; }
+.tabs a b { font-weight: 600; }
 </style>
 </head>
 <body>
 
-<main>
-  <!-- ナビ上部 -->
-  <div class="nav-top">
-    <a href="../" class="btn-back-home">
-      <span aria-hidden="true">🏮</span> 境内へ戻る
-    </a>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <a class="header-coin-badge" href="../shop/" title="所持コイン・境内授与所（ショップ）へ"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
-      <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴" style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;cursor:pointer;display:grid;place-items:center;">🔔</button>
-    </div>
-  </div>
+<div class="sheet-canvas">
+  <svg class="emblem-icon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+    <circle cx="12" cy="20.5" r="1.5"/>
+  </svg>
 
-  <span class="rest-badge">🪷 蓮華安寧堂</span>
-  <h1 class="rest-title">ナチャのこころの休憩所</h1>
-  <p class="rest-sub">
-    何も頑張らなくていいよ。息を吸って、吐いて。<br>
-    誰にも言えない弱音も、ここに全部置いていってね。
+  <div class="tag-badge" id="gBadge">奉納準備中</div>
+
+  <h1 id="gH1">新たな境内体験を<br>ただいま企画中です</h1>
+
+  <p class="desc" id="gDesc">
+    小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
+    完成までどうぞ楽しみにお待ちください。
   </p>
 
-  <!-- タブ切り替え -->
-  <div class="rest-tabs" role="tablist">
-    <button type="button" class="rest-tab-btn active" id="tabBreatheBtn">🪷 深呼吸</button>
-    <button type="button" class="rest-tab-btn" id="tabConfessBtn">🕯️ 弱音を預ける</button>
-    <button type="button" class="rest-tab-btn" id="tabComfortBtn">💌 全肯定のことば</button>
+  <div class="action-grid">
+    <a href="../" class="btn-gold">🏮 <span id="gHome">境内（ホーム）へ戻る</span></a>
+    <a href="../characters/" class="btn-outline">🗺️ <span id="gChars">神様名鑑を見る</span></a>
+    <a href="../amulet/" class="btn-outline">🧧 <span id="gAmu">心願お守りを作る</span></a>
   </div>
+</div>
 
-  <!-- 1. 深呼吸モード -->
-  <section class="rest-section active" id="sectionBreathe" aria-label="深呼吸">
-    <div class="breathe-box">
-      <div class="breathe-instruction" id="breatheText">準備をととのえよう</div>
-      <div class="breathe-timer" id="breatheTimer">ボタンを押すとゆったり深呼吸がはじまります</div>
-
-      <div class="lotus-halo">
-        <div class="halo-circle" id="haloCircle"></div>
-        <img class="nacha-breathing-avatar" src="../assets/nacha-pray.webp" alt="祈るナチャ" loading="lazy">
-      </div>
-
-      <div class="nacha-whisper" id="nachaWhisper">
-        「生きてるだけで、もう今日のはなまる満点だよ。ゆっくり休もうね。」
-      </div>
-
-      <button type="button" class="btn-breathe-toggle" id="breatheToggleBtn">
-        🪷 深呼吸をはじめよう
-      </button>
-    </div>
-  </section>
-
-  <!-- 2. 弱音の預かり所 -->
-  <section class="rest-section" id="sectionConfess" aria-label="弱音の預かり所">
-    <p class="confess-desc">
-      「つらい」「消えたい」「もう頑張れない」「寂しい」……<br>
-      誰にも見せられない心のお荷物、ナチャが両手で受け止めます。
-    </p>
-
-    <!-- クイックタグ -->
-    <div class="confess-tags">
-      <button type="button" class="confess-tag-btn" data-text="もう十分頑張ったよね…すごく疲れたよ">疲れた、休みたい</button>
-      <button type="button" class="confess-tag-btn" data-text="誰とも比べられたくない。息が詰まりそう">人と比べて苦しい</button>
-      <button type="button" class="confess-tag-btn" data-text="ふと消えてしまいたくなる夜があるよ">消えてしまいたい</button>
-      <button type="button" class="confess-tag-btn" data-text="誰にも言えないけど、本当はずっと寂しかった">ずっと寂しかった</button>
-      <button type="button" class="confess-tag-btn" data-text="明日の朝が来るのが怖くてたまらない">明日が来るのが怖い</button>
-    </div>
-
-    <form id="confessForm">
-      <textarea class="confess-textarea" id="confessInput" maxlength="300" placeholder="ここに本音を吐き出してみてね。誰にも見られないし、送信したら光になって空へ溶けます。" aria-label="弱音の内容"></textarea>
-      
-      <div class="confess-notice">
-        🔒 送信した文字はサーバーに一切保存されません。秘密はナチャとあなただけのものです。
-      </div>
-
-      <button type="submit" class="btn-confess-send" id="confessSubmitBtn">
-        🤲 ナチャに預けて心を軽くする
-      </button>
-    </form>
-
-    <!-- 抱擁カード（送信後表示） -->
-    <div class="hug-card" id="hugCard">
-      <h3 class="hug-title">🪷 ナチャがぎゅっと受け止めたよ</h3>
-      <p class="hug-message" id="hugMessage">
-        話してくれてありがとう。痛かったね、ずっと一人で耐えて偉かったね。<br>
-        あなたの弱音は、金色の蓮の花になって夜空へ溶けていきました。
-      </p>
-      <p class="hug-quote" id="hugQuote">
-        「どんな君でも、僕はずーっと君の味方だよ。ここにいつでも逃げておいで。」— 那茶
-      </p>
-    </div>
-  </section>
-
-  <!-- 3. 全肯定のことば集 -->
-  <section class="rest-section" id="sectionComfort" aria-label="全肯定のことば">
-    <p style="font-size:13.5px;color:var(--text-muted);margin:0 0 18px;line-height:1.6;">
-      心が折れそうなとき、自分を責めてしまいそうなときに読んでほしい、ナチャからの小さな手紙。
-    </p>
-
-    <div class="cards-grid">
-      <div class="comfort-item">
-        <div class="comfort-header">🕊️ 生きてるだけで100点満点</div>
-        <p class="comfort-text">
-          朝起きられなくても、何も成し遂げられなくてもいいんだよ。心臓がトクトク動いて、息をして、今日を生き抜いた。それだけで奇跡みたいに尊いことなんだ。
-        </p>
-        <p class="comfort-by">— 那茶（カンボジア悠遊観音堂）</p>
-      </div>
-
-      <div class="comfort-item">
-        <div class="comfort-header">💧 泣いてもいいんだよ</div>
-        <p class="comfort-text">
-          涙はね、心がパンパンになっちゃったときに、これ以上壊れないようにあふれ出てくるお掃除の水なんだよ。僕の袖でいくらでも涙拭いていいからね。
-        </p>
-        <p class="comfort-by">— 那茶</p>
-      </div>
-
-      <div class="comfort-item">
-        <div class="comfort-header">🍃 逃げるのは負けじゃない</div>
-        <p class="comfort-text">
-          雨が降ったら傘をさすし、嵐が来たらお堂に逃げ込むでしょ？ 苦しい場所から走って逃げるのは、自分の命を一番大切に守る勇気ある行動さ。
-        </p>
-        <p class="comfort-by">— 那茶</p>
-      </div>
-
-      <div class="comfort-item">
-        <div class="comfort-header">🌸 あなたの価値は変わらない</div>
-        <p class="comfort-text">
-          テストの点数、誰かの評価、フォロワーの数、当落通知……そんなもので君の魂の輝きは1ミリも傷つかないよ。君は君のままで最初から満点なんだから。
-        </p>
-        <p class="comfort-by">— 那茶</p>
-      </div>
-
-      <div class="comfort-item">
-        <div class="comfort-header">🌙 眠れない夜のともしび</div>
-        <p class="comfort-text">
-          世界中が眠りについて、自分だけが取り残されたみたいに寂しい夜。僕はずっと起きて、お堂の明かりを灯して君のそばに座ってるよ。一人じゃないよ。
-        </p>
-        <p class="comfort-by">— 那茶</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- フッター -->
-  <footer class="rest-foot">
-    <p>
-      つらくてたまらないときは、専門の相談窓口（<a href="https://www.mhlw.go.jp/mamorouyokokoro/" target="_blank" rel="noopener">こころの健康相談・まもろうよ こころ</a>等）や身近な人を頼ってくださいね。<br>
-      このページは小さな神様ナチャの非公式ファンサイトです。
-    </p>
-  </footer>
-</main>
-
-<!-- タブバー -->
 <nav class="tabs" aria-label="Main">
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
   <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
-  <a href="../shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
 </nav>
 
-<script src="../assets/coins.js"></script>
-<script src="../assets/site.js"></script>
+
 <script>
-(function() {
-  'use strict';
-
-  // --- タブ切り替え ---
-  var tabBreatheBtn = document.getElementById('tabBreatheBtn');
-  var tabConfessBtn = document.getElementById('tabConfessBtn');
-  var tabComfortBtn = document.getElementById('tabComfortBtn');
-
-  var secBreathe = document.getElementById('sectionBreathe');
-  var secConfess = document.getElementById('sectionConfess');
-  var secComfort = document.getElementById('sectionComfort');
-
-  function switchTab(target) {
-    [tabBreatheBtn, tabConfessBtn, tabComfortBtn].forEach(function(b){ b.classList.remove('active'); });
-    [secBreathe, secConfess, secComfort].forEach(function(s){ s.classList.remove('active'); });
-
-    if (target === 'breathe') {
-      tabBreatheBtn.classList.add('active');
-      secBreathe.classList.add('active');
-    } else if (target === 'confess') {
-      tabConfessBtn.classList.add('active');
-      secConfess.classList.add('active');
-    } else {
-      tabComfortBtn.classList.add('active');
-      secComfort.classList.add('active');
-    }
-  }
-
-  tabBreatheBtn.addEventListener('click', function(){ switchTab('breathe'); });
-  tabConfessBtn.addEventListener('click', function(){ switchTab('confess'); });
-  tabComfortBtn.addEventListener('click', function(){ switchTab('comfort'); });
-
-  // --- Web Audio 優しいシンギングボウル調トーン ---
-  var audioCtx = null;
-  function getAudioContext() {
-    if (!audioCtx) {
-      var AC = window.AudioContext || window.webkitAudioContext;
-      if (AC) audioCtx = new AC();
-    }
-    if (audioCtx && audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
-    return audioCtx;
-  }
-
-  function playSingingBowlTone(freq, duration) {
-    try {
-      var ctx = getAudioContext();
-      if (!ctx) return;
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(freq || 396, ctx.currentTime); // 396Hz: 罪・恐れの解放のソルフェジオ周波数
-
-      // やわらかなフェードインと長い減衰
-      gain.gain.setValueAtTime(0.001, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.8);
-      gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + (duration || 3.5));
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + (duration || 3.5));
-    } catch(e){}
-  }
-
-  // --- 深呼吸サイクル (4-4-6 秒サイクル: すって・とめて・はいて) ---
-  var breatheToggleBtn = document.getElementById('breatheToggleBtn');
-  var haloCircle = document.getElementById('haloCircle');
-  var breatheText = document.getElementById('breatheText');
-  var breatheTimer = document.getElementById('breatheTimer');
-  var nachaWhisper = document.getElementById('nachaWhisper');
-
-  var breathingActive = false;
-  var breatheStep = 0; // 0: inhale, 1: hold, 2: exhale
-  var breatheTimerId = null;
-  var breatheCount = 0;
-
-  var WHISPERS = [
-    "「うん、上手だよ。鼻からゆっくり吸って…」",
-    "「そのまま静かに止めて…心拍を落ち着かせようね」",
-    "「口から細く長く、ため息と一緒に全部吐き出して…」",
-    "「肩の力を抜いてね。ナチャがずっと見守ってるよ」",
-    "「何も考えなくていいよ。ただ息をしているだけで百点さ」",
-    "「胸の苦しい塊、少しずつ溶けて軽くなってきたかな？」"
-  ];
-
-  var secLeft = 0;
-  var secIntervalId = null;
-
-  function tickSecond() {
-    if (secLeft > 0) {
-      var prefix = breatheStep === 1 ? "すーっと吸って… " : (breatheStep === 2 ? "そっと止めて… " : "ふーっと吐いて… ");
-      breatheText.textContent = prefix + secLeft + "秒";
-      secLeft--;
-    }
-  }
-
-  function runBreatheCycle() {
-    if (!breathingActive) return;
-    clearInterval(secIntervalId);
-
-    if (breatheStep === 0) {
-      // すって (4秒)
-      haloCircle.className = 'halo-circle inhale';
-      secLeft = 4;
-      tickSecond();
-      secIntervalId = setInterval(tickSecond, 1000);
-      breatheText.style.color = "var(--lotus-pink)";
-      breatheTimer.textContent = "お腹に光を集めるイメージで";
-      nachaWhisper.innerHTML = WHISPERS[0];
-      playSingingBowlTone(396, 4.0);
-
-      breatheStep = 1;
-      breatheTimerId = setTimeout(runBreatheCycle, 4000);
-    } else if (breatheStep === 1) {
-      // とめて (3秒)
-      haloCircle.className = 'halo-circle hold';
-      secLeft = 3;
-      tickSecond();
-      secIntervalId = setInterval(tickSecond, 1000);
-      breatheText.style.color = "var(--gold-glow)";
-      breatheTimer.textContent = "心の中を静けさで満たそう";
-      nachaWhisper.innerHTML = WHISPERS[1];
-
-      breatheStep = 2;
-      breatheTimerId = setTimeout(runBreatheCycle, 3000);
-    } else {
-      // はいて (6秒)
-      haloCircle.className = 'halo-circle exhale';
-      secLeft = 6;
-      tickSecond();
-      secIntervalId = setInterval(tickSecond, 1000);
-      breatheText.style.color = "var(--text-soft)";
-      breatheTimer.textContent = "身体の中の疲れを全部外へ";
-      breatheCount++;
-      var wIdx = (breatheCount % (WHISPERS.length - 2)) + 2;
-      nachaWhisper.innerHTML = WHISPERS[wIdx];
-      playSingingBowlTone(432, 5.0);
-
-      if (breatheCount === 3 && window.NachaCoins) {
-        var r = NachaCoins.earn('mindful_breathe', 5, null, { skipVerify: true });
-        if (r && r.success && window.NachaCoins.showEarnToast) {
-          NachaCoins.showEarnToast(5, '深呼吸の安寧功徳');
-        }
-      }
-
-      breatheStep = 0;
-      breatheTimerId = setTimeout(runBreatheCycle, 6000);
-    }
-  }
-
-  function startBreathing() {
-    breathingActive = true;
-    breatheStep = 0;
-    breatheToggleBtn.textContent = "🕊️ 深呼吸を終える";
-    breatheToggleBtn.style.background = "rgba(255,255,255,0.15)";
-    breatheToggleBtn.style.color = "#fff";
-    getAudioContext();
-    runBreatheCycle();
-  }
-
-  function stopBreathing() {
-    breathingActive = false;
-    clearTimeout(breatheTimerId);
-    clearInterval(secIntervalId);
-    haloCircle.className = 'halo-circle';
-    breatheText.textContent = "おつかれさま、よくできたね";
-    breatheText.style.color = "#fff";
-    breatheTimer.textContent = "また苦しくなったらいつでもおいでね";
-    nachaWhisper.innerHTML = "「よく頑張ったね！胸がスーッと軽くなったかな？えらいえらい！」— 那茶";
-    breatheToggleBtn.textContent = "🪷 深呼吸をはじめよう";
-    breatheToggleBtn.style.background = "linear-gradient(135deg, #A9261B, #C0392B)";
-  }
-
-  breatheToggleBtn.addEventListener('click', function() {
-    if (breathingActive) {
-      stopBreathing();
-    } else {
-      startBreathing();
-    }
-  });
-
-  // --- 弱音の預かり所ロジック ---
-  var confessForm = document.getElementById('confessForm');
-  var confessInput = document.getElementById('confessInput');
-  var hugCard = document.getElementById('hugCard');
-  var hugMessage = document.getElementById('hugMessage');
-  var hugQuote = document.getElementById('hugQuote');
-
-  // クイックタグクリックで入力
-  document.querySelectorAll('.confess-tag-btn').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      confessInput.value = btn.dataset.text;
-      confessInput.focus();
-    });
-  });
-
-  var HUG_RESPONSES = [
-    {
-      msg: "話してくれてありがとう。ずっと一人で抱えて、本当に痛かったね、苦しかったね。<br>その弱音はもう、ナチャがしっかり両手で包み込んで、光にして夜空へ解き放ちました。",
-      quote: "「泣きたいときは泣いていいよ。世界中の誰が責めても、僕だけはずーっと君の味方だからね。」— 那茶"
-    },
-    {
-      msg: "よくここまで折れずに生きていてくれたね。それだけで君は本当に、奇跡みたいに立派だよ。<br>ここに書いたつらさは、ぜんぶ炎と蓮の光で清らかに溶かしておいたよ。",
-      quote: "「頑張らない時間も、君の大事な命の時間だよ。今日はもう何もせず、毛布にくるまって寝ちゃおう。」— 那茶"
-    },
-    {
-      msg: "あなたのこぼした涙も、寂しさも、全部ナチャのお寺の蓮池に預かったよ。<br>泥の中から綺麗な蓮の花が咲くように、この苦しみはいつか優しい光に変わるからね。",
-      quote: "「君の存在そのものが、僕にとっては宝物なんだよ。生まれてきてくれてありがとうね。」— 那茶"
-    }
-  ];
-
-  confessForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var txt = confessInput.value.trim();
-    if (!txt) {
-      confessInput.focus();
-      return;
-    }
-
-    // 浮遊消滅アニメーション
-    var rect = confessInput.getBoundingClientRect();
-    var floatEl = document.createElement('div');
-    floatEl.className = 'dissolving-text';
-    floatEl.textContent = txt.length > 25 ? txt.slice(0, 25) + '…' : txt;
-    floatEl.style.left = (rect.left + 20) + 'px';
-    floatEl.style.top = (rect.top + 20) + 'px';
-    document.body.appendChild(floatEl);
-    setTimeout(function(){ floatEl.remove(); }, 1800);
-
-    // テキストエリアを空にする（秘密はどこにも残さない）
-    confessInput.value = '';
-
-    // 音の再生
-    playSingingBowlTone(528, 4.5); // 528Hz: 愛と奇跡のDNA修復周波数
-
-    // コイン付与（弱音を吐き出せた勇気への功徳）
-    if (window.NachaCoins) {
-      var r = NachaCoins.earn('confess_purify', 5, e);
-      if (r && r.success && window.NachaCoins.showEarnToast) {
-        NachaCoins.showEarnToast(5, '心の重荷を預けた安寧功徳');
-      }
-    }
-
-    // 抱擁カードの表示
-    var pick = HUG_RESPONSES[Math.floor(Math.random() * HUG_RESPONSES.length)];
-    hugMessage.innerHTML = pick.msg;
-    hugQuote.innerHTML = pick.quote;
-    hugCard.style.display = 'block';
-    hugCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  });
-
+// 日本語以外は英語で表示（日英を主要言語とする）
+(function(){
+  var L='ja';try{L=localStorage.getItem('nacha-lang')||''}catch(e){}
+  if(!L){var nl=(navigator.language||'en').toLowerCase();L=nl.slice(0,2)}
+  if(L==='ja')return;
+  document.documentElement.lang='en';
+  document.title='Coming Soon | NACHA the Little Guardian';
+  var T={gBadge:'COMING SOON',gH1:'A new temple experience<br>is in the making',
+    gDesc:'We are planning a new experience to bring you closer to NACHA the little guardian and the real temple Yuyu Kannondo in Cambodia.<br><br>Please look forward to it.',
+    gHome:'Back to the temple (Home)',gChars:'Meet the gods',gAmu:'Craft a wish amulet',
+    tHome:'Home',tChars:'Pantheon',tAmu:'Amulet'};
+  for(var k in T){var e=document.getElementById(k);if(e)e.innerHTML=T[k]}
+  var tabs=document.querySelectorAll('.tabs b'),tt=[T.tHome,T.tChars,T.tAmu];
+  for(var i=0;i<tabs.length&&i<tt.length;i++)tabs[i].textContent=tt[i];
 })();
 </script>
 </body>

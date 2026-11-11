@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="ja">
+<html lang="ja" id="docRoot">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>境内授与所・寺院銀行 | NACHA</title>
-<meta name="description" content="小さな守護神ナチャの境内授与所と寺院銀行。手作り記念品の授与、物価安定2%政策、銭投げによるローン返済。">
+<title>新企画 奉納準備中 | 小さな守護神 ナチャ</title>
+<meta name="description" content="悠遊観音堂と小さな守護神ナチャの新しい体験を企画準備中です。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
@@ -17,7 +17,6 @@
   --vermilion: #b83823;
   --gold: #bfa15f;
   --line-gold: rgba(191, 161, 95, 0.45);
-  --line-fine: rgba(43, 36, 30, 0.12);
 }
 * { box-sizing: border-box; }
 body {
@@ -27,994 +26,175 @@ body {
   color: var(--ink);
   font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
   min-height: 100vh;
-  padding-bottom: calc(88px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 80px;
 }
-
 .sheet-canvas {
-  width: min(100% - 24px, 580px);
-  margin: 16px auto 32px;
+  width: 100%;
+  max-width: 520px;
   background: #fbf9f4;
   border: 1px solid var(--gold);
   border-radius: 18px;
-  padding: 24px 18px;
+  padding: 40px 24px;
   position: relative;
-  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.04);
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.05);
 }
 .sheet-canvas::after {
   content: "";
   position: absolute;
-  inset: 6px;
+  inset: 7px;
   border: 1px solid var(--line-gold);
   border-radius: 12px;
   pointer-events: none;
 }
-
-/* ヘッダー */
-.shop-header {
-  text-align: center;
-  margin-bottom: 20px;
-}
-.shop-emblem {
-  width: 36px;
-  height: 36px;
-  margin: 0 auto 8px;
+.emblem-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px;
   color: var(--gold);
 }
-.shop-title {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: .14em;
-  margin: 0 0 4px;
-}
-.shop-sub {
+.tag-badge {
+  display: inline-block;
   font-size: 11px;
   letter-spacing: .2em;
-  color: var(--ink-light);
-}
-
-/* ユーザー残高バー */
-.user-wallet-bar {
-  display: flex;
-  justify-content: space-around;
-  background: #fff;
-  border: 1px solid var(--line-gold);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(43, 36, 30, 0.02);
-}
-.wallet-col {
-  text-align: center;
-}
-.wallet-label {
-  font-size: 11px;
-  color: var(--ink-light);
-  letter-spacing: .08em;
-  display: block;
-}
-.wallet-val {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--ink);
-}
-.wallet-val.coins { color: var(--gold); }
-.wallet-val.toku { color: var(--vermilion); }
-
-/* 🏛️ 寺院銀行（中央銀行）パネル */
-.bank-panel {
-  background: #fffdf9;
-  border: 1.5px solid var(--gold);
-  border-radius: 14px;
-  padding: 16px;
-  margin-bottom: 24px;
-  position: relative;
-}
-.bank-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--gold);
-  letter-spacing: .1em;
-  margin-bottom: 8px;
-}
-.cpi-meter-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-.cpi-box {
-  background: var(--washi-subtle);
-  border-radius: 8px;
-  padding: 8px 12px;
-  text-align: center;
-}
-.cpi-title { font-size: 10.5px; color: var(--ink-light); }
-.cpi-num { font-size: 16px; font-weight: 700; color: var(--vermilion); margin-top: 2px; }
-
-/* ナチャたちのローン返済メーター */
-.loan-box {
-  background: rgba(184, 56, 35, 0.04);
-  border: 1px dashed var(--vermilion);
-  border-radius: 10px;
-  padding: 12px 14px;
-  margin-top: 10px;
-}
-.loan-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  font-weight: 700;
   color: var(--vermilion);
-  margin-bottom: 6px;
-}
-.loan-bar-bg {
-  width: 100%;
-  height: 8px;
-  background: rgba(0,0,0,0.08);
+  border: 1px solid var(--vermilion);
+  padding: 3px 12px;
   border-radius: 999px;
-  overflow: hidden;
-  margin-bottom: 6px;
-}
-.loan-bar-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--gold) 0%, var(--vermilion) 100%);
-  width: 14.2%;
-  transition: width .5s ease;
-}
-.loan-desc {
-  font-size: 11px;
-  color: var(--ink-light);
-  line-height: 1.5;
-}
-
-/* 🎯 銭投げ（賽銭）エリア */
-.toss-arena {
-  background: #fff;
-  border: 1px solid var(--line-gold);
-  border-radius: 14px;
-  padding: 18px 14px;
-  margin-bottom: 24px;
-  text-align: center;
-}
-.toss-title {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  margin-bottom: 4px;
-}
-.toss-sub {
-  font-size: 11.5px;
-  color: var(--ink-light);
   margin-bottom: 14px;
 }
-.toss-pond {
-  width: 100%;
-  height: 130px;
-  background: radial-gradient(circle at center, #8cb8ab 0%, #46695f 100%);
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  margin-bottom: 12px;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-.lotus-bowl {
-  width: 70px;
-  height: 70px;
-  border: 3px solid rgba(255,255,255,0.7);
-  border-radius: 50%;
-  background: radial-gradient(circle, #f9e79f 0%, #d4ac0d 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  animation: floatBowl 3s ease-in-out infinite;
-}
-@keyframes floatBowl {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-.coin-projectile {
-  position: absolute;
-  font-size: 20px;
-  pointer-events: none;
-  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.4, 1.2);
-}
-.toss-btn {
-  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
-  color: #fff;
-  border: none;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 10px 24px;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(191, 161, 95, 0.3);
-  letter-spacing: .08em;
-}
-.toss-btn:active { transform: scale(0.96); }
-
-/* 🏮 有限の陳列棚（授与品） */
-.shelf-title-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.shelf-title {
-  font-size: 14px;
+h1 {
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: .12em;
+  margin: 0 0 16px;
+  color: var(--ink);
+  line-height: 1.5;
 }
-.shelf-badge {
-  font-size: 11px;
-  color: var(--vermilion);
-  border: 1px solid var(--vermilion);
-  padding: 2px 8px;
-  border-radius: 999px;
+.desc {
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--ink-light);
+  letter-spacing: .06em;
+  margin: 0 auto 28px;
+  max-width: 380px;
 }
-.shelf-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-@media (max-width: 440px) {
-  .shelf-grid { grid-template-columns: 1fr; }
-}
-.shelf-card {
-  background: #fff;
-  border: 1px solid var(--line-fine);
-  border-radius: 12px;
-  padding: 14px;
+.action-grid {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 2px 6px rgba(43, 36, 30, 0.02);
-  position: relative;
+  gap: 12px;
+  max-width: 300px;
+  margin: 0 auto;
 }
-.item-icon-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 8px;
-}
-.item-icon { font-size: 32px; }
-.item-serial {
-  font-size: 10px;
-  color: var(--gold);
-  border: 1px solid var(--line-gold);
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-family: monospace;
-}
-.item-name {
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
+  color: #fff;
+  text-decoration: none;
   font-size: 14px;
   font-weight: 700;
-  margin-bottom: 4px;
-}
-.item-creator {
-  font-size: 10.5px;
-  color: var(--ink-light);
-  margin-bottom: 8px;
-}
-.item-quality {
-  display: inline-block;
-  font-size: 9.5px;
-  color: var(--vermilion);
-  background: rgba(184, 56, 35, 0.06);
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-bottom: 10px;
-}
-.buy-btn {
-  background: #fff;
-  border: 1.5px solid var(--gold);
-  color: var(--ink);
-  font-size: 12.5px;
-  font-weight: 700;
-  padding: 8px;
+  padding: 13px 20px;
   border-radius: 999px;
-  cursor: pointer;
+  letter-spacing: .08em;
+  box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  transition: all .15s;
+  gap: 8px;
+  transition: transform .15s;
 }
-.buy-btn:hover {
-  background: var(--gold);
-  color: #fff;
-}
-
-/* ⏳ 工房（熟成中キュー） */
-.workshop-preview {
+.btn-gold:active { transform: scale(0.97); }
+.btn-outline {
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 999px;
+  letter-spacing: .06em;
   background: #fff;
-  border: 1px solid var(--line-fine);
-  border-radius: 12px;
-  padding: 14px;
-  margin-bottom: 20px;
-}
-.workshop-head {
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  margin-bottom: 8px;
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-.maturing-list {
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 8px;
 }
-.maturing-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 11.5px;
-  padding: 6px 10px;
-  background: var(--washi-subtle);
-  border-radius: 6px;
-}
-
-/* トースト通知 */
-.toast-notice {
+.tabs {
   position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(43, 36, 30, 0.95);
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 999px;
-  font-size: 13px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-  z-index: 1000;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity .25s ease;
-}
-.toast-notice.show { opacity: 1; }
-
-/* 🎒 インベントリモーダル */
-.inv-modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(43, 36, 30, 0.6);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  z-index: 900;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(251, 249, 244, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line-gold);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity .2s ease;
+  justify-content: space-around;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
 }
-.inv-modal-overlay.open {
-  opacity: 1;
-  pointer-events: auto;
-}
-.inv-modal-card {
-  background: #fbf9f4;
-  border: 1.5px solid var(--gold);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 480px;
-  max-height: 85vh;
+.tabs a {
   display: flex;
   flex-direction: column;
-  padding: 24px 20px;
-  position: relative;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-}
-.inv-modal-card::after {
-  content: "";
-  position: absolute;
-  inset: 6px;
-  border: 1px solid var(--line-gold);
-  border-radius: 14px;
-  pointer-events: none;
-}
-.inv-modal-head {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  border-bottom: 1px solid var(--line-fine);
-  padding-bottom: 10px;
-}
-.inv-modal-title {
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: .1em;
-}
-.inv-close-btn {
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+  text-decoration: none;
   color: var(--ink-light);
-}
-.inv-list-body {
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-right: 4px;
-}
-.inv-item-row {
-  background: #fff;
-  border: 1px solid var(--line-fine);
-  border-radius: 12px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-.inv-item-info {
-  flex: 1;
-}
-.inv-item-name {
-  font-size: 13.5px;
-  font-weight: 700;
-  color: var(--ink);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.inv-item-meta {
   font-size: 11px;
-  color: var(--ink-light);
-  margin-top: 3px;
+  gap: 2px;
 }
-.offer-btn {
-  background: #fff;
-  border: 1px solid var(--vermilion);
-  color: var(--vermilion);
-  font-size: 11px;
-  font-weight: 700;
-  padding: 6px 12px;
-  border-radius: 999px;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all .15s;
-}
-.offer-btn:hover {
-  background: var(--vermilion);
-  color: #fff;
-}
-
-/* 🏮 ガラポン福引所 */
-.fukubiki-arena {
-  background: #fff;
-  border: 1.5px solid var(--gold);
-  border-radius: 16px;
-  padding: 20px 16px;
-  margin-bottom: 24px;
-  text-align: center;
-  position: relative;
-}
-.fukubiki-wheel-wrap {
-  width: 120px;
-  height: 120px;
-  margin: 12px auto;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.garapon-octagon {
-  width: 90px;
-  height: 90px;
-  background: #d4ac0d;
-  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-  border: 3px solid #b7950b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.2);
-  transition: transform 1.2s cubic-bezier(0.4, 2, 0.6, 1);
-}
-.garapon-spin {
-  animation: spinGarapon 1.2s ease-in-out;
-}
-@keyframes spinGarapon {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(720deg); }
-}
-.fuku-btn {
-  background: linear-gradient(135deg, var(--vermilion) 0%, #9e2a1e 100%);
-  color: #fff;
-  border: none;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 12px 28px;
-  border-radius: 999px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(184, 56, 35, 0.35);
-  letter-spacing: .08em;
-}
-.fuku-btn:active { transform: scale(0.96); }
-.fuku-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
+.tabs a span { font-size: 18px; }
+.tabs a b { font-weight: 600; }
 </style>
 </head>
 <body>
 
 <div class="sheet-canvas">
+  <svg class="emblem-icon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+    <circle cx="12" cy="20.5" r="1.5"/>
+  </svg>
 
-  <!-- ヘッダー -->
-  <header class="shop-header">
-    <svg class="shop-emblem" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
-      <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
-      <circle cx="12" cy="20.5" r="1.5"/>
-    </svg>
-    <h1 class="shop-title">境内授与所 · 寺院銀行</h1>
-    <div class="shop-sub">NACHA TEMPLE CENTRAL BANK & TREASURY</div>
-    <div style="margin-top:6px;display:inline-flex;align-items:center;gap:6px;background:rgba(46,204,113,0.12);border:1px solid #2ecc71;padding:2px 10px;border-radius:999px;font-size:10.5px;color:#27ae60;font-weight:700;">
-      <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#2ecc71;box-shadow:0 0 6px #2ecc71;"></span>
-      リアルタイム共有在庫 · マルチ同期稼働中
-    </div>
-  </header>
+  <div class="tag-badge" id="gBadge">奉納準備中</div>
 
-  <!-- 参拝者ウォレット（所持コイン＆徳） -->
-  <div class="user-wallet-bar">
-    <div class="wallet-col">
-      <span class="wallet-label">所持コイン</span>
-      <span class="wallet-val coins" id="userCoinsVal">30</span>
-    </div>
-    <div class="wallet-col">
-      <span class="wallet-label">蓄積した徳</span>
-      <span class="wallet-val toku" id="userTokuVal">10</span>
-    </div>
-    <a href="../gather/" class="wallet-col" style="text-decoration:none;" title="奥山へ枝拾いに行く">
-      <span class="wallet-label">所持した枝 ↗</span>
-      <span class="wallet-val" id="userBranchesVal" style="color:#8e623c;">0 本</span>
-    </a>
-    <div class="wallet-col" id="openInvBtn" style="cursor:pointer;" title="所持品袋を開く">
-      <span class="wallet-label">所持品（袋） ↗</span>
-      <span class="wallet-val" id="userInventoryCount" style="color:var(--gold);text-decoration:underline;">1 点</span>
-    </div>
-  </div>
+  <h1 id="gH1">新たな境内体験を<br>ただいま企画中です</h1>
 
-  <!-- 🏛️ 寺院銀行（中央銀行）パネル -->
-  <section class="bank-panel">
-    <div class="bank-tag">🏛️ 寺院中央銀行 · 物価安定目標 +2.0%</div>
-    
-    <div class="cpi-meter-grid">
-      <div class="cpi-box">
-        <div class="cpi-title">寺院物価指数 (CPI)</div>
-        <div class="cpi-num" id="cpiVal">100.00</div>
-      </div>
-      <div class="cpi-box">
-        <div class="cpi-title">現在インフレ率</div>
-        <div class="cpi-num" id="inflationVal" style="color:var(--gold);">+2.00 %</div>
-      </div>
-    </div>
+  <p class="desc" id="gDesc">
+    小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
+    完成までどうぞ楽しみにお待ちください。
+  </p>
 
-    <!-- ナチャと仲間たち専売ローン返済メーター -->
-    <div class="loan-box">
-      <div class="loan-head">
-        <span>⛩️ ナチャ工房 資材・設備ローン</span>
-        <span id="loanPercentVal">14.2% 返済済</span>
-      </div>
-      <div class="loan-bar-bg">
-        <div class="loan-bar-fill" id="loanBarFill" style="width:14.2%;"></div>
-      </div>
-      <div class="loan-desc">
-        ※ 借入総額 100,000 コイン（残債: <b id="loanRemainingVal">85,800</b> コイン）<br>
-        <small style="color:var(--vermilion)">【重要】ローンはナチャと仲間たち工房のみ利用可能です。賽銭・売上で自動返済中。</small>
-      </div>
-    </div>
-  </section>
-
-  <!-- 🎯 銭投げ（賽銭投げ）エリア -->
-  <section class="toss-arena">
-    <div class="toss-title">🪙 願掛け銭投げ（賽銭）</div>
-    <div class="toss-sub">中央の蓮池の金鉢を狙ってコインを投げ入れよう。投げられた賽銭はナチャたちのローン返済へ！</div>
-
-    <div class="toss-pond" id="tossPond" title="タップして銭投げ">
-      <div class="lotus-bowl" id="lotusBowl">🪷</div>
-      <div id="coinActor" class="coin-projectile" style="display:none;">🪙</div>
-    </div>
-
-    <button type="button" class="toss-btn" id="tossBtn">コインを1枚 投げ入れる（賽銭）</button>
-  </section>
-
-  <!-- 🏮 有限の陳列棚（最大6スロット） -->
-  <div class="shelf-title-head">
-    <span class="shelf-title">✦ 授与品の陳列棚（有限空間）</span>
-    <span class="shelf-badge" id="shelfSlotCount">3 / 6 スロット</span>
-  </div>
-
-  <div class="shelf-grid" id="shelfGrid">
-    <!-- JSで動的生成 -->
-  </div>
-
-  <!-- 🏮 境内 ガラポン福引所 -->
-  <section class="fukubiki-arena">
-    <div style="font-size:11px;color:var(--gold);font-weight:700;letter-spacing:.15em;">🏮 縁起・運試し</div>
-    <h3 style="font-size:16px;margin:4px 0 6px;letter-spacing:.08em;">境内 開運ガラポン福引所</h3>
-    <p style="font-size:11.5px;color:var(--ink-light);margin:0 0 12px;">
-      棚の「開運福引之符」でガラガラ回そう！<br>
-      特等（金玉）は非売品【黄金ナチャ尊像】が授与されます。
-    </p>
-
-    <div class="fukubiki-wheel-wrap">
-      <div class="garapon-octagon" id="garaponWheel">
-        <span>☸️</span>
-      </div>
-    </div>
-
-    <div style="margin-bottom:12px;font-size:12px;color:var(--ink-light);">
-      所持チケット: <b id="userTicketCount" style="color:var(--vermilion);">0</b> 枚
-    </div>
-
-    <button type="button" class="fuku-btn" id="fukuBtn">ガラポンを回す（符を1枚消費）</button>
-  </section>
-
-  <!-- ⏳ 工房（熟成・祈祷中キュー） -->
-  <section class="workshop-preview">
-    <div class="workshop-head">
-      <span>🔨 ナチャたちの工房 · 熟成祈祷中</span>
-      <small style="margin-left:auto;color:var(--ink-light);font-size:11px;">※制作から1ヶ月で棚へ</small>
-    </div>
-    <div class="maturing-list" id="maturingList">
-      <!-- JSで動的生成 -->
-    </div>
-  </section>
-
-  <!-- 🌿 枝拾い作務へのリンク案内 -->
-  <div style="margin-top:14px;background:#fff;border:1px dashed var(--gold);border-radius:12px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:12px;">
-    <div>
-      <div style="font-size:12.5px;font-weight:700;color:var(--ink);">🌿 ナチャ工房の木製資材（枝）を集める</div>
-      <div style="font-size:10.5px;color:var(--ink-light);margin-top:2px;">境内や奥山の聖樹から落ちた枝を拾って納品すると、コインと徳がもらえます！</div>
-    </div>
-    <a href="../gather/" style="white-space:nowrap;background:linear-gradient(135deg,var(--gold) 0%,#a88a48 100%);color:#fff;text-decoration:none;font-size:11.5px;font-weight:700;padding:8px 14px;border-radius:999px;box-shadow:0 2px 6px rgba(191,161,95,0.3);">枝拾いへ ↗</a>
-  </div>
-
-</div>
-
-<!-- 🎒 インベントリモーダル -->
-<div class="inv-modal-overlay" id="invModalOverlay">
-  <div class="inv-modal-card">
-    <div class="inv-modal-head">
-      <div class="inv-modal-title">🎒 参拝者の所持品袋</div>
-      <button type="button" class="inv-close-btn" id="closeInvBtn">✕</button>
-    </div>
-    <div style="font-size:11.5px;color:var(--ink-light);margin-bottom:12px;">
-      手に入れた記念品やお守りを鑑賞できます。仏前へ「奉納」すると徳ポイントに還元されます。
-    </div>
-    <div class="inv-list-body" id="invListBody">
-      <!-- JSで動的生成 -->
-    </div>
+  <div class="action-grid">
+    <a href="../" class="btn-gold">🏮 <span id="gHome">境内（ホーム）へ戻る</span></a>
+    <a href="../characters/" class="btn-outline">🗺️ <span id="gChars">神様名鑑を見る</span></a>
+    <a href="../amulet/" class="btn-outline">🧧 <span id="gAmu">心願お守りを作る</span></a>
   </div>
 </div>
 
-<!-- トースト -->
-<div class="toast-notice" id="toastNotice"></div>
-
-<!-- 共通ボトムタブバー -->
 <nav class="tabs" aria-label="Main">
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
   <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
-  <a href="../gather/"><span aria-hidden="true">🌿</span><b>枝拾い</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
-  <a href="../shop/" aria-current="page"><span aria-hidden="true">🎁</span><b>授与所</b></a>
 </nav>
 
-<script src="../assets/coins.js"></script>
-<script src="../assets/temple-bank.js"></script>
-<script src="../assets/temple-economy.js"></script>
-<script src="../assets/temple-multiplayer.js"></script>
 
 <script>
-(function() {
-  'use strict';
-
-  var userCoinsVal = document.getElementById('userCoinsVal');
-  var userTokuVal = document.getElementById('userTokuVal');
-  var userBranchesVal = document.getElementById('userBranchesVal');
-  var userInventoryCount = document.getElementById('userInventoryCount');
-  var openInvBtn = document.getElementById('openInvBtn');
-  var closeInvBtn = document.getElementById('closeInvBtn');
-  var invModalOverlay = document.getElementById('invModalOverlay');
-  var invListBody = document.getElementById('invListBody');
-  var garaponWheel = document.getElementById('garaponWheel');
-  var userTicketCount = document.getElementById('userTicketCount');
-  var fukuBtn = document.getElementById('fukuBtn');
-  var cpiVal = document.getElementById('cpiVal');
-  var inflationVal = document.getElementById('inflationVal');
-  var loanPercentVal = document.getElementById('loanPercentVal');
-  var loanBarFill = document.getElementById('loanBarFill');
-  var loanRemainingVal = document.getElementById('loanRemainingVal');
-  var shelfSlotCount = document.getElementById('shelfSlotCount');
-  var shelfGrid = document.getElementById('shelfGrid');
-  var maturingList = document.getElementById('maturingList');
-  var tossBtn = document.getElementById('tossBtn');
-  var tossPond = document.getElementById('tossPond');
-  var coinActor = document.getElementById('coinActor');
-  var toastNotice = document.getElementById('toastNotice');
-
-  function showToast(msg) {
-    toastNotice.textContent = msg;
-    toastNotice.classList.add('show');
-    setTimeout(function() { toastNotice.classList.remove('show'); }, 2200);
-  }
-
-  function updateUI() {
-    var user = TempleEconomy.getUser();
-    var temple = TempleEconomy.getTempleState();
-    var bank = TempleBank.getState();
-    var loan = TempleBank.getDeityLoanStatus();
-
-    // ユーザー
-    userCoinsVal.textContent = user.coins;
-    userTokuVal.textContent = user.toku;
-    if (userBranchesVal) userBranchesVal.textContent = (user.branches || 0) + ' 本';
-    userInventoryCount.textContent = (user.inventory ? user.inventory.length : 0) + ' 点';
-
-    // 銀行
-    cpiVal.textContent = bank.cpiIndex.toFixed(2);
-    inflationVal.textContent = (bank.currentInflation >= 0 ? '+' : '') + (bank.currentInflation * 100).toFixed(2) + ' %';
-
-    // ローン
-    loanPercentVal.textContent = loan.progressPercent + '% 返済済';
-    loanBarFill.style.width = loan.progressPercent + '%';
-    loanRemainingVal.textContent = loan.remainingBalance.toLocaleString();
-
-    // 棚
-    shelfSlotCount.textContent = temple.shelf.length + ' / 6 スロット';
-    renderShelf(temple.shelf);
-
-    // 工房
-    renderWorkshop(temple.workshopQueue);
-
-    // 福引チケット枚数
-    var tickets = (user.inventory || []).filter(function(it) {
-      return it.catalogId === 'fukubiki_ticket' || it.name.indexOf('福引') >= 0;
-    });
-    userTicketCount.textContent = tickets.length;
-    fukuBtn.disabled = tickets.length === 0;
-    fukuBtn.textContent = tickets.length > 0 ? 'ガラポンを回す（符を1枚消費）' : '福引之符がありません（棚で購入）';
-
-    // インベントリ一覧更新
-    renderInventoryModal(user.inventory || []);
-  }
-
-  function renderInventoryModal(inv) {
-    invListBody.innerHTML = '';
-    if (!inv || inv.length === 0) {
-      invListBody.innerHTML = '<div style="text-align:center;padding:24px;color:var(--ink-light);font-size:12px;">所持品袋は空です。授与所や福引で手に入れましょう。</div>';
-      return;
-    }
-
-    inv.forEach(function(item) {
-      var row = document.createElement('div');
-      row.className = 'inv-item-row';
-      row.innerHTML = `
-        <div class="inv-item-info">
-          <div class="inv-item-name">
-            <span>${item.icon || '🧧'}</span>
-            <span>${item.name}</span>
-            <small style="color:var(--gold);font-family:monospace;font-size:10px;">${item.serialNo || ''}</small>
-          </div>
-          <div class="inv-item-meta">
-            ${item.creator ? '作者: ' + item.creator + ' · ' : ''}${item.quality || '謹製'}
-          </div>
-        </div>
-        <button type="button" class="offer-btn" data-invid="${item.id}">仏前へ奉納</button>
-      `;
-      invListBody.appendChild(row);
-    });
-
-    invListBody.querySelectorAll('.offer-btn').forEach(function(btn) {
-      btn.onclick = function() {
-        var id = this.getAttribute('data-invid');
-        var res = TempleEconomy.offerItemToTemple(id);
-        if (res.success) {
-          showToast('📿 ' + res.item.name + ' を仏前へ奉納しました（徳 +' + res.tokuGain + '）');
-          updateUI();
-        }
-      };
-    });
-  }
-
-  function renderShelf(shelf) {
-    shelfGrid.innerHTML = '';
-    if (!shelf || shelf.length === 0) {
-      shelfGrid.innerHTML = '<div style="grid-column:span 2;text-align:center;padding:24px;color:var(--ink-light);font-size:12px;">只今、棚の商品はすべて完売御礼です。<br>工房の熟成完了をお待ちください。</div>';
-      return;
-    }
-
-    shelf.forEach(function(item) {
-      var card = document.createElement('div');
-      card.className = 'shelf-card';
-      card.innerHTML = `
-        <div>
-          <div class="item-icon-row">
-            <span class="item-icon">${item.item.icon}</span>
-            <span class="item-serial">${item.item.serialNo || '#001'}</span>
-          </div>
-          <div class="item-name">${item.item.name}</div>
-          <div class="item-creator">作者: ${item.item.creator}</div>
-          <div class="item-quality">${item.item.quality || '三十日祈祷'} · 残${item.stock}点</div>
-        </div>
-        <button type="button" class="buy-btn" data-slot="${item.slotId}">
-          <span>授かる（購入）</span>
-          <b>${item.price} 🪙</b>
-        </button>
-      `;
-      shelfGrid.appendChild(card);
-    });
-
-    // 購入イベント
-    shelfGrid.querySelectorAll('.buy-btn').forEach(function(btn) {
-      btn.onclick = function() {
-        var slotId = parseInt(this.getAttribute('data-slot'), 10);
-        var res = TempleEconomy.buyFromShelf(slotId);
-        if (res.success) {
-          showToast('✨ ' + res.item.name + ' を授かりました！（ローンへ充当）');
-          if (window.TempleMultiplayer) {
-            TempleMultiplayer.broadcast('ITEM_PURCHASED', {
-              slotId: slotId,
-              itemName: res.item.name
-            });
-          }
-          updateUI();
-        } else if (res.reason === 'insufficient_coins') {
-          showToast('🪙 コインが足りません（銭投げや参拝で獲得できます）');
-        } else {
-          showToast('完売いたしました');
-        }
-      };
-    });
-  }
-
-  function renderWorkshop(queue) {
-    maturingList.innerHTML = '';
-    if (!queue || queue.length === 0) {
-      maturingList.innerHTML = '<div style="font-size:11px;color:var(--ink-light);text-align:center;">現在仕込み中の品はありません</div>';
-      return;
-    }
-
-    var now = Date.now();
-    queue.forEach(function(q) {
-      var daysLeft = Math.max(0, Math.ceil((q.readyAt - now) / 86400000));
-      var div = document.createElement('div');
-      div.className = 'maturing-item';
-      div.innerHTML = `
-        <span>${q.icon} ${q.name} (${q.creator})</span>
-        <span style="color:${daysLeft === 0 ? 'var(--vermilion)' : 'var(--gold)'};font-weight:700;">
-          ${daysLeft === 0 ? '満願・出陳可能' : '祈祷中（あと ' + daysLeft + ' 日）'}
-        </span>
-      `;
-      maturingList.appendChild(div);
-    });
-  }
-
-  // --- 銭投げアクション ---
-  function doTossCoin() {
-    var user = TempleEconomy.getUser();
-    if (user.coins < 1) {
-      showToast('🪙 コインがありません');
-      return;
-    }
-
-    // アニメーション
-    var pondRect = tossPond.getBoundingClientRect();
-    coinActor.style.display = 'block';
-    coinActor.style.left = (pondRect.width / 2 - 10) + 'px';
-    coinActor.style.top = (pondRect.height - 20) + 'px';
-    coinActor.style.transform = 'scale(1.2)';
-
-    setTimeout(function() {
-      // 命中判定（80%の確率で中央の金鉢へ）
-      var isHit = Math.random() < 0.8;
-      var targetX = isHit ? (pondRect.width / 2 - 10) : (pondRect.width / 2 + (Math.random() > 0.5 ? 40 : -40));
-      var targetY = isHit ? (pondRect.height / 2 - 10) : 20;
-
-      coinActor.style.left = targetX + 'px';
-      coinActor.style.top = targetY + 'px';
-      coinActor.style.transform = 'scale(0.8)';
-
-      setTimeout(function() {
-        coinActor.style.display = 'none';
-        var res = TempleEconomy.tossCoin(1, isHit, '蓮池の金鉢');
-        if (res.success) {
-          if (res.isHit) {
-            showToast('🎯 見事命中！ 徳 +' + res.tokuEarned + '！（ローン返済へ充当）');
-          } else {
-            showToast('チャリン… 徳 +' + res.tokuEarned + '（ナチャたちのローン返済へ）');
-          }
-          if (window.TempleMultiplayer) {
-            TempleMultiplayer.broadcast('COIN_TOSSED', {
-              loanPayment: Math.floor(1 * 0.7)
-            });
-          }
-          updateUI();
-        }
-      }, 500);
-    }, 50);
-  }
-
-  tossBtn.onclick = doTossCoin;
-  tossPond.onclick = doTossCoin;
-
-  // ── ガラポン福引アクション ──
-  fukuBtn.onclick = function() {
-    fukuBtn.disabled = true;
-    garaponWheel.classList.add('garapon-spin');
-
-    setTimeout(function() {
-      garaponWheel.classList.remove('garapon-spin');
-      var res = TempleEconomy.drawFukubiki();
-      if (res.success) {
-        var emoji = res.ballColor === 'gold' ? '🌟' : (res.ballColor === 'red' ? '🏮' : '🔔');
-        showToast(emoji + ' 【' + res.grade + '当選！】 ' + res.prize.name + ' を授かりました！');
-
-        if (window.TempleMultiplayer) {
-          TempleMultiplayer.broadcast('FUKUBIKI_DRAWN', {
-            grade: res.grade,
-            prizeName: res.prize.name,
-            text: '🎉 参拝者が福引で【' + res.grade + '】' + res.prize.name + ' を引き当てました！'
-          });
-        }
-        updateUI();
-      } else {
-        showToast(res.message || '福引を引けませんでした');
-      }
-      fukuBtn.disabled = false;
-    }, 1200);
-  };
-
-  // ── インベントリモーダル開閉 ──
-  openInvBtn.onclick = function() {
-    invModalOverlay.classList.add('open');
-  };
-  closeInvBtn.onclick = function() {
-    invModalOverlay.classList.remove('open');
-  };
-  invModalOverlay.onclick = function(e) {
-    if (e.target === invModalOverlay) invModalOverlay.classList.remove('open');
-  };
-
-  // 初期描画
-  updateUI();
-
-  // 銀行再調整（初期チェック）
-  TempleBank.rebalanceMonetaryPolicy();
-
-  // ── マルチプレイヤー同期初期化 ──
-  if (window.TempleMultiplayer) {
-    TempleMultiplayer.init();
-    TempleMultiplayer.onEvent(function(msg) {
-      if (msg.payload && msg.payload.text) {
-        showToast(msg.payload.text);
-      }
-      updateUI();
-    });
-  }
-
+// 日本語以外は英語で表示（日英を主要言語とする）
+(function(){
+  var L='ja';try{L=localStorage.getItem('nacha-lang')||''}catch(e){}
+  if(!L){var nl=(navigator.language||'en').toLowerCase();L=nl.slice(0,2)}
+  if(L==='ja')return;
+  document.documentElement.lang='en';
+  document.title='Coming Soon | NACHA the Little Guardian';
+  var T={gBadge:'COMING SOON',gH1:'A new temple experience<br>is in the making',
+    gDesc:'We are planning a new experience to bring you closer to NACHA the little guardian and the real temple Yuyu Kannondo in Cambodia.<br><br>Please look forward to it.',
+    gHome:'Back to the temple (Home)',gChars:'Meet the gods',gAmu:'Craft a wish amulet',
+    tHome:'Home',tChars:'Pantheon',tAmu:'Amulet'};
+  for(var k in T){var e=document.getElementById(k);if(e)e.innerHTML=T[k]}
+  var tabs=document.querySelectorAll('.tabs b'),tt=[T.tHome,T.tChars,T.tAmu];
+  for(var i=0;i<tabs.length&&i<tt.length;i++)tabs[i].textContent=tt[i];
 })();
 </script>
-
 </body>
 </html>

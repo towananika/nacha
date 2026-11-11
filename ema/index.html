@@ -1,505 +1,200 @@
 <!doctype html>
-<html lang="ja"><head><meta charset="utf-8">
+<html lang="ja" id="docRoot">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NACHA 境内絵馬掛け所 · みんなの推し活＆心願奉納</title>
-<meta name="description" content="小さな神様ナチャの境内で絵馬を奉納しよう。チケット当選・神席祈願・日々の願いを木札に込めて風に願う。">
-<meta name="theme-color" content="#C0392B">
+<title>新企画 奉納準備中 | 小さな守護神 ナチャ</title>
+<meta name="description" content="悠遊観音堂と小さな守護神ナチャの新しい体験を企画準備中です。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@700;900&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-:root{
-  --gold:#D4AC0D;
-  --gold-glow:#F4D03F;
-  --nacha-red:#C0392B;
-  --ema-wood:#e5be8a;
-  --ema-border:#8f5c2c;
+:root {
+  --washi-base: #f5f0e6;
+  --washi-subtle: #eae3d2;
+  --ink: #2b241e;
+  --ink-light: #6e6259;
+  --vermilion: #b83823;
+  --gold: #bfa15f;
+  --line-gold: rgba(191, 161, 95, 0.45);
 }
-body{background:var(--bg);color:var(--ink);padding-bottom:calc(76px + env(safe-area-inset-bottom))}
-main{max-width:720px;margin:0 auto;padding:12px 16px 36px}
-
-/* ヘッダー */
-.ema-hero{text-align:center;padding:16px 12px 18px;margin-bottom:14px;background:radial-gradient(circle at 50% 30%,rgba(212,172,13,0.15),transparent 70%),var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.ema-hero h1{margin:0 0 4px;font:900 34px/1.1 "Noto Serif JP","Lilita One",serif;color:var(--acc);letter-spacing:.05em}
-.ema-hero p{margin:0 0 14px;font-size:13.5px;color:var(--sub)}
-
-/* 絵馬奉納アクションボタン */
-.btn-write-ema{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:999px;background:linear-gradient(135deg,var(--acc),#922B21);color:#fff;font:900 16px "M PLUS Rounded 1c",sans-serif;text-decoration:none;border:0;cursor:pointer;box-shadow:0 6px 16px rgba(192,57,43,0.35);transition:transform .15s}
-.btn-write-ema:hover{transform:translateY(-2px)}
-.btn-write-ema:active{transform:scale(0.97)}
-
-/* 絵馬掛け台（ロープラック風） */
-.ema-rack{position:relative;margin-top:20px;padding:24px 12px 20px;background:linear-gradient(180deg,#3d2218 0%,#26150e 100%);border-radius:22px;border:3px solid #5a3424;box-shadow:inset 0 0 20px rgba(0,0,0,0.6),var(--shadow)}
-.ema-rack:before{content:"";position:absolute;top:28px;left:0;right:0;height:4px;background:#1a0d08;box-shadow:0 1px 0 #5a3424}
-.ema-rack:after{content:"";position:absolute;top:100px;left:0;right:0;height:4px;background:#1a0d08;box-shadow:0 1px 0 #5a3424}
-.rack-title{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:#5a3424;color:var(--gold-glow);border:1.5px solid var(--gold);padding:3px 18px;border-radius:999px;font:900 12px "Noto Serif JP",serif;letter-spacing:.15em;box-shadow:0 3px 8px rgba(0,0,0,0.4)}
-
-/* 絵馬グリッド */
-.ema-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px 12px;position:relative;z-index:2}
-@media(max-width:440px){.ema-grid{grid-template-columns:1fr}}
-
-/* 個別絵馬カード */
-.ema-card{position:relative;background:var(--ema-wood);border:2px solid var(--ema-border);border-radius:6px;padding:26px 14px 14px;color:#3b1e08;box-shadow:0 8px 18px rgba(0,0,0,0.35);transform-origin:50% -10px;animation:emaSwing 4.5s ease-in-out infinite alternate;clip-path:polygon(50% 0%, 100% 16%, 100% 100%, 0% 100%, 0% 16%);cursor:pointer;transition:transform .2s}
-.ema-card:nth-child(even){animation-duration:5.2s;animation-delay:-2s}
-.ema-card:hover{transform:scale(1.03) rotate(0deg)!important;z-index:10}
-@keyframes emaSwing{
-  0%{transform:rotate(-1.5deg)}
-  100%{transform:rotate(1.5deg)}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--washi-base);
+  color: var(--ink);
+  font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px 80px;
 }
-
-/* 吊り下げ紐 */
-.ema-rope{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#8f1d1d;border:2px solid #541111;box-shadow:0 0 0 2px #fff8}
-.ema-rope:before{content:"";position:absolute;bottom:10px;left:3px;width:2px;height:14px;background:#8f1d1d}
-
-/* 絵馬内の筆文字テキスト */
-.ema-wish{font:900 15px/1.5 "Noto Serif JP",serif;margin:4px 0 10px;color:#2c1404;white-space:pre-wrap;text-align:center;min-height:42px}
-.ema-author{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;color:#6b401f;border-top:1px dashed #aa7c52;padding-top:6px}
-.ema-like-btn{background:#ffffffaa;border:1px solid #aa7c52;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:800;color:#542606;cursor:pointer;display:inline-flex;align-items:center;gap:3px;transition:all .15s}
-.ema-like-btn:hover{background:#fff;border-color:var(--acc);color:var(--acc)}
-.ema-like-btn:active{transform:scale(0.9)}
-
-/* カラーバリエーション */
-.ema-card.theme-red{background:#8a2016;color:#fcecd2;border-color:#5c140d}
-.ema-card.theme-red .ema-wish{color:#fff}
-.ema-card.theme-red .ema-author{color:#f5cfbd;border-color:#a83c31}
-.ema-card.theme-red .ema-like-btn{background:#ffffff22;color:#fff;border-color:#f5cfbd}
-
-.ema-card.theme-black{background:#1f1917;color:#f4d03f;border-color:#d4ac0d}
-.ema-card.theme-black .ema-wish{color:#f4d03f}
-.ema-card.theme-black .ema-author{color:#d4ac0d;border-color:#5a4714}
-.ema-card.theme-black .ema-like-btn{background:#ffffff18;color:#f4d03f;border-color:#d4ac0d}
-
-/* モーダル（奉納フォーム） */
-.modal-overlay{position:fixed;inset:0;background:rgba(15,10,12,0.8);backdrop-filter:blur(6px);z-index:90;display:none;align-items:center;justify-content:center;padding:16px;opacity:0;transition:opacity .25s}
-.modal-overlay.open{display:flex;opacity:1}
-.ema-form-box{width:100%;max-width:440px;background:var(--card);border:2px solid var(--line);border-radius:24px;padding:22px 20px;position:relative;box-shadow:var(--shadow)}
-.modal-close-x{position:absolute;top:12px;right:14px;background:none;border:0;font-size:24px;color:var(--sub);cursor:pointer}
-.form-title{font:900 20px "Noto Serif JP",serif;margin:0 0 4px;color:var(--acc)}
-.form-sub{font-size:12.5px;color:var(--sub);margin:0 0 14px}
-
-.form-group{margin-bottom:12px;text-align:left}
-.form-label{display:block;font-size:12px;font-weight:700;color:var(--sub);margin-bottom:4px}
-.form-input{width:100%;box-sizing:border-box;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px}
-.form-textarea{width:100%;box-sizing:border-box;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px;resize:none;height:70px}
-
-/* 木目テーマ選択 */
-.theme-picker{display:flex;gap:8px;margin-top:6px}
-.theme-opt{flex:1;height:34px;border-radius:8px;cursor:pointer;border:2px solid transparent;display:grid;place-items:center;font-size:11px;font-weight:800}
-.theme-opt.sel{border-color:var(--acc);box-shadow:0 0 0 2px var(--accSoft)}
-.t-wood{background:#e5be8a;color:#4a2b10}
-.t-red{background:#8a2016;color:#fff}
-.t-black{background:#1f1917;color:#f4d03f}
-
-/* クイック祈願タグ */
-.quick-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-.q-tag{background:var(--accSoft);color:var(--acc);border:0;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:700;cursor:pointer}
-.q-tag:hover{background:var(--acc);color:#fff}
-
-/* 奉納ボタン */
-.btn-submit-ema{width:100%;padding:14px;border-radius:14px;background:linear-gradient(135deg,var(--acc),#922B21);color:#fff;border:0;font:900 16px "M PLUS Rounded 1c",sans-serif;cursor:pointer;margin-top:8px}
-
-/* トースト通知 */
-.toast-msg{position:fixed;bottom:calc(env(safe-area-inset-bottom)+30px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--bg);font:800 13.5px "M PLUS Rounded 1c",sans-serif;padding:9px 20px;border-radius:999px;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:all .25s ease;z-index:99}
-.toast-msg.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.sheet-canvas {
+  width: 100%;
+  max-width: 520px;
+  background: #fbf9f4;
+  border: 1px solid var(--gold);
+  border-radius: 18px;
+  padding: 40px 24px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.05);
+}
+.sheet-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid var(--line-gold);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.emblem-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 16px;
+  color: var(--gold);
+}
+.tag-badge {
+  display: inline-block;
+  font-size: 11px;
+  letter-spacing: .2em;
+  color: var(--vermilion);
+  border: 1px solid var(--vermilion);
+  padding: 3px 12px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  margin: 0 0 16px;
+  color: var(--ink);
+  line-height: 1.5;
+}
+.desc {
+  font-size: 13.5px;
+  line-height: 2;
+  color: var(--ink-light);
+  letter-spacing: .06em;
+  margin: 0 auto 28px;
+  max-width: 380px;
+}
+.action-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 300px;
+  margin: 0 auto;
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 13px 20px;
+  border-radius: 999px;
+  letter-spacing: .08em;
+  box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform .15s;
+}
+.btn-gold:active { transform: scale(0.97); }
+.btn-outline {
+  border: 1px solid var(--gold);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 18px;
+  border-radius: 999px;
+  letter-spacing: .06em;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.tabs {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  background: rgba(251, 249, 244, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-top: 1px solid var(--line-gold);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
+  z-index: 100;
+}
+.tabs a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: var(--ink-light);
+  font-size: 11px;
+  gap: 2px;
+}
+.tabs a span { font-size: 18px; }
+.tabs a b { font-weight: 600; }
 </style>
 </head>
 <body>
-<div class="bar">
-  <div style="display:flex;align-items:center">
-    <a class="brand" href="../">NACHA</a>
-    <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
-  </div>
-  <div class="barr">
-    <a class="header-coin-badge" href="../shop/" title="所持コイン・境内授与所（ショップ）へ"><span aria-hidden="true">🪙</span><span id="headerCoinCount">--</span></a>
-    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
-  </div>
-</div>
 
-<main id="main">
-  <!-- ヒーロー -->
-  <section class="ema-hero">
-    <h1>境内 絵馬掛け所</h1>
-    <p>推しへの情熱、大切な願い。木札に刻んで神域の風に託そう。</p>
-    <button class="btn-write-ema" id="btnOpenWrite">
-      <span>🪵 絵馬を奉納する</span>
-      <small style="font-size:11px;opacity:.9">(+5コイン授与)</small>
-    </button>
-  </section>
+<div class="sheet-canvas">
+  <svg class="emblem-icon" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
+    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
+    <circle cx="12" cy="20.5" r="1.5"/>
+  </svg>
 
-  <!-- 絵馬掛け台 -->
-  <section class="ema-rack">
-    <div class="rack-title">悠遊観音堂 奉納掛所</div>
-    <div class="ema-grid" id="emaGrid"></div>
-  </section>
-</main>
+  <div class="tag-badge" id="gBadge">奉納準備中</div>
 
-<!-- 奉納モーダル -->
-<div class="modal-overlay" id="writeModal">
-  <div class="ema-form-box">
-    <button class="modal-close-x" id="modalClose">&times;</button>
-    <h2 class="form-title">絵馬に願いを込める</h2>
-    <p class="form-sub">書いた願いは境内に吊るされ、風に守られます</p>
+  <h1 id="gH1">新たな境内体験を<br>ただいま企画中です</h1>
 
-    <!-- 定番タグ -->
-    <div class="quick-tags" id="quickTags">
-      <button type="button" class="q-tag" data-wish="当落日の胃痛に勝つ！自名義絶対当選祈願！">🎫 当落の胃痛に勝つ！絶対当選</button>
-      <button type="button" class="q-tag" data-wish="肉眼で推しの笑顔を拝みたい！アリーナ神席祈願！">👑 肉眼で拝みたい！神席祈願</button>
-      <button type="button" class="q-tag" data-wish="全落ち回避！どこでもいいから逢わせてください！">🕊️ 全落ち回避！逢いたい祈願</button>
-      <button type="button" class="q-tag" data-wish="推しが美味しいご飯を食べて心身健康でありますように！">🍙 推しの健康・ご飯モリモリ</button>
-      <button type="button" class="q-tag" data-wish="遠征の交通と天候が無事で、無事に会場へ辿り着けますように！">🚄 遠征無事・良番祈願</button>
-    </div>
+  <p class="desc" id="gDesc">
+    小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
+    完成までどうぞ楽しみにお待ちください。
+  </p>
 
-    <form id="emaForm">
-      <div class="form-group">
-        <label class="form-label" for="emaWishInput">願い事・祈願内容（40文字以内）</label>
-        <textarea class="form-textarea" id="emaWishInput" maxlength="40" placeholder="例：当落日の胃痛を乗り越えて絶対当選！生きて逢うぞ！" required></textarea>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label" for="emaAuthorInput">あなたのお名前・推しの名前</label>
-        <input class="form-input" id="emaAuthorInput" type="text" maxlength="16" placeholder="例：なちゃファン より" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">木目の調子</label>
-        <div class="theme-picker" id="themePicker">
-          <div class="theme-opt t-wood sel" data-theme="wood">檜白木</div>
-          <div class="theme-opt t-red" data-theme="red">朱漆</div>
-          <div class="theme-opt t-black" data-theme="black">黒漆金箔</div>
-        </div>
-      </div>
-
-      <button type="submit" class="btn-submit-ema" id="btnSubmitEma">境内に奉納する (+5コイン)</button>
-    </form>
+  <div class="action-grid">
+    <a href="../" class="btn-gold">🏮 <span id="gHome">境内（ホーム）へ戻る</span></a>
+    <a href="../characters/" class="btn-outline">🗺️ <span id="gChars">神様名鑑を見る</span></a>
+    <a href="../amulet/" class="btn-outline">🧧 <span id="gAmu">心願お守りを作る</span></a>
   </div>
 </div>
 
-<!-- 絵馬詳細・シェアモーダル -->
-<div class="modal-overlay" id="detailModal">
-  <div class="ema-form-box" style="text-align:center">
-    <button class="modal-close-x" id="detailClose">&times;</button>
-    <div id="detailEmaView" style="margin:14px 0"></div>
-    <div style="display:flex;gap:8px">
-      <button class="btn-submit-ema" id="btnShareEma" style="background:linear-gradient(135deg,#1da1f2,#0c7abf)">𝕏 でシェア</button>
-      <button class="btn-submit-ema" id="btnSaveEma" style="background:#ffffff18;color:var(--ink);border:1px solid var(--line)">画像保存</button>
-    </div>
-  </div>
-</div>
-
-<!-- トースト -->
-<div class="toast-msg" id="toastMsg"></div>
-
-<!-- ボトムナビ -->
 <nav class="tabs" aria-label="Main">
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
   <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
-  <a href="../shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
 </nav>
 
-<script src="../assets/coins.js"></script>
-<script src="../assets/site.js"></script>
+
 <script>
+// 日本語以外は英語で表示（日英を主要言語とする）
 (function(){
-  'use strict';
-
-  var STORAGE_KEY = 'nacha_user_emas_v1';
-  var LIKES_KEY = 'nacha_ema_likes_v1';
-
-  // プリセット絵馬（境内の雰囲気を最初から賑やかにする）
-  var PRESET_EMAS = [
-    { id:'p1', wish:'当落日まで胃が痛い…！\nどうか自名義生きてて！絶対逢いたい！', author:'遠征待機組', theme:'red', likes:42 },
-    { id:'p2', wish:'席はどこでも文句言いません。\n同じ空間で同じ空気を吸わせてください！', author:'推しの毛穴拝み隊', theme:'wood', likes:58 },
-    { id:'p3', wish:'推しが今日も美味しいご飯を食べて、\nぐっすり眠れてたらそれだけで100点満点。', author:'母のような愛', theme:'black', likes:67 },
-    { id:'p4', wish:'全落ちだけは勘弁してくださいナチャ様！\n日頃の行い良くして待ってます！', author:'祈願ガチ勢', theme:'wood', likes:35 },
-    { id:'p5', wish:'ナチャいつも見守ってくれてありがとう。\n推しもファンのみんなも幸せにな〜れ！', author:'カンボジア参拝者', theme:'red', likes:51 }
-  ];
-
-  function getStoredEmas() {
-    try {
-      var raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch(e) { return []; }
-  }
-
-  function saveStoredEmas(list) {
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(list)); } catch(e){}
-  }
-
-  function getLikedIds() {
-    try {
-      var raw = localStorage.getItem(LIKES_KEY);
-      return raw ? JSON.parse(raw) : {};
-    } catch(e) { return {}; }
-  }
-
-  function saveLikedId(id) {
-    var map = getLikedIds();
-    map[id] = true;
-    try { localStorage.setItem(LIKES_KEY, JSON.stringify(map)); } catch(e){}
-  }
-
-  var $ = function(i){ return document.getElementById(i); };
-  var selectedTheme = 'wood';
-  var currentSelectedEma = null;
-
-  function showToast(msg) {
-    var t = $('toastMsg');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(function(){ t.classList.remove('show'); }, 2200);
-  }
-
-  // 絵馬一覧の描画
-  function renderEmas() {
-    var userEmas = getStoredEmas();
-    var all = userEmas.concat(PRESET_EMAS);
-    var grid = $('emaGrid');
-    grid.innerHTML = '';
-    var likedMap = getLikedIds();
-
-    all.forEach(function(ema){
-      var card = document.createElement('div');
-      card.className = 'ema-card theme-' + (ema.theme || 'wood');
-      var isLiked = !!likedMap[ema.id];
-
-      card.innerHTML = 
-        '<div class="ema-rope"></div>' +
-        '<div class="ema-wish">' + escapeHtml(ema.wish) + '</div>' +
-        '<div class="ema-author">' +
-          '<span>' + escapeHtml(ema.author) + '</span>' +
-          '<button class="ema-like-btn" data-id="' + ema.id + '">' +
-            '🙏 <span class="like-cnt">' + (ema.likes || 0) + '</span>' +
-          '</button>' +
-        '</div>';
-
-      // 絵馬タップで拡大・シェア
-      card.addEventListener('click', function(e){
-        if (e.target.closest('.ema-like-btn')) return;
-        openDetailModal(ema);
-      });
-
-      // 合掌（いいね）
-      var likeBtn = card.querySelector('.ema-like-btn');
-      likeBtn.addEventListener('click', function(e){
-        e.stopPropagation();
-        if (getLikedIds()[ema.id]) {
-          showToast('すでに合掌（祈願）しました');
-          return;
-        }
-        ema.likes = (ema.likes || 0) + 1;
-        saveLikedId(ema.id);
-        likeBtn.querySelector('.like-cnt').textContent = ema.likes;
-        try { navigator.vibrate && navigator.vibrate(25); } catch(err){}
-        showToast('「あなたの願い、ナチャも一緒に祈ったよ！叶いますように！🙏✨」');
-        // コイン獲得
-        if (window.NachaCoins) {
-          window.NachaCoins.earn('ema_like_' + ema.id, 1, e);
-        }
-      });
-
-      grid.appendChild(card);
-    });
-  }
-
-  function escapeHtml(str) {
-    return (str || '').replace(/[&<>"']/g, function(m){
-      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m];
-    });
-  }
-
-  // 奉納モーダル開閉
-  $('btnOpenWrite').addEventListener('click', function(){
-    $('writeModal').classList.add('open');
-  });
-  $('modalClose').addEventListener('click', function(){
-    $('writeModal').classList.remove('open');
-  });
-
-  // テーマピッカー
-  var themeOpts = document.querySelectorAll('.theme-opt');
-  themeOpts.forEach(function(opt){
-    opt.addEventListener('click', function(){
-      themeOpts.forEach(function(o){ o.classList.remove('sel'); });
-      opt.classList.add('sel');
-      selectedTheme = opt.dataset.theme;
-    });
-  });
-
-  // クイックタグ入力
-  var qTags = document.querySelectorAll('.q-tag');
-  qTags.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      $('emaWishInput').value = btn.dataset.wish;
-    });
-  });
-
-  // 絵馬の送信（奉納）
-  $('emaForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    var wish = $('emaWishInput').value.trim();
-    var author = $('emaAuthorInput').value.trim();
-    if (!wish || !author) return;
-
-    var newEma = {
-      id: 'u_' + Date.now(),
-      wish: wish,
-      author: author,
-      theme: selectedTheme,
-      likes: 1,
-      createdAt: Date.now()
-    };
-
-    var list = getStoredEmas();
-    list.unshift(newEma);
-    saveStoredEmas(list);
-
-    $('writeModal').classList.remove('open');
-    $('emaWishInput').value = '';
-    $('emaAuthorInput').value = '';
-
-    renderEmas();
-
-  showToast('「願い事、ナチャがしっかり受け取ったよ！絶対大丈夫だからね！🪷✨」');
-
-    // コイン付与
-    if (window.NachaCoins) {
-      window.NachaCoins.earn('ema_submit', 5, e);
-    }
-  });
-
-  // 詳細・シェアモーダル
-  function openDetailModal(ema) {
-    currentSelectedEma = ema;
-    var container = $('detailEmaView');
-    container.innerHTML = 
-      '<div class="ema-card theme-' + (ema.theme || 'wood') + '" style="animation:none;max-width:320px;margin:0 auto">' +
-        '<div class="ema-rope"></div>' +
-        '<div class="ema-wish" style="font-size:17px;min-height:60px">' + escapeHtml(ema.wish) + '</div>' +
-        '<div class="ema-author" style="font-size:13px">' +
-          '<span>' + escapeHtml(ema.author) + '</span>' +
-          '<span>合掌 ' + (ema.likes || 1) + ' 回</span>' +
-        '</div>' +
-      '</div>';
-    $('detailModal').classList.add('open');
-  }
-
-  $('detailClose').addEventListener('click', function(){
-    $('detailModal').classList.remove('open');
-  });
-
-  // Canvas画像生成（1080×1080）
-  function generateEmaCanvas(ema, cb) {
-    var c = document.createElement('canvas');
-    c.width = 1080; c.height = 1080;
-    var ctx = c.getContext('2d');
-
-    // 境内風背景
-    var bg = ctx.createLinearGradient(0, 0, 0, 1080);
-    bg.addColorStop(0, '#1c1024');
-    bg.addColorStop(1, '#3b121b');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, 1080, 1080);
-
-    // タイトル
-    ctx.font = '900 64px "Noto Serif JP",serif';
-    ctx.fillStyle = '#F4D03F';
-    ctx.textAlign = 'center';
-    ctx.fillText('NACHA 境内奉納絵馬', 540, 160);
-
-    ctx.font = '700 30px "M PLUS Rounded 1c",sans-serif';
-    ctx.fillStyle = '#fcecd2';
-    ctx.fillText('— 悠遊観音堂 神仏心願成就 —', 540, 220);
-
-    // 絵馬本体（将棋駒風五角形）
-    var ex = 190, ey = 320, ew = 700, eh = 520;
-    var woodColor = ema.theme === 'red' ? '#8a2016' : (ema.theme === 'black' ? '#1f1917' : '#e5be8a');
-    var borderColor = ema.theme === 'red' ? '#5c140d' : (ema.theme === 'black' ? '#d4ac0d' : '#8f5c2c');
-
-    ctx.fillStyle = woodColor;
-    ctx.strokeStyle = borderColor;
-    ctx.lineWidth = 10;
-
-    ctx.beginPath();
-    ctx.moveTo(ex + ew/2, ey);
-    ctx.lineTo(ex + ew, ey + eh*0.2);
-    ctx.lineTo(ex + ew, ey + eh);
-    ctx.lineTo(ex, ey + eh);
-    ctx.lineTo(ex, ey + eh*0.2);
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-
-    // 紐
-    ctx.fillStyle = '#8f1d1d';
-    ctx.beginPath();
-    ctx.arc(540, ey + 36, 18, 0, Math.PI*2);
-    ctx.fill();
-
-    // 願い事（複数行）
-    ctx.font = '900 44px "Noto Serif JP",serif';
-    ctx.fillStyle = ema.theme === 'red' ? '#fff' : (ema.theme === 'black' ? '#f4d03f' : '#2c1404');
-    
-    var lines = (ema.wish || '').split('\n');
-    lines.forEach(function(line, idx){
-      ctx.fillText(line, 540, ey + 200 + idx*65);
-    });
-
-    // 奉納者
-    ctx.font = '700 32px "Noto Serif JP",serif';
-    ctx.fillText(ema.author + ' 奉納', 540, ey + eh - 50);
-
-    // フッター
-    ctx.font = '800 34px "Lilita One",sans-serif';
-    ctx.fillStyle = 'rgba(244,208,63,0.9)';
-    ctx.fillText('#NACHA #絵馬奉納  https://towananika.github.io/nacha/ema/', 540, 980);
-
-    c.toBlob(cb, 'image/png');
-  }
-
-  // Xシェア
-  $('btnShareEma').addEventListener('click', function(){
-    if (!currentSelectedEma) return;
-    var ema = currentSelectedEma;
-    var text = 'ナチャの境内に絵馬を奉納しました！🪷\n' +
-      '【願い】' + ema.wish.replace(/\n/g, ' ') + '\n' +
-      '【奉納】' + ema.author + '\n\n' +
-      '#NACHA #絵馬奉納 #推し活祈願\n' +
-      'https://towananika.github.io/nacha/ema/';
-    window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text), '_blank', 'noopener');
-  });
-
-  // 画像保存
-  $('btnSaveEma').addEventListener('click', function(){
-    if (!currentSelectedEma) return;
-    generateEmaCanvas(currentSelectedEma, function(blob){
-      if (!blob) return;
-      var a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'nacha-ema.png';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      showToast('絵馬画像を保存しました！');
-    });
-  });
-
-  renderEmas();
-
-  // URLパラメータからの願い事・推し名引き継ぎ（境内巡礼）
-  try {
-    var params = new URLSearchParams(window.location.search);
-    var sharedWish = params.get('wish');
-    var sharedAuthor = params.get('author');
-    if (sharedWish || sharedAuthor) {
-      $('writeModal').classList.add('open');
-      if (sharedWish && $('emaWishInput')) $('emaWishInput').value = sharedWish;
-      if (sharedAuthor && $('emaAuthorInput')) $('emaAuthorInput').value = sharedAuthor;
-      showToast('お守りの願いを引き継ぎました！そのまま奉納できるよ🪵');
-    }
-  } catch(e){}
-
-
+  var L='ja';try{L=localStorage.getItem('nacha-lang')||''}catch(e){}
+  if(!L){var nl=(navigator.language||'en').toLowerCase();L=nl.slice(0,2)}
+  if(L==='ja')return;
+  document.documentElement.lang='en';
+  document.title='Coming Soon | NACHA the Little Guardian';
+  var T={gBadge:'COMING SOON',gH1:'A new temple experience<br>is in the making',
+    gDesc:'We are planning a new experience to bring you closer to NACHA the little guardian and the real temple Yuyu Kannondo in Cambodia.<br><br>Please look forward to it.',
+    gHome:'Back to the temple (Home)',gChars:'Meet the gods',gAmu:'Craft a wish amulet',
+    tHome:'Home',tChars:'Pantheon',tAmu:'Amulet'};
+  for(var k in T){var e=document.getElementById(k);if(e)e.innerHTML=T[k]}
+  var tabs=document.querySelectorAll('.tabs b'),tt=[T.tHome,T.tChars,T.tAmu];
+  for(var i=0;i<tabs.length&&i<tt.length;i++)tabs[i].textContent=tt[i];
 })();
 </script>
-</body></html>
+</body>
+</html>
