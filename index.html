@@ -24,7 +24,8 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500;700;800&family=Zen+Old+Mincho:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/site.css">
 
 <style>
@@ -41,6 +42,7 @@
   --vermilion: #b83823;
   --vermilion-light: rgba(184, 56, 35, 0.08);
   --gold: #bfa15f;
+  --gold-ink: #846629;
   --gold-soft: rgba(191, 161, 95, 0.15);
   --line-gold: #e2d7c5;
   --line-fine: #ebe3d5;
@@ -186,7 +188,7 @@ body {
   text-align: center;
   font-size: 11px;
   letter-spacing: .32em;
-  color: var(--gold);
+  color: var(--gold-ink);
   font-weight: 700;
   margin-bottom: 12px;
 }
@@ -302,7 +304,7 @@ html[lang="id"] .tanzaku-content {
 .stage-label-en {
   font-size: 10px;
   letter-spacing: .18em;
-  color: var(--gold);
+  color: var(--gold-ink);
   font-weight: 700;
   text-transform: uppercase;
 }
@@ -410,7 +412,7 @@ html[lang="id"] .tanzaku-content {
 .door-badge {
   font-size: 10px;
   letter-spacing: .12em;
-  color: var(--gold);
+  color: var(--gold-ink);
   font-weight: 700;
   margin-bottom: 6px;
 }
@@ -546,6 +548,60 @@ html[lang="id"] .tanzaku-content {
   background: var(--vermilion-light);
 }
 .tabs a span { font-size: 18px; }
+
+/* ── 今日の一礼 ── */
+.pray-card {
+  background: #fff;
+  border: 1px solid var(--line-gold);
+  border-radius: 16px;
+  padding: 20px 18px 18px;
+  margin: 0 0 26px;
+  text-align: center;
+}
+.pray-lantern {
+  width: 52px;
+  height: 62px;
+  margin: 0 auto 10px;
+  position: relative;
+}
+.pray-lantern svg { width: 100%; height: 100%; display: block; }
+.pray-glow {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(191,161,95,.5), rgba(191,161,95,0) 70%);
+  opacity: 0;
+  transition: opacity .9s ease;
+}
+.lantern-paper { fill: #f3ecdc; transition: fill .9s ease; }
+.pray-card.is-lit .pray-glow { opacity: 1; }
+.pray-card.is-lit .lantern-paper { fill: #fbe2a8; }
+.pray-kicker {
+  font-size: 10px;
+  letter-spacing: .2em;
+  color: var(--gold-ink);
+  margin: 0 0 6px;
+}
+.pray-title { font-size: 19px; font-weight: 700; margin: 0 0 6px; color: var(--ink); }
+.pray-lead { font-size: 13px; line-height: 1.7; color: var(--ink-light); margin: 0 0 14px; }
+.pray-btn {
+  background: var(--vermilion);
+  color: #fff;
+  border: 0;
+  border-radius: 999px;
+  padding: 9px 22px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease;
+}
+.pray-btn:hover { transform: translateY(-1px); }
+.pray-btn:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.pray-status { font-size: 12px; color: var(--ink-light); margin: 10px 0 0; min-height: 1.2em; }
+@media (prefers-reduced-motion: reduce) {
+  .pray-glow, .lantern-paper, .pray-btn { transition: none; }
+}
 </style>
 </head>
 <body>
@@ -555,7 +611,7 @@ html[lang="id"] .tanzaku-content {
   <!-- 🌐 言語切り替えセレクター -->
   <div class="top-action-bar">
     <a class="account-link" href="team/" aria-label="ログインまたはマイページを開く">
-      <span aria-hidden="true">👤</span><span id="accountLinkText">ログイン・マイページ</span>
+      <span aria-hidden="true">👤</span><span id="accountLinkText" data-i="acct_link">ログイン・マイページ</span>
     </a>
     <div style="position:relative">
       <button class="lang-btn" id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false">
@@ -606,24 +662,44 @@ html[lang="id"] .tanzaku-content {
 
     <!-- 主役ナチャと天空背景カード（右） -->
     <div class="nacha-stage-frame">
-      <img class="nacha-stage-bg" src="assets/community.jpg" alt="" aria-hidden="true" loading="lazy">
+      <img class="nacha-stage-bg" src="assets/opt/community.webp" alt="" aria-hidden="true" width="400" height="225" loading="lazy" decoding="async">
       <div class="stage-label-en" data-i="about_nacha_tag">ABOUT NACHA</div>
       <div class="stage-main-visual">
-        <img src="assets/nacha-wink.webp" alt="小さな神様ナチャ" width="712" height="1072" loading="lazy">
+        <img src="assets/opt/nacha-wink.webp" alt="小さな神様ナチャ" width="300" height="452" loading="eager" fetchpriority="high" decoding="async">
       </div>
       <div class="stage-words" data-i="nacha_quote">
         「内緒だよ、僕がやったって。君が今日笑ってくれたら、それで満点！」
       </div>
-      <a class="character-cta" href="characters/">ナチャと仲間に会う&nbsp;→</a>
+      <a class="character-cta" href="characters/"><span data-i="cta_meet">ナチャと仲間に会う</span>&nbsp;→</a>
     </div>
 
+  </section>
+
+  <!-- 🏮 今日の一礼（1日1回・急かさない） -->
+  <section class="pray-card" id="prayCard" aria-labelledby="pray-title">
+    <div class="pray-lantern" aria-hidden="true">
+      <span class="pray-glow"></span>
+      <svg viewBox="0 0 60 72">
+        <rect x="23" y="1" width="14" height="5" rx="1.5" fill="#8a6d33"/>
+        <ellipse class="lantern-paper" cx="30" cy="34" rx="24" ry="27" stroke="#b83823" stroke-width="1.4"/>
+        <line x1="7" y1="24" x2="53" y2="24" stroke="#b83823" stroke-width=".7" opacity=".3"/>
+        <line x1="6" y1="34" x2="54" y2="34" stroke="#b83823" stroke-width=".7" opacity=".3"/>
+        <line x1="7" y1="44" x2="53" y2="44" stroke="#b83823" stroke-width=".7" opacity=".3"/>
+        <rect x="23" y="62" width="14" height="5" rx="1.5" fill="#8a6d33"/>
+      </svg>
+    </div>
+    <p class="pray-kicker">DAILY RITUAL</p>
+    <h2 class="pray-title" id="pray-title" data-i="pray_title">今日の一礼</h2>
+    <p class="pray-lead" data-i="pray_lead">灯明をともして、今日の無事に手を合わせる。</p>
+    <button class="pray-btn" id="prayBtn" type="button" data-i="pray_btn">手を合わせる</button>
+    <p class="pray-status" id="prayStatus" role="status" aria-live="polite"></p>
   </section>
 
   <!-- 🌟 今日のナチャの言葉（思い出） -->
   <section class="memory-card" style="background:#fff;border:1px solid var(--line-gold);border-radius:16px;padding:18px;margin:0 0 26px;text-align:center;">
     <p style="font-size:11px;letter-spacing:.2em;color:var(--gold);margin:0 0 8px;">TODAY'S NACHA</p>
     <p id="dailyMessage" style="font-size:15px;line-height:1.7;margin:0 0 14px;color:var(--ink);"></p>
-    <button id="saveMemory" type="button" style="background:var(--vermilion);color:#fff;border:0;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;">この言葉を思い出に残す</button>
+    <button id="saveMemory" type="button" style="background:var(--vermilion);color:#fff;border:0;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;" data-i="mem_save">この言葉を思い出に残す</button>
     <div id="memoryList" style="margin-top:12px;font-size:12px;color:var(--ink-light);text-align:left;"></div>
   </section>
 
@@ -631,10 +707,10 @@ html[lang="id"] .tanzaku-content {
   <section class="guardian-quiz-card" aria-labelledby="guardian-quiz-title">
     <div class="guardian-quiz-copy">
       <p class="guardian-quiz-kicker">3 QUESTIONS · 1 MINUTE</p>
-      <h2 id="guardian-quiz-title">今日の守護神診断</h2>
-      <p>今のあなたを見守る神様はだれ？<br>3つの質問に答えて、ナチャたちからのひとことを受け取ろう。</p>
+      <h2 id="guardian-quiz-title" data-i="quiz_title">今日の守護神診断</h2>
+      <p><span data-i="quiz_lead1">今のあなたを見守る神様はだれ？</span><br><span data-i="quiz_lead2">3つの質問に答えて、ナチャたちからのひとことを受け取ろう。</span></p>
     </div>
-    <a class="guardian-quiz-btn" href="quiz/" data-hit="quiz-home">診断をはじめる <span aria-hidden="true">→</span></a>
+    <a class="guardian-quiz-btn" href="quiz/" data-hit="quiz-home"><span data-i="quiz_btn">診断をはじめる</span> <span aria-hidden="true">→</span></a>
   </section>
 
   <section class="follow-cta-block">
@@ -675,16 +751,16 @@ html[lang="id"] .tanzaku-content {
     </div>
     <div class="gallery-quad">
       <div class="gallery-quad-box" title="決意">
-        <img src="assets/poster.jpg" alt="ナチャ" style="object-position:50% 12%" loading="lazy">
+        <img src="assets/opt/poster.webp" alt="ナチャ" width="320" height="400" style="object-position:50% 12%" loading="lazy" decoding="async">
       </div>
       <div class="gallery-quad-box" title="芽吹き">
-        <img src="assets/grow.jpg" alt="芽吹き" style="object-position:50% 18%" loading="lazy">
+        <img src="assets/opt/grow.webp" alt="芽吹き" width="320" height="400" style="object-position:50% 18%" loading="lazy" decoding="async">
       </div>
       <div class="gallery-quad-box" title="安らぎ">
-        <img src="assets/waiting.jpg" alt="安らぎ" style="object-position:50% 22%" loading="lazy">
+        <img src="assets/opt/waiting.webp" alt="安らぎ" width="320" height="400" style="object-position:50% 22%" loading="lazy" decoding="async">
       </div>
       <div class="gallery-quad-box" title="四柱の守護神">
-        <img src="assets/cast.jpg" alt="四柱の守護神" style="object-position:50% 10%" loading="lazy">
+        <img src="assets/opt/cast.webp" alt="四柱の守護神" width="320" height="180" style="object-position:50% 10%" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
@@ -711,10 +787,11 @@ html[lang="id"] .tanzaku-content {
 <nav class="tabs" aria-label="Main">
   <a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
   <a href="characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">キャラ</b></a>
-  <a href="amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
+  <a href="amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
 </nav>
 
 <script src="assets/i18n.js"></script>
+<script src="assets/i18n-nacha.js"></script>
 <script src="assets/coins.js"></script>
 <script src="assets/site.js"></script>
 
@@ -738,30 +815,33 @@ document.addEventListener('nacha-lang', function(e) {
   // 表示だけを更新する。ログイン状態や権限の判定は、マイページ側でサーバーに確認する。
   var label = document.getElementById('accountLinkText');
   if (!label) return;
+  var loggedIn = false;
   try {
     var auth = JSON.parse(localStorage.getItem('nacha-auth') || 'null');
-    if (auth && auth.token && auth.exp > Date.now() && auth.user && auth.user.id) {
-      label.textContent = 'マイページ';
-    }
+    loggedIn = !!(auth && auth.token && auth.exp > Date.now() && auth.user && auth.user.id);
   } catch (_) {}
+  function paint() {
+    if (!loggedIn) return;
+    label.textContent = window.nachaT ? window.nachaT('my_title') : 'マイページ';
+  }
+  paint();
+  // 言語を切り替えても「マイページ」表示を保つ
+  document.addEventListener('nacha-lang', paint);
 })();
 </script>
 
 <script>
 (function(){
-  var messages = [
-    "今日も生きていてくれて、ありがとう。はなまる満点だよ！",
-    "小さな一歩も、ナチャはちゃんと見てるよ。",
-    "疲れたら、ここで少し休んでいってね。",
-    "君の笑顔が、僕の宝物だよ。",
-    "内緒だけど、今日も加護をかけておいたからね。",
-    "大丈夫、ナチャがそばにいるよ。",
-    "今日のあなたは、十分頑張っているよ。"
-  ];
+  var T = function(k){ return window.nachaT ? window.nachaT(k) : ''; };
   var today = new Date().toDateString();
-  var idx = Math.abs(today.split('').reduce((a,c)=>a+c.charCodeAt(0),0)) % messages.length;
   var msgEl = document.getElementById('dailyMessage');
-  if(msgEl) msgEl.textContent = messages[idx];
+  // 同じ日は同じ言葉（7つのうち1つ）
+  var idx = (Math.abs(today.split('').reduce(function(a,c){return a+c.charCodeAt(0);},0)) % 7) + 1;
+  function renderMessage(){
+    if(msgEl) msgEl.textContent = T('mem_' + idx);
+  }
+  renderMessage();
+  document.addEventListener('nacha-lang', renderMessage);
 
   var key = 'nacha-memories';
   function load(){
@@ -772,21 +852,66 @@ document.addEventListener('nacha-lang', function(e) {
     var list = load();
     var el = document.getElementById('memoryList');
     if(!el) return;
-    el.innerHTML = list.length ? '<strong>残した思い出</strong><br>' + list.map(function(m){return '・'+m;}).join('<br>') : '';
+    el.textContent = '';
+    if(!list.length) return;
+    var head = document.createElement('strong');
+    head.textContent = T('mem_list');
+    el.appendChild(head);
+    el.appendChild(document.createElement('br'));
+    list.forEach(function(m){
+      el.appendChild(document.createTextNode('・' + m));
+      el.appendChild(document.createElement('br'));
+    });
   }
   var btn = document.getElementById('saveMemory');
   if(btn){
     btn.addEventListener('click', function(){
       var list = load();
-      var text = (msgEl?msgEl.textContent:'') + '（' + new Date().toLocaleDateString('ja-JP') + '）';
+      var text = (msgEl?msgEl.textContent:'') + '（' + new Date().toLocaleDateString(document.documentElement.lang || 'ja') + '）';
       if(!list.includes(text)) list.unshift(text);
       save(list);
       render();
-      btn.textContent = '残したよ！';
-      setTimeout(function(){btn.textContent='この言葉を思い出に残す';},1500);
+      btn.textContent = T('mem_saved');
+      setTimeout(function(){ btn.textContent = T('mem_save'); }, 1500);
     });
   }
   render();
+  document.addEventListener('nacha-lang', render);
+})();
+</script>
+
+<script>
+/* 今日の一礼：1日1回だけ灯明をともす。連続記録や損失は作らない。 */
+(function(){
+  var card = document.getElementById('prayCard');
+  var btn = document.getElementById('prayBtn');
+  var status = document.getElementById('prayStatus');
+  if(!card || !btn) return;
+  var T = function(k){ return window.nachaT ? window.nachaT(k) : ''; };
+  var KEY = 'nacha-last-prayer';
+  var lastKey = '';
+  function todayKey(){
+    var d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+  function stored(){
+    try { return localStorage.getItem(KEY); } catch(e) { return null; }
+  }
+  function paint(){ status.textContent = lastKey ? T(lastKey) : ''; }
+  if (stored() === todayKey()) card.classList.add('is-lit');
+  btn.addEventListener('click', function(){
+    if (stored() === todayKey()) {
+      card.classList.add('is-lit');
+      lastKey = 'pray_again';
+      paint();
+      return;
+    }
+    try { localStorage.setItem(KEY, todayKey()); } catch(e) {}
+    card.classList.add('is-lit');
+    lastKey = 'pray_done';
+    paint();
+  });
+  document.addEventListener('nacha-lang', paint);
 })();
 </script>
 

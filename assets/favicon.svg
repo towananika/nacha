@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="NACHA">
+  <rect width="64" height="64" rx="14" fill="#b83823"/>
+  <g transform="translate(8 8) scale(2)" fill="#f6e7c8">
+    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.95"/>
+    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.65"/>
+    <circle cx="12" cy="20.5" r="1.5"/>
+  </g>
+</svg>

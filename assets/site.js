@@ -4,11 +4,15 @@
   var D=window.NACHA_I18N||{},W=window.NACHA_WORDS||[];
   var els=[].slice.call(document.querySelectorAll('[data-i]'));
   els.forEach(function(e){e.dataset.ja=e.textContent});
+  var LABELS={ja:'日本語',en:'English',ko:'한국어',zh:'繁體中文',zhs:'简体中文',th:'ภาษาไทย',km:'ភាសាខ្មែរ',id:'Bahasa Indonesia'};
   function set(l){
     var d=D[l]||{};
     document.documentElement.lang=LANGS[l]||l;
     els.forEach(function(e){e.textContent=l==='ja'?e.dataset.ja:(d[e.dataset.i]||(D.en||{})[e.dataset.i]||e.dataset.ja)});
     [].forEach.call(document.querySelectorAll('[data-i18n-ph]'),function(e){var k=e.dataset.i18nPh;if(!e.dataset.jaPh)e.dataset.jaPh=e.placeholder;e.placeholder=l==='ja'?e.dataset.jaPh:((D[l]||{})[k]||(D.en||{})[k]||e.dataset.jaPh)});
+    // 初回読み込みでもラベルが実際の言語と一致するようにここで直接更新する
+    var lab=document.getElementById('currentLangLabel');
+    if(lab&&LABELS[l])lab.textContent=LABELS[l];
     document.dispatchEvent(new CustomEvent('nacha-lang',{detail:l}));
     [].forEach.call(document.querySelectorAll('#langMenu button'),function(b){b.setAttribute('aria-current',b.dataset.l===l)});
   }
