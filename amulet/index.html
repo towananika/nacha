@@ -13,361 +13,100 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%AA%B7%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=M+PLUS+Rounded+1c:wght@800&family=Noto+Serif+JP:wght@700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/site.css">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/quiet.css">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <style>
-  :root {
-    --amulet-red: #A9261B;
-    --amulet-gold: #E5B338;
-    --amulet-gold-light: #FFF0B3;
-  }
-  .amulet-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    padding: 16px 0 10px;
-    perspective: 1000px;
-  }
-  /* お守り全体の振り子アニメーション */
-  .amulet-swing {
-    transform-origin: top center;
-    animation: gentleSway 5s ease-in-out infinite;
-    cursor: pointer;
-    user-select: none;
-    -webkit-user-select: none;
-    transition: transform 0.2s cubic-bezier(0.2, 1.4, 0.4, 1);
-  }
-  .amulet-swing:hover {
-    transform: scale(1.03);
-  }
-  .amulet-swing:active, .amulet-swing.touched {
-    animation: ringSway 1s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  }
-  @keyframes gentleSway {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(2deg); }
-    75% { transform: rotate(-2deg); }
-  }
-  @keyframes ringSway {
-    0% { transform: rotate(0deg) scale(0.98); }
-    20% { transform: rotate(-7deg) scale(1.04); }
-    40% { transform: rotate(6deg) scale(1.02); }
-    60% { transform: rotate(-4deg); }
-    80% { transform: rotate(2deg); }
-    100% { transform: rotate(0deg); }
-  }
+:root{--gut:44px}
+@media(max-width:760px){:root{--gut:22px}}
+body.q{padding:0}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;background:#fff;padding:8px 12px;z-index:999;border:1px solid var(--ink)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:20px;max-width:var(--wrap);margin:0 auto;padding:0 var(--gut);height:96px;border-bottom:1px solid var(--rule)}
+.brand{font-family:var(--serif);font-size:15px;letter-spacing:.34em;text-decoration:none}
+.bar-temple-badge{font-size:10px;letter-spacing:.2em;color:var(--ink-3);margin-left:20px}
+.barr{display:flex;align-items:center;gap:22px;font-size:11px;letter-spacing:.14em}
+.barr a{color:var(--ink-2);text-decoration:none}
+.barr a:hover{color:var(--ink)}
+.ibtn{background:none;border:1px solid var(--rule);padding:7px 10px;font:11px/1 var(--sans);letter-spacing:.12em;color:var(--ink-2);cursor:pointer}
+.ibtn:hover{border-color:var(--ink);color:var(--ink)}
+#main{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut) 96px}
+.pt{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4vw,40px);letter-spacing:.06em;margin:88px 0 16px}
+.ps{color:var(--ink-2);font-size:14px;margin:0 0 48px}
 
-  .amulet-svg {
-    width: 220px;
-    height: 340px;
-    filter: drop-shadow(0 14px 28px rgba(0,0,0,0.22));
-    transition: filter 0.3s;
-  }
-  .amulet-swing.blessed .amulet-svg {
-    filter: drop-shadow(0 0 24px rgba(229, 179, 56, 0.85)) drop-shadow(0 14px 28px rgba(0,0,0,0.25));
-  }
+.mode-switch-wrap{display:flex;gap:34px;border-bottom:1px solid var(--rule);margin-bottom:44px}
+.mode-tab-btn{background:none;border:0;border-bottom:1px solid transparent;padding:0 0 14px;margin-bottom:-1px;font:13px/1 var(--sans);letter-spacing:.06em;color:var(--ink-3);cursor:pointer}
+.mode-tab-btn.active{color:var(--ink);border-bottom-color:var(--ink)}
 
-  /* モード切り替えタブ */
-  .mode-switch-wrap {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin: 8px 0 14px;
-  }
-  .mode-tab-btn {
-    padding: 9px 18px;
-    border-radius: 999px;
-    font-size: 14px;
-    font-weight: 700;
-    border: 1px solid var(--line);
-    background: var(--card);
-    color: var(--sub);
-    cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .mode-tab-btn.active {
-    background: var(--acc);
-    color: #fff;
-    border-color: var(--acc);
-    box-shadow: 0 4px 12px rgba(192, 57, 43, 0.25);
-  }
+.color-palette-box{margin-bottom:44px}
+.color-palette-title{display:flex;justify-content:space-between;align-items:baseline;gap:16px;font-size:11px;letter-spacing:.14em;color:var(--ink-3);margin-bottom:20px}
+.color-palette-title b{font-weight:400;letter-spacing:.08em;color:var(--ink)}
+.color-chips{display:flex;flex-wrap:wrap;gap:14px}
+.color-chip{width:24px;height:24px;border-radius:50%;border:1px solid rgba(0,0,0,.10);padding:0;cursor:pointer}
+.color-chip.active{outline:1px solid var(--ink);outline-offset:3px}
 
-  /* 推し色カラーパレット */
-  .color-palette-box {
-    margin-top: 14px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 14px 16px;
-    text-align: center;
-  }
-  .color-palette-title {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--ink);
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-  }
-  .color-chips {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-  }
-  .color-chip {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    font-size: 14px;
-    transition: transform 0.15s, box-shadow 0.15s;
-    padding: 0;
-  }
-  .color-chip:hover {
-    transform: scale(1.12);
-  }
-  .color-chip.active {
-    outline: 3px solid var(--gold);
-    outline-offset: 2px;
-    transform: scale(1.15);
-  }
+.amulet-container{text-align:center;padding:0 0 44px}
+.amulet-swing{display:inline-block;cursor:pointer;transform-origin:top center;transition:transform .6s cubic-bezier(.3,1.3,.4,1)}
+.amulet-swing.blessed{transform:scale(1.02)}
+.amulet-svg{width:190px;max-width:56vw;height:auto;display:block;margin:0 auto}
+.amulet-container p{font-size:11px;letter-spacing:.08em;color:var(--ink-3);margin-top:18px}
 
-  /* 加護・お告げカード */
-  .blessing-card {
-    margin-top: 18px;
-    background: var(--card);
-    border: 2px solid var(--line);
-    border-radius: 20px;
-    padding: 22px 20px;
-    box-shadow: var(--shadow);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .blessing-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, var(--gold), var(--acc));
-  }
-  .blessing-tag {
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    color: var(--acc);
-    background: var(--accSoft);
-    padding: 4px 12px;
-    border-radius: 999px;
-    margin-bottom: 8px;
-  }
-  .blessing-title {
-    font-family: "Noto Serif JP", "M PLUS Rounded 1c", serif;
-    font-size: 26px;
-    font-weight: 900;
-    color: var(--acc);
-    margin: 4px 0 8px;
-    letter-spacing: 0.08em;
-  }
-  .blessing-desc {
-    font-size: 14.5px;
-    color: var(--ink);
-    line-height: 1.6;
-    margin: 0 0 14px;
-  }
-  .blessing-quote {
-    font-size: 13px;
-    color: var(--sub);
-    font-style: italic;
-    background: rgba(192, 57, 43, 0.06);
-    padding: 10px 14px;
-    border-radius: 12px;
-    margin: 0;
-  }
+.blessing-card{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:40px 0;margin-bottom:44px}
+.blessing-tag{font-size:10px;letter-spacing:.2em;color:var(--accent)}
+.blessing-title{font-family:var(--serif);font-weight:400;font-size:clamp(22px,2.6vw,28px);letter-spacing:.06em;margin:12px 0 16px}
+.blessing-desc{font-size:14px;line-height:1.95;color:var(--ink-2);margin:0 0 22px;max-width:44em}
+.blessing-quote{margin:0;padding:0;border:0;font-family:var(--serif);font-size:14px;line-height:1.9;color:var(--ink-3)}
 
-  /* 祈願フォーム */
-  .prayer-box {
-    margin-top: 18px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    padding: 18px;
-  }
-  .prayer-box h3 {
-    margin: 0 0 6px;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--ink);
-  }
-  .oshi-name-row {
-    margin-bottom: 12px;
-  }
-  .oshi-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--sub);
-    margin-bottom: 4px;
-  }
-  .prayer-form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .prayer-input {
-    width: 100%;
-    height: 46px;
-    border-radius: 12px;
-    border: 1px solid var(--line);
-    background: var(--bg);
-    color: var(--ink);
-    padding: 0 14px;
-    font: inherit;
-    font-size: 15px;
-  }
-  .quick-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 2px;
-  }
-  .quick-tag-btn {
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: var(--bg);
-    color: var(--ink);
-    cursor: pointer;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .quick-tag-btn:hover {
-    border-color: var(--acc);
-    color: var(--acc);
-  }
-  .prayer-btn {
-    height: 48px;
-    border: 0;
-    background: var(--acc);
-    color: #fff;
-    font: inherit;
-    font-weight: 700;
-    border-radius: 12px;
-    padding: 0 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    transition: transform 0.1s, background 0.15s;
-    margin-top: 4px;
-  }
-  .prayer-btn:active {
-    transform: scale(0.97);
-  }
+.prayer-box{margin-bottom:52px}
+.prayer-box h3{font-family:var(--serif);font-weight:400;font-size:19px;letter-spacing:.04em;margin:0 0 8px}
+.prayer-box p{color:var(--ink-2)}
+.prayer-form{display:grid;gap:24px;margin-top:26px}
+.oshi-label{display:block;font-size:11px;letter-spacing:.12em;color:var(--ink-3);margin-bottom:8px}
+.prayer-input{width:100%;border:0;border-bottom:1px solid var(--rule);border-radius:0;background:none;padding:10px 0;font:14px/1.6 var(--sans);color:var(--ink);outline:none;appearance:none}
+.prayer-input:focus{border-bottom-color:var(--ink)}
+.quick-tags{display:flex;flex-wrap:wrap;gap:10px;margin-top:4px}
+.quick-tag-btn{background:none;border:1px solid var(--rule);padding:8px 14px;font:12px/1 var(--sans);color:var(--ink-2);cursor:pointer;transition:border-color .2s,color .2s}
+.quick-tag-btn:hover{border-color:var(--ink);color:var(--ink)}
+.prayer-btn{justify-self:start;background:var(--ink);color:var(--paper);border:0;padding:16px 30px;font:12px/1 var(--sans);letter-spacing:.12em;cursor:pointer}
+.prayer-btn:hover{opacity:.85}
 
-  /* キラキラ光るパーティクル */
-  .petal {
-    position: fixed;
-    pointer-events: none;
-    z-index: 99;
-    font-size: 20px;
-    animation: petalFly 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
-  }
-  @keyframes petalFly {
-    0% {
-      opacity: 1;
-      transform: translate(0, 0) scale(0.8) rotate(0deg);
-    }
-    100% {
-      opacity: 0;
-      transform: translate(var(--dx), var(--dy)) scale(1.4) rotate(var(--dr));
-    }
-  }
+.action-row{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:72px}
+.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid var(--ink);background:none;color:var(--ink);padding:14px 22px;font:12px/1 var(--sans);letter-spacing:.1em;text-decoration:none;cursor:pointer;transition:background .2s,color .2s}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.gold{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.gold:hover{opacity:.88;background:var(--accent);color:#fff}
 
-  /* アクションボタン群 */
-  .action-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 16px;
-  }
-  .action-row .btn {
-    cursor: pointer;
-    border: 0;
-    text-align: center;
-  }
-  .btn.gold {
-    background: linear-gradient(135deg, #E5B338, #B8860B);
-    color: #1A1A1A;
-    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.25);
-  }
-  .btn.x-share {
-    grid-column: 1 / -1;
-    background: #1d9bf0;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 12px;
-    border-radius: 12px;
-  }
-  .btn.x-share:active {
-    transform: scale(0.98);
-  }
+.lore-card{border-top:1px solid var(--rule);padding-top:40px;font-size:13px;line-height:2;color:var(--ink-2);max-width:60em}
+.lore-card b{font-weight:400;color:var(--ink)}
+.lore-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 56px;margin-top:26px}
+.lore-item{font-size:12.5px;line-height:1.9;padding-top:16px;border-top:1px solid var(--rule)}
+.lore-item strong{display:block;font-weight:400;color:var(--ink);margin-bottom:6px;font-size:12px;letter-spacing:.08em}
 
-  /* 説明セクション */
-  .lore-card {
-    margin-top: 24px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 16px;
-    font-size: 13.5px;
-    color: var(--sub);
-    line-height: 1.7;
-  }
-  .lore-card b {
-    color: var(--ink);
-  }
-  .lore-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  .lore-item {
-    background: var(--bg);
-    border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 10px 12px;
-  }
-  .lore-item strong {
-    display: block;
-    color: var(--acc);
-    font-size: 13px;
-    margin-bottom: 2px;
-  }
+.ufoot{border-top:1px solid var(--rule);margin-top:72px;padding:36px 0;font-size:11px;color:var(--ink-3);display:flex;gap:8px;flex-wrap:wrap}
+.ufoot a{color:var(--ink-2)}
+.follow-cta-block{display:none}
+.tabs{display:none}
+
+#saveModal{display:none;position:fixed;inset:0;z-index:200;background:rgba(28,26,23,.62);align-items:center;justify-content:center;padding:24px}
+#saveModal .modal-box{background:var(--paper);padding:22px;max-width:420px;width:100%;position:relative}
+#savedModalImg{width:100%;height:auto;display:block;margin-bottom:20px;border:1px solid var(--rule)}
+.modal-actions{display:flex;gap:12px;flex-wrap:wrap}
+.modal-actions .btn{flex:1;justify-content:center}
+.modal-x{position:absolute;top:8px;right:10px;background:none;border:0;font-size:20px;line-height:1;color:var(--ink-2);cursor:pointer;padding:6px}
+
+@media(max-width:760px){
+  .bar{height:76px}
+  .bar-temple-badge{margin-left:12px}
+  .pt{margin-top:56px}
+  .mode-switch-wrap{gap:22px}
+  .blessing-title{font-size:22px}
+  .lore-grid{grid-template-columns:1fr;gap:0}
+  .action-row .btn{flex:1;justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){.amulet-swing{transition:none}}
 </style>
 </head>
-<body>
+<body class="q">
 <a class="skip" href="#main">メインへ</a>
 
 <!-- トップバー -->
@@ -377,24 +116,26 @@
     <span class="bar-temple-badge" data-i="temple_badge">悠遊観音堂 境内</span>
   </div>
   <div class="barr">
-    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">🔔</button>
+    <a href="../">ホーム</a>
+    <a href="../characters/">神様名鑑</a>
+    <button class="ibtn temple-bell-btn" id="templeBellBtn" type="button" title="参拝の鈴を鳴らす" aria-label="参拝の鈴">鈴</button>
   </div>
 </div>
 
 <main id="main">
-  <h1 class="pt" style="text-align:center; margin-bottom:4px;">蓮華護身符</h1>
-  <p class="ps" style="text-align:center; margin-top:0;" id="pageSubtitle">ナチャが腰に提げる、聖なる加護のお守り</p>
+  <h1 class="pt">蓮華護身符</h1>
+  <p class="ps" id="pageSubtitle">ナチャが腰に提げる、聖なる加護のお守り</p>
 
   <!-- モード切替タブ -->
   <div class="mode-switch-wrap">
-    <button class="mode-tab-btn" id="modeNormalBtn" type="button">🪷 日々の加護</button>
-    <button class="mode-tab-btn active" id="modeOshiBtn" type="button">⭐ 推し活・当選祈願</button>
+    <button class="mode-tab-btn" id="modeNormalBtn" type="button">日々の加護</button>
+    <button class="mode-tab-btn active" id="modeOshiBtn" type="button">推し活・当選祈願</button>
   </div>
 
   <!-- 推し色カラーパレット -->
   <div class="color-palette-box" id="colorPaletteBox">
     <div class="color-palette-title">
-      <span>🎨 推し色（メンバーカラー）を選ぶ</span>
+      <span>推し色（メンバーカラー）を選ぶ</span>
       <b id="activeColorName" style="color:var(--acc);">【紅・赤】</b>
     </div>
     <div class="color-chips" id="colorChips">
@@ -494,7 +235,7 @@
         </g>
       </svg>
     </div>
-    <p style="font-size:12px;color:var(--sub);margin:8px 0 0;">✨ タップすると揺れて加護が宿ります</p>
+    <p style="font-size:12px;color:var(--sub);margin:8px 0 0;">タップすると揺れて加護が宿ります</p>
   </div>
 
   <!-- 今日の加護・お告げ表示カード -->
@@ -523,29 +264,29 @@
 
       <!-- クイック祈願タグ（推し活あるある） -->
       <div class="quick-tags" id="quickTags">
-        <button type="button" class="quick-tag-btn" data-tag="チケット当選祈願！倍率突破！">🎫 チケット当選</button>
-        <button type="button" class="quick-tag-btn" data-tag="アリーナ最前・神席祈願！">👑 神席祈願</button>
-        <button type="button" class="quick-tag-btn" data-tag="推しが今日も元気でいてくれますように">🕊️ 推しの健康</button>
-        <button type="button" class="quick-tag-btn" data-tag="当落発表が怖くて胃が痛い…どうか当たって！">😰 当落前の胃痛</button>
-        <button type="button" class="quick-tag-btn" data-tag="遠征費が無事に集まりますように！">🚅 遠征成就</button>
-        <button type="button" class="quick-tag-btn" data-tag="ツアー・舞台の大成功祈願！">🏆 公演大成功</button>
-        <button type="button" class="quick-tag-btn" data-tag="推しにいつかちゃんと気持ちが届きますように">💌 想いが届け</button>
+        <button type="button" class="quick-tag-btn" data-tag="チケット当選祈願！倍率突破！">チケット当選</button>
+        <button type="button" class="quick-tag-btn" data-tag="アリーナ最前・神席祈願！">神席祈願</button>
+        <button type="button" class="quick-tag-btn" data-tag="推しが今日も元気でいてくれますように">推しの健康</button>
+        <button type="button" class="quick-tag-btn" data-tag="当落発表が怖くて胃が痛い…どうか当たって！">当落前の胃痛</button>
+        <button type="button" class="quick-tag-btn" data-tag="遠征費が無事に集まりますように！">遠征成就</button>
+        <button type="button" class="quick-tag-btn" data-tag="ツアー・舞台の大成功祈願！">公演大成功</button>
+        <button type="button" class="quick-tag-btn" data-tag="推しにいつかちゃんと気持ちが届きますように">想いが届け</button>
       </div>
 
       <div style="margin:10px 0 4px;">
-        <label class="oshi-label" for="eventDateInput">🗓️ イベント日（任意）— 残り日数をお守りに刻みます</label>
+        <label class="oshi-label" for="eventDateInput">イベント日（任意）— 残り日数をお守りに刻みます</label>
         <input class="prayer-input" id="eventDateInput" type="date" aria-label="イベント日">
       </div>
 
-      <button class="prayer-btn" id="submitPrayerBtn" type="submit">🙏 お守りに願いを込めて完成</button>
+      <button class="prayer-btn" id="submitPrayerBtn" type="submit">お守りに願いを込めて完成</button>
     </form>
     <p id="prayerMessage" style="font-size:13px;color:var(--acc);margin:10px 0 0;font-weight:700;display:none;"></p>
   </div>
 
   <!-- ボタン群 -->
   <div class="action-row">
-    <button class="btn gold" id="drawBlessingBtn" type="button">🪷 ナチャのお告げを引く</button>
-    <button class="btn" id="saveCardBtn" type="button">📥 お守り画像を保存</button>
+    <button class="btn gold" id="drawBlessingBtn" type="button">ナチャのお告げを引く</button>
+    <button class="btn" id="saveCardBtn" type="button">お守り画像を保存</button>
     <a class="btn x-share" id="xShareBtn" href="#" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
       推し祈願お守りをXでポスト
@@ -576,6 +317,17 @@
   <p class="follow-cta-lead">お守りができたら、ナチャの毎日も公式Xで。<br>フォローして、小さな守護神を見守ってください</p>
   <a class="follow-cta-btn" href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="x-amulet">𝕏 公式Xをフォローする</a>
 </section>
+
+<div id="saveModal" role="dialog" aria-modal="true" aria-label="作成したお守り">
+  <div class="modal-box">
+    <button id="closeSaveModalBtn" class="modal-x" type="button" aria-label="閉じる">×</button>
+    <img id="savedModalImg" alt="作成したお守り">
+    <div class="modal-actions">
+      <a id="directDlBtn" class="btn" download>画像を保存</a>
+      <button id="closeSaveModalBtn2" class="btn" type="button">閉じる</button>
+    </div>
+  </div>
+</div>
 </main>
 <script>
 // フォロー導線の計測（数だけ送る）
@@ -722,7 +474,7 @@ try{navigator.sendBeacon(API+a.dataset.hit)}catch(_){}},true);})();
       colorPaletteBox.style.display = 'block';
       oshiNameRow.style.display = 'block';
       quickTags.style.display = 'flex';
-      formTitle.textContent = '⭐ 推し活祈願を込める';
+      formTitle.textContent = '推し活祈願を込める';
       formDesc.textContent = '推しの名前と願いを込めると、お守りに刻まれて加護が宿ります。';
       amuletSubText.textContent = '当選祈願符';
       drawBlessing(true);
@@ -730,7 +482,7 @@ try{navigator.sendBeacon(API+a.dataset.hit)}catch(_){}},true);})();
       colorPaletteBox.style.display = 'none';
       oshiNameRow.style.display = 'none';
       quickTags.style.display = 'none';
-      formTitle.textContent = '🙏 願い事を込める';
+      formTitle.textContent = '願い事を込める';
       formDesc.textContent = '心に秘めた願いをお守りに奉納しましょう。';
       amuletSubText.textContent = '蓮華護身符';
       plateText.textContent = '那茶';
