@@ -312,6 +312,29 @@ html[lang="id"] .tanzaku-content {
   color: var(--ink);
   line-height: 1.6;
 }
+.character-cta {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  margin-top: 12px;
+  padding: 8px 14px;
+  border: 1px solid var(--vermilion);
+  border-radius: 999px;
+  color: var(--vermilion);
+  background: rgba(255, 255, 255, 0.82);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-decoration: none;
+  transition: background .2s ease, color .2s ease;
+}
+.character-cta:hover {
+  background: var(--vermilion);
+  color: #fff;
+}
 
 /* ── セクション見出し ── */
 .fine-heading {
@@ -568,6 +591,7 @@ html[lang="id"] .tanzaku-content {
       <div class="stage-words" data-i="nacha_quote">
         「内緒だよ、僕がやったって。君が今日笑ってくれたら、それで満点！」
       </div>
+      <a class="character-cta" href="characters/">ナチャと仲間に会う&nbsp;→</a>
     </div>
 
   </section>
@@ -660,13 +684,11 @@ html[lang="id"] .tanzaku-content {
 
 </div>
 
-<!-- 5大ナビゲーションバー -->
+<!-- 主要ナビゲーションバー：公開中の体験だけを表示 -->
 <nav class="tabs" aria-label="Main">
   <a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
-  <a href="arcade/steps/"><span aria-hidden="true">⛩️</span><b data-i="g_steps">108段</b></a>
-  <a href="amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
-  <a href="shop/"><span aria-hidden="true">🎁</span><b>授与所</b></a>
   <a href="characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">キャラ</b></a>
+  <a href="amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
 </nav>
 
 <script src="assets/i18n.js"></script>
