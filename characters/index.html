@@ -13,16 +13,23 @@
 <link rel="stylesheet" href="../assets/quiet.css">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <style>
-/* 四柱：リンクではないので、ホバーの動きを外す */
-.cast .entry{cursor:default}
-.cast .entry:hover{opacity:1}
-.cast-figure{margin:0 0 48px}
-.cast-figure img{width:100%;max-width:820px}
+/* 四柱：四人を横並びのカードに */
+.cast-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.cast-card figure{margin:0 0 16px;background:#ebe7dd}
+.cast-card img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 18%}
+.cast-card .cnum{font-size:10px;letter-spacing:.16em;color:var(--ink-3);margin:0 0 6px}
+.cast-card h3{font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:.05em;margin:0 0 6px}
+.cast-card .crole{font-size:12.5px;line-height:1.8;color:var(--ink-2);margin:0}
 .traits{list-style:none;display:flex;flex-wrap:wrap;margin:0;padding:0;font-size:13.5px;color:var(--ink-2)}
 .traits li{display:flex;align-items:center}
 .traits li+li::before{content:"·";margin:0 12px;color:var(--ink-3)}
-@media(max-width:760px){
-  .cast-figure img{max-width:100%}
+@media(max-width:900px){
+  .cast-grid{grid-template-columns:repeat(2,1fr);gap:20px}
+}
+@media(max-width:520px){
+  .cast-grid{grid-template-columns:1fr;gap:28px}
+  .cast-card{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:start}
+  .cast-card figure{margin:0}
 }
 </style>
 </head>
@@ -64,46 +71,45 @@
   </section>
 
   <section class="cast wrap section">
-    <p class="eyebrow">四柱</p>
+    <p class="eyebrow">Four gods</p>
     <h2 class="sec" data-i="c_title">キャラ紹介</h2>
 
-    <figure class="cast-figure">
-      <img src="../assets/opt/cast-group.webp" alt="ナチャと三柱の仲間" width="900" height="782" loading="lazy" decoding="async">
-    </figure>
+    <div class="cast-grid">
+      <article class="cast-card">
+        <figure><img src="../assets/opt/cast-nacha.webp" alt="ナチャ" width="420" height="640" loading="eager" decoding="async"></figure>
+        <div class="cbody">
+        <p class="cnum">01</p>
+        <h3>ナチャ</h3>
+        <p class="crole" data-i="n_role">主人公・小さな守護神</p>
+        </div>
+      </article>
 
-    <div class="entries" style="padding-top:0">
-      <div class="entry">
-        <span class="num">01</span>
-        <span>
-          <span class="t">ナチャ</span>
-          <span class="d" data-i="n_role">主人公・小さな守護神</span>
-        </span>
-        <span class="arw" aria-hidden="true"></span>
-      </div>
-      <div class="entry">
-        <span class="num">02</span>
-        <span>
-          <span class="t" data-i="g1n">白衣観音</span>
-          <span class="d" data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</span>
-        </span>
-        <span class="arw" aria-hidden="true"></span>
-      </div>
-      <div class="entry">
-        <span class="num">03</span>
-        <span>
-          <span class="t" data-i="g2n">不動明王</span>
-          <span class="d" data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</span>
-        </span>
-        <span class="arw" aria-hidden="true"></span>
-      </div>
-      <div class="entry">
-        <span class="num">04</span>
-        <span>
-          <span class="t" data-i="g3n">南極老人</span>
-          <span class="d" data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</span>
-        </span>
-        <span class="arw" aria-hidden="true"></span>
-      </div>
+      <article class="cast-card">
+        <figure><img src="../assets/opt/cast-kun-sim.webp" alt="白衣観音" width="420" height="715" loading="lazy" decoding="async"></figure>
+        <div class="cbody">
+        <p class="cnum">02</p>
+        <h3 data-i="g1n">白衣観音</h3>
+        <p class="crole" data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</p>
+        </div>
+      </article>
+
+      <article class="cast-card">
+        <figure><img src="../assets/opt/cast-fdo.webp" alt="不動明王" width="420" height="466" loading="lazy" decoding="async"></figure>
+        <div class="cbody">
+        <p class="cnum">03</p>
+        <h3 data-i="g2n">不動明王</h3>
+        <p class="crole" data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</p>
+        </div>
+      </article>
+
+      <article class="cast-card">
+        <figure><img src="../assets/opt/cast-sousang.webp" alt="南極老人" width="420" height="699" loading="lazy" decoding="async"></figure>
+        <div class="cbody">
+        <p class="cnum">04</p>
+        <h3 data-i="g3n">南極老人</h3>
+        <p class="crole" data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</p>
+        </div>
+      </article>
     </div>
   </section>
 

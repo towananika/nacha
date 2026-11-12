@@ -164,7 +164,7 @@ body.q button{font-family:inherit}
 .hero h1 span{display:block}
 .hero .lede{color:var(--ink-2);max-width:30em;margin:0 0 42px}
 .hero-figure{margin:0}
-.hero-figure img{width:100%;mix-blend-mode:multiply}
+body.q .hero-figure img{width:100%;max-width:300px;height:auto;mix-blend-mode:multiply}
 .hero-figure figcaption{
   font-family:var(--serif);
   font-size:12.5px;
@@ -309,7 +309,7 @@ body.q button{font-family:inherit}
   .util{gap:18px}
   .hero{grid-template-columns:1fr;gap:48px;padding-top:64px;padding-bottom:72px}
   .hero-figure{order:-1}
-  .hero-figure img{max-width:240px}
+  body.q .hero-figure img{max-width:240px}
   .bow{grid-template-columns:1fr;gap:24px;padding-top:52px;padding-bottom:52px}
   .memory{grid-template-columns:1fr;gap:24px;padding-top:64px;padding-bottom:64px}
   .memory .quote{font-size:17px}
