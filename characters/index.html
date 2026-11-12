@@ -3,39 +3,26 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>キャラ紹介 — NACHA</title>
-<meta name="description" content="小さな守護神ナチャと三柱の仲間たち。姿、持ち物、物語。">
+<title>名鑑 — NACHA</title>
+<meta name="description" content="小さな守護神ナチャと三柱の仲間たち。四人の神様を、ひとりずつ。">
 <meta name="theme-color" content="#fbfaf7">
-<meta property="og:type" content="website"><meta property="og:title" content="キャラ紹介 — NACHA"><meta property="og:description" content="小さな守護神ナチャと三柱の仲間たち。姿、持ち物、物語。"><meta property="og:image" content="https://towananika.github.io/nacha/assets/poster.jpg">
+<meta property="og:type" content="website"><meta property="og:title" content="名鑑 — NACHA"><meta property="og:description" content="小さな守護神ナチャと三柱の仲間たち。"><meta property="og:image" content="https://towananika.github.io/nacha/assets/poster.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/quiet.css">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <style>
-.profile{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start;padding-top:80px;padding-bottom:8px}
-.profile figure{margin:0}
-.profile figure img{mix-blend-mode:multiply}
-.profile h2{font-size:30px;letter-spacing:.08em;margin:0 0 6px}
-.profile .kana{color:var(--ink-3);font-size:13px;letter-spacing:.1em;margin:0 0 20px}
-.profile .role{font-size:12px;letter-spacing:.14em;color:var(--accent);margin:0 0 26px}
-.traits{list-style:none;display:flex;flex-wrap:wrap;margin:0 0 30px;padding:0;font-size:13.5px;color:var(--ink-2)}
+/* 四柱：リンクではないので、ホバーの動きを外す */
+.cast .entry{cursor:default}
+.cast .entry:hover{opacity:1}
+.cast-figure{margin:0 0 48px}
+.cast-figure img{width:100%;max-width:820px}
+.traits{list-style:none;display:flex;flex-wrap:wrap;margin:0;padding:0;font-size:13.5px;color:var(--ink-2)}
 .traits li{display:flex;align-items:center}
 .traits li+li::before{content:"·";margin:0 12px;color:var(--ink-3)}
-.profile blockquote{margin:0;padding-top:24px;border-top:1px solid var(--rule);font-family:var(--serif);font-size:16px;line-height:1.95;letter-spacing:.03em}
-.friend{display:block;padding-top:24px;padding-bottom:24px;border-top:1px solid var(--rule)}
-.friend h3{font-size:16px;margin:0 0 2px}
-.friend .sub{font-size:11px;letter-spacing:.1em;color:var(--ink-3);margin:0 0 8px}
-.friend p{margin:0;font-size:13px;line-height:1.85;color:var(--ink-2)}
-.friend .tags{margin:8px 0 0;font-size:11px;color:var(--ink-3);letter-spacing:.06em}
-.cast-wide{margin:0 0 40px}
-.cast-wide img{max-width:420px}
-.worship{margin-top:8px}
-.gnote{font-size:12px;color:var(--ink-3);margin:28px 0 0}
 @media(max-width:760px){
-  .profile{grid-template-columns:1fr;gap:40px;padding-top:56px}
-  .profile figure{max-width:260px}
-  .profile blockquote{font-size:15px}
+  .cast-figure img{max-width:100%}
 }
 </style>
 </head>
@@ -43,7 +30,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../">NACHA<span>神様名鑑</span></a>
+    <a class="brand" href="../">NACHA<span>名鑑</span></a>
     <div class="util">
       <a href="../team/"><span data-i="acct">マイページ</span></a>
       <button id="langBtn" type="button" aria-label="Language" aria-haspopup="true" aria-expanded="false"><span id="currentLangLabel">日本語</span></button>
@@ -63,27 +50,60 @@
 
 <main>
 
-  <div class="wrap page-head">
-    <p class="eyebrow">名鑑</p>
-    <h1 data-i="c_title">キャラ紹介</h1>
-    <p class="lede" data-i="c_sub">小さな守護神ナチャと、3柱の仲間たち</p>
-  </div>
-
-  <section class="wrap profile">
-    <figure>
-      <img src="../assets/opt/poster.webp" alt="ナチャ" width="320" height="400" loading="eager" decoding="async">
-    </figure>
+  <section class="hero wrap">
     <div>
-      <h2>NACHA</h2>
-      <p class="kana">那茶 / ナチャ</p>
-      <p class="role" data-i="n_role">主人公・小さな守護神</p>
-      <ul class="traits">
-        <li data-i="tr1">いたずら好き</li>
-        <li data-i="tr2">まっすぐ</li>
-        <li data-i="tr3">こっそり善行</li>
-        <li data-i="tr4">努力家</li>
-      </ul>
-      <blockquote data-i="n_quote">「内緒だよ、僕がやったって。」</blockquote>
+      <p class="eyebrow">Pantheon</p>
+      <h1><span data-i="cast_t1">ナチャと、</span><span data-i="cast_t2">三柱の仲間。</span></h1>
+      <p class="lede" data-i="cast_lead">小さな守護神と、それを囲む三柱の神様。四人の姿と物語を、ひとりずつ。</p>
+      <a class="btn" href="../amulet/"><span data-i="door2_title">心願お守り</span> <span aria-hidden="true">→</span></a>
+    </div>
+    <figure class="hero-figure">
+      <img src="../assets/opt/nacha-wink.webp" alt="小さな守護神ナチャ" width="300" height="452" fetchpriority="high" decoding="async">
+      <figcaption data-i="n_quote">「内緒だよ、僕がやったって。」</figcaption>
+    </figure>
+  </section>
+
+  <section class="cast wrap section">
+    <p class="eyebrow">四柱</p>
+    <h2 class="sec" data-i="c_title">キャラ紹介</h2>
+
+    <figure class="cast-figure">
+      <img src="../assets/opt/cast-group.webp" alt="ナチャと三柱の仲間" width="900" height="782" loading="lazy" decoding="async">
+    </figure>
+
+    <div class="entries" style="padding-top:0">
+      <div class="entry">
+        <span class="num">01</span>
+        <span>
+          <span class="t">ナチャ</span>
+          <span class="d" data-i="n_role">主人公・小さな守護神</span>
+        </span>
+        <span class="arw" aria-hidden="true"></span>
+      </div>
+      <div class="entry">
+        <span class="num">02</span>
+        <span>
+          <span class="t" data-i="g1n">白衣観音</span>
+          <span class="d" data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</span>
+        </span>
+        <span class="arw" aria-hidden="true"></span>
+      </div>
+      <div class="entry">
+        <span class="num">03</span>
+        <span>
+          <span class="t" data-i="g2n">不動明王</span>
+          <span class="d" data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</span>
+        </span>
+        <span class="arw" aria-hidden="true"></span>
+      </div>
+      <div class="entry">
+        <span class="num">04</span>
+        <span>
+          <span class="t" data-i="g3n">南極老人</span>
+          <span class="d" data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</span>
+        </span>
+        <span class="arw" aria-hidden="true"></span>
+      </div>
     </div>
   </section>
 
@@ -100,14 +120,19 @@
   <section class="wrap section">
     <p class="eyebrow">仕様</p>
     <h2 class="sec" data-i="look_h">見た目のしるし</h2>
+    <ul class="traits" style="margin-bottom:24px">
+      <li data-i="tr1">いたずら好き</li>
+      <li data-i="tr2">まっすぐ</li>
+      <li data-i="tr3">こっそり善行</li>
+      <li data-i="tr4">努力家</li>
+    </ul>
     <dl class="def-list">
-      <div class="def-row"><dt>頭の冠</dt><dd>頭全体を包む<strong>金のクメール炎型ティアラ</strong>。上部はなだらかに尖り、全面に金のレリーフ。大きな仏塔ではなく、頭にフィットするヘルメット型。</dd></div>
-      <div class="def-row"><dt>まとめ髪</dt><dd>冠の後ろからのぞく<strong>小さな黒いお団子</strong>。赤いシンプルなリボン1本。タコ足のようなリボンは×、小ぶりが正解。</dd></div>
-      <div class="def-row"><dt>上半身</dt><dd><strong>金刺繍の肩ベスト風衣装</strong>。完全な裸ではなく、胸元に金の装飾ネックレス。ドラゴンメダルのみの胸は×。</dd></div>
-      <div class="def-row"><dt>下半身</dt><dd><strong>赤いサンプット（腰布）</strong>に金の刺繍。クメール／タイの伝統衣装スタイルで、くるぶし丈。</dd></div>
-      <div class="def-row"><dt>お顔</dt><dd><strong>2.5〜3頭身のチビ体型</strong>。丸くふっくらした輪郭、大きなアーモンド型の茶褐色の目。健康的な小麦肌で、チークあり。</dd></div>
-      <div class="def-row"><dt>アクセサリー</dt><dd>両手首・両足首に<strong>金の輪（バングル）</strong>。ゴールドのイヤリング、腰ベルトに金の花形バックル。</dd></div>
-      <div class="def-row"><dt>色</dt><dd>主色は<strong>赤</strong>（情熱・守護）、金（神聖・繁栄）、黒（決意）。ベースは小麦色の肌。</dd></div>
+      <div class="def-row"><dt>頭の冠</dt><dd>頭全体を包む<strong>金のクメール炎型ティアラ</strong>。上部はなだらかに尖り、全面に金のレリーフ。頭にフィットするヘルメット型。</dd></div>
+      <div class="def-row"><dt>まとめ髪</dt><dd>冠の後ろからのぞく<strong>小さな黒いお団子</strong>。赤いシンプルなリボン1本。小ぶりが正解。</dd></div>
+      <div class="def-row"><dt>上半身</dt><dd><strong>金刺繍の肩ベスト風衣装</strong>。胸元に金の装飾ネックレス。</dd></div>
+      <div class="def-row"><dt>下半身</dt><dd><strong>赤いサンプット（腰布）</strong>に金の刺繍。クメール／タイの伝統衣装で、くるぶし丈。</dd></div>
+      <div class="def-row"><dt>お顔</dt><dd><strong>2.5〜3頭身のチビ体型</strong>。丸くふっくらした輪郭、大きなアーモンド型の茶褐色の目。健康的な小麦肌。</dd></div>
+      <div class="def-row"><dt>色</dt><dd>主色は<strong>赤</strong>（情熱・守護）、金（神聖・繁栄）、黒（決意）。</dd></div>
     </dl>
   </section>
 
@@ -135,54 +160,6 @@
       <li><span class="n">03</span><div><h3 data-i="s3t">こっそり善行</h3><p data-i="s3">困っている人をこっそり助けて、すぐどこかへ行ってしまう。「誰がやったか」なんて気にしない。</p></div></li>
       <li><span class="n">04</span><div><h3 data-i="s4t">友だちと一緒に</h3><p data-i="s4">白衣観音、不動明王、南極老人の3柱と力を合わせて、みんなの暮らしを守っている。</p></div></li>
     </ol>
-  </section>
-
-  <section class="wrap section">
-    <p class="eyebrow">仲間</p>
-    <h2 class="sec" data-i="gods_h">3柱の仲間</h2>
-
-    <figure class="cast-wide">
-      <img src="../assets/opt/cast.webp" alt="四柱の守護神" width="320" height="180" loading="lazy">
-    </figure>
-
-    <div class="col-3">
-      <article class="friend">
-        <div>
-          <h3 data-i="g1n">白衣観音</h3>
-          <p class="sub">White Kun Sim</p>
-          <p data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</p>
-          <p class="tags">蓮の花 · 金の冠 · 聴き上手</p>
-        </div>
-      </article>
-
-      <article class="friend">
-        <div>
-          <h3 data-i="g2n">不動明王</h3>
-          <p class="sub">Fdo King</p>
-          <p data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</p>
-          <p class="tags">炎の剣 · 三本の縄 · 覚悟</p>
-        </div>
-      </article>
-
-      <article class="friend">
-        <div>
-          <h3 data-i="g3n">南極老人</h3>
-          <p class="sub">Preah Sousang</p>
-          <p data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</p>
-          <p class="tags">鈴の杖 · ひょうたん · 鶴</p>
-        </div>
-      </article>
-    </div>
-
-    <div class="worship">
-      <dl class="def-list">
-        <div class="def-row"><dt>ナチャ</dt><dd>境内や奥山を走り回って枝や霊木を集め、木製記念品の成形・彫刻を手掛ける。</dd></div>
-        <div class="def-row"><dt>白衣観音</dt><dd>参拝者の祈りに耳を澄ませ、心願お守りや蓮華香の調合と30日の熟成祈祷を執り行う。</dd></div>
-        <div class="def-row"><dt>不動明王</dt><dd>護摩の炎で木材を清め、神木に力を宿らせる細工彫刻や厄除け工芸を謹製。</dd></div>
-        <div class="def-row"><dt>南極老人</dt><dd>寺院銀行の元帳を守り、物価安定と工房の資材調達ローンを厳正に差配。</dd></div>
-      </dl>
-    </div>
-
     <p class="gnote" data-i="g_note">くわしいプロフィールは、公式の発表を待っています</p>
   </section>
 
@@ -191,18 +168,19 @@
 <footer class="site-foot">
   <div class="wrap">
     <div class="foot-grid">
-      <p><span data-i="fcta_lead">ナチャの毎日は公式Xで。フォローして、小さな守護神を見守ってください。</span></p>
+      <p data-i="temple_origin">カンボジア・プノンペン 実在寺院「悠遊観音堂」より。祈りをデジタルに刻み、リアルのお寺へ届けるTemple 2.0。</p>
       <div class="foot-links">
-        <a href="https://x.com/nacha_project" target="_blank" rel="noopener" data-i="fcta_btn">公式Xをフォローする</a>
-        <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club</a>
         <a href="../">ホーム</a>
+        <a href="../amulet/">お守り</a>
+        <a href="https://x.com/nacha_project" target="_blank" rel="noopener">X</a>
       </div>
     </div>
-    <p class="unoff"><span data-i="unoff">このページは非公式のファンページです。</span></p>
+    <p class="unoff" data-i="unoff">このページは非公式のファンページです。</p>
   </div>
 </footer>
 
 <script src="../assets/i18n.js"></script>
+<script src="../assets/i18n-nacha.js"></script>
 <script src="../assets/site.js"></script>
 </body>
 </html>

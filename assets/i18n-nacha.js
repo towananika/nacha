@@ -177,3 +177,34 @@
   "zh": { "wep_h": "持有物與武器" },
   "zhs": { "wep_h": "持有物与武器" }
 });
+
+/* 名鑑のヒーロー */
+(function (a) {
+  for (var l in a) Object.assign(window.NACHA_I18N[l] = window.NACHA_I18N[l] || {}, a[l]);
+})({
+  "ja": {
+    "cast_t1": "ナチャと、",
+    "cast_t2": "三柱の仲間。",
+    "cast_lead": "小さな守護神と、それを囲む三柱の神様。四人の姿と物語を、ひとりずつ。"
+  },
+  "en": {
+    "cast_t1": "Nacha and",
+    "cast_t2": "the three gods.",
+    "cast_lead": "The small guardian and the three gods around him. Four figures, one by one."
+  },
+  "ko": {
+    "cast_t1": "나차와",
+    "cast_t2": "세 명의 신.",
+    "cast_lead": "작은 수호신과 그를 둘러싼 세 신. 네 존재의 모습과 이야기를 하나씩."
+  },
+  "zh": {
+    "cast_t1": "哪吒與",
+    "cast_t2": "三位神明。",
+    "cast_lead": "小小的守護神，以及圍繞他的三位神明。四位的身影與故事，逐一介紹。"
+  },
+  "zhs": {
+    "cast_t1": "哪吒与",
+    "cast_t2": "三位神明。",
+    "cast_lead": "小小的守护神，以及围绕他的三位神明。四位的身影与故事，逐一介绍。"
+  }
+});
