@@ -365,6 +365,17 @@
     font-size: 13px;
     margin-bottom: 2px;
   }
+
+/* かんたんステップ表示（2026-11-13） */
+.astep-bar{list-style:none;display:flex;justify-content:center;gap:18px;margin:6px 0 14px;padding:0}
+.astep-bar li{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--sub);opacity:.55}
+.astep-bar li b{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1.5px solid var(--line);font-size:13px}
+.astep-bar li.on{opacity:1;color:var(--acc)}
+.astep-bar li.on b{background:var(--acc);border-color:var(--acc);color:#fff}
+.astep-bar li.done{opacity:.9}
+.astep-bar li.done b{border-color:var(--acc);color:var(--acc)}
+.astep[hidden]{display:none!important}
+.astep-nav{display:flex;justify-content:center;gap:10px;margin:16px 0 4px}
 </style>
 </head>
 <body>
@@ -385,14 +396,22 @@
   <h1 class="pt" style="text-align:center; margin-bottom:4px;">蓮華護身符</h1>
   <p class="ps" style="text-align:center; margin-top:0;" id="pageSubtitle">ナチャが腰に提げる、聖なる加護のお守り</p>
 
+  <!-- かんたんステップ（2026-11-13 シンプル化）: 1画面1ステップで進む -->
+  <ol class="astep-bar" id="astepBar">
+    <li data-s="1"><b>1</b><span>種類</span></li>
+    <li data-s="2"><b>2</b><span>色</span></li>
+    <li data-s="3"><b>3</b><span>願い</span></li>
+    <li data-s="4"><b>4</b><span>完成</span></li>
+  </ol>
+
   <!-- モード切替タブ -->
-  <div class="mode-switch-wrap">
+  <div class="mode-switch-wrap astep" data-step="1">
     <button class="mode-tab-btn" id="modeNormalBtn" type="button">🪷 日々の加護</button>
     <button class="mode-tab-btn active" id="modeOshiBtn" type="button">⭐ 推し活・当選祈願</button>
   </div>
 
   <!-- 推し色カラーパレット -->
-  <div class="color-palette-box" id="colorPaletteBox">
+  <div class="color-palette-box astep" data-step="2" id="colorPaletteBox">
     <div class="color-palette-title">
       <span>🎨 推し色（メンバーカラー）を選ぶ</span>
       <b id="activeColorName" style="color:var(--acc);">【紅・赤】</b>
@@ -498,7 +517,7 @@
   </div>
 
   <!-- 今日の加護・お告げ表示カード -->
-  <div class="blessing-card" id="blessingCard">
+  <div class="blessing-card astep" data-step="1" id="blessingCard">
     <span class="blessing-tag" id="blessingTag">推し活祈願符</span>
     <h2 class="blessing-title" id="blessingTitle">当選祈願 · 心願成就</h2>
     <p class="blessing-desc" id="blessingDesc">推しを想う一途な心の光は、どんな倍率の壁も突破する！ナチャの火焔槍が幸運の扉を開きます。</p>
@@ -506,7 +525,7 @@
   </div>
 
   <!-- 願掛け（推し活・祈願フォーム） -->
-  <div class="prayer-box" id="prayerBox">
+  <div class="prayer-box astep" data-step="3" id="prayerBox">
     <h3 id="formTitle">⭐ 推し活祈願を込める</h3>
     <p style="font-size:13px;color:var(--sub);margin:0 0 10px;" id="formDesc">推しの名前と願いを込めると、お守りに刻まれて加護が宿ります。</p>
     
@@ -543,7 +562,7 @@
   </div>
 
   <!-- ボタン群 -->
-  <div class="action-row">
+  <div class="action-row astep" data-step="4">
     <button class="btn gold" id="drawBlessingBtn" type="button">🪷 ナチャのお告げを引く</button>
     <button class="btn" id="saveCardBtn" type="button">📥 お守り画像を保存</button>
     <a class="btn x-share" id="xShareBtn" href="#" target="_blank" rel="noopener">
@@ -553,7 +572,7 @@
   </div>
 
   <!-- お守りの由来・解説 -->
-  <div class="lore-card">
+  <div class="lore-card astep" data-step="4">
     <p><b>蓮華護身符（れんげごしんふ）とは</b><br>
     カンボジア・プノンペンの悠遊観音堂にて暮らす小さな神様「那茶（ナチャ）」が身につけている守護符。どんなときも前を向き、困難を焼きはらい、周りに光をもたらす力が宿ると伝えられています。</p>
     <div class="lore-grid">
@@ -566,6 +585,11 @@
         魔を退け、推しや大切な人との良き縁をしっかりと結びとどめる古代の加護結び。
       </div>
     </div>
+  </div>
+
+  <div class="astep-nav">
+    <button class="btn alt sm" type="button" id="astepBack" hidden>← 戻る</button>
+    <button class="btn sm" type="button" id="astepNext">次へ →</button>
   </div>
 
   <footer class="ufoot">
@@ -1077,5 +1101,35 @@ function updateXShareLink(customOshi, customPray) {
     </div>
   </div>
 
+<script>
+/* かんたんステップ: 1種類→2色→3願い→4完成。プレビューのお守りはいつも見える */
+(function(){
+  var cur=1,MAX=4;
+  var back=document.getElementById('astepBack'),next=document.getElementById('astepNext');
+  function show(n){
+    cur=Math.min(MAX,Math.max(1,n));
+    [].forEach.call(document.querySelectorAll('.astep'),function(e){e.hidden=(+e.dataset.step!==cur)});
+    [].forEach.call(document.querySelectorAll('#astepBar li'),function(li){
+      var s=+li.dataset.s;li.classList.toggle('on',s===cur);li.classList.toggle('done',s<cur);
+    });
+    back.hidden=cur===1;
+    next.hidden=cur===MAX;
+    next.textContent=cur===3?'書かずに完成へ →':'次へ →';
+    var bar=document.getElementById('astepBar');
+    if(booted&&bar&&bar.scrollIntoView)bar.scrollIntoView({behavior:'smooth',block:'start'});
+    booted=true;
+  }
+  var booted=false;
+  back.addEventListener('click',function(){show(cur-1)});
+  next.addEventListener('click',function(){show(cur+1)});
+  var f=document.getElementById('prayerForm');
+  if(f)f.addEventListener('submit',function(){setTimeout(function(){show(4)},400)});
+  [].forEach.call(document.querySelectorAll('#astepBar li'),function(li){
+    li.style.cursor='pointer';
+    li.addEventListener('click',function(){show(+li.dataset.s)});
+  });
+  show(1);
+})();
+</script>
 </body>
 </html>
