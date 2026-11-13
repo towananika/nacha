@@ -38,6 +38,31 @@ body.q{padding-bottom:86px}
 .follow-cta-btn:active{transform:scale(.97)}
 </style>
 <style>
+/* モバイル: 上部をコンパクトに、すぐ神様が見えるように（2026-11-13） */
+@media(max-width:760px){
+  .site-head .wrap{height:60px!important}
+  .hero{padding-top:16px!important;padding-bottom:14px!important;gap:0!important;grid-template-columns:1fr!important}
+  .hero-figure,.hero .btn{display:none}
+  .hero h1{font-size:28px!important;margin-bottom:8px!important}
+  .hero .lede{margin-bottom:0!important;font-size:13.5px}
+  .q .section{padding:18px 12px!important;margin:10px 8px!important}
+  .q .section .eyebrow{margin-bottom:12px!important}
+  .q h2.sec{font-size:19px;margin-bottom:12px!important}
+}
+/* ひとこと演出: 押すとその神様の色に背景が変わり、粒が舞う */
+.slide-god{overflow:hidden;transition:background .7s ease,border-color .7s}
+.slide-god.fx-n{background:linear-gradient(165deg,#fff3e8,#ffd6c2 62%,#f4a98d);border-color:#d9654a}
+.slide-god.fx-k{background:linear-gradient(165deg,#fff6fa,#fbd3e3 62%,#e9a9c8);border-color:#d78bb0}
+.slide-god.fx-f{background:linear-gradient(165deg,#fff1da,#ffb86b 58%,#e0592a);border-color:#c94a1d}
+.slide-god.fx-s{background:linear-gradient(165deg,#f6f6e4,#cfe0b0 60%,#8fae7a);border-color:#7f9d68}
+.slide-god>*{position:relative;z-index:2}
+.fx-p{position:absolute;top:-8%;z-index:1;pointer-events:none;animation:fxfall linear forwards}
+.fx-p.up{top:auto;bottom:-8%;animation-name:fxrise}
+@keyframes fxfall{0%{transform:translate(0,0) rotate(0);opacity:0}12%{opacity:1}100%{transform:translate(var(--dx),115%) rotate(var(--dr));opacity:.9}}
+@keyframes fxrise{0%{transform:translate(0,0) rotate(0);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-120%) rotate(var(--dr));opacity:0}}
+@media(prefers-reduced-motion:reduce){.fx-p{display:none}}
+</style>
+<style>
 /* 1柱ずつスワイプ（2026-11-13）: ホームの和紙カード調 */
 .deck{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 2px 6px;margin:0 -4px}
 .deck::-webkit-scrollbar{display:none}
@@ -128,7 +153,7 @@ body.q{padding-bottom:86px}
         <h3>ナチャ</h3>
         <p class="grole" data-i="n_role">主人公・小さな守護神</p>
         <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
-        <p class="say" hidden data-i="say_n">「内緒だよ、僕がやったって。君が今日笑ってくれたら、それで満点！」</p>
+        <p class="say" data-i="say_n">「内緒だよ、僕がやったって。君が今日笑ってくれたら、それで満点！」</p>
       </article>
       <article class="slide-god" data-k="k">
         <figure><img src="../assets/opt/cast-kun-sim.webp" alt="白衣観音" width="320" height="400" loading="lazy" decoding="async"></figure>
@@ -136,7 +161,7 @@ body.q{padding-bottom:86px}
         <h3 data-i="g1n">白衣観音</h3>
         <p class="grole" data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</p>
         <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
-        <p class="say" hidden data-i="say_k">「まず笑って、自分を整えて。そうすれば、福はあとからついてくるよ。」</p>
+        <p class="say" data-i="say_k">「まず笑って、自分を整えて。そうすれば、福はあとからついてくるよ。」</p>
       </article>
       <article class="slide-god" data-k="f">
         <figure><img src="../assets/opt/cast-fdo.webp" alt="不動明王" width="320" height="400" loading="lazy" decoding="async"></figure>
@@ -144,7 +169,7 @@ body.q{padding-bottom:86px}
         <h3 data-i="g2n">不動明王</h3>
         <p class="grole" data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</p>
         <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
-        <p class="say" hidden data-i="say_f">「怒りじゃない、覚悟だ。迷いは焼いて、前へ進もう。」</p>
+        <p class="say" data-i="say_f">「怒りじゃない、覚悟だ。迷いは焼いて、前へ進もう。」</p>
       </article>
       <article class="slide-god" data-k="s">
         <figure><img src="../assets/opt/cast-sousang.webp" alt="南極老人" width="320" height="400" loading="lazy" decoding="async"></figure>
@@ -152,7 +177,7 @@ body.q{padding-bottom:86px}
         <h3 data-i="g3n">南極老人</h3>
         <p class="grole" data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</p>
         <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
-        <p class="say" hidden data-i="say_s">「あわてない、あわてない。笑っていれば、いいご縁はやってくるよ。」</p>
+        <p class="say" data-i="say_s">「あわてない、あわてない。笑っていれば、いいご縁はやってくるよ。」</p>
       </article>
     </div>
     <div class="dots" id="dots" role="tablist" aria-label="Pick a god">
@@ -255,7 +280,22 @@ body.q{padding-bottom:86px}
   function idx(){return Math.round(deck.scrollLeft/deck.clientWidth)}
   deck.addEventListener('scroll',function(){var i=Math.min(dots.length-1,Math.max(0,idx()));dots.forEach(function(d,k){d.classList.toggle('on',k===i)})},{passive:true});
   dots.forEach(function(d,k){d.addEventListener('click',function(){deck.scrollTo({left:k*deck.clientWidth,behavior:'smooth'})})});
-  [].forEach.call(document.querySelectorAll('.say-btn'),function(b){b.addEventListener('click',function(){var s=b.nextElementSibling;s.hidden=!s.hidden})});
+  var FX={n:{c:['🔥','✨','🏮'],up:true},k:{c:['🪷','🌸','✨'],up:false},f:{c:['🔥','🔥','✨'],up:true},s:{c:['🌙','✨','🕊️'],up:false}};
+  var timers=new WeakMap();
+  [].forEach.call(document.querySelectorAll('.say-btn'),function(b){b.addEventListener('click',function(){
+    var sl=b.closest('.slide-god'),k=sl.dataset.k,f=FX[k];
+    sl.classList.add('fx-'+k);
+    clearTimeout(timers.get(sl));timers.set(sl,setTimeout(function(){sl.classList.remove('fx-'+k)},4500));
+    for(var i=0;i<18;i++){
+      var p=document.createElement('span');p.className='fx-p'+(f.up?' up':'');
+      p.textContent=f.c[i%f.c.length];
+      p.style.left=(Math.random()*92)+'%';p.style.fontSize=(14+Math.random()*14)+'px';
+      p.style.setProperty('--dx',(Math.random()*60-30)+'px');p.style.setProperty('--dr',(Math.random()*240-120)+'deg');
+      p.style.animationDuration=(2.2+Math.random()*2)+'s';p.style.animationDelay=(Math.random()*.6)+'s';
+      p.addEventListener('animationend',function(e){e.target.remove()});
+      sl.appendChild(p);
+    }
+  })});
   deck.addEventListener('keydown',function(e){if(e.key==='ArrowRight')deck.scrollBy({left:deck.clientWidth,behavior:'smooth'});if(e.key==='ArrowLeft')deck.scrollBy({left:-deck.clientWidth,behavior:'smooth'})});
 })();
 </script>
