@@ -38,6 +38,27 @@ body.q{padding-bottom:86px}
 .follow-cta-btn:active{transform:scale(.97)}
 </style>
 <style>
+/* 1柱ずつスワイプ（2026-11-13）: ホームの和紙カード調 */
+.deck{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 2px 6px;margin:0 -4px}
+.deck::-webkit-scrollbar{display:none}
+.slide-god{flex:0 0 100%;scroll-snap-align:center;text-align:center;padding:8px 10px 12px;background:#fbf9f4;border:1px solid var(--rule);border-radius:18px;position:relative}
+.slide-god::after{content:"";position:absolute;inset:6px;border:1px solid rgba(191,161,95,.28);border-radius:13px;pointer-events:none}
+.slide-god figure{margin:6px auto 10px;width:min(240px,68%);border:1px solid var(--rule);border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 6px 18px rgba(43,36,30,.1)}
+.slide-god img{width:100%;height:auto;aspect-ratio:4/5;object-fit:cover}
+.gnum{font-size:11px;letter-spacing:.2em;color:#a8873f;margin:0}
+.slide-god h3{font-family:var(--serif);font-weight:700;font-size:24px;letter-spacing:.12em;margin:2px 0 4px;color:var(--ink)}
+.grole{font-size:13px;line-height:1.8;color:var(--ink-2);margin:0 auto 8px;max-width:300px}
+.say-btn{font:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--accent);border:0;border-radius:999px;padding:0 20px;min-height:44px;cursor:pointer}
+.say-btn:active{transform:scale(.96)}
+.say{margin:12px auto 0;max-width:300px;padding:10px 14px;background:#f5f0e6;border-left:3px solid var(--accent);border-radius:4px;font-size:13.5px;line-height:1.9;text-align:left;color:var(--ink)}
+.say[hidden]{display:none}
+.dots{display:flex;justify-content:center;gap:4px;margin:6px 0 0}
+.dots button{width:44px;height:44px;border:0;background:none;position:relative;cursor:pointer;padding:0}
+.dots button::before{content:"";position:absolute;left:50%;top:50%;width:9px;height:9px;margin:-4.5px 0 0 -4.5px;border-radius:50%;background:var(--rule);transition:all .2s}
+.dots button.on::before{background:var(--accent);width:22px;margin-left:-11px;border-radius:5px}
+.swipe-hint{text-align:center;font-size:11px;letter-spacing:.14em;color:var(--ink-3);margin:0}
+</style>
+<style>
 /* 四柱：四人を横並びのカードに */
 .cast-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
 .cast-card figure{margin:0 0 16px;background:#ebe7dd}
@@ -100,43 +121,44 @@ body.q{padding-bottom:86px}
     <p class="eyebrow">Four gods</p>
     <h2 class="sec" data-i="c_title">キャラ紹介</h2>
 
-    <div class="cast-grid">
-      <article class="cast-card">
-        <figure><img src="../assets/opt/cast-nacha.webp" alt="ナチャ" width="420" height="640" loading="eager" decoding="async"></figure>
-        <div class="cbody">
-        <p class="cnum">01</p>
+    <div class="deck" id="deck" role="region" aria-label="Four gods" tabindex="0">
+      <article class="slide-god" data-k="n">
+        <figure><img src="../assets/opt/cast-nacha.webp" alt="ナチャ" width="320" height="400" decoding="async"></figure>
+        <p class="gnum">01 / 04</p>
         <h3>ナチャ</h3>
-        <p class="crole" data-i="n_role">主人公・小さな守護神</p>
-        </div>
+        <p class="grole" data-i="n_role">主人公・小さな守護神</p>
+        <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
+        <p class="say" hidden data-i="say_n">「内緒だよ、僕がやったって。君が今日笑ってくれたら、それで満点！」</p>
       </article>
-
-      <article class="cast-card">
-        <figure><img src="../assets/opt/cast-kun-sim.webp" alt="白衣観音" width="420" height="715" loading="lazy" decoding="async"></figure>
-        <div class="cbody">
-        <p class="cnum">02</p>
+      <article class="slide-god" data-k="k">
+        <figure><img src="../assets/opt/cast-kun-sim.webp" alt="白衣観音" width="320" height="400" loading="lazy" decoding="async"></figure>
+        <p class="gnum">02 / 04</p>
         <h3 data-i="g1n">白衣観音</h3>
-        <p class="crole" data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</p>
-        </div>
+        <p class="grole" data-i="g1r">みんなの声を聴くリーダー。いつも笑顔で包んでくれる。</p>
+        <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
+        <p class="say" hidden data-i="say_k">「まず笑って、自分を整えて。そうすれば、福はあとからついてくるよ。」</p>
       </article>
-
-      <article class="cast-card">
-        <figure><img src="../assets/opt/cast-fdo.webp" alt="不動明王" width="420" height="466" loading="lazy" decoding="async"></figure>
-        <div class="cbody">
-        <p class="cnum">03</p>
+      <article class="slide-god" data-k="f">
+        <figure><img src="../assets/opt/cast-fdo.webp" alt="不動明王" width="320" height="400" loading="lazy" decoding="async"></figure>
+        <p class="gnum">03 / 04</p>
         <h3 data-i="g2n">不動明王</h3>
-        <p class="crole" data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</p>
-        </div>
+        <p class="grole" data-i="g2r">護摩の炎で煩悩を焼く。怒りではなく覚悟の人。</p>
+        <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
+        <p class="say" hidden data-i="say_f">「怒りじゃない、覚悟だ。迷いは焼いて、前へ進もう。」</p>
       </article>
-
-      <article class="cast-card">
-        <figure><img src="../assets/opt/cast-sousang.webp" alt="南極老人" width="420" height="699" loading="lazy" decoding="async"></figure>
-        <div class="cbody">
-        <p class="cnum">04</p>
+      <article class="slide-god" data-k="s">
+        <figure><img src="../assets/opt/cast-sousang.webp" alt="南極老人" width="320" height="400" loading="lazy" decoding="async"></figure>
+        <p class="gnum">04 / 04</p>
         <h3 data-i="g3n">南極老人</h3>
-        <p class="crole" data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</p>
-        </div>
+        <p class="grole" data-i="g3r">鶴を連れた長寿の神様。あわてず、笑って、いいご縁を。</p>
+        <button class="say-btn" type="button" data-i="say_btn">ひとこと</button>
+        <p class="say" hidden data-i="say_s">「あわてない、あわてない。笑っていれば、いいご縁はやってくるよ。」</p>
       </article>
     </div>
+    <div class="dots" id="dots" role="tablist" aria-label="Pick a god">
+      <button type="button" role="tab" aria-label="1" class="on"></button><button type="button" role="tab" aria-label="2"></button><button type="button" role="tab" aria-label="3"></button><button type="button" role="tab" aria-label="4"></button>
+    </div>
+    <p class="swipe-hint" data-i="swipe_hint">← 左右にスワイプ →</p>
   </section>
 
   <div class="wrap">
@@ -225,5 +247,17 @@ body.q{padding-bottom:86px}
   <a href="./" aria-current="page"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">神様名鑑</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
 </nav>
+<script>
+/* スワイプ: ドットと連動。「ひとこと」はタップで開閉 */
+(function(){
+  var deck=document.getElementById('deck'),dots=[].slice.call(document.querySelectorAll('#dots button'));
+  if(!deck)return;
+  function idx(){return Math.round(deck.scrollLeft/deck.clientWidth)}
+  deck.addEventListener('scroll',function(){var i=Math.min(dots.length-1,Math.max(0,idx()));dots.forEach(function(d,k){d.classList.toggle('on',k===i)})},{passive:true});
+  dots.forEach(function(d,k){d.addEventListener('click',function(){deck.scrollTo({left:k*deck.clientWidth,behavior:'smooth'})})});
+  [].forEach.call(document.querySelectorAll('.say-btn'),function(b){b.addEventListener('click',function(){var s=b.nextElementSibling;s.hidden=!s.hidden})});
+  deck.addEventListener('keydown',function(e){if(e.key==='ArrowRight')deck.scrollBy({left:deck.clientWidth,behavior:'smooth'});if(e.key==='ArrowLeft')deck.scrollBy({left:-deck.clientWidth,behavior:'smooth'})});
+})();
+</script>
 </body>
 </html>
