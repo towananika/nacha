@@ -515,6 +515,17 @@ html[lang="id"] .tanzaku-content {
 .daily-quote{margin:6px 0 2px;font-size:14px;line-height:1.9;color:var(--ink,#2b241e)}
 .daily-mem{margin-top:10px;font-size:12px;color:var(--ink-light,#6e6259);line-height:1.8}
 #prayCard.is-lit .door-badge{color:var(--vermilion,#b83823)}
+
+/* 季節の演出ボタン（2026-11-13）: 押すと紅葉や雪が舞う。描画は絵文字だけ */
+.season-btn{position:fixed;right:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:60;width:46px;height:46px;border-radius:50%;border:1px solid var(--line-gold,#bfa15f66);background:#fbf9f4;font-size:22px;cursor:pointer;box-shadow:0 4px 12px rgba(43,36,30,.12)}
+.season-btn:active{transform:scale(.92)}
+.season-p{position:fixed;top:-5vh;z-index:59;pointer-events:none;animation:season-fall linear forwards}
+@keyframes season-fall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0}
+  8%{opacity:1}
+  100%{transform:translate(var(--sx),108vh) rotate(var(--sr));opacity:.9}
+}
+@media (prefers-reduced-motion: reduce){.season-p{display:none}}
 </style>
 </head>
 <body>
@@ -763,6 +774,35 @@ document.addEventListener('nacha-lang', function(e) {
   try{var a=JSON.parse(localStorage.getItem('nacha-auth')||'null');loggedIn=!!(a&&a.token&&a.exp>Date.now()&&a.user&&a.user.id)}catch(e){}
   function paint(){if(loggedIn)label.textContent=window.nachaT?window.nachaT('my_title'):'マイページ'}
   paint();document.addEventListener('nacha-lang',paint);
+})();
+</script>
+
+<script>
+/* 季節の演出: いまの月で 桜/紅葉/雪 を選び、押すたびにひとしきり舞う */
+(function(){
+  var m=new Date().getMonth()+1;
+  var set=m>=9&&m<=11?['🍁','🍂']:(m===12||m<=2?['❄️','❄️','✦']:(m>=3&&m<=4?['🌸','🌸','🪷']:['🍃','✨']));
+  var btn=document.createElement('button');
+  btn.type='button';btn.className='season-btn';btn.textContent=set[0];
+  btn.setAttribute('aria-label','季節の演出');
+  document.body.appendChild(btn);
+  var busy=false;
+  btn.addEventListener('click',function(){
+    if(busy)return;busy=true;setTimeout(function(){busy=false},900);
+    for(var i=0;i<26;i++){
+      var e=document.createElement('span');e.className='season-p';
+      e.textContent=set[i%set.length];
+      var size=12+Math.random()*14;
+      e.style.left=(Math.random()*100)+'vw';
+      e.style.fontSize=size+'px';
+      e.style.setProperty('--sx',(Math.random()*120-60)+'px');
+      e.style.setProperty('--sr',(Math.random()*360-180)+'deg');
+      e.style.animationDuration=(4+Math.random()*4)+'s';
+      e.style.animationDelay=(Math.random()*1.2)+'s';
+      e.addEventListener('animationend',function(ev){ev.target.remove()});
+      document.body.appendChild(e);
+    }
+  });
 })();
 </script>
 </body>

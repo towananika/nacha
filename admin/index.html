@@ -37,6 +37,37 @@
       <dt data-i="adm_owner">オーナー</dt><dd data-i="ad_d_owner">すべて。管理者を外せるのはオーナーだけ。オーナーはだれも変えられない</dd>
     </dl>
   </details>
+  <details class="legend" id="designBox"><summary>デザインの決まり（新しいページを作るときのプロンプト）</summary>
+    <p class="note2" style="margin:8px 0">下の文をそのままAIに貼り付ければ、サイトの見た目に合ったページが作れます。</p>
+    <button class="btn sm" type="button" id="dsCopy">プロンプトをコピー</button>
+    <pre id="dsText" style="white-space:pre-wrap;font:12px/1.8 ui-monospace,Menlo,Consolas,monospace;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px">NACHAファンサイトのページを、次のデザインの決まりに従って作ってください。
+
+【サイトの前提】
+- 非公式ファンページ。全ページに「このページは非公式のファンページです」の表記を入れる
+- お金・トークン・稼げる系の言葉は一切書かない（ブランド規定）
+- 画像は公式画像（assets/ 内）だけを使う。新しい絵は描かない
+- 内部資料・未公開情報の事実は書かない
+
+【デザイン（和紙×神社調）】
+- 背景: 和紙クリーム #f5f0e6 ／ カード面 #fbf9f4
+- 文字色: 墨 #2b241e ／ 補助 #6e6259
+- 差し色: 朱 #b83823（ボタン・強調）／ 金 #bfa15f（枠線・飾り）
+- カードは角丸16px前後＋金の細枠（rgba(191,161,95,.45)）。内側に1px の二重枠を入れると上質に見える
+- 見出し・本文フォント: "Shippori Mincho", "Zen Old Mincho", serif。字間はやや広め（letter-spacing .05〜.2em）
+- 番号バッジは「壱 · 名鑑」のような漢数字＋中黒の形式
+- 余白は広めに、飾りは金の细い線と ✦ ・🏮 など控えめに
+
+【共通部品】
+- 下部タブ: 🏮ホーム ／ 🗺️神様名鑑 ／ 🧧お守り の3つ（これ以外は足さない）
+- ページの締めに黒い「𝕏 公式Xをフォローする」ボタン（class="follow-cta-btn"、href=https://x.com/nacha_project、data-hit="x-ページ名" を付けるとクリックが数えられる）
+- 多言語: 文字列に data-i="キー" を付け、assets/i18n.js にキーを足す。日本語と英語を必ず書き、他の言語は未翻訳なら英語で表示される
+- assets/site.css と assets/i18n.js ＋ assets/site.js を読み込む
+
+【品質の決まり】
+- スマホ幅390pxで横スクロールが出ないこと
+- 文字は少なめ、1画面1メッセージ
+- トーンは「あたたかく、まっすぐ、親しみやすく」（Warm &amp; Brave）。上から目線・暗い言い回し・煽りは禁止</pre>
+  </details>
 </section>
 <footer class="ufoot"><span data-i="unoff">このページは非公式のファンページです。公式情報は</span> <a href="https://nacha.club/" target="_blank" rel="noopener">nacha.club ↗</a></footer>
 </main>
@@ -47,5 +78,10 @@
 </nav><script src="../assets/i18n.js"></script>
 <script src="../assets/site.js"></script>
 <script src="../assets/admin.js"></script>
+<script>
+(function(){var b=document.getElementById('dsCopy');if(!b)return;
+b.addEventListener('click',function(){var t=document.getElementById('dsText').textContent;
+(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent='コピーしました';setTimeout(function(){b.textContent='プロンプトをコピー'},1500)},function(){var r=document.createRange();r.selectNodeContents(document.getElementById('dsText'));var s=getSelection();s.removeAllRanges();s.addRange(r)})});})();
+</script>
 </body>
 </html>
