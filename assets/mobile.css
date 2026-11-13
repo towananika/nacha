@@ -1,0 +1,29 @@
+/* モバイルの使いやすさ（2026-11-13）: 押しやすさ・文字の大きさ・下タブに隠れない余白。全ページ共通で最後に読み込む */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+a,button,summary,[role=button]{-webkit-tap-highlight-color:rgba(184,56,35,.12);touch-action:manipulation}
+@media (max-width:760px){
+  /* 押しやすさ: 指で押す部品は高さ44px以上 */
+  .lang-btn,#accountLink,.ibtn,.templeBellBtn,.temple-bell-btn,.mbtn,.btn.sm,.astep-nav .btn,.pill,.chip,.mode-tab-btn,.quick-tag-btn,.daily-btn,.link-btn,.follow-cta-sub,.gallery-shelf-link,.modalPrev,.modalNext,#modalClose,.brand{min-height:44px;display:inline-flex;align-items:center;justify-content:center}
+  .ibtn,.temple-bell-btn{min-width:44px}
+  .follow-cta-sub{padding:0 14px}
+  .gallery-shelf-link{padding:0 8px}
+  .astep-nav .btn{padding-left:22px;padding-right:22px;font-size:14px}
+  .astep-bar li{min-width:56px;padding:4px 0}
+  .tabs a{min-height:48px;justify-content:center}
+  /* 文字: 本文として読む小さな字は12px以上（飾りの英字ラベルは11px） */
+  .door-desc,.unoff-notice,.unoff,.quiz-note,.crole,.cnum,.n,.tag,.dash-badge,.secret,.bar-temple-badge,.site-subtitle,.vermilion-seal,.gallery-shelf-link,.quiz-count{font-size:12px}
+  .door-badge,.stage-label-en,.eyebrow{font-size:11px}
+  /* 下タブに隠れない: 余白は「タブの高さ＋安全領域」 */
+  body{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+  /* ヘッダーの押しにくい小さなリンクを広げる */
+  .bar .brand{padding:0 4px}
+  .follow-cta-btn{min-height:50px}
+}
+@media (max-width:760px){
+  /* 神様名鑑・診断（quietの骨組み）のヘッダー */
+  .site-head a,.site-head button,.site-head .lang-btn{min-height:44px;display:inline-flex;align-items:center;padding-left:6px;padding-right:6px}
+  .site-head .wrap{gap:8px}
+  body.q{padding-bottom:calc(92px + env(safe-area-inset-bottom))}
+  .cnum,.n,.quiz-count{font-size:11px}
+  #modalPrev,#modalNext,#modalClose{min-height:44px;min-width:44px}
+}
