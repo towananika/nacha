@@ -162,6 +162,7 @@ body {
   text-indent: .22em;
   margin-bottom: 2px;
 }
+html:not([lang="ja"]) .site-subtitle { display: none; }
 .site-subtitle {
   text-align: center;
   font-size: 11px;
@@ -257,6 +258,18 @@ html[lang="id"] .tanzaku-content {
   line-height: 1;
 }
 
+@media (max-width: 440px) {
+  .shrine-hero-grid { grid-template-columns: 1fr; }
+  .tanzaku-frame { flex-direction: row; padding: 10px 14px; gap: 10px; }
+  .tanzaku-content { writing-mode: horizontal-tb; letter-spacing: .06em; line-height: 1.5; font-size: 13px; margin: 0; flex: 1; text-align: left; }
+}
+
+.pray-top { margin-bottom: 14px; }
+.pray-top .daily-card { display: grid; grid-template-columns: 1fr auto; column-gap: 12px; align-items: center; padding: 12px 16px; }
+.pray-top .door-badge, .pray-top .door-title { grid-column: 1; margin: 0; }
+.pray-top .door-desc { display: none; }
+.pray-top .daily-btn { min-height: 44px; grid-column: 2; grid-row: 1 / span 2; margin: 0; }
+.pray-top .daily-status { grid-column: 1 / -1; margin: 0; }
 /* 主役ナチャと天空背景カード */
 .nacha-stage-frame {
   background: #fff;
@@ -412,13 +425,12 @@ html[lang="id"] .tanzaku-content {
 }
 .gallery-quad {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 8px;
 }
 @media (max-width: 480px) {
-  .gallery-quad {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .gallery-quad { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 10px; padding-bottom: 6px; }
+  .gallery-quad-box { flex: 0 0 80%; scroll-snap-align: center; }
 }
 .gallery-quad-box {
   border-radius: 10px;
@@ -430,7 +442,9 @@ html[lang="id"] .tanzaku-content {
 .gallery-quad-box img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 6px;
+  box-sizing: border-box;
   transition: transform .3s ease;
 }
 .gallery-quad-box:hover img {
@@ -571,6 +585,17 @@ html[lang="id"] .tanzaku-content {
     <p class="tagline-ribbon" data-i="shrine_tagline">やさしさと祈りが、そっと寄り添う場所。</p>
   </header>
 
+
+  <section class="pray-top">
+    <div class="daily-card" id="prayCard">
+      <div class="door-badge" data-i="pray_eyebrow">日々のならわし</div>
+      <h3 class="door-title" data-i="pray_title">今日の一礼</h3>
+      <p class="door-desc" data-i="pray_lead">灯明をともして、今日の無事に手を合わせる。</p>
+      <button class="daily-btn" id="prayBtn" type="button" data-i="pray_btn">手を合わせる</button>
+      <p class="daily-status" id="prayStatus" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
   <!-- ⛩️ セクション1：短冊 ＆ ナチャ ＆ 背景 -->
   <section class="shrine-hero-grid">
     
@@ -597,15 +622,9 @@ html[lang="id"] .tanzaku-content {
 
   </section>
 
+
   <!-- ⛩️ 日々のならわし（今日の一礼・今日のナチャ） -->
   <section class="daily-row">
-    <div class="daily-card" id="prayCard">
-      <div class="door-badge" data-i="pray_eyebrow">日々のならわし</div>
-      <h3 class="door-title" data-i="pray_title">今日の一礼</h3>
-      <p class="door-desc" data-i="pray_lead">灯明をともして、今日の無事に手を合わせる。</p>
-      <button class="daily-btn" id="prayBtn" type="button" data-i="pray_btn">手を合わせる</button>
-      <p class="daily-status" id="prayStatus" role="status" aria-live="polite"></p>
-    </div>
     <div class="daily-card">
       <div class="door-badge" data-i="mem_eyebrow">今日のナチャ</div>
       <p class="daily-quote" id="dailyMessage"></p>
@@ -661,17 +680,14 @@ html[lang="id"] .tanzaku-content {
       <a href="characters/" class="gallery-shelf-link" data-i="gallery_link">神様名鑑へ ↗</a>
     </div>
     <div class="gallery-quad">
-      <div class="gallery-quad-box" title="決意">
-        <img src="assets/poster.jpg" alt="ナチャ" style="object-position:50% 12%" loading="lazy">
+      <div class="gallery-quad-box" title="祈り">
+        <img src="assets/nacha-pray.webp" alt="祈るナチャ" loading="lazy">
       </div>
-      <div class="gallery-quad-box" title="芽吹き">
-        <img src="assets/grow.jpg" alt="芽吹き" style="object-position:50% 18%" loading="lazy">
+      <div class="gallery-quad-box" title="火焔槍">
+        <img src="assets/nacha-spear.webp" alt="火焔槍を持つナチャ" loading="lazy">
       </div>
-      <div class="gallery-quad-box" title="安らぎ">
-        <img src="assets/waiting.jpg" alt="安らぎ" style="object-position:50% 22%" loading="lazy">
-      </div>
-      <div class="gallery-quad-box" title="四柱の守護神">
-        <img src="assets/cast.jpg" alt="四柱の守護神" style="object-position:50% 10%" loading="lazy">
+      <div class="gallery-quad-box" title="風火輪">
+        <img src="assets/nacha-wheels.webp" alt="風火輪に乗るナチャ" loading="lazy">
       </div>
     </div>
   </section>
