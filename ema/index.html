@@ -4,199 +4,91 @@
 <meta charset="utf-8">
 <meta name="robots" content="noindex">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>新企画 奉納準備中 | 小さな守護神 ナチャ</title>
-<meta name="description" content="悠遊観音堂と小さな守護神ナチャの新しい体験を企画準備中です。">
+<title>みんなの絵馬 — NACHA</title>
+<meta name="description" content="小さな守護神ナチャへのひとことを、絵馬に書いて掛けよう。読むのはだれでも、書くときはログイン。">
+<link rel="icon" href="../assets/favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&family=Zen+Old+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-:root {
-  --washi-base: #f5f0e6;
-  --washi-subtle: #eae3d2;
-  --ink: #2b241e;
-  --ink-light: #6e6259;
-  --vermilion: #b83823;
-  --gold: #bfa15f;
-  --line-gold: rgba(191, 161, 95, 0.45);
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  padding: 0;
-  background-color: var(--washi-base);
-  color: var(--ink);
-  font-family: "Shippori Mincho", "Zen Old Mincho", "Noto Serif JP", serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 24px 16px 80px;
-}
-.sheet-canvas {
-  width: 100%;
-  max-width: 520px;
-  background: #fbf9f4;
-  border: 1px solid var(--gold);
-  border-radius: 18px;
-  padding: 40px 24px;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 10px 30px rgba(43, 36, 30, 0.05);
-}
-.sheet-canvas::after {
-  content: "";
-  position: absolute;
-  inset: 7px;
-  border: 1px solid var(--line-gold);
-  border-radius: 12px;
-  pointer-events: none;
-}
-.emblem-icon {
-  width: 44px;
-  height: 44px;
-  margin: 0 auto 16px;
-  color: var(--gold);
-}
-.tag-badge {
-  display: inline-block;
-  font-size: 11px;
-  letter-spacing: .2em;
-  color: var(--vermilion);
-  border: 1px solid var(--vermilion);
-  padding: 3px 12px;
-  border-radius: 999px;
-  margin-bottom: 14px;
-}
-h1 {
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  margin: 0 0 16px;
-  color: var(--ink);
-  line-height: 1.5;
-}
-.desc {
-  font-size: 13.5px;
-  line-height: 2;
-  color: var(--ink-light);
-  letter-spacing: .06em;
-  margin: 0 auto 28px;
-  max-width: 380px;
-}
-.action-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  max-width: 300px;
-  margin: 0 auto;
-}
-.btn-gold {
-  background: linear-gradient(135deg, var(--gold) 0%, #a88a48 100%);
-  color: #fff;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 13px 20px;
-  border-radius: 999px;
-  letter-spacing: .08em;
-  box-shadow: 0 4px 14px rgba(191, 161, 95, 0.35);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: transform .15s;
-}
-.btn-gold:active { transform: scale(0.97); }
-.btn-outline {
-  border: 1px solid var(--gold);
-  color: var(--ink);
-  text-decoration: none;
-  font-size: 13px;
-  font-weight: 600;
-  padding: 11px 18px;
-  border-radius: 999px;
-  letter-spacing: .06em;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-.tabs {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  background: rgba(251, 249, 244, 0.95);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border-top: 1px solid var(--line-gold);
-  display: flex;
-  justify-content: space-around;
-  padding: 8px 10px calc(8px + env(safe-area-inset-bottom));
-  z-index: 100;
-}
-.tabs a {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: var(--ink-light);
-  font-size: 11px;
-  gap: 2px;
-}
-.tabs a span { font-size: 18px; }
-.tabs a b { font-weight: 600; }
+:root{--washi:#f5f0e6;--paper:#fbf9f4;--ink:#2b241e;--ink-light:#6e6259;--vermilion:#b83823;--gold:#bfa15f;--line-gold:rgba(191,161,95,.45);--wood:#e9d6b3;--wood-edge:#c9a66b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--washi);color:var(--ink);font-family:"Shippori Mincho","Noto Serif JP",serif;padding:20px 16px calc(96px + env(safe-area-inset-bottom))}
+.wrap{max-width:560px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.top a{color:var(--ink);text-decoration:none;font-size:13px;letter-spacing:.08em}
+.top .brand{font-weight:700;letter-spacing:.24em}
+.pill{border:1px solid var(--line-gold);border-radius:999px;padding:6px 14px;background:var(--paper)}
+h1{font-size:24px;letter-spacing:.14em;margin:6px 0 8px;text-align:center}
+.eyebrow{text-align:center;color:var(--vermilion);font-size:11px;letter-spacing:.24em}
+.lead{text-align:center;color:var(--ink-light);font-size:13.5px;line-height:2;margin:0 0 22px}
+.write{background:var(--paper);border:1px solid var(--line-gold);border-radius:16px;padding:16px 18px;margin-bottom:26px}
+.write label{display:block;font-size:12px;color:var(--ink-light);letter-spacing:.1em;margin-bottom:8px}
+.write textarea{width:100%;min-height:84px;resize:vertical;border:1px solid var(--line-gold);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;line-height:1.8;background:#fff;color:var(--ink)}
+.write .row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;gap:12px}
+.count{font-size:12px;color:var(--ink-light)}
+.btn{border:0;border-radius:999px;background:var(--vermilion);color:#fff;font:inherit;font-weight:700;font-size:14px;letter-spacing:.08em;padding:10px 22px;cursor:pointer}
+.btn[disabled]{opacity:.45;cursor:default}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line-gold);font-weight:600}
+.note{font-size:12.5px;color:var(--ink-light);line-height:1.9;margin:10px 0 0}
+.note a{color:var(--vermilion)}
+.msg{font-size:13px;margin-top:8px;min-height:1em}
+.msg.err{color:var(--vermilion)}
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
+.ema{position:relative;background:var(--wood);border:1px solid var(--wood-edge);border-radius:6px;padding:28px 14px 12px;clip-path:polygon(18% 0,82% 0,100% 16%,100% 100%,0 100%,0 16%);box-shadow:0 4px 10px rgba(43,36,30,.06)}
+.ema::before{content:"";position:absolute;top:10px;left:50%;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--vermilion)}
+.ema p{margin:0;font-size:14px;line-height:1.8;white-space:pre-wrap;word-break:break-word}
+.ema .by{display:block;margin-top:8px;font-size:11.5px;color:var(--ink-light)}
+.ema .reply{display:block;margin-top:8px;padding-top:8px;border-top:1px dashed var(--wood-edge);font-size:12px;color:var(--vermilion)}
+.ema .hide{margin-top:8px;font-size:11px;padding:4px 10px}
+.empty{text-align:center;color:var(--ink-light);font-size:13.5px;line-height:2;padding:24px 0}
+.more{display:block;margin:20px auto 0}
+.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(251,249,244,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--line-gold);display:flex;justify-content:space-around;padding:8px 10px calc(8px + env(safe-area-inset-bottom));z-index:100}
+.tabs a{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink-light);font-size:11px;gap:2px}
+.tabs a span{font-size:18px}.tabs a b{font-weight:600}
+.tabs a[aria-current="page"]{color:var(--vermilion)}
 </style>
 <link rel="stylesheet" href="../assets/mobile.css">
 </head>
 <body>
-
-<div class="sheet-canvas">
-  <svg class="emblem-icon" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 2C12 2 8 7 8 12C8 15 10 17 12 17C14 17 16 15 16 12C16 7 12 2 12 2Z" opacity="0.9"/>
-    <path d="M12 17C9 17 5 13 4 11C4 11 4 14 6 16C8 18 10 18.5 12 18.5C14 18.5 16 18 18 16C20 14 20 11 20 11C19 13 15 17 12 17Z" opacity="0.6"/>
-    <circle cx="12" cy="20.5" r="1.5"/>
-  </svg>
-
-  <div class="tag-badge" id="gBadge">奉納準備中</div>
-
-  <h1 id="gH1">新たな境内体験を<br>ただいま企画中です</h1>
-
-  <p class="desc" id="gDesc">
-    小さな守護神ナチャと、カンボジア実在寺院「悠遊観音堂」の祈りをより身近に、深く感じていただける新しい体験を構想しております。<br><br>
-    完成までどうぞ楽しみにお待ちください。
-  </p>
-
-  <div class="action-grid">
-    <a href="../" class="btn-gold">🏮 <span id="gHome">境内（ホーム）へ戻る</span></a>
-    <a href="../characters/" class="btn-outline">🗺️ <span id="gChars">神様名鑑を見る</span></a>
-    <a href="../amulet/" class="btn-outline">🧧 <span id="gAmu">心願お守りを作る</span></a>
+<div class="wrap">
+  <div class="top">
+    <a class="brand" href="../">NACHA</a>
+    <a class="pill" id="acct" href="../team/">ログイン</a>
   </div>
+
+  <div class="eyebrow">EMA BOARD</div>
+  <h1>みんなの絵馬</h1>
+  <p class="lead">ナチャへのひとことを、絵馬に書いて掛けよう。<br>読むのはだれでも、書くときはログインしてね。</p>
+
+  <section class="write" id="write">
+    <label for="emaText">ナチャへのひとこと（140字まで）</label>
+    <textarea id="emaText" maxlength="140" placeholder="今日うれしかったこと、ナチャに聞いてほしいこと"></textarea>
+    <div class="row">
+      <span class="count" id="count">0 / 140</span>
+      <button class="btn" id="emaSend" type="button" disabled>絵馬を掛ける</button>
+    </div>
+    <div class="msg" id="msg" role="status"></div>
+    <p class="note" id="loginNote" hidden>絵馬を書くには<a href="../team/">ログイン</a>してね。読むだけならそのままで大丈夫。</p>
+  </section>
+
+  <section aria-label="みんなの絵馬">
+    <div class="board" id="board"></div>
+    <p class="empty" id="empty" hidden>まだ絵馬がありません。最初のひとことを掛けてみてね。</p>
+    <p class="empty" id="offline" hidden>絵馬掛けは準備中です。もう少しだけ待っていてね。</p>
+    <button class="btn ghost more" id="more" type="button" hidden>もっと見る</button>
+  </section>
+
+  <p class="note" style="text-align:center;margin-top:28px">ほかの人がいやな気持ちになる言葉や、個人情報は書かないでね。<br>ふさわしくない絵馬は、運営がそっと外すことがあります。</p>
 </div>
 
 <nav class="tabs" aria-label="Main">
   <a href="../"><span aria-hidden="true">🏮</span><b>ホーム</b></a>
-  <a href="../characters/"><span aria-hidden="true">🗺️</span><b>神様名鑑</b></a>
+  <a href="../characters/"><span aria-hidden="true">🪷</span><b>名鑑</b></a>
   <a href="../amulet/"><span aria-hidden="true">🧧</span><b>お守り</b></a>
+  <a href="../quiz/"><span aria-hidden="true">🔮</span><b>診断</b></a>
 </nav>
 
-
-<script>
-// 日本語以外は英語で表示（日英を主要言語とする）
-(function(){
-  var L='ja';try{L=localStorage.getItem('nacha-lang')||''}catch(e){}
-  if(!L){var nl=(navigator.language||'en').toLowerCase();L=nl.slice(0,2)}
-  if(L==='ja')return;
-  document.documentElement.lang='en';
-  document.title='Coming Soon | NACHA the Little Guardian';
-  var T={gBadge:'COMING SOON',gH1:'A new temple experience<br>is in the making',
-    gDesc:'We are planning a new experience to bring you closer to NACHA the little guardian and the real temple Yuyu Kannondo in Cambodia.<br><br>Please look forward to it.',
-    gHome:'Back to the temple (Home)',gChars:'Meet the gods',gAmu:'Craft a wish amulet',
-    tHome:'Home',tChars:'Pantheon',tAmu:'Amulet'};
-  for(var k in T){var e=document.getElementById(k);if(e)e.innerHTML=T[k]}
-  var tabs=document.querySelectorAll('.tabs b'),tt=[T.tHome,T.tChars,T.tAmu];
-  for(var i=0;i<tabs.length&&i<tt.length;i++)tabs[i].textContent=tt[i];
-})();
-</script>
+<script src="../assets/ema.js"></script>
 </body>
 </html>
