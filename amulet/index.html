@@ -592,6 +592,7 @@ body{font-family:"Shippori Mincho","Zen Old Mincho","Noto Serif JP",serif}
   <!-- ボタン群 -->
   <div class="action-row astep" data-step="4">
     <button class="btn gold" id="drawBlessingBtn" type="button">🪷 ナチャのお告げを引く</button>
+    <p style="font-size:12px;line-height:1.7">Xで投稿する前に、推しの名前など投稿文の内容をご確認ください。画像は自動添付されません。</p>
     <button class="btn" id="saveCardBtn" type="button">📥 お守り画像を保存</button>
     <a class="btn x-share" id="xShareBtn" href="#" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
@@ -942,7 +943,8 @@ function updateXShareLink(customOshi, customPray) {
              "【" + bTitle.textContent + "】" + bDesc.textContent.slice(0, 30) + "…\n" +
              "#那茶 #蓮華護身符 #お守り\n";
     }
-    var shareParam = "?color=" + encodeURIComponent(activeColor.id) + (oshi !== "推し" ? "&name=" + encodeURIComponent(oshi) : "");
+    // 名前は共有URLに含めない。投稿文はXの投稿画面で確認できる。
+    var shareParam = "?color=" + encodeURIComponent(activeColor.id);
     var shareUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(text) + "&url=" + encodeURIComponent("https://towananika.github.io/nacha/amulet/" + shareParam);
     xShareBtn.href = shareUrl;
   }

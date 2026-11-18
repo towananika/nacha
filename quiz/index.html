@@ -26,7 +26,7 @@
     .quiz-answer:focus-visible{outline:1px solid var(--accent);outline-offset:-2px}
     .quiz-result[hidden]{display:none}
     .quiz-result{border-top:1px solid var(--rule);padding-top:36px}
-    .result-icon{display:none}
+    .result-icon{display:block;width:min(220px,60vw);aspect-ratio:4/5;object-fit:cover;border-radius:12px;margin:0 0 24px}
     .result-name{font-size:clamp(26px,3.4vw,34px);margin:0 0 8px;letter-spacing:.06em}
     .result-role{color:var(--ink-2);font-size:12px;letter-spacing:.12em;margin:0 0 26px}
     .result-message{font-size:15px;line-height:2;color:var(--ink-2);margin:0 0 32px;max-width:32em}
@@ -68,13 +68,13 @@ body.q{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
     </section>
 
     <section class="quiz-result" id="quiz-result" hidden aria-live="polite">
-      <div class="result-icon" id="result-icon"></div>
+      <img class="result-icon" id="result-icon" alt="">
       <p class="quiz-count">Today’s guardian</p>
       <h2 class="result-name" id="result-name"></h2>
       <p class="result-role" id="result-role"></p>
       <p class="result-message" id="result-message"></p>
       <div class="result-actions">
-        <button class="result-retry" id="result-retry" type="button">もう一度診断する</button>
+        <button class="result-retry" id="save-result" type="button">結果画像を保存</button><a class="result-x" id="share-result" href="#" target="_blank" rel="noopener">Xで結果をシェア</a><a class="result-x" href="../characters/">神様名鑑を見る</a><a class="result-x" href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener">Instagramを見る</a><button class="result-retry" id="result-retry" type="button">もう一度診断する</button>
       </div>
     </section>
 
@@ -111,9 +111,14 @@ body.q{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
     fdo:{icon:'',name:'不動明王',role:'覚悟を支える守護神',message:'今日は不動明王が背中を押します。小さくても一歩進めば、景色は変わっていく。'},
     sousang:{icon:'',name:'南極老人',role:'長寿と良縁の守護神',message:'今日は南極老人が見守ります。急がなくて大丈夫。いいご縁は、ゆっくり育ちます。'}
   };
-  var step=0,scores={nacha:0,kunsim:0,fdo:0,sousang:0},card=document.getElementById('quiz-card'),result=document.getElementById('quiz-result'),count=document.getElementById('quiz-count'),question=document.getElementById('quiz-question'),answers=document.getElementById('quiz-answers');
+  var currentResult=null; var images={nacha:'cast-nacha.webp',kunsim:'cast-kun-sim.webp',fdo:'cast-fdo.webp',sousang:'cast-sousang.webp'}; var step=0,scores={nacha:0,kunsim:0,fdo:0,sousang:0},card=document.getElementById('quiz-card'),result=document.getElementById('quiz-result'),count=document.getElementById('quiz-count'),question=document.getElementById('quiz-question'),answers=document.getElementById('quiz-answers');
   function draw(){var item=questions[step];count.textContent='Question '+(step+1)+' / '+questions.length;question.textContent=item.q;answers.innerHTML='';item.a.forEach(function(answer){var button=document.createElement('button');button.type='button';button.className='quiz-answer';button.textContent=answer[0];button.addEventListener('click',function(){scores[answer[1]]++;step++;step<questions.length?draw():showResult()});answers.appendChild(button)})}
-  function showResult(){var key=Object.keys(scores).sort(function(a,b){return scores[b]-scores[a]||(['nacha','kunsim','fdo','sousang'].indexOf(a)-['nacha','kunsim','fdo','sousang'].indexOf(b))})[0],data=results[key];card.hidden=true;document.getElementById('result-icon').textContent=data.icon;document.getElementById('result-name').textContent=data.name;document.getElementById('result-role').textContent=data.role;document.getElementById('result-message').textContent=data.message;result.hidden=false}
+  function showResult(){var key=Object.keys(scores).sort(function(a,b){return scores[b]-scores[a]||(['nacha','kunsim','fdo','sousang'].indexOf(a)-['nacha','kunsim','fdo','sousang'].indexOf(b))})[0],data=results[key];currentResult={key:key,data:data};card.hidden=true;var img=document.getElementById('result-icon');img.src='../assets/opt/'+images[key];img.alt=data.name;document.getElementById('share-result').href='https://twitter.com/intent/tweet?text='+encodeURIComponent('今日の守護神は'+data.name+'。'+data.message+' #那茶 #今日の守護神')+'&url='+encodeURIComponent('https://towananika.github.io/nacha/quiz/');document.getElementById('result-name').textContent=data.name;document.getElementById('result-role').textContent=data.role;document.getElementById('result-message').textContent=data.message;result.hidden=false}
+  document.getElementById('save-result').addEventListener('click',function(){
+    if(!currentResult)return; var data=currentResult.data,img=document.getElementById('result-icon');
+    function save(){var c=document.createElement('canvas');c.width=1080;c.height=1350;var x=c.getContext('2d');x.fillStyle='#fbf7ef';x.fillRect(0,0,1080,1350);x.strokeStyle='#b83b26';x.lineWidth=7;x.strokeRect(32,32,1016,1286);x.textAlign='center';x.fillStyle='#aa392c';x.font='bold 40px sans-serif';x.fillText('今日の守護神',540,105);x.drawImage(img,300,145,480,600);x.fillStyle='#382d29';x.font='bold 64px serif';x.fillText(data.name,540,835);x.font='30px sans-serif';x.fillText(data.role,540,895);x.font='32px sans-serif';var line='', y=985;for(var ch of data.message){if(x.measureText(line+ch).width>850){x.fillText(line,540,y);line='';y+=52}line+=ch}x.fillText(line,540,y);x.fillStyle='#765f54';x.font='25px sans-serif';x.fillText('towananika.github.io/nacha/quiz/',540,1265);var a=document.createElement('a');a.download='nacha-guardian.png';a.href=c.toDataURL('image/png');a.click()}
+    if(img.complete && img.naturalWidth)save();else img.addEventListener('load',save,{once:true});
+  });
   document.getElementById('result-retry').addEventListener('click',function(){step=0;scores={nacha:0,kunsim:0,fdo:0,sousang:0};result.hidden=true;card.hidden=false;draw()});draw();
 })();
 </script>
