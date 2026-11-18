@@ -208,3 +208,17 @@
     "cast_lead": "小小的守护神，以及围绕他的三位神明。四位的身影与故事，逐一介绍。"
   }
 });
+
+/* 下部ナビ「診断」タブ（2026-11-17 サイト構成の整理で追加） */
+(function (a) {
+  for (var l in a) Object.assign(window.NACHA_I18N[l] = window.NACHA_I18N[l] || {}, a[l]);
+})({
+  "ja": { "nav_quiz": "診断", "nav_chars": "名鑑" },
+  "en": { "nav_quiz": "Quiz" },
+  "ko": { "nav_quiz": "진단" },
+  "zh": { "nav_quiz": "診斷" },
+  "zhs": { "nav_quiz": "诊断" },
+  "th": { "nav_quiz": "ทายใจ" },
+  "km": { "nav_quiz": "សាកល្បង" },
+  "id": { "nav_quiz": "Kuis" }
+});

@@ -540,6 +540,8 @@ html[lang="id"] .tanzaku-content {
   100%{transform:translate(var(--sx),108vh) rotate(var(--sr));opacity:.9}
 }
 @media (prefers-reduced-motion: reduce){.season-p{display:none}}
+.site-links{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 16px;margin:0 0 14px;font-size:12.5px}
+.site-links a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-gold,#bfa15f66);padding-bottom:2px}
 </style>
 <link rel="stylesheet" href="assets/mobile.css">
 </head>
@@ -623,23 +625,6 @@ html[lang="id"] .tanzaku-content {
   </section>
 
 
-  <!-- ⛩️ 日々のならわし（今日の一礼・今日のナチャ） -->
-  <section class="daily-row">
-    <div class="daily-card">
-      <div class="door-badge" data-i="mem_eyebrow">今日のナチャ</div>
-      <p class="daily-quote" id="dailyMessage"></p>
-      <button class="daily-btn alt" id="saveMemory" type="button" data-i="mem_save">この言葉を思い出に残す</button>
-      <div class="daily-mem" id="memoryList"></div>
-    </div>
-  </section>
-
-  <!-- ⛩️ 公式Xフォロー導線 -->
-  <section class="follow-cta-block">
-    <p class="follow-cta-lead" data-i="fcta_lead">ナチャの毎日は公式Xで。<br>フォローして、小さな守護神を見守ってください</p>
-    <a class="follow-cta-btn" href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="x">𝕏 <span data-i="fcta_btn">公式Xをフォローする</span></a>
-    <a class="follow-cta-sub" href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener" data-hit="ig"><span data-i="fcta_ig">Instagramはこちら</span></a>
-  </section>
-
   <!-- ⛩️ 境内のご案内（体験カード） -->
   <div class="fine-heading" data-i="sec_guidance">境内のご案内</div>
   <div class="shrine-doors-grid">
@@ -673,6 +658,16 @@ html[lang="id"] .tanzaku-content {
 
   </div>
 
+  <!-- ⛩️ 日々のならわし（今日の一礼・今日のナチャ） -->
+  <section class="daily-row">
+    <div class="daily-card">
+      <div class="door-badge" data-i="mem_eyebrow">今日のナチャ</div>
+      <p class="daily-quote" id="dailyMessage"></p>
+      <button class="daily-btn alt" id="saveMemory" type="button" data-i="mem_save">この言葉を思い出に残す</button>
+      <div class="daily-mem" id="memoryList"></div>
+    </div>
+  </section>
+
   <!-- ⛩️ NACHA ギャラリー小窓 -->
   <section class="gallery-shelf">
     <div class="gallery-shelf-head">
@@ -692,17 +687,32 @@ html[lang="id"] .tanzaku-content {
     </div>
   </section>
 
+  <!-- ⛩️ 公式アカウント -->
+  <section class="official-section">
+    <p class="official-lead">ナチャの毎日は、公式アカウントで。</p>
+    <div class="official official-big">
+      <p class="official-sns" aria-label="公式アカウント">
+        <a href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="x-home">X</a>
+        <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener" data-hit="ig-home">Instagram</a>
+        <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener" data-hit="tt-home">TikTok</a>
+        <a href="https://www.youtube.com/channel/UCSL-AKI-8_qfWnOJYKSf26Q" target="_blank" rel="noopener" data-hit="yt-home">YouTube</a>
+      </p>
+      <p class="official-sites"><a href="https://nacha.club/" target="_blank" rel="noopener" data-hit="hp-home">公式サイト</a> <a href="https://sale.nacha.vip/" target="_blank" rel="noopener" data-hit="shop-home">販売サイト</a></p>
+    </div>
+  </section>
+
   <!-- ⛩️ 由緒と公式案内（FOOTER） -->
   <footer class="shrine-footer">
     <p class="temple-record-note" data-i="temple_origin">
       カンボジア・プノンペン 実在寺院「悠遊観音堂」より
       祈りをデジタルに刻み、リアルのお寺へ届けるTemple 2.0
     </p>
-    <div class="sns-row">
-      <a href="https://nacha.club/" target="_blank" rel="noopener" data-hit="hp-foot" data-i="official_hp">公式サイト nacha.club</a>
-      <a href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="x-foot" data-i="official_x">公式 X</a>
-      <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener" data-hit="ig-foot" data-i="official_ig">Instagram</a>
-    </div>
+    <nav class="site-links" aria-label="Site">
+      <a href="characters/" data-i="door1_title">神様名鑑</a>
+      <a href="amulet/" data-i="door2_title">心願お守り</a>
+      <a href="quiz/" data-i="quiz_title">今日の守護神診断</a>
+      <a href="roadmap/" data-i="nav_road">ロードマップ</a>
+    </nav>
     <div class="unoff-notice" data-i="unoff_simple">
       このページは非公式のファンページです
     </div>
@@ -713,8 +723,9 @@ html[lang="id"] .tanzaku-content {
 <!-- 5大ナビゲーションバー -->
 <nav class="tabs" aria-label="Main">
   <a href="./" aria-current="page"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
-  <a href="characters/"><span aria-hidden="true">🗺️</span><b data-i="nav_chars">神様名鑑</b></a>
+  <a href="characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">名鑑</b></a>
   <a href="amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
+  <a href="quiz/"><span aria-hidden="true">🔮</span><b data-i="nav_quiz">診断</b></a>
 </nav>
 
 <script src="assets/i18n.js"></script>

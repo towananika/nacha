@@ -35,7 +35,12 @@
     .result-retry{font:12px/1 var(--sans);letter-spacing:.08em;color:var(--ink-2);background:none;border:0;cursor:pointer;padding:0}
     .result-retry:hover{color:var(--ink)}
     .quiz-note{color:var(--ink-3);font-size:11px;margin-top:44px}
-  </style>
+  .tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(251,249,244,.95);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-top:1px solid var(--rule);display:flex;justify-content:space-around;padding:8px 10px calc(8px + env(safe-area-inset-bottom));z-index:100}
+.tabs a{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink-2);font-size:11px;gap:2px}
+.tabs a span{font-size:18px}.tabs a b{font-weight:600}
+.tabs a[aria-current="page"]{color:#b83823}
+body.q{padding-bottom:calc(72px + env(safe-area-inset-bottom))}
+</style>
 <link rel="stylesheet" href="../assets/mobile.css">
 </head>
 <body class="q">
@@ -69,7 +74,6 @@
       <p class="result-role" id="result-role"></p>
       <p class="result-message" id="result-message"></p>
       <div class="result-actions">
-        <a class="result-x" id="result-x" href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="quiz-x">公式Xでナチャの毎日を見る</a>
         <button class="result-retry" id="result-retry" type="button">もう一度診断する</button>
       </div>
     </section>
@@ -78,6 +82,18 @@
   </section>
 
 </main>
+<footer class="ufoot quiz-foot">
+<div class="official">
+  <p class="official-sns" aria-label="公式アカウント">
+    <a href="https://x.com/nacha_project" target="_blank" rel="noopener" data-hit="x-quiz">X</a>
+    <a href="https://www.instagram.com/nacha_project/" target="_blank" rel="noopener" data-hit="ig-quiz">Instagram</a>
+    <a href="https://www.tiktok.com/@nacha_project" target="_blank" rel="noopener" data-hit="tt-quiz">TikTok</a>
+    <a href="https://www.youtube.com/channel/UCSL-AKI-8_qfWnOJYKSf26Q" target="_blank" rel="noopener" data-hit="yt-quiz">YouTube</a>
+  </p>
+  <p class="official-sites"><a href="https://nacha.club/" target="_blank" rel="noopener" data-hit="hp-quiz">公式サイト</a> <a href="https://sale.nacha.vip/" target="_blank" rel="noopener" data-hit="shop-quiz">販売サイト</a></p>
+</div>
+<span>このページは非公式のファンページです</span>
+</footer>
 
 <script>
 (function(){
@@ -97,5 +113,11 @@
   document.getElementById('result-retry').addEventListener('click',function(){step=0;scores={nacha:0,kunsim:0,fdo:0,sousang:0};result.hidden=true;card.hidden=false;draw()});draw();
 })();
 </script>
+<nav class="tabs" aria-label="Main">
+  <a href="../"><span aria-hidden="true">🏮</span><b data-i="nav_home">ホーム</b></a>
+  <a href="../characters/"><span aria-hidden="true">🪷</span><b data-i="nav_chars">名鑑</b></a>
+  <a href="../amulet/"><span aria-hidden="true">🧧</span><b data-i="nav_amulet">お守り</b></a>
+  <a href="./" aria-current="page"><span aria-hidden="true">🔮</span><b data-i="nav_quiz">診断</b></a>
+</nav>
 </body>
 </html>
