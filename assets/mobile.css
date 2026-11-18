@@ -27,3 +27,14 @@ a,button,summary,[role=button]{-webkit-tap-highlight-color:rgba(184,56,35,.12);t
   .cnum,.n,.quiz-count{font-size:11px}
   #modalPrev,#modalNext,#modalClose{min-height:44px;min-width:44px}
 }
+
+/* 公式アカウントへのリンク（全ページ共通、2026-11-18） */
+.official{margin:10px auto 12px;text-align:center}
+.official p{margin:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+.official-sns a{display:inline-block;padding:6px 14px;border:1px solid rgba(191,161,95,.55);border-radius:999px;background:#fff;color:#2b241e;text-decoration:none;font-size:12.5px;font-weight:600;letter-spacing:.04em}
+.official-sites{margin-top:10px!important}
+.official-sites a{color:#6e6259;font-size:12px;text-decoration:none;border-bottom:1px solid rgba(191,161,95,.55);padding-bottom:1px}
+.official-big .official-sns a{padding:10px 18px;font-size:14px;min-width:120px}
+.official-section{margin:28px 0 8px;text-align:center}
+.official-lead{margin:0 0 12px;font-size:13.5px;color:#6e6259;letter-spacing:.05em}
+.quiz-foot{text-align:center;font-size:11.5px;color:#6e6259;padding:24px 16px}
