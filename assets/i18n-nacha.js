@@ -222,3 +222,17 @@
   "km": { "nav_quiz": "សាកល្បង" },
   "id": { "nav_quiz": "Kuis" }
 });
+
+/* 公式アカウント欄（2026-11-18） */
+(function (a) {
+  for (var l in a) Object.assign(window.NACHA_I18N[l] = window.NACHA_I18N[l] || {}, a[l]);
+})({
+  "ja": { "off_lead": "ナチャの毎日は、公式アカウントで。", "off_hp": "公式サイト", "off_shop": "販売サイト", "off_trade": "取引所 Pionex" },
+  "en": { "off_lead": "Follow Nacha's days on the official accounts.", "off_hp": "Official site", "off_shop": "Shop", "off_trade": "Pionex exchange" },
+  "ko": { "off_lead": "나차의 하루는 공식 계정에서.", "off_hp": "공식 사이트", "off_shop": "판매 사이트", "off_trade": "거래소 Pionex" },
+  "zh": { "off_lead": "哪吒的每一天，就在官方帳號。", "off_hp": "官方網站", "off_shop": "販售網站", "off_trade": "交易所 Pionex" },
+  "zhs": { "off_lead": "哪吒的每一天，就在官方账号。", "off_hp": "官方网站", "off_shop": "销售网站", "off_trade": "交易所 Pionex" },
+  "th": { "off_lead": "ติดตามทุกวันของนาชาได้ที่บัญชีทางการ", "off_hp": "เว็บไซต์ทางการ", "off_shop": "ร้านค้า", "off_trade": "กระดานเทรด Pionex" },
+  "km": { "off_lead": "តាមដានជីវិតប្រចាំថ្ងៃរបស់ណាចា នៅគណនីផ្លូវការ", "off_hp": "គេហទំព័រផ្លូវការ", "off_shop": "ហាងលក់", "off_trade": "ផ្សារប្តូរ Pionex" },
+  "id": { "off_lead": "Ikuti hari-hari Nacha di akun resmi.", "off_hp": "Situs resmi", "off_shop": "Toko", "off_trade": "Bursa Pionex" }
+});
