@@ -501,3 +501,23 @@ var back=f.querySelector('[data-back]');if(back)back.addEventListener('click',fu
 (function(){var API='https://remitech-chores.jaykim-can.workers.dev/nacha/hit/';
 document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-hit]');if(!a)return;
 try{navigator.sendBeacon(API+a.dataset.hit)}catch(_){}},true);})();
+
+// とわなにか & NACHA 統合ログインシステムの連携
+(function(){
+  if (window.NachaAuth) return;
+  var cur = document.currentScript && document.currentScript.src;
+  if (!cur) {
+    var scripts = document.getElementsByTagName('script');
+    for (var i = 0; i < scripts.length; i++) {
+      if (scripts[i].src && scripts[i].src.indexOf('site.js') >= 0) {
+        cur = scripts[i].src;
+        break;
+      }
+    }
+  }
+  if (cur) {
+    var s = document.createElement('script');
+    s.src = cur.replace(/site\.js(\?.*)?$/, 'auth.js');
+    document.head.appendChild(s);
+  }
+})();
