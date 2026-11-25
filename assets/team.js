@@ -1,10 +1,11 @@
 // 関係者ページ: とわないか統合ログイン。アカウントとログインの鍵はハブ（REMITECH HUB）と共通、権限は NACHA 用（サーバーの /nacha/auth/*）。
-// 資料そのものは公開リポジトリに置かず、ログインした関係者（member）にだけサーバーの /internal/nachadev から渡す。
+// 資料そのものは公開リポジトリに置かず、ログインした関係者（member）にだけサーバーの /internal/nachadev または暗号化バンドル（docs-bundle.enc）から渡す。
 (function(){
   var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth', HUBKEY='remitech-auth', DOC='nachadev';
+  var BUNDLE_URL='./docs-bundle.enc', PASS_KEY='nacha-docs-pass';
   var $=function(id){return document.getElementById(id)};
   var t=window.nachaT||function(k){return k};
-  var state=null, mode='login', doc=null;
+  var state=null, mode='login', doc=null, bundleDocs=[], activeDocId='nachadev', bundleCache=null;
   function read(k){try{var v=JSON.parse(localStorage.getItem(k)||'null');return v&&v.token&&v.exp>Date.now()?v:null}catch(e){return null}}
   state=read(KEY);
   // ハブでログイン済みなら、その鍵をそのまま使う（権限は下の renew で NACHA 用に取り直す）
@@ -28,16 +29,62 @@
     none:{ja:'資料はまだ登録されていません',en:'No documents yet',ko:'아직 등록된 자료가 없어요',zh:'尚未登錄資料'}};
   function lang(){var l=document.documentElement.lang;return l==='zh-Hant'?'zh':(ERR.wrong[l]?l:(l==='ja'?'ja':'en'))}
   function err(k){return k!=='none'&&window.nachaWhy?nachaWhy(k):(ERR[k]||ERR.net)[lang()]}
+
+  function b64ToBytes(b64){
+    var bin=atob(b64), bytes=new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+    return bytes;
+  }
+  function fetchBundle(){
+    if(bundleCache)return Promise.resolve(bundleCache);
+    return fetch(BUNDLE_URL,{cache:'no-store'}).then(function(r){
+      if(!r.ok)throw new Error('fetch');
+      return r.json();
+    }).then(function(j){bundleCache=j;return j});
+  }
+  function decryptBundle(pass){
+    return fetchBundle().then(function(env){
+      var enc=new TextEncoder();
+      return crypto.subtle.importKey('raw',enc.encode(pass),'PBKDF2',false,['deriveKey']).then(function(baseKey){
+        return crypto.subtle.deriveKey(
+          {name:'PBKDF2',salt:b64ToBytes(env.salt),iterations:env.iter||100000,hash:'SHA-256'},
+          baseKey,
+          {name:'AES-GCM',length:256},
+          false,
+          ['decrypt']
+        );
+      }).then(function(aesKey){
+        return crypto.subtle.decrypt({name:'AES-GCM',iv:b64ToBytes(env.iv)},aesKey,b64ToBytes(env.data));
+      }).then(function(buf){
+        var parsed=JSON.parse(new TextDecoder().decode(buf));
+        bundleDocs=parsed.docs||[];
+        try{sessionStorage.setItem(PASS_KEY,pass)}catch(e){}
+        return bundleDocs;
+      });
+    });
+  }
+  function findBundleDoc(id){
+    for(var i=0;i<bundleDocs.length;i++){if(bundleDocs[i].id===id)return bundleDocs[i]}
+    return null;
+  }
+  function getCatalog(){
+    var list=[];
+    if(doc)list.push({id:'nachadev',title:doc.title||'Nachaプロジェクト トークセッション版（2026-10-14）',encrypted:false,data:doc});
+    list.push({id:'brand-guide',title:'NACHA ブランドガイド（Ver. 1.0）',encrypted:true,data:findBundleDoc('brand-guide')});
+    list.push({id:'character-design',title:'キャラクターデザイン資料（全20点）',encrypted:true,data:findBundleDoc('character-design')});
+    return list;
+  }
+
   function render(){
     var u=state&&state.user;
     $('authBox').hidden=!!u; $('meBox').hidden=!u; $('ptT').hidden=!u;
     document.body.classList.toggle('authmode',!u);
-    $('docBox').hidden=!(u&&u.member&&doc);
+    $('docBox').hidden=!(u&&u.member);
     $('aSubmitL').textContent=t(mode==='login'?'tm_login':'tm_reg');
-    
+
     if($('dashAdmin')) $('dashAdmin').hidden=!(u&&u.admin);
     if($('dashDev')) $('dashDev').hidden=!(u&&(u.admin||u.owner));
-    if($('dashDocs')) $('dashDocs').hidden=!(u&&u.member&&doc);
+    if($('dashDocs')) $('dashDocs').hidden=!(u&&u.member);
 
     if(u){
       var r=u.owner?'owner':u.admin?'admin':u.member?'member':'user';
@@ -53,15 +100,21 @@
   function roleKey(u){return u.owner?'adm_owner':u.admin?'adm_admin':u.member?'tm_member':'tm_user'}
   function load(){
     if(!(state&&state.user&&state.user.member))return render();
-    fetch(API+'/internal/'+DOC,{cache:'no-store',headers:hdr()}).then(function(r){
+    var p1=fetch(API+'/internal/'+DOC,{cache:'no-store',headers:hdr()}).then(function(r){
       if(r.status===401){state=null;save();return null}
       if(r.status===403){state.user.member=false;save();return null}
-      if(r.status===404){$('aMsg').textContent='';showNone();return null}
       return r.ok?r.json():null;
-    }).then(function(j){if(j){doc=j;draw()}render()},function(){render()});
+    },function(){return null});
+    var savedPass='';try{savedPass=sessionStorage.getItem(PASS_KEY)||''}catch(e){}
+    var p2=savedPass?decryptBundle(savedPass).catch(function(){try{sessionStorage.removeItem(PASS_KEY)}catch(e){}return null}):Promise.resolve(null);
+    Promise.all([p1,p2]).then(function(res){
+      if(res[0])doc=res[0];
+      if(!doc&&activeDocId==='nachadev')activeDocId='brand-guide';
+      draw();render();
+    });
   }
-  function showNone(){var g=$('generalNote');g.hidden=false;g.firstElementChild.textContent=err('none')}
-var currentModalIdx = 0, allSlides = [];
+
+  var currentModalIdx = 0, allSlides = [];
 
   function getChapterName(slide, prevChapter) {
     var lines = slide.lines || [];
@@ -80,13 +133,29 @@ var currentModalIdx = 0, allSlides = [];
 
     var s = allSlides[idx];
     $('modalTitle').textContent = (s.n ? s.n + '. ' : '') + (s.title || '無題');
-    
+
     var body = $('modalBody');
     body.innerHTML = '';
     (s.lines || []).forEach(function(line) {
       var p = document.createElement('p');
       p.textContent = line;
       body.appendChild(p);
+    });
+    (s.images || []).forEach(function(imgObj) {
+      var fig = document.createElement('figure');
+      fig.className = 'slide-modal-img-wrap';
+      var img = document.createElement('img');
+      img.className = 'slide-modal-img';
+      img.src = imgObj.src;
+      img.alt = imgObj.caption || s.title || '';
+      fig.appendChild(img);
+      if (imgObj.caption) {
+        var cap = document.createElement('figcaption');
+        cap.className = 'slide-modal-img-cap';
+        cap.textContent = imgObj.caption;
+        fig.appendChild(cap);
+      }
+      body.appendChild(fig);
     });
 
     $('modalPage').textContent = (idx + 1) + ' / ' + allSlides.length;
@@ -130,13 +199,56 @@ var currentModalIdx = 0, allSlides = [];
   }
 
   function draw() {
-    $('docTitle').textContent = doc.title || '';
-    allSlides = doc.slides || [];
     setupModalEvents();
+    var catalog = getCatalog();
+    var cur = null;
+    for (var i = 0; i < catalog.length; i++) {
+      if (catalog[i].id === activeDocId) { cur = catalog[i]; break; }
+    }
+    if (!cur && catalog.length) { cur = catalog[0]; activeDocId = cur.id; }
 
+    var board = $('docBoard');
+    if (board) {
+      board.innerHTML = '';
+      catalog.forEach(function(item, idx) {
+        var card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'slide-card' + (item.id === activeDocId ? ' is-active' : '');
+        var badge = '#' + (idx + 1) + (item.encrypted ? (item.data ? ' 🔓' : ' 🔒') : '');
+        card.innerHTML =
+          '<div class="slide-card-head">' +
+            '<span class="slide-card-num">' + badge + '</span>' +
+          '</div>' +
+          '<h4></h4>';
+        card.querySelector('h4').textContent = item.title;
+        card.addEventListener('click', function() {
+          activeDocId = item.id;
+          draw();
+        });
+        board.appendChild(card);
+      });
+    }
+
+    var unlockBox = $('unlockBox');
     var container = $('chaptersContainer');
+    var searchEl = $('docSearch');
+    var titleEl = $('docTitle');
     if (!container) return;
     container.innerHTML = '';
+
+    if (!cur || !cur.data) {
+      if (unlockBox) unlockBox.hidden = !(cur && cur.encrypted);
+      if (titleEl) titleEl.hidden = true;
+      if (searchEl) searchEl.hidden = true;
+      allSlides = [];
+      return;
+    }
+
+    if (unlockBox) unlockBox.hidden = true;
+    if (titleEl) { titleEl.hidden = false; titleEl.textContent = cur.data.title || cur.title || ''; }
+    if (searchEl) searchEl.hidden = false;
+
+    allSlides = cur.data.slides || [];
 
     // 章ごとにスライドをグループ化
     var chapters = [], curChapter = null, lastChapterName = '';
@@ -151,43 +263,35 @@ var currentModalIdx = 0, allSlides = [];
       curChapter.slides.push(s);
     });
 
-    // 章アコーディオンとボードの生成
+    // 章アコーディオンとボードの生成（カードはタイトルのみ表示）
     chapters.forEach(function(ch, chIdx) {
       var details = document.createElement('details');
       details.className = 'chapter-accordion';
-      if (chIdx < 2) details.open = true; // 最初の2章を開く
+      if (chIdx < 2) details.open = true;
 
       var summary = document.createElement('summary');
       summary.className = 'chapter-summary';
-      summary.innerHTML = '<div class="chapter-title-wrap"><span class="chapter-icon">📑</span><span>' + 
-        ch.name + '</span><span class="chapter-badge">' + ch.slides.length + '件</span></div>' +
-        '<span class="chapter-arrow">▶</span>';
+      summary.innerHTML = '<div class="chapter-title-wrap"><span class="chapter-icon">📑</span><span></span><span class="chapter-badge">' + ch.slides.length + '件</span></div><span class="chapter-arrow">▶</span>';
+      summary.querySelector('.chapter-title-wrap span:nth-child(2)').textContent = ch.name;
       details.appendChild(summary);
 
       var grid = document.createElement('div');
       grid.className = 'board-grid';
 
       ch.slides.forEach(function(s) {
-        var card = document.createElement('div');
+        var card = document.createElement('button');
+        card.type = 'button';
         card.className = 'slide-card';
         card.dataset.q = ((s.title || '') + ' ' + (s.lines || []).join(' ')).toLowerCase();
-
-        var previewLines = (s.lines || []).filter(function(l) {
-          return !/^\d{2}\s*\//.test(l) && l.length > 2;
-        }).slice(0, 3).join(' / ');
-
-        card.innerHTML = 
+        card.innerHTML =
           '<div class="slide-card-head">' +
             '<span class="slide-card-num">#' + (s.n || (s._globalIndex + 1)) + '</span>' +
           '</div>' +
-          '<h4>' + (s.title || '無題スライド') + '</h4>' +
-          '<p class="slide-card-preview">' + (previewLines || 'スライド内容を確認') + '</p>' +
-          '<span class="slide-card-cta">詳細を見る &rarr;</span>';
-
+          '<h4></h4>';
+        card.querySelector('h4').textContent = s.title || '無題';
         card.addEventListener('click', function() {
           openSlideModal(s._globalIndex);
         });
-
         grid.appendChild(card);
       });
 
@@ -216,8 +320,27 @@ var currentModalIdx = 0, allSlides = [];
         acc.hidden = false;
       }
     });
-    }
+  }
   $('docSearch').addEventListener('input',filter);
+
+  if($('unlockBox')){
+    $('unlockBox').addEventListener('submit',function(ev){
+      ev.preventDefault();
+      var pw=$('unlockPw').value.trim(), msg=$('unlockMsg'), btn=$('unlockBtn');
+      msg.textContent='';
+      if(!pw)return;
+      btn.disabled=true;
+      decryptBundle(pw).then(function(){
+        btn.disabled=false;
+        $('unlockPw').value='';
+        draw();
+      },function(){
+        btn.disabled=false;
+        msg.textContent='パスフレーズが違います';
+      });
+    });
+  }
+
   $('authForm').addEventListener('submit',function(ev){
     ev.preventDefault();
     var b=$('aSubmit');b.disabled=true;$('aMsg').textContent='';
@@ -262,7 +385,8 @@ var currentModalIdx = 0, allSlides = [];
     },function(){m.textContent=err('net')});
   });
   $('logoutBtn').addEventListener('click',function(){
-    var h=hdr(),tok=state&&state.token;state=null;doc=null;save();render();
+    var h=hdr(),tok=state&&state.token;state=null;doc=null;bundleDocs=[];save();render();
+    try{sessionStorage.removeItem(PASS_KEY)}catch(e){}
     try{var hb=read(HUBKEY);if(hb&&hb.token===tok)localStorage.removeItem(HUBKEY)}catch(e){}
     fetch(API+'/auth/logout',{method:'POST',headers:h}).catch(function(){});
   });

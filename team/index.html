@@ -95,6 +95,15 @@
 <p class="card note2" id="generalNote" hidden><span data-i="tm_general">一般ユーザーとしてログイン中です。関係者の資料は、管理者が権限を付けると見られます。</span></p>
 <section id="docBox" hidden>
   <div class="dochead"><h2 class="sec" data-i="tm_docs">開発資料</h2><span class="secret" data-i="tm_secret">社外秘・転載禁止</span></div>
+  <div id="docBoard" class="board-grid doc-board"></div>
+  <form id="unlockBox" class="card unlock-box" hidden>
+    <p class="note2" style="margin:0 0 10px">🔒 社内限定資料（ブランドガイド・キャラデザ）を表示するには閲覧パスフレーズを入力してください。</p>
+    <div class="unlock-row">
+      <input id="unlockPw" type="password" placeholder="閲覧パスフレーズ" autocomplete="off" required>
+      <button class="btn" type="submit" id="unlockBtn">開く</button>
+    </div>
+    <p class="amsg" id="unlockMsg" role="alert"></p>
+  </form>
   <h3 class="doctitle" id="docTitle"></h3>
   <input class="search" id="docSearch" type="search" data-i18n-ph="tm_search" placeholder="資料内を検索">
   <div id="chaptersContainer"></div>

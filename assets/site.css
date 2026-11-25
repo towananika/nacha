@@ -630,6 +630,53 @@ body.authmode main{padding-bottom:24px}
 .slide-modal-body p:last-child {
   border-bottom: 0;
 }
+.doc-board {
+  padding: 0;
+  border-top: 0;
+  background: transparent;
+  margin-bottom: 16px;
+}
+.slide-card.is-active {
+  border-color: var(--acc);
+  box-shadow: 0 4px 14px rgba(192, 57, 43, 0.14);
+}
+.unlock-box {
+  margin: 12px 0 16px;
+  padding: 16px;
+}
+.unlock-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.unlock-row input {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+}
+.slide-modal-img-wrap {
+  margin: 12px 0 4px;
+}
+.slide-modal-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.slide-modal-img-cap {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--sub);
+}
+  border-bottom: 0;
+}
 .slide-modal-footer {
   display: flex;
   align-items: center;
