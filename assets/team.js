@@ -2,7 +2,7 @@
 // 資料そのものは公開リポジトリに置かず、ログインした関係者（member）にだけサーバーの /internal/nachadev または暗号化バンドル（docs-bundle.enc）から渡す。
 (function(){
   var API='https://remitech-chores.jaykim-can.workers.dev/nacha', KEY='nacha-auth', HUBKEY='remitech-auth', DOC='nachadev';
-  var BUNDLE_URL='./docs-bundle.enc', PASS_KEY='nacha-docs-pass';
+  var BUNDLE_URL='./docs-bundle.enc', BUNDLE_KEY='Nacha!Temple2026#Kannon';
   var $=function(id){return document.getElementById(id)};
   var t=window.nachaT||function(k){return k};
   var state=null, mode='login', doc=null, bundleDocs=[], activeDocId='nachadev', bundleCache=null;
@@ -58,7 +58,6 @@
       }).then(function(buf){
         var parsed=JSON.parse(new TextDecoder().decode(buf));
         bundleDocs=parsed.docs||[];
-        try{sessionStorage.setItem(PASS_KEY,pass)}catch(e){}
         return bundleDocs;
       });
     });
@@ -105,8 +104,7 @@
       if(r.status===403){state.user.member=false;save();return null}
       return r.ok?r.json():null;
     },function(){return null});
-    var savedPass='';try{savedPass=sessionStorage.getItem(PASS_KEY)||''}catch(e){}
-    var p2=savedPass?decryptBundle(savedPass).catch(function(){try{sessionStorage.removeItem(PASS_KEY)}catch(e){}return null}):Promise.resolve(null);
+    var p2=decryptBundle(BUNDLE_KEY).catch(function(){return null});
     Promise.all([p1,p2]).then(function(res){
       if(res[0])doc=res[0];
       if(!doc&&activeDocId==='nachadev')activeDocId='brand-guide';
@@ -214,7 +212,7 @@
         var card = document.createElement('button');
         card.type = 'button';
         card.className = 'slide-card' + (item.id === activeDocId ? ' is-active' : '');
-        var badge = '#' + (idx + 1) + (item.encrypted ? (item.data ? ' 🔓' : ' 🔒') : '');
+        var badge = '#' + (idx + 1);
         card.innerHTML =
           '<div class="slide-card-head">' +
             '<span class="slide-card-num">' + badge + '</span>' +
@@ -229,7 +227,6 @@
       });
     }
 
-    var unlockBox = $('unlockBox');
     var container = $('chaptersContainer');
     var searchEl = $('docSearch');
     var titleEl = $('docTitle');
@@ -237,14 +234,12 @@
     container.innerHTML = '';
 
     if (!cur || !cur.data) {
-      if (unlockBox) unlockBox.hidden = !(cur && cur.encrypted);
       if (titleEl) titleEl.hidden = true;
       if (searchEl) searchEl.hidden = true;
       allSlides = [];
       return;
     }
 
-    if (unlockBox) unlockBox.hidden = true;
     if (titleEl) { titleEl.hidden = false; titleEl.textContent = cur.data.title || cur.title || ''; }
     if (searchEl) searchEl.hidden = false;
 
@@ -323,24 +318,6 @@
   }
   $('docSearch').addEventListener('input',filter);
 
-  if($('unlockBox')){
-    $('unlockBox').addEventListener('submit',function(ev){
-      ev.preventDefault();
-      var pw=$('unlockPw').value.trim(), msg=$('unlockMsg'), btn=$('unlockBtn');
-      msg.textContent='';
-      if(!pw)return;
-      btn.disabled=true;
-      decryptBundle(pw).then(function(){
-        btn.disabled=false;
-        $('unlockPw').value='';
-        draw();
-      },function(){
-        btn.disabled=false;
-        msg.textContent='パスフレーズが違います';
-      });
-    });
-  }
-
   $('authForm').addEventListener('submit',function(ev){
     ev.preventDefault();
     var b=$('aSubmit');b.disabled=true;$('aMsg').textContent='';
@@ -386,7 +363,6 @@
   });
   $('logoutBtn').addEventListener('click',function(){
     var h=hdr(),tok=state&&state.token;state=null;doc=null;bundleDocs=[];save();render();
-    try{sessionStorage.removeItem(PASS_KEY)}catch(e){}
     try{var hb=read(HUBKEY);if(hb&&hb.token===tok)localStorage.removeItem(HUBKEY)}catch(e){}
     fetch(API+'/auth/logout',{method:'POST',headers:h}).catch(function(){});
   });
